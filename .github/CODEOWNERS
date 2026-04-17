@@ -1,0 +1,8 @@
+# Every PR auto-requests review from @knowledgestack/ks-admins.
+# Branch protection on `main` requires approval from a code owner.
+#
+# This repo is populated by the codegen pipeline in ks-backend. Regenerated
+# commits should still go through CI and a maintainer-level review before
+# merging to main.
+
+*       @knowledgestack/ks-admins

@@ -1,0 +1,43 @@
+name: 🐛 Bug report
+description: Bug in the generated `ksapi` Python client.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This package is generated from the Knowledge Stack OpenAPI spec. If the bug is in an endpoint's behavior, file it upstream in ks-backend; if it's in how this client code wraps an endpoint, file it here.
+
+  - type: input
+    id: version
+    attributes:
+      label: ksapi version
+      placeholder: "pip show ksapi | grep Version"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Expected vs. actual. Include the request/response if you captured them.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      render: python
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I've verified this isn't an API-level issue that belongs in ks-backend.
+          required: true
+        - label: I've redacted API keys from logs / snippets.
+          required: true
