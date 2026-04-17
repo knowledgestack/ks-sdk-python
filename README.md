@@ -19,7 +19,9 @@ uv pip install ksapi
 ## Related repos
 
 - **[ks-cookbook](https://github.com/knowledgestack/ks-cookbook)** — 32 production-style agent demos using this SDK and the MCP server.
-- **[ks-mcp](https://github.com/knowledgestack/ks-mcp)** — the MCP server exposing Knowledge Stack tools to any agent framework.
+- **[ks-mcp](https://github.com/knowledgestack/ks-mcp)** — MCP server for agent frameworks.
+- **[ks-sdk-ts](https://github.com/knowledgestack/ks-sdk-ts)** — TypeScript counterpart ([`@knowledge-stack/ksapi`](https://www.npmjs.com/package/@knowledge-stack/ksapi) on npm).
+- **[ks-docs](https://github.com/knowledgestack/ks-docs)** — central developer docs (Mintlify → docs.knowledgestack.ai).
 
 For most agent use cases, talk to Knowledge Stack via the MCP server, not this SDK directly. This SDK is the right choice when you need admin / write operations or are building infrastructure (ingestion pipelines, schedulers, migration tools).
 
