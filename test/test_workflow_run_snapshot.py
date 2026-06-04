@@ -35,63 +35,35 @@ class TestWorkflowRunSnapshot(unittest.TestCase):
         model = WorkflowRunSnapshot()
         if include_optional:
             return WorkflowRunSnapshot(
-                workflow_definition_id = '',
                 workflow_name = '',
-                runner_type = 'SELF_HOSTED',
-                user_id = '',
                 max_run_duration_seconds = 56,
-                sources = [
-                    ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                        path_part_id = '', 
-                        materialized_path = '', 
-                        part_type = 'FOLDER', )
-                    ],
-                instructions = [
-                    ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                        path_part_id = '', 
-                        materialized_path = '', 
-                        part_type = 'FOLDER', )
-                    ],
-                outputs = [
-                    ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                        path_part_id = '', 
-                        materialized_path = '', 
-                        part_type = 'FOLDER', )
-                    ],
-                template = ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
+                instruction = ksapi.models.instruction_snapshot.InstructionSnapshot(
                     path_part_id = '', 
                     materialized_path = '', 
-                    part_type = 'FOLDER', )
+                    part_type = 'DOCUMENT_VERSION', 
+                    source_s3_uri = '', ),
+                inputs = [
+                    ksapi.models.input_snapshot.InputSnapshot(
+                        path_part_id = '', 
+                        materialized_path = '', 
+                        part_type = 'DOCUMENT_VERSION', )
+                    ]
             )
         else:
             return WorkflowRunSnapshot(
-                workflow_definition_id = '',
                 workflow_name = '',
-                runner_type = 'SELF_HOSTED',
-                user_id = '',
                 max_run_duration_seconds = 56,
-                sources = [
-                    ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                        path_part_id = '', 
-                        materialized_path = '', 
-                        part_type = 'FOLDER', )
-                    ],
-                instructions = [
-                    ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                        path_part_id = '', 
-                        materialized_path = '', 
-                        part_type = 'FOLDER', )
-                    ],
-                outputs = [
-                    ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                        path_part_id = '', 
-                        materialized_path = '', 
-                        part_type = 'FOLDER', )
-                    ],
-                template = ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
+                instruction = ksapi.models.instruction_snapshot.InstructionSnapshot(
                     path_part_id = '', 
                     materialized_path = '', 
-                    part_type = 'FOLDER', ),
+                    part_type = 'DOCUMENT_VERSION', 
+                    source_s3_uri = '', ),
+                inputs = [
+                    ksapi.models.input_snapshot.InputSnapshot(
+                        path_part_id = '', 
+                        materialized_path = '', 
+                        part_type = 'DOCUMENT_VERSION', )
+                    ],
         )
         """
 

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **tenant_id** | **UUID** |  | 
 **email** | **str** |  | 
 **role** | [**TenantUserRole**](TenantUserRole.md) |  | 
+**groups** | **List[UUID]** |  | [optional] 
 **expires_at** | **datetime** |  | 
 **accepted_at** | **datetime** |  | [optional] 
 **created_at** | **datetime** |  | 

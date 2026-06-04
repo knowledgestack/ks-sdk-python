@@ -17,30 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
-from ksapi.models.self_hosted_runner_config import SelfHostedRunnerConfig
-from ksapi.models.workflow_runner_type import WorkflowRunnerType
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class CreateWorkflowDefinitionRequest(BaseModel):
     """
-    Create a new workflow definition.
+    Create a new workflow definition.  Inputs are per-run (see ``POST /workflow-definitions/{id}/runs``) so only the instruction lives on the definition. ``instruction_path_part_id`` is a ``DOCUMENT`` path_part.
     """ # noqa: E501
     name: Annotated[str, Field(strict=True, max_length=255)]
     description: Optional[StrictStr] = None
-    runner_type: WorkflowRunnerType
-    runner_config: Optional[SelfHostedRunnerConfig] = None
-    max_run_duration_seconds: Optional[Annotated[int, Field(le=86400, strict=True, ge=60)]] = 300
-    source_path_part_ids: Annotated[List[UUID], Field(min_length=1, max_length=20)]
-    instruction_path_part_ids: Annotated[List[UUID], Field(min_length=1, max_length=20)]
-    output_path_part_ids: Annotated[List[UUID], Field(min_length=1, max_length=20)]
-    template_path_part_id: Optional[UUID] = None
-    __properties: ClassVar[List[str]] = ["name", "description", "runner_type", "runner_config", "max_run_duration_seconds", "source_path_part_ids", "instruction_path_part_ids", "output_path_part_ids", "template_path_part_id"]
+    max_run_duration_seconds: Optional[Annotated[int, Field(le=7200, strict=True, ge=60)]] = 1800
+    instruction_path_part_id: Optional[UUID] = Field(default=None, description="DOCUMENT path_part of the instruction document. Omit (or pass null) to have the server auto-create an empty instruction.md.")
+    approval_required: StrictBool
+    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "instruction_path_part_id", "approval_required"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -81,18 +75,15 @@ class CreateWorkflowDefinitionRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of runner_config
-        if self.runner_config:
-            _dict['runner_config'] = self.runner_config.to_dict()
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
 
-        # set to None if template_path_part_id (nullable) is None
+        # set to None if instruction_path_part_id (nullable) is None
         # and model_fields_set contains the field
-        if self.template_path_part_id is None and "template_path_part_id" in self.model_fields_set:
-            _dict['template_path_part_id'] = None
+        if self.instruction_path_part_id is None and "instruction_path_part_id" in self.model_fields_set:
+            _dict['instruction_path_part_id'] = None
 
         return _dict
 
@@ -108,13 +99,9 @@ class CreateWorkflowDefinitionRequest(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "description": obj.get("description"),
-            "runner_type": obj.get("runner_type"),
-            "runner_config": SelfHostedRunnerConfig.from_dict(obj["runner_config"]) if obj.get("runner_config") is not None else None,
-            "max_run_duration_seconds": obj.get("max_run_duration_seconds") if obj.get("max_run_duration_seconds") is not None else 300,
-            "source_path_part_ids": obj.get("source_path_part_ids"),
-            "instruction_path_part_ids": obj.get("instruction_path_part_ids"),
-            "output_path_part_ids": obj.get("output_path_part_ids"),
-            "template_path_part_id": obj.get("template_path_part_id")
+            "max_run_duration_seconds": obj.get("max_run_duration_seconds") if obj.get("max_run_duration_seconds") is not None else 1800,
+            "instruction_path_part_id": obj.get("instruction_path_part_id"),
+            "approval_required": obj.get("approval_required")
         })
         return _obj
 

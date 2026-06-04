@@ -56,7 +56,17 @@ class TestThreadMessageDetailsInput(unittest.TestCase):
                                     
                                     ], )
                             ], )
-                    ]
+                    ],
+                checkpoint = ksapi.models.checkpoint_details.CheckpointDetails(
+                    upto_message_id = '', 
+                    upto_message_created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    summary = { }, 
+                    covered_message_count = 0.0, 
+                    tokens_before = 0.0, 
+                    tokens_after = 0.0, 
+                    summarizer_model = '', 
+                    prompt_version = '', ),
+                model_id = ''
             )
         else:
             return ThreadMessageDetailsInput(

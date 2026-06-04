@@ -29,8 +29,11 @@ class FeaturesResponse(BaseModel):
     FeaturesResponse
     """ # noqa: E501
     google_login_enabled: StrictBool
+    microsoft_login_enabled: StrictBool
+    github_login_enabled: StrictBool
+    sms_login_enabled: StrictBool
     default_frontend_language: SupportedLanguage
-    __properties: ClassVar[List[str]] = ["google_login_enabled", "default_frontend_language"]
+    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "default_frontend_language"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,6 +87,9 @@ class FeaturesResponse(BaseModel):
 
         _obj = cls.model_validate({
             "google_login_enabled": obj.get("google_login_enabled"),
+            "microsoft_login_enabled": obj.get("microsoft_login_enabled"),
+            "github_login_enabled": obj.get("github_login_enabled"),
+            "sms_login_enabled": obj.get("sms_login_enabled"),
             "default_frontend_language": obj.get("default_frontend_language")
         })
         return _obj

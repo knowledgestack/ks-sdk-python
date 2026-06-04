@@ -37,7 +37,10 @@ class TestInviteUserRequest(unittest.TestCase):
             return InviteUserRequest(
                 tenant_id = '',
                 email = '',
-                role = 'USER'
+                role = 'USER',
+                groups = [
+                    ''
+                    ]
             )
         else:
             return InviteUserRequest(

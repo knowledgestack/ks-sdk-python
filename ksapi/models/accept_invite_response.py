@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.tenant_user_role import TenantUserRole
 from typing import Optional, Set
@@ -31,7 +31,8 @@ class AcceptInviteResponse(BaseModel):
     """ # noqa: E501
     tenant_id: UUID
     role: TenantUserRole
-    __properties: ClassVar[List[str]] = ["tenant_id", "role"]
+    skipped_groups: Optional[List[UUID]] = Field(default=None, description="Groups configured on the invite/tenant link that no longer exist and were therefore skipped.")
+    __properties: ClassVar[List[str]] = ["tenant_id", "role", "skipped_groups"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -85,7 +86,8 @@ class AcceptInviteResponse(BaseModel):
 
         _obj = cls.model_validate({
             "tenant_id": obj.get("tenant_id"),
-            "role": obj.get("role")
+            "role": obj.get("role"),
+            "skipped_groups": obj.get("skipped_groups")
         })
         return _obj
 

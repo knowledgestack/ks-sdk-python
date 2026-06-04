@@ -1,6 +1,6 @@
 # UpdateFolderRequest
 
-Request to update a folder (rename and/or move).
+Request to update a folder (rename, move, and/or change qdrant exclusion).
 
 ## Properties
 
@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | New folder name | [optional] 
 **parent_path_part_id** | **UUID** | New parent PathPart ID for move (must be a FOLDER type) | [optional] 
+**exclude_from_qdrant** | **bool** | If set, toggle whether this folder (and its descendants) are excluded from Qdrant vector indexing. True deletes existing points for the subtree; False re-embeds them. Not allowed on system-managed folders. | [optional] 
 
 ## Example
 

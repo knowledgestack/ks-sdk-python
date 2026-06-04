@@ -54,6 +54,13 @@ class TestInvitesApi(unittest.TestCase):
         """
         pass
 
+    def test_update_invite(self) -> None:
+        """Test case for update_invite
+
+        Update Invite Handler
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

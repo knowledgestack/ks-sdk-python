@@ -14,6 +14,8 @@ Status of the ingestion pipeline workflow.
 
 * `CANCELLED` (value: `'cancelled'`)
 
+* `QUOTA_LIMIT` (value: `'quota_limit'`)
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

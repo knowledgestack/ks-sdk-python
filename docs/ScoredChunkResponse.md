@@ -1,6 +1,6 @@
 # ScoredChunkResponse
 
-Chunk response with similarity score.
+Chunk response with search ranking score.
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **content_id** | **UUID** | ChunkContent ID | 
 **content** | **str** | Chunk text content | 
 **chunk_type** | [**ChunkType**](ChunkType.md) |  | 
-**chunk_metadata** | [**ChunkMetadataOutput**](ChunkMetadataOutput.md) |  | 
+**chunk_metadata** | [**ChunkMetadata**](ChunkMetadata.md) |  | 
 **num_tokens** | **int** | Number of tokens in chunk content | [optional] 
 **parent_path_id** | **UUID** | Parent PathPart ID | 
 **prev_sibling_path_id** | **UUID** | Previous sibling PathPart ID | [optional] 
@@ -22,9 +22,9 @@ Name | Type | Description | Notes
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 **asset_s3_urls** | **List[str]** | Presigned URLs to download the chunk&#39;s visual assets (6-hour validity) | [optional] 
-**document** | [**ChunkDocumentResponse**](ChunkDocumentResponse.md) |  | [optional] 
-**document_version** | [**ChunkDocumentVersionResponse**](ChunkDocumentVersionResponse.md) |  | [optional] 
-**score** | **float** | Cosine similarity score (1 - cosine_distance) | 
+**document** | [**ChunkDocumentResponse**](ChunkDocumentResponse.md) | Ancestor document info (populated when with_document&#x3D;true) | [optional] 
+**document_version** | [**ChunkDocumentVersionResponse**](ChunkDocumentVersionResponse.md) | Ancestor document version info (populated when with_document&#x3D;true) | [optional] 
+**score** | **float** | Search ranking score returned by Qdrant | 
 
 ## Example
 

@@ -8,10 +8,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **language** | [**SupportedLanguage**](SupportedLanguage.md) |  | [optional] 
 **description** | **str** | Tenant description | [optional] 
+**industry** | **str** | Industry / company type captured during onboarding | [optional] 
 **timezone** | **str** | IANA timezone (e.g. &#39;America/New_York&#39;) | [optional] 
+**display_name** | [**DisplayNameFormat**](DisplayNameFormat.md) |  | [optional] 
 **brand_name** | **str** | Custom brand name for logo | [optional] 
 **brand_color** | **str** | Primary brand hex color (e.g. &#39;#2563eb&#39;) | [optional] 
 **theme_overrides** | **Dict[str, str]** | Custom CSS variable overrides | [optional] 
+**invite_link** | [**InviteLinkSettingsRequest**](InviteLinkSettingsRequest.md) | Tenant-wide invite-link configuration | [optional] 
 
 ## Example
 

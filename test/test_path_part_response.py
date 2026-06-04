@@ -42,6 +42,7 @@ class TestPathPartResponse(unittest.TestCase):
                 metadata_obj_id = '',
                 materialized_path = '',
                 system_managed = True,
+                exclude_from_qdrant = True,
                 tags = [
                     ksapi.models.tag_response.TagResponse(
                         id = '', 
@@ -66,6 +67,7 @@ class TestPathPartResponse(unittest.TestCase):
                 metadata_obj_id = '',
                 materialized_path = '',
                 system_managed = True,
+                exclude_from_qdrant = True,
                 can_read = True,
                 can_write = True,
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),

@@ -25,7 +25,7 @@ from pydantic_core import to_jsonable_python
 
 class UserMessageRequest(BaseModel):
     """
-    Request to send a user message and trigger agent generation.
+    UserMessageRequest
     """ # noqa: E501
     input_text: Optional[StrictStr] = Field(default='', description="User input text. Mock agent dev controls may be embedded here (e.g. /mock duration=5 wps=3 scenario=tool_call_once).")
     __properties: ClassVar[List[str]] = ["input_text"]

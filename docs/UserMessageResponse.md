@@ -1,6 +1,5 @@
 # UserMessageResponse
 
-202 response from POST /{thread_id}/user_message.
 
 ## Properties
 

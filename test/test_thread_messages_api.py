@@ -26,13 +26,6 @@ class TestThreadMessagesApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_create_generated_document(self) -> None:
-        """Test case for create_generated_document
-
-        Create Generated Document Handler
-        """
-        pass
-
     def test_create_thread_message(self) -> None:
         """Test case for create_thread_message
 

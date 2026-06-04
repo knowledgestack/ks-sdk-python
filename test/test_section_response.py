@@ -45,13 +45,7 @@ class TestSectionResponse(unittest.TestCase):
                 materialized_path = '',
                 system_managed = True,
                 system_metadata = ksapi.models.section_system_metadata.SectionSystemMetadata(
-                    information_statistics = ksapi.models.information_statistics.InformationStatistics(
-                        num_chunks_by_type = {
-                            'key' : 56
-                            }, 
-                        total_tokens = 56, 
-                        num_direct_children = 56, 
-                        children_depth = 56, ), ),
+                    information_statistics = null, ),
                 tenant_id = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')

@@ -37,12 +37,15 @@ class TestUserResponse(unittest.TestCase):
             return UserResponse(
                 id = '',
                 email = '',
+                phone_number = '',
                 first_name = '',
                 last_name = '',
                 idp_type = 'PASSWORD',
                 current_tenant_id = '',
                 current_tenant_role = 'USER',
-                default_tenant_id = ''
+                default_tenant_id = '',
+                job_title = '',
+                onboarding_completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
             return UserResponse(

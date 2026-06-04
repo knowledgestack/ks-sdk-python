@@ -35,47 +35,36 @@ class TestWorkflowDefinitionResponse(unittest.TestCase):
         model = WorkflowDefinitionResponse()
         if include_optional:
             return WorkflowDefinitionResponse(
+                part_type = 'WORKFLOW_DEFINITION',
                 id = '',
+                path_part_id = '',
+                parent_path_part_id = '',
+                materialized_path = '',
+                tenant_id = '',
                 name = '',
                 description = '',
-                runner_type = 'SELF_HOSTED',
-                runner_config = ksapi.models.self_hosted_runner_config_response.SelfHostedRunnerConfigResponse(
-                    url = '0', ),
                 max_run_duration_seconds = 56,
-                source_path_part_ids = [
-                    ''
-                    ],
-                instruction_path_part_ids = [
-                    ''
-                    ],
-                output_path_part_ids = [
-                    ''
-                    ],
-                template_path_part_id = '',
+                instruction_path_part_id = '',
                 is_active = True,
+                approval_required = True,
+                approval_state = 'not_required',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
             return WorkflowDefinitionResponse(
                 id = '',
+                path_part_id = '',
+                parent_path_part_id = '',
+                materialized_path = '',
+                tenant_id = '',
                 name = '',
                 description = '',
-                runner_type = 'SELF_HOSTED',
-                runner_config = ksapi.models.self_hosted_runner_config_response.SelfHostedRunnerConfigResponse(
-                    url = '0', ),
                 max_run_duration_seconds = 56,
-                source_path_part_ids = [
-                    ''
-                    ],
-                instruction_path_part_ids = [
-                    ''
-                    ],
-                output_path_part_ids = [
-                    ''
-                    ],
-                template_path_part_id = '',
+                instruction_path_part_id = '',
                 is_active = True,
+                approval_required = True,
+                approval_state = 'not_required',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

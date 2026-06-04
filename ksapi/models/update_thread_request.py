@@ -27,7 +27,7 @@ from pydantic_core import to_jsonable_python
 
 class UpdateThreadRequest(BaseModel):
     """
-    Request to update a thread.
+    UpdateThreadRequest
     """ # noqa: E501
     title: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="New thread title")
     parent_thread_id: Optional[UUID] = Field(default=None, description="Parent thread ID. Set to a UUID to link, or null to clear.")

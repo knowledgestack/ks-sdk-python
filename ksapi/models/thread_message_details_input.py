@@ -17,8 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
+from ksapi.models.checkpoint_details import CheckpointDetails
 from ksapi.models.step_input import StepInput
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +31,9 @@ class ThreadMessageDetailsInput(BaseModel):
     ThreadMessageDetailsInput
     """ # noqa: E501
     steps: Optional[List[StepInput]] = None
-    __properties: ClassVar[List[str]] = ["steps"]
+    checkpoint: Optional[CheckpointDetails] = Field(default=None, description="Agent history checkpoint. Present only on role=SYSTEM messages written by the agent's archival path.")
+    model_id: Optional[Annotated[str, Field(strict=True, max_length=64)]] = Field(default=None, description="Model registry id (FE-stable, e.g. ``qwen-flash``) that produced this assistant message. ``None`` for legacy rows that pre-date model selection.")
+    __properties: ClassVar[List[str]] = ["steps", "checkpoint", "model_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -77,6 +81,19 @@ class ThreadMessageDetailsInput(BaseModel):
                 if _item_steps:
                     _items.append(_item_steps.to_dict())
             _dict['steps'] = _items
+        # override the default output from pydantic by calling `to_dict()` of checkpoint
+        if self.checkpoint:
+            _dict['checkpoint'] = self.checkpoint.to_dict()
+        # set to None if checkpoint (nullable) is None
+        # and model_fields_set contains the field
+        if self.checkpoint is None and "checkpoint" in self.model_fields_set:
+            _dict['checkpoint'] = None
+
+        # set to None if model_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.model_id is None and "model_id" in self.model_fields_set:
+            _dict['model_id'] = None
+
         return _dict
 
     @classmethod
@@ -89,7 +106,9 @@ class ThreadMessageDetailsInput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "steps": [StepInput.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None
+            "steps": [StepInput.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None,
+            "checkpoint": CheckpointDetails.from_dict(obj["checkpoint"]) if obj.get("checkpoint") is not None else None,
+            "model_id": obj.get("model_id")
         })
         return _obj
 

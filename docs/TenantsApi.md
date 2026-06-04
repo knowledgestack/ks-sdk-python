@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**delete_tenant_logo**](TenantsApi.md#delete_tenant_logo) | **DELETE** /v1/tenants/{tenant_id}/branding/logo | Delete Tenant Logo
 [**delete_tenant_user**](TenantsApi.md#delete_tenant_user) | **DELETE** /v1/tenants/{tenant_id}/users/{user_id} | Delete Tenant User Handler
 [**get_tenant**](TenantsApi.md#get_tenant) | **GET** /v1/tenants/{tenant_id} | Get Tenant
+[**get_tenant_quota_state**](TenantsApi.md#get_tenant_quota_state) | **GET** /v1/tenants/{tenant_id}/quota | Get Tenant Quota State Handler
 [**list_tenant_users**](TenantsApi.md#list_tenant_users) | **GET** /v1/tenants/{tenant_id}/users | List Tenant Users
 [**list_tenants**](TenantsApi.md#list_tenants) | **GET** /v1/tenants | List Tenants
 [**update_tenant**](TenantsApi.md#update_tenant) | **PATCH** /v1/tenants/{tenant_id} | Update Tenant
@@ -453,6 +454,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**TenantResponse**](TenantResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_tenant_quota_state**
+> TenantQuotaStateResponse get_tenant_quota_state(tenant_id, authorization=authorization, ks_uat=ks_uat)
+
+Get Tenant Quota State Handler
+
+Read the tenant's current quota state across all metered caps + seats.
+
+Any active member of the tenant can read. Read-only — does not mutate
+quota state.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.tenant_quota_state_response import TenantQuotaStateResponse
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.TenantsApi(api_client)
+    tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    authorization = 'authorization_example' # str |  (optional)
+    ks_uat = 'ks_uat_example' # str |  (optional)
+
+    try:
+        # Get Tenant Quota State Handler
+        api_response = api_instance.get_tenant_quota_state(tenant_id, authorization=authorization, ks_uat=ks_uat)
+        print("The response of TenantsApi->get_tenant_quota_state:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TenantsApi->get_tenant_quota_state: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tenant_id** | **UUID**|  | 
+ **authorization** | **str**|  | [optional] 
+ **ks_uat** | **str**|  | [optional] 
+
+### Return type
+
+[**TenantQuotaStateResponse**](TenantQuotaStateResponse.md)
 
 ### Authorization
 

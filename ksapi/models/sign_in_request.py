@@ -26,12 +26,12 @@ from pydantic_core import to_jsonable_python
 
 class SignInRequest(BaseModel):
     """
-    SignInRequest
+    Unified signin — ``username`` matches either email or phone.
     """ # noqa: E501
-    email: StrictStr
+    username: StrictStr = Field(description="Email address or phone number (digit string). The system looks the user up by either field.")
     password: StrictStr
     tenant_id: Optional[UUID] = Field(default=None, description="Target tenant ID to sign into")
-    __properties: ClassVar[List[str]] = ["email", "password", "tenant_id"]
+    __properties: ClassVar[List[str]] = ["username", "password", "tenant_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,7 +89,7 @@ class SignInRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "email": obj.get("email"),
+            "username": obj.get("username"),
             "password": obj.get("password"),
             "tenant_id": obj.get("tenant_id")
         })

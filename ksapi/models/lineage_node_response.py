@@ -21,7 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict
 from uuid import UUID
-from ksapi.models.chunk_metadata_output import ChunkMetadataOutput
+from ksapi.models.chunk_metadata import ChunkMetadata
 from ksapi.models.chunk_type import ChunkType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +34,7 @@ class LineageNodeResponse(BaseModel):
     id: UUID = Field(description="Chunk ID")
     content: StrictStr = Field(description="Chunk text content")
     chunk_type: ChunkType
-    chunk_metadata: ChunkMetadataOutput
+    chunk_metadata: ChunkMetadata
     tenant_id: UUID = Field(description="Tenant ID")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
@@ -97,7 +97,7 @@ class LineageNodeResponse(BaseModel):
             "id": obj.get("id"),
             "content": obj.get("content"),
             "chunk_type": obj.get("chunk_type"),
-            "chunk_metadata": ChunkMetadataOutput.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
+            "chunk_metadata": ChunkMetadata.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
             "tenant_id": obj.get("tenant_id"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")

@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **metadata_obj_id** | **UUID** | ID of the underlying object | 
 **materialized_path** | **str** | Full materialized path from root | 
 **system_managed** | **bool** | Whether this path part is system-managed | 
+**exclude_from_qdrant** | **bool** | Direct exclusion flag on this path part only. The effective exclusion also applies when any ancestor has the flag set — walk the ancestry to determine effective state. | 
 **tags** | [**List[TagResponse]**](TagResponse.md) | Tags attached to this path part | [optional] 
 **can_read** | **bool** | Whether the current user can read | 
 **can_write** | **bool** | Whether the current user can write | 

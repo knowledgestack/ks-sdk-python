@@ -17,10 +17,15 @@ Name | Type | Description | Notes
 **active_version** | [**DocumentVersionResponse**](DocumentVersionResponse.md) |  | 
 **materialized_path** | **str** | Full materialized path from root | 
 **system_managed** | **bool** | Whether this document is system-managed | 
+**approval_state** | [**PathPartApprovalState**](PathPartApprovalState.md) |  | 
+**exclude_from_qdrant** | **bool** | Direct exclusion flag on this document&#39;s path part only. The effective exclusion also applies when any ancestor folder has the flag set — fetch the ancestry to determine effective state. | 
 **tenant_id** | **UUID** | Tenant ID | 
+**owner** | [**UserInfo**](UserInfo.md) |  | 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 **tags** | [**List[TagResponse]**](TagResponse.md) | Tags attached to this document | [optional] 
+**can_write** | **bool** | Whether the current caller has write access to this document. Only populated by endpoints that compute it (e.g. folder contents). | [optional] 
+**checkout** | [**DocumentCheckoutResponse**](DocumentCheckoutResponse.md) | Active write-lock state. Null when no checkout is held. Populated on detail endpoints (GET /v1/documents/{id}). Any tenant member with read access may observe this state. | [optional] 
 
 ## Example
 

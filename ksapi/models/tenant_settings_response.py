@@ -18,7 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
+from ksapi.models.display_name_format import DisplayNameFormat
+from ksapi.models.invite_link_settings_response import InviteLinkSettingsResponse
 from ksapi.models.supported_language import SupportedLanguage
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,8 +32,11 @@ class TenantSettingsResponse(BaseModel):
     """ # noqa: E501
     language: SupportedLanguage
     description: StrictStr = Field(description="Tenant description")
+    industry: Optional[StrictStr] = Field(default=None, description="Industry / company type captured during onboarding")
     timezone: StrictStr = Field(description="IANA timezone (e.g. 'America/New_York')")
-    __properties: ClassVar[List[str]] = ["language", "description", "timezone"]
+    display_name: DisplayNameFormat
+    invite_link: InviteLinkSettingsResponse
+    __properties: ClassVar[List[str]] = ["language", "description", "industry", "timezone", "display_name", "invite_link"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -72,6 +77,14 @@ class TenantSettingsResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of invite_link
+        if self.invite_link:
+            _dict['invite_link'] = self.invite_link.to_dict()
+        # set to None if industry (nullable) is None
+        # and model_fields_set contains the field
+        if self.industry is None and "industry" in self.model_fields_set:
+            _dict['industry'] = None
+
         return _dict
 
     @classmethod
@@ -86,7 +99,10 @@ class TenantSettingsResponse(BaseModel):
         _obj = cls.model_validate({
             "language": obj.get("language"),
             "description": obj.get("description"),
-            "timezone": obj.get("timezone")
+            "industry": obj.get("industry"),
+            "timezone": obj.get("timezone"),
+            "display_name": obj.get("display_name"),
+            "invite_link": InviteLinkSettingsResponse.from_dict(obj["invite_link"]) if obj.get("invite_link") is not None else None
         })
         return _obj
 

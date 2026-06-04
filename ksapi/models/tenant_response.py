@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.tenant_branding_response import TenantBrandingResponse
 from ksapi.models.tenant_settings_response import TenantSettingsResponse
@@ -35,7 +36,9 @@ class TenantResponse(BaseModel):
     idp_config: Optional[Dict[str, Any]] = Field(default=None, description="External IdP configuration")
     settings: TenantSettingsResponse
     branding: Optional[TenantBrandingResponse] = None
-    __properties: ClassVar[List[str]] = ["id", "name", "idp_config", "settings", "branding"]
+    seats: Annotated[int, Field(strict=True, ge=1)] = Field(description="Maximum active members allowed for this tenant.")
+    subscription_id: UUID = Field(description="FK to the subscription plan governing the tenant's caps. Resolve ``GET /public/subscriptions`` to display plan name and limits.")
+    __properties: ClassVar[List[str]] = ["id", "name", "idp_config", "settings", "branding", "seats", "subscription_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -103,7 +106,9 @@ class TenantResponse(BaseModel):
             "name": obj.get("name"),
             "idp_config": obj.get("idp_config"),
             "settings": TenantSettingsResponse.from_dict(obj["settings"]) if obj.get("settings") is not None else None,
-            "branding": TenantBrandingResponse.from_dict(obj["branding"]) if obj.get("branding") is not None else None
+            "branding": TenantBrandingResponse.from_dict(obj["branding"]) if obj.get("branding") is not None else None,
+            "seats": obj.get("seats"),
+            "subscription_id": obj.get("subscription_id")
         })
         return _obj
 

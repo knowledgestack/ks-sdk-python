@@ -20,7 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
-from ksapi.models.chunk_metadata_input import ChunkMetadataInput
+from ksapi.models.chunk_metadata import ChunkMetadata
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -29,7 +29,7 @@ class UpdateChunkMetadataRequest(BaseModel):
     """
     Request to update chunk metadata and/or move the chunk.
     """ # noqa: E501
-    chunk_metadata: Optional[ChunkMetadataInput] = None
+    chunk_metadata: Optional[ChunkMetadata] = Field(default=None, description="Metadata to merge into existing chunk_metadata (optional)")
     parent_path_part_id: Optional[UUID] = Field(default=None, description="Reparent to this PathPart ID (must be DOCUMENT_VERSION or SECTION in the same document version)")
     prev_sibling_path_id: Optional[UUID] = Field(default=None, description="Move after this sibling PathPart ID (within new or current parent)")
     move_to_head: Optional[StrictBool] = Field(default=False, description="Set to true to move to head of sibling list")
@@ -77,6 +77,11 @@ class UpdateChunkMetadataRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of chunk_metadata
         if self.chunk_metadata:
             _dict['chunk_metadata'] = self.chunk_metadata.to_dict()
+        # set to None if chunk_metadata (nullable) is None
+        # and model_fields_set contains the field
+        if self.chunk_metadata is None and "chunk_metadata" in self.model_fields_set:
+            _dict['chunk_metadata'] = None
+
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -99,7 +104,7 @@ class UpdateChunkMetadataRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "chunk_metadata": ChunkMetadataInput.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
+            "chunk_metadata": ChunkMetadata.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "prev_sibling_path_id": obj.get("prev_sibling_path_id"),
             "move_to_head": obj.get("move_to_head") if obj.get("move_to_head") is not None else False

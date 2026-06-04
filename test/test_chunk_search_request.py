@@ -37,6 +37,9 @@ class TestChunkSearchRequest(unittest.TestCase):
             return ChunkSearchRequest(
                 query = '0',
                 search_type = 'dense_only',
+                hybrid_profile = 'hybrid',
+                dense_weight = 1.337,
+                sparse_weight = 1.337,
                 parent_path_ids = [
                     ''
                     ],

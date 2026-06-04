@@ -36,8 +36,7 @@ class TestCreateGroupRequest(unittest.TestCase):
         if include_optional:
             return CreateGroupRequest(
                 name = '0',
-                description = '',
-                email = ''
+                description = ''
             )
         else:
             return CreateGroupRequest(

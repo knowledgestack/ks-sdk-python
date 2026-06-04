@@ -37,13 +37,28 @@ class TestTenantSettingsResponse(unittest.TestCase):
             return TenantSettingsResponse(
                 language = 'en',
                 description = '',
-                timezone = ''
+                industry = '',
+                timezone = '',
+                display_name = 'firstname',
+                invite_link = ksapi.models.invite_link_settings_response.InviteLinkSettingsResponse(
+                    enabled = True, 
+                    role = 'USER', 
+                    groups = [
+                        ''
+                        ], )
             )
         else:
             return TenantSettingsResponse(
                 language = 'en',
                 description = '',
                 timezone = '',
+                display_name = 'firstname',
+                invite_link = ksapi.models.invite_link_settings_response.InviteLinkSettingsResponse(
+                    enabled = True, 
+                    role = 'USER', 
+                    groups = [
+                        ''
+                        ], ),
         )
         """
 

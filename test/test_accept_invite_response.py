@@ -36,7 +36,10 @@ class TestAcceptInviteResponse(unittest.TestCase):
         if include_optional:
             return AcceptInviteResponse(
                 tenant_id = '',
-                role = 'USER'
+                role = 'USER',
+                skipped_groups = [
+                    ''
+                    ]
             )
         else:
             return AcceptInviteResponse(

@@ -241,18 +241,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_chunk_neighbors**
-> ChunkNeighborsResponse get_chunk_neighbors(chunk_id, prev=prev, next=next, chunks_only=chunks_only, authorization=authorization, ks_uat=ks_uat)
+> ChunkNeighborsResponse get_chunk_neighbors(chunk_id, prev=prev, next=next, content_type=content_type, within_section=within_section, authorization=authorization, ks_uat=ks_uat)
 
 Get Chunk Neighbors Handler
 
-Get neighboring siblings by traversing the sibling linked list.
+Return a window of items around an anchor chunk.
 
-Walks the sibling chain backward (prev) and forward (next) from the
-anchor chunk. Returns sections and chunks in sibling order within the
-same parent.
+Two traversal modes:
 
-When ``chunks_only=true``, the traversal stops at the first non-CHUNK
-sibling in each direction, returning only chunk neighbors.
+- ``within_section=true`` (default): walks the sibling linked-list under
+  the anchor's parent. Stops at items outside ``content_type`` when set.
+  Authorized by the anchor's path read permission alone.
+
+- ``within_section=false``: walks the full document version in
+  depth-first order and slices a window around the anchor. Crosses
+  section boundaries. Additionally requires read permission on the
+  enclosing document version's path (matching the
+  ``/v1/document_versions/{id}/contents`` endpoint). USERs whose path
+  permissions are scoped to a sub-section of the version will get
+  ``403`` and should use ``within_section=true``.
+
+``content_type=SECTION`` is rejected with ``400``: the anchor is always
+a chunk, so a SECTION-only filter would exclude it.
 
 ### Example
 
@@ -260,6 +270,7 @@ sibling in each direction, returning only chunk neighbors.
 ```python
 import ksapi
 from ksapi.models.chunk_neighbors_response import ChunkNeighborsResponse
+from ksapi.models.part_type import PartType
 from ksapi.rest import ApiException
 from pprint import pprint
 
@@ -275,15 +286,16 @@ with ksapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ksapi.ChunksApi(api_client)
     chunk_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
-    prev = 1 # int | Number of preceding siblings to include (optional) (default to 1)
-    next = 1 # int | Number of succeeding siblings to include (optional) (default to 1)
-    chunks_only = False # bool | When true, stop traversal at non-CHUNK siblings (default: false) (optional) (default to False)
+    prev = 1 # int | Number of preceding items to include (max 50). (optional) (default to 1)
+    next = 1 # int | Number of succeeding items to include (max 50). (optional) (default to 1)
+    content_type = ksapi.PartType() # PartType | Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always). (optional)
+    within_section = True # bool | When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries. (optional) (default to True)
     authorization = 'authorization_example' # str |  (optional)
     ks_uat = 'ks_uat_example' # str |  (optional)
 
     try:
         # Get Chunk Neighbors Handler
-        api_response = api_instance.get_chunk_neighbors(chunk_id, prev=prev, next=next, chunks_only=chunks_only, authorization=authorization, ks_uat=ks_uat)
+        api_response = api_instance.get_chunk_neighbors(chunk_id, prev=prev, next=next, content_type=content_type, within_section=within_section, authorization=authorization, ks_uat=ks_uat)
         print("The response of ChunksApi->get_chunk_neighbors:\n")
         pprint(api_response)
     except Exception as e:
@@ -298,9 +310,10 @@ with ksapi.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **chunk_id** | **UUID**|  | 
- **prev** | **int**| Number of preceding siblings to include | [optional] [default to 1]
- **next** | **int**| Number of succeeding siblings to include | [optional] [default to 1]
- **chunks_only** | **bool**| When true, stop traversal at non-CHUNK siblings (default: false) | [optional] [default to False]
+ **prev** | **int**| Number of preceding items to include (max 50). | [optional] [default to 1]
+ **next** | **int**| Number of succeeding items to include (max 50). | [optional] [default to 1]
+ **content_type** | [**PartType**](.md)| Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always). | [optional] 
+ **within_section** | **bool**| When true (default), traverse only the anchor&#39;s sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries. | [optional] [default to True]
  **authorization** | **str**|  | [optional] 
  **ks_uat** | **str**|  | [optional] 
 
@@ -483,11 +496,18 @@ No authorization required
 
 Search Chunks Handler
 
-Search over chunks using dense vector similarity or BM25 full-text.
+Search over chunks using dense vector, BM25 full-text, or hybrid retrieval.
 
-Combines vector/keyword search with path-based authorization
-and optional metadata filters. Uses Qdrant for search and
-hydrates results from Postgres.
+Combines search with path-based authorization and optional metadata filters.
+Uses Qdrant for retrieval and hydrates the matched chunks from Postgres.
+
+**Billing note.** SEARCH consume runs *before* path-permission
+resolution. A request that resolves to an empty permission set
+(caller has read access to nothing in the requested scope) returns
+``[]`` cleanly — without raising — so it is **not** refunded. This
+is intentional: differential billing for a no-results case would
+leak access shape to the caller. Callers concerned about charged
+no-op searches should validate path access client-side first.
 
 ### Example
 

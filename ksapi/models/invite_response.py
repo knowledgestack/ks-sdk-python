@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.tenant_user_role import TenantUserRole
 from typing import Optional, Set
@@ -34,13 +34,14 @@ class InviteResponse(BaseModel):
     tenant_id: UUID
     email: StrictStr
     role: TenantUserRole
+    groups: Optional[List[UUID]] = None
     expires_at: datetime
     accepted_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
     invite_link: StrictStr
     email_id: Optional[UUID] = None
-    __properties: ClassVar[List[str]] = ["id", "tenant_id", "email", "role", "expires_at", "accepted_at", "created_at", "updated_at", "invite_link", "email_id"]
+    __properties: ClassVar[List[str]] = ["id", "tenant_id", "email", "role", "groups", "expires_at", "accepted_at", "created_at", "updated_at", "invite_link", "email_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -107,6 +108,7 @@ class InviteResponse(BaseModel):
             "tenant_id": obj.get("tenant_id"),
             "email": obj.get("email"),
             "role": obj.get("role"),
+            "groups": obj.get("groups"),
             "expires_at": obj.get("expires_at"),
             "accepted_at": obj.get("accepted_at"),
             "created_at": obj.get("created_at"),

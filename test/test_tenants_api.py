@@ -68,6 +68,13 @@ class TestTenantsApi(unittest.TestCase):
         """
         pass
 
+    def test_get_tenant_quota_state(self) -> None:
+        """Test case for get_tenant_quota_state
+
+        Get Tenant Quota State Handler
+        """
+        pass
+
     def test_list_tenant_users(self) -> None:
         """Test case for list_tenant_users
 

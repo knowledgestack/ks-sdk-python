@@ -23,6 +23,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.chunk_type import ChunkType
+from ksapi.models.hybrid_search_profile import HybridSearchProfile
 from ksapi.models.search_type import SearchType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,10 +31,13 @@ from pydantic_core import to_jsonable_python
 
 class ChunkSearchRequest(BaseModel):
     """
-    Request body for chunk search (dense vector or full-text BM25).
+    Request body for chunk search (dense vector, full-text BM25, or hybrid).
     """ # noqa: E501
     query: Annotated[str, Field(min_length=1, strict=True)] = Field(description="Search query text")
     search_type: Optional[SearchType] = None
+    hybrid_profile: Optional[HybridSearchProfile] = None
+    dense_weight: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Optional explicit weight for the dense branch. Must be provided together with sparse_weight and overrides hybrid_profile.")
+    sparse_weight: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Optional explicit weight for the sparse branch. Must be provided together with dense_weight and overrides hybrid_profile.")
     parent_path_ids: Optional[List[UUID]] = Field(default=None, description="Path part IDs to search within (non-CHUNK types). Defaults to tenant's /shared.")
     tag_ids: Optional[List[UUID]] = Field(default=None, description="Filter by tag IDs (AND logic — chunks must have ALL specified tags)")
     chunk_types: Optional[Annotated[List[ChunkType], Field(min_length=1)]] = Field(default=None, description="Filter by chunk types (TEXT, TABLE, IMAGE, HTML, UNKNOWN). Only chunks matching one of the listed types are returned.")
@@ -42,7 +46,7 @@ class ChunkSearchRequest(BaseModel):
     top_k: Optional[Annotated[int, Field(le=50, strict=True, ge=1)]] = Field(default=5, description="Number of results (1-50)")
     score_threshold: Optional[Union[StrictFloat, StrictInt]] = Field(default=0.3, description="Minimum similarity score")
     with_document: Optional[StrictBool] = Field(default=False, description="Include ancestor document_id and document_version_id in each result")
-    __properties: ClassVar[List[str]] = ["query", "search_type", "parent_path_ids", "tag_ids", "chunk_types", "ingestion_time_after", "active_version_only", "top_k", "score_threshold", "with_document"]
+    __properties: ClassVar[List[str]] = ["query", "search_type", "hybrid_profile", "dense_weight", "sparse_weight", "parent_path_ids", "tag_ids", "chunk_types", "ingestion_time_after", "active_version_only", "top_k", "score_threshold", "with_document"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,6 +87,16 @@ class ChunkSearchRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if dense_weight (nullable) is None
+        # and model_fields_set contains the field
+        if self.dense_weight is None and "dense_weight" in self.model_fields_set:
+            _dict['dense_weight'] = None
+
+        # set to None if sparse_weight (nullable) is None
+        # and model_fields_set contains the field
+        if self.sparse_weight is None and "sparse_weight" in self.model_fields_set:
+            _dict['sparse_weight'] = None
+
         # set to None if parent_path_ids (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_ids is None and "parent_path_ids" in self.model_fields_set:
@@ -117,6 +131,9 @@ class ChunkSearchRequest(BaseModel):
         _obj = cls.model_validate({
             "query": obj.get("query"),
             "search_type": obj.get("search_type"),
+            "hybrid_profile": obj.get("hybrid_profile"),
+            "dense_weight": obj.get("dense_weight"),
+            "sparse_weight": obj.get("sparse_weight"),
             "parent_path_ids": obj.get("parent_path_ids"),
             "tag_ids": obj.get("tag_ids"),
             "chunk_types": obj.get("chunk_types"),

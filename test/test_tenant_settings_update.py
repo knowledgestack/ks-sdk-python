@@ -37,12 +37,20 @@ class TestTenantSettingsUpdate(unittest.TestCase):
             return TenantSettingsUpdate(
                 language = 'en',
                 description = '',
+                industry = '',
                 timezone = '',
+                display_name = 'firstname',
                 brand_name = '',
                 brand_color = '',
                 theme_overrides = {
                     'key' : ''
-                    }
+                    },
+                invite_link = ksapi.models.invite_link_settings_request.InviteLinkSettingsRequest(
+                    enabled = True, 
+                    role = 'USER', 
+                    groups = [
+                        ''
+                        ], )
             )
         else:
             return TenantSettingsUpdate(

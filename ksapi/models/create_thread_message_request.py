@@ -29,12 +29,12 @@ from pydantic_core import to_jsonable_python
 
 class CreateThreadMessageRequest(BaseModel):
     """
-    Request to create a new thread message.
+    CreateThreadMessageRequest
     """ # noqa: E501
     message_id: Optional[UUID] = Field(default=None, description="Optional caller-supplied ThreadMessage ID for idempotent creates.")
     role: MessageRole
     content: ThreadMessageContent
-    details: Optional[ThreadMessageDetailsInput] = None
+    details: Optional[ThreadMessageDetailsInput] = Field(default=None, description="Message details (execution steps). Omit for user messages.")
     __properties: ClassVar[List[str]] = ["message_id", "role", "content", "details"]
 
     model_config = ConfigDict(
@@ -86,6 +86,11 @@ class CreateThreadMessageRequest(BaseModel):
         # and model_fields_set contains the field
         if self.message_id is None and "message_id" in self.model_fields_set:
             _dict['message_id'] = None
+
+        # set to None if details (nullable) is None
+        # and model_fields_set contains the field
+        if self.details is None and "details" in self.model_fields_set:
+            _dict['details'] = None
 
         return _dict
 

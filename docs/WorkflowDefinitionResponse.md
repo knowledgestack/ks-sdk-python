@@ -1,22 +1,24 @@
 # WorkflowDefinitionResponse
 
-Workflow definition response.
+Workflow definition response.  Doubles as a discriminated-union variant for folder-listing responses. The ``part_type`` literal is the discriminator: when the FE walks a folder tree it sees this shape mixed in with ``FolderResponse`` / ``DocumentResponse`` and can route to the dedicated workflow page based on ``part_type``.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**part_type** | **str** | Path part type | [optional] [default to 'WORKFLOW_DEFINITION']
 **id** | **UUID** |  | 
+**path_part_id** | **UUID** | WORKFLOW_DEFINITION path_part of this definition | 
+**parent_path_part_id** | **UUID** | FOLDER path_part of the containing folder | 
+**materialized_path** | **str** | Full materialized path from root | 
+**tenant_id** | **UUID** |  | 
 **name** | **str** |  | 
 **description** | **str** |  | 
-**runner_type** | [**WorkflowRunnerType**](WorkflowRunnerType.md) |  | 
-**runner_config** | [**SelfHostedRunnerConfigResponse**](SelfHostedRunnerConfigResponse.md) |  | 
 **max_run_duration_seconds** | **int** |  | 
-**source_path_part_ids** | **List[UUID]** |  | 
-**instruction_path_part_ids** | **List[UUID]** |  | 
-**output_path_part_ids** | **List[UUID]** |  | 
-**template_path_part_id** | **UUID** |  | 
+**instruction_path_part_id** | **UUID** | DOCUMENT path_part of the instruction document | 
 **is_active** | **bool** |  | 
+**approval_required** | **bool** |  | 
+**approval_state** | [**PathPartApprovalState**](PathPartApprovalState.md) |  | 
 **created_at** | **datetime** |  | 
 **updated_at** | **datetime** |  | 
 

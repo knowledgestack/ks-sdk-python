@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -38,9 +39,10 @@ class SectionContentItem(BaseModel):
     page_number: Optional[StrictInt] = Field(default=None, description="Section page number")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this item is system-managed")
+    approval_state: PathPartApprovalState
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "page_number", "materialized_path", "system_managed", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "page_number", "materialized_path", "system_managed", "approval_state", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -114,6 +116,7 @@ class SectionContentItem(BaseModel):
             "page_number": obj.get("page_number"),
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
+            "approval_state": obj.get("approval_state"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

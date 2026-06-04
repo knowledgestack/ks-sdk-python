@@ -37,7 +37,9 @@ class TestCreateThreadRequest(unittest.TestCase):
             return CreateThreadRequest(
                 parent_path_part_id = '',
                 title = '0',
-                message_for_title = '0'
+                message_for_title = '0',
+                path_part_name = '0',
+                system_managed = True
             )
         else:
             return CreateThreadRequest(

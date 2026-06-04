@@ -7,8 +7,8 @@ Update tenant request model.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | Optional tenant name to update | [optional] 
-**idp_config** | [**IdpConfig**](IdpConfig.md) |  | [optional] 
-**settings** | [**TenantSettingsUpdate**](TenantSettingsUpdate.md) |  | [optional] 
+**idp_config** | [**IdpConfig**](IdpConfig.md) | Optional external IdP configuration to update | [optional] 
+**settings** | [**TenantSettingsUpdate**](TenantSettingsUpdate.md) | Optional tenant settings to update | [optional] 
 
 ## Example
 

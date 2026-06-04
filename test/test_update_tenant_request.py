@@ -42,12 +42,15 @@ class TestUpdateTenantRequest(unittest.TestCase):
                 settings = ksapi.models.tenant_settings_update.TenantSettingsUpdate(
                     language = 'en', 
                     description = '', 
+                    industry = '', 
                     timezone = '', 
+                    display_name = 'firstname', 
                     brand_name = '', 
                     brand_color = '', 
                     theme_overrides = {
                         'key' : ''
-                        }, )
+                        }, 
+                    invite_link = null, )
             )
         else:
             return UpdateTenantRequest(

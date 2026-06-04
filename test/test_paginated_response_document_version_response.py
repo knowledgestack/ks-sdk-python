@@ -45,26 +45,23 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                         materialized_path = '', 
                         system_managed = True, 
                         tenant_id = '', 
+                        uploader = ksapi.models.user_info.UserInfo(
+                            user_id = '', 
+                            first_name = '', 
+                            last_name = '', ), 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         asset_s3_url = '', 
                         fast_plaintext_url = '', 
+                        page_screenshot_urls = [
+                            ''
+                            ], 
                         system_metadata = ksapi.models.document_version_metadata.DocumentVersionMetadata(
                             source_s3 = '', 
                             cleaned_source_s3 = '', 
                             fast_plaintext_s3 = '', 
                             hash = '', 
-                            pipeline_state = ksapi.models.pipeline_state.PipelineState(
-                                status = 'pending', 
-                                last_run_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                last_state_update_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                last_activity = '', 
-                                error = '', 
-                                temporal_workflow_id = '', 
-                                chunks_processed = 56, 
-                                page_dpi = 56, 
-                                ingestion_mode = 'high_accuracy', 
-                                chunk_type = 'TEXT', ), 
+                            pipeline_state = null, 
                             total_pages = 56, 
                             total_sections = 56, 
                             total_chunks = 56, 
@@ -76,13 +73,14 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             xlsx_kpi_catalog = [
                                 { }
                                 ], 
-                            information_statistics = ksapi.models.information_statistics.InformationStatistics(
-                                num_chunks_by_type = {
-                                    'key' : 56
-                                    }, 
-                                total_tokens = 56, 
-                                num_direct_children = 56, 
-                                children_depth = 56, ), ), )
+                            citation_anchors = [
+                                null
+                                ], 
+                            information_statistics = null, 
+                            quota_charged = True, 
+                            quota_page_count = 56, 
+                            quota_idempotency_key = 'UNSET', 
+                            file_md5 = 'UNSET', ), )
                     ],
                 total = 0.0,
                 limit = 1.0,
@@ -100,26 +98,23 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                         materialized_path = '', 
                         system_managed = True, 
                         tenant_id = '', 
+                        uploader = ksapi.models.user_info.UserInfo(
+                            user_id = '', 
+                            first_name = '', 
+                            last_name = '', ), 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         asset_s3_url = '', 
                         fast_plaintext_url = '', 
+                        page_screenshot_urls = [
+                            ''
+                            ], 
                         system_metadata = ksapi.models.document_version_metadata.DocumentVersionMetadata(
                             source_s3 = '', 
                             cleaned_source_s3 = '', 
                             fast_plaintext_s3 = '', 
                             hash = '', 
-                            pipeline_state = ksapi.models.pipeline_state.PipelineState(
-                                status = 'pending', 
-                                last_run_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                last_state_update_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                last_activity = '', 
-                                error = '', 
-                                temporal_workflow_id = '', 
-                                chunks_processed = 56, 
-                                page_dpi = 56, 
-                                ingestion_mode = 'high_accuracy', 
-                                chunk_type = 'TEXT', ), 
+                            pipeline_state = null, 
                             total_pages = 56, 
                             total_sections = 56, 
                             total_chunks = 56, 
@@ -131,13 +126,14 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             xlsx_kpi_catalog = [
                                 { }
                                 ], 
-                            information_statistics = ksapi.models.information_statistics.InformationStatistics(
-                                num_chunks_by_type = {
-                                    'key' : 56
-                                    }, 
-                                total_tokens = 56, 
-                                num_direct_children = 56, 
-                                children_depth = 56, ), ), )
+                            citation_anchors = [
+                                null
+                                ], 
+                            information_statistics = null, 
+                            quota_charged = True, 
+                            quota_page_count = 56, 
+                            quota_idempotency_key = 'UNSET', 
+                            file_md5 = 'UNSET', ), )
                     ],
                 total = 0.0,
                 limit = 1.0,

@@ -37,36 +37,34 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
             return PaginatedResponseWorkflowRunResponse(
                 items = [
                     ksapi.models.workflow_run_response.WorkflowRunResponse(
+                        part_type = 'WORKFLOW_RUN', 
                         id = '', 
+                        path_part_id = '', 
+                        parent_path_part_id = '', 
+                        materialized_path = '', 
+                        tenant_id = '', 
+                        name = '', 
                         workflow_definition_id = '', 
-                        user_id = '', 
-                        runner_type = 'SELF_HOSTED', 
-                        status = 'PENDING', 
+                        triggered_by = ksapi.models.user_info.UserInfo(
+                            user_id = '', 
+                            first_name = '', 
+                            last_name = '', ), 
+                        execution_state = 'PENDING', 
+                        approval_state = 'not_required', 
                         started_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        run_snapshot = ksapi.models.workflow_run_snapshot.WorkflowRunSnapshot(
-                            workflow_definition_id = '', 
-                            workflow_name = '', 
-                            runner_type = 'SELF_HOSTED', 
-                            user_id = '', 
-                            max_run_duration_seconds = 56, 
-                            sources = [
-                                ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                                    path_part_id = '', 
-                                    materialized_path = '', 
-                                    part_type = 'FOLDER', )
-                                ], 
-                            instructions = [
-                                ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                                    path_part_id = '', 
-                                    materialized_path = '', 
-                                    part_type = 'FOLDER', )
-                                ], 
-                            outputs = [
-                                
-                                ], 
-                            template = , ), 
+                        run_snapshot = null, 
                         error = '', 
+                        inputs_path_part_id = '', 
+                        outputs_path_part_id = '', 
+                        discussions_path_part_id = '', 
+                        input_path_part_ids = [
+                            ''
+                            ], 
+                        outputs_path_part_ids = [
+                            ''
+                            ], 
+                        run_thread_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
@@ -78,36 +76,34 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
             return PaginatedResponseWorkflowRunResponse(
                 items = [
                     ksapi.models.workflow_run_response.WorkflowRunResponse(
+                        part_type = 'WORKFLOW_RUN', 
                         id = '', 
+                        path_part_id = '', 
+                        parent_path_part_id = '', 
+                        materialized_path = '', 
+                        tenant_id = '', 
+                        name = '', 
                         workflow_definition_id = '', 
-                        user_id = '', 
-                        runner_type = 'SELF_HOSTED', 
-                        status = 'PENDING', 
+                        triggered_by = ksapi.models.user_info.UserInfo(
+                            user_id = '', 
+                            first_name = '', 
+                            last_name = '', ), 
+                        execution_state = 'PENDING', 
+                        approval_state = 'not_required', 
                         started_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        run_snapshot = ksapi.models.workflow_run_snapshot.WorkflowRunSnapshot(
-                            workflow_definition_id = '', 
-                            workflow_name = '', 
-                            runner_type = 'SELF_HOSTED', 
-                            user_id = '', 
-                            max_run_duration_seconds = 56, 
-                            sources = [
-                                ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                                    path_part_id = '', 
-                                    materialized_path = '', 
-                                    part_type = 'FOLDER', )
-                                ], 
-                            instructions = [
-                                ksapi.models.abcd_path_snapshot.ABCDPathSnapshot(
-                                    path_part_id = '', 
-                                    materialized_path = '', 
-                                    part_type = 'FOLDER', )
-                                ], 
-                            outputs = [
-                                
-                                ], 
-                            template = , ), 
+                        run_snapshot = null, 
                         error = '', 
+                        inputs_path_part_id = '', 
+                        outputs_path_part_id = '', 
+                        discussions_path_part_id = '', 
+                        input_path_part_ids = [
+                            ''
+                            ], 
+                        outputs_path_part_ids = [
+                            ''
+                            ], 
+                        run_thread_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],

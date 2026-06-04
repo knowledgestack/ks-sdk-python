@@ -76,7 +76,9 @@ class TestCreateThreadMessageRequest(unittest.TestCase):
                                         
                                         ], )
                                 ], )
-                        ], )
+                        ], 
+                    checkpoint = null, 
+                    model_id = '', )
             )
         else:
             return CreateThreadMessageRequest(

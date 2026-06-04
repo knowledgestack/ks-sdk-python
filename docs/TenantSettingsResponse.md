@@ -8,7 +8,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **language** | [**SupportedLanguage**](SupportedLanguage.md) |  | 
 **description** | **str** | Tenant description | 
+**industry** | **str** | Industry / company type captured during onboarding | [optional] 
 **timezone** | **str** | IANA timezone (e.g. &#39;America/New_York&#39;) | 
+**display_name** | [**DisplayNameFormat**](DisplayNameFormat.md) |  | 
+**invite_link** | [**InviteLinkSettingsResponse**](InviteLinkSettingsResponse.md) |  | 
 
 ## Example
 

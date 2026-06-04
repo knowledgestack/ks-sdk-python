@@ -36,7 +36,8 @@ class TestUpdateFolderRequest(unittest.TestCase):
         if include_optional:
             return UpdateFolderRequest(
                 name = '0',
-                parent_path_part_id = ''
+                parent_path_part_id = '',
+                exclude_from_qdrant = True
             )
         else:
             return UpdateFolderRequest(

@@ -37,35 +37,14 @@ class TestCreateWorkflowDefinitionRequest(unittest.TestCase):
             return CreateWorkflowDefinitionRequest(
                 name = '',
                 description = '',
-                runner_type = 'SELF_HOSTED',
-                runner_config = ksapi.models.self_hosted_runner_config.SelfHostedRunnerConfig(
-                    url = '0', 
-                    webhook_secret = '', ),
                 max_run_duration_seconds = 60.0,
-                source_path_part_ids = [
-                    ''
-                    ],
-                instruction_path_part_ids = [
-                    ''
-                    ],
-                output_path_part_ids = [
-                    ''
-                    ],
-                template_path_part_id = ''
+                instruction_path_part_id = '',
+                approval_required = True
             )
         else:
             return CreateWorkflowDefinitionRequest(
                 name = '',
-                runner_type = 'SELF_HOSTED',
-                source_path_part_ids = [
-                    ''
-                    ],
-                instruction_path_part_ids = [
-                    ''
-                    ],
-                output_path_part_ids = [
-                    ''
-                    ],
+                approval_required = True,
         )
         """
 

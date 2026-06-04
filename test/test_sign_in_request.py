@@ -35,13 +35,13 @@ class TestSignInRequest(unittest.TestCase):
         model = SignInRequest()
         if include_optional:
             return SignInRequest(
-                email = '',
+                username = '',
                 password = '',
                 tenant_id = ''
             )
         else:
             return SignInRequest(
-                email = '',
+                username = '',
                 password = '',
         )
         """

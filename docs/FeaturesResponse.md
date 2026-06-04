@@ -6,6 +6,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **google_login_enabled** | **bool** |  | 
+**microsoft_login_enabled** | **bool** |  | 
+**github_login_enabled** | **bool** |  | 
+**sms_login_enabled** | **bool** |  | 
 **default_frontend_language** | [**SupportedLanguage**](SupportedLanguage.md) |  | 
 
 ## Example

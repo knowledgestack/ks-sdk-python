@@ -5,9 +5,9 @@ All URIs are relative to *http://localhost:8000*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_workflow_definition**](WorkflowDefinitionsApi.md#create_workflow_definition) | **POST** /v1/workflow-definitions | Create Workflow Definition Handler
+[**create_workflow_run**](WorkflowDefinitionsApi.md#create_workflow_run) | **POST** /v1/workflow-definitions/{definition_id}/runs | Create Workflow Run Handler
 [**delete_workflow_definition**](WorkflowDefinitionsApi.md#delete_workflow_definition) | **DELETE** /v1/workflow-definitions/{definition_id} | Delete Workflow Definition Handler
 [**get_workflow_definition**](WorkflowDefinitionsApi.md#get_workflow_definition) | **GET** /v1/workflow-definitions/{definition_id} | Get Workflow Definition Handler
-[**invoke_workflow**](WorkflowDefinitionsApi.md#invoke_workflow) | **POST** /v1/workflow-definitions/{definition_id}/invoke | Invoke Workflow Handler
 [**list_workflow_definitions**](WorkflowDefinitionsApi.md#list_workflow_definitions) | **GET** /v1/workflow-definitions | List Workflow Definitions Handler
 [**list_workflow_runs**](WorkflowDefinitionsApi.md#list_workflow_runs) | **GET** /v1/workflow-definitions/{definition_id}/runs | List Workflow Runs Handler
 [**update_workflow_definition**](WorkflowDefinitionsApi.md#update_workflow_definition) | **PUT** /v1/workflow-definitions/{definition_id} | Update Workflow Definition Handler
@@ -74,6 +74,97 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_workflow_run**
+> WorkflowRunResponse create_workflow_run(definition_id, authorization=authorization, ks_uat=ks_uat, files=files, input_scope=input_scope, idempotency_key=idempotency_key)
+
+Create Workflow Run Handler
+
+Create a NOT_STARTED run draft, optionally seeded with KB references.
+
+All three fields are optional: an empty request creates an empty
+draft instantly (the two-step flow — the FE then uploads files into
+the run's ``inputs/`` folder and/or PATCHes ``input_scope`` before
+Start). Each ``input_scope`` entry is resolved per its part_type: a
+DOCUMENT is pinned to its active ``DOCUMENT_VERSION``; a FOLDER is
+pinned by reference only and read live by the runner.
+
+``files`` is DEPRECATED — see the field description. When supplied,
+uploads are still ingested under ``runs/<id>/inputs/`` so callers
+mid-migration keep working, but the call blocks on synchronous S3
+upload.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.workflow_run_response import WorkflowRunResponse
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.WorkflowDefinitionsApi(api_client)
+    definition_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    authorization = 'authorization_example' # str |  (optional)
+    ks_uat = 'ks_uat_example' # str |  (optional)
+    files = None # List[bytes] | DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated. (optional)
+    input_scope = 'input_scope_example' # str | JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH. (optional)
+    idempotency_key = 'idempotency_key_example' # str | Optional key to prevent duplicate runs from retries. (optional)
+
+    try:
+        # Create Workflow Run Handler
+        api_response = api_instance.create_workflow_run(definition_id, authorization=authorization, ks_uat=ks_uat, files=files, input_scope=input_scope, idempotency_key=idempotency_key)
+        print("The response of WorkflowDefinitionsApi->create_workflow_run:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling WorkflowDefinitionsApi->create_workflow_run: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **definition_id** | **UUID**|  | 
+ **authorization** | **str**|  | [optional] 
+ **ks_uat** | **str**|  | [optional] 
+ **files** | **List[bytes]**| DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s &#39;Create run&#39; wait). Instead create an empty draft (omit this field), then upload each file to the run&#39;s &#x60;&#x60;inputs/&#x60;&#x60; folder via &#x60;&#x60;POST /v1/documents/ingest&#x60;&#x60; with &#x60;&#x60;path_part_id&#x60;&#x60; set to the run&#39;s &#x60;&#x60;inputs_path_part_id&#x60;&#x60;; that path ingests asynchronously and auto-syncs the run&#39;s state. This field will be removed once the FE has migrated. | [optional] 
+ **input_scope** | **str**| JSON array of &#x60;&#x60;DOCUMENT&#x60;&#x60; or &#x60;&#x60;FOLDER&#x60;&#x60; path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft&#39;s input scope. Optional — omit for an empty draft and add references later via PATCH. | [optional] 
+ **idempotency_key** | **str**| Optional key to prevent duplicate runs from retries. | [optional] 
+
+### Return type
+
+[**WorkflowRunResponse**](WorkflowRunResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 ### HTTP response details
@@ -220,80 +311,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **invoke_workflow**
-> WorkflowRunResponse invoke_workflow(definition_id, invoke_workflow_request, authorization=authorization, ks_uat=ks_uat)
-
-Invoke Workflow Handler
-
-### Example
-
-
-```python
-import ksapi
-from ksapi.models.invoke_workflow_request import InvokeWorkflowRequest
-from ksapi.models.workflow_run_response import WorkflowRunResponse
-from ksapi.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to http://localhost:8000
-# See configuration.py for a list of all supported configuration parameters.
-configuration = ksapi.Configuration(
-    host = "http://localhost:8000"
-)
-
-
-# Enter a context with an instance of the API client
-with ksapi.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = ksapi.WorkflowDefinitionsApi(api_client)
-    definition_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
-    invoke_workflow_request = ksapi.InvokeWorkflowRequest() # InvokeWorkflowRequest | 
-    authorization = 'authorization_example' # str |  (optional)
-    ks_uat = 'ks_uat_example' # str |  (optional)
-
-    try:
-        # Invoke Workflow Handler
-        api_response = api_instance.invoke_workflow(definition_id, invoke_workflow_request, authorization=authorization, ks_uat=ks_uat)
-        print("The response of WorkflowDefinitionsApi->invoke_workflow:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling WorkflowDefinitionsApi->invoke_workflow: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **definition_id** | **UUID**|  | 
- **invoke_workflow_request** | [**InvokeWorkflowRequest**](InvokeWorkflowRequest.md)|  | 
- **authorization** | **str**|  | [optional] 
- **ks_uat** | **str**|  | [optional] 
-
-### Return type
-
-[**WorkflowRunResponse**](WorkflowRunResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**202** | Successful Response |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

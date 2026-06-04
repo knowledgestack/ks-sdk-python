@@ -18,6 +18,9 @@ from typing_extensions import Annotated
 from pydantic import StrictStr
 from typing import Optional
 from uuid import UUID
+from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
+from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
+from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest
 from ksapi.models.workflow_callback_response import WorkflowCallbackResponse
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest
 from ksapi.models.workflow_run_response import WorkflowRunResponse
@@ -38,6 +41,325 @@ class WorkflowRunsApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def clone_workflow_run(
+        self,
+        run_id: UUID,
+        clone_workflow_run_request: CloneWorkflowRunRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Clone Workflow Run Handler
+
+        Clone a started run into a new NOT_STARTED draft.  ``include_inputs=True`` pins the source's snapshotted inputs onto the new run; uploads stay in the source's ``inputs/`` and are referenced by path_part_id. No S3 copy. A NOT_STARTED source has no snapshot to pin → 409. The clone is born NOT_STARTED so the user can edit it (PATCH) before pressing Start.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param clone_workflow_run_request: (required)
+        :type clone_workflow_run_request: CloneWorkflowRunRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._clone_workflow_run_serialize(
+            run_id=run_id,
+            clone_workflow_run_request=clone_workflow_run_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def clone_workflow_run_with_http_info(
+        self,
+        run_id: UUID,
+        clone_workflow_run_request: CloneWorkflowRunRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Clone Workflow Run Handler
+
+        Clone a started run into a new NOT_STARTED draft.  ``include_inputs=True`` pins the source's snapshotted inputs onto the new run; uploads stay in the source's ``inputs/`` and are referenced by path_part_id. No S3 copy. A NOT_STARTED source has no snapshot to pin → 409. The clone is born NOT_STARTED so the user can edit it (PATCH) before pressing Start.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param clone_workflow_run_request: (required)
+        :type clone_workflow_run_request: CloneWorkflowRunRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._clone_workflow_run_serialize(
+            run_id=run_id,
+            clone_workflow_run_request=clone_workflow_run_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def clone_workflow_run_without_preload_content(
+        self,
+        run_id: UUID,
+        clone_workflow_run_request: CloneWorkflowRunRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Clone Workflow Run Handler
+
+        Clone a started run into a new NOT_STARTED draft.  ``include_inputs=True`` pins the source's snapshotted inputs onto the new run; uploads stay in the source's ``inputs/`` and are referenced by path_part_id. No S3 copy. A NOT_STARTED source has no snapshot to pin → 409. The clone is born NOT_STARTED so the user can edit it (PATCH) before pressing Start.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param clone_workflow_run_request: (required)
+        :type clone_workflow_run_request: CloneWorkflowRunRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._clone_workflow_run_serialize(
+            run_id=run_id,
+            clone_workflow_run_request=clone_workflow_run_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _clone_workflow_run_serialize(
+        self,
+        run_id,
+        clone_workflow_run_request,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if clone_workflow_run_request is not None:
+            _body_params = clone_workflow_run_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-runs/{run_id}/clone',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -617,10 +939,1523 @@ class WorkflowRunsApi:
 
 
     @validate_call
+    def retry_workflow_run(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Retry Workflow Run Handler
+
+        Re-run a FAILED run (including a user-stopped one) in place.  Flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches the agent. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._retry_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def retry_workflow_run_with_http_info(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Retry Workflow Run Handler
+
+        Re-run a FAILED run (including a user-stopped one) in place.  Flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches the agent. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._retry_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def retry_workflow_run_without_preload_content(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Retry Workflow Run Handler
+
+        Re-run a FAILED run (including a user-stopped one) in place.  Flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches the agent. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._retry_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _retry_workflow_run_serialize(
+        self,
+        run_id,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-runs/{run_id}/retry',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def set_workflow_run_approval(
+        self,
+        run_id: UUID,
+        set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Set Workflow Run Approval Handler
+
+        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires write access to the run folder. ``run_id`` is the WorkflowRun id.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param set_workflow_run_approval_request: (required)
+        :type set_workflow_run_approval_request: SetWorkflowRunApprovalRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._set_workflow_run_approval_serialize(
+            run_id=run_id,
+            set_workflow_run_approval_request=set_workflow_run_approval_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def set_workflow_run_approval_with_http_info(
+        self,
+        run_id: UUID,
+        set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Set Workflow Run Approval Handler
+
+        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires write access to the run folder. ``run_id`` is the WorkflowRun id.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param set_workflow_run_approval_request: (required)
+        :type set_workflow_run_approval_request: SetWorkflowRunApprovalRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._set_workflow_run_approval_serialize(
+            run_id=run_id,
+            set_workflow_run_approval_request=set_workflow_run_approval_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def set_workflow_run_approval_without_preload_content(
+        self,
+        run_id: UUID,
+        set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Set Workflow Run Approval Handler
+
+        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires write access to the run folder. ``run_id`` is the WorkflowRun id.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param set_workflow_run_approval_request: (required)
+        :type set_workflow_run_approval_request: SetWorkflowRunApprovalRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._set_workflow_run_approval_serialize(
+            run_id=run_id,
+            set_workflow_run_approval_request=set_workflow_run_approval_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _set_workflow_run_approval_serialize(
+        self,
+        run_id,
+        set_workflow_run_approval_request,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if set_workflow_run_approval_request is not None:
+            _body_params = set_workflow_run_approval_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-runs/{run_id}/approval',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def start_workflow_run(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Start Workflow Run Handler
+
+        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._start_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def start_workflow_run_with_http_info(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Start Workflow Run Handler
+
+        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._start_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def start_workflow_run_without_preload_content(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Start Workflow Run Handler
+
+        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._start_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _start_workflow_run_serialize(
+        self,
+        run_id,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-runs/{run_id}/start',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def stop_workflow_run(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Stop Workflow Run Handler
+
+        Stop a running workflow run, terminalizing it so its thread un-bricks.  While a run sits ``IN_PROGRESS`` its run thread is read-only: every new USER message 409s (``run_in_progress``). A user \"stop\" must therefore move the run out of ``IN_PROGRESS``. We mark it ``FAILED`` (\"Stopped by user\") with a pure DB write that does **not** depend on Temporal — so this same call also recovers a run already stranded ``IN_PROGRESS`` by a cancel whose terminal callback never landed (the permanent-brick case) — then best-effort cancel its Temporal workflow.  Idempotent: a run already in a terminal state (or not yet started) is returned unchanged. The terminal-state guard in ``mark_run_failed`` plus the callback handler's ``already_terminal`` no-op make a real completion landing concurrently safe (last writer is ignored, never an error).
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._stop_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def stop_workflow_run_with_http_info(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Stop Workflow Run Handler
+
+        Stop a running workflow run, terminalizing it so its thread un-bricks.  While a run sits ``IN_PROGRESS`` its run thread is read-only: every new USER message 409s (``run_in_progress``). A user \"stop\" must therefore move the run out of ``IN_PROGRESS``. We mark it ``FAILED`` (\"Stopped by user\") with a pure DB write that does **not** depend on Temporal — so this same call also recovers a run already stranded ``IN_PROGRESS`` by a cancel whose terminal callback never landed (the permanent-brick case) — then best-effort cancel its Temporal workflow.  Idempotent: a run already in a terminal state (or not yet started) is returned unchanged. The terminal-state guard in ``mark_run_failed`` plus the callback handler's ``already_terminal`` no-op make a real completion landing concurrently safe (last writer is ignored, never an error).
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._stop_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def stop_workflow_run_without_preload_content(
+        self,
+        run_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stop Workflow Run Handler
+
+        Stop a running workflow run, terminalizing it so its thread un-bricks.  While a run sits ``IN_PROGRESS`` its run thread is read-only: every new USER message 409s (``run_in_progress``). A user \"stop\" must therefore move the run out of ``IN_PROGRESS``. We mark it ``FAILED`` (\"Stopped by user\") with a pure DB write that does **not** depend on Temporal — so this same call also recovers a run already stranded ``IN_PROGRESS`` by a cancel whose terminal callback never landed (the permanent-brick case) — then best-effort cancel its Temporal workflow.  Idempotent: a run already in a terminal state (or not yet started) is returned unchanged. The terminal-state guard in ``mark_run_failed`` plus the callback handler's ``already_terminal`` no-op make a real completion landing concurrently safe (last writer is ignored, never an error).
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._stop_workflow_run_serialize(
+            run_id=run_id,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _stop_workflow_run_serialize(
+        self,
+        run_id,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-runs/{run_id}/stop',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def update_workflow_run(
+        self,
+        run_id: UUID,
+        update_workflow_run_request: UpdateWorkflowRunRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Update Workflow Run Handler
+
+        Edit a NOT_STARTED run's KB scope and / or display name.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param update_workflow_run_request: (required)
+        :type update_workflow_run_request: UpdateWorkflowRunRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_workflow_run_serialize(
+            run_id=run_id,
+            update_workflow_run_request=update_workflow_run_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def update_workflow_run_with_http_info(
+        self,
+        run_id: UUID,
+        update_workflow_run_request: UpdateWorkflowRunRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Update Workflow Run Handler
+
+        Edit a NOT_STARTED run's KB scope and / or display name.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param update_workflow_run_request: (required)
+        :type update_workflow_run_request: UpdateWorkflowRunRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_workflow_run_serialize(
+            run_id=run_id,
+            update_workflow_run_request=update_workflow_run_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def update_workflow_run_without_preload_content(
+        self,
+        run_id: UUID,
+        update_workflow_run_request: UpdateWorkflowRunRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Workflow Run Handler
+
+        Edit a NOT_STARTED run's KB scope and / or display name.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param update_workflow_run_request: (required)
+        :type update_workflow_run_request: UpdateWorkflowRunRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_workflow_run_serialize(
+            run_id=run_id,
+            update_workflow_run_request=update_workflow_run_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _update_workflow_run_serialize(
+        self,
+        run_id,
+        update_workflow_run_request,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if update_workflow_run_request is not None:
+            _body_params = update_workflow_run_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/workflow-runs/{run_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def workflow_run_callback(
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -636,11 +2471,16 @@ class WorkflowRunsApi:
     ) -> WorkflowCallbackResponse:
         """Workflow Run Callback Handler
 
+        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.
 
         :param run_id: (required)
         :type run_id: UUID
         :param workflow_run_callback_request: (required)
         :type workflow_run_callback_request: WorkflowRunCallbackRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -666,6 +2506,8 @@ class WorkflowRunsApi:
         _param = self._workflow_run_callback_serialize(
             run_id=run_id,
             workflow_run_callback_request=workflow_run_callback_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -692,6 +2534,8 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -707,11 +2551,16 @@ class WorkflowRunsApi:
     ) -> ApiResponse[WorkflowCallbackResponse]:
         """Workflow Run Callback Handler
 
+        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.
 
         :param run_id: (required)
         :type run_id: UUID
         :param workflow_run_callback_request: (required)
         :type workflow_run_callback_request: WorkflowRunCallbackRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -737,6 +2586,8 @@ class WorkflowRunsApi:
         _param = self._workflow_run_callback_serialize(
             run_id=run_id,
             workflow_run_callback_request=workflow_run_callback_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -763,6 +2614,8 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -778,11 +2631,16 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """Workflow Run Callback Handler
 
+        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.
 
         :param run_id: (required)
         :type run_id: UUID
         :param workflow_run_callback_request: (required)
         :type workflow_run_callback_request: WorkflowRunCallbackRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -808,6 +2666,8 @@ class WorkflowRunsApi:
         _param = self._workflow_run_callback_serialize(
             run_id=run_id,
             workflow_run_callback_request=workflow_run_callback_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -829,6 +2689,8 @@ class WorkflowRunsApi:
         self,
         run_id,
         workflow_run_callback_request,
+        authorization,
+        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -854,6 +2716,8 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if workflow_run_callback_request is not None:

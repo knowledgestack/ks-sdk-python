@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -27,11 +27,12 @@ from pydantic_core import to_jsonable_python
 
 class UpdateFolderRequest(BaseModel):
     """
-    Request to update a folder (rename and/or move).
+    Request to update a folder (rename, move, and/or change qdrant exclusion).
     """ # noqa: E501
     name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="New folder name")
     parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent PathPart ID for move (must be a FOLDER type)")
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id"]
+    exclude_from_qdrant: Optional[StrictBool] = Field(default=None, description="If set, toggle whether this folder (and its descendants) are excluded from Qdrant vector indexing. True deletes existing points for the subtree; False re-embeds them. Not allowed on system-managed folders.")
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "exclude_from_qdrant"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,6 +83,11 @@ class UpdateFolderRequest(BaseModel):
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
 
+        # set to None if exclude_from_qdrant (nullable) is None
+        # and model_fields_set contains the field
+        if self.exclude_from_qdrant is None and "exclude_from_qdrant" in self.model_fields_set:
+            _dict['exclude_from_qdrant'] = None
+
         return _dict
 
     @classmethod
@@ -95,7 +101,8 @@ class UpdateFolderRequest(BaseModel):
 
         _obj = cls.model_validate({
             "name": obj.get("name"),
-            "parent_path_part_id": obj.get("parent_path_part_id")
+            "parent_path_part_id": obj.get("parent_path_part_id"),
+            "exclude_from_qdrant": obj.get("exclude_from_qdrant")
         })
         return _obj
 

@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictBool, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -1231,6 +1231,7 @@ class DocumentVersionsApi:
     def get_document_version(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -1248,10 +1249,11 @@ class DocumentVersionsApi:
     ) -> DocumentVersionResponse:
         """Get Document Version Handler
 
-        Get a document version by its ID.
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
+        :param include_page_screenshots: When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.
+        :type include_page_screenshots: bool
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -1280,6 +1282,7 @@ class DocumentVersionsApi:
 
         _param = self._get_document_version_serialize(
             version_id=version_id,
+            include_page_screenshots=include_page_screenshots,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -1307,6 +1310,7 @@ class DocumentVersionsApi:
     def get_document_version_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -1324,10 +1328,11 @@ class DocumentVersionsApi:
     ) -> ApiResponse[DocumentVersionResponse]:
         """Get Document Version Handler
 
-        Get a document version by its ID.
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
+        :param include_page_screenshots: When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.
+        :type include_page_screenshots: bool
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -1356,6 +1361,7 @@ class DocumentVersionsApi:
 
         _param = self._get_document_version_serialize(
             version_id=version_id,
+            include_page_screenshots=include_page_screenshots,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -1383,6 +1389,7 @@ class DocumentVersionsApi:
     def get_document_version_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -1400,10 +1407,11 @@ class DocumentVersionsApi:
     ) -> RESTResponseType:
         """Get Document Version Handler
 
-        Get a document version by its ID.
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
+        :param include_page_screenshots: When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.
+        :type include_page_screenshots: bool
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -1432,6 +1440,7 @@ class DocumentVersionsApi:
 
         _param = self._get_document_version_serialize(
             version_id=version_id,
+            include_page_screenshots=include_page_screenshots,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -1454,6 +1463,7 @@ class DocumentVersionsApi:
     def _get_document_version_serialize(
         self,
         version_id,
+        include_page_screenshots,
         authorization,
         ks_uat,
         _request_auth,
@@ -1480,6 +1490,10 @@ class DocumentVersionsApi:
         if version_id is not None:
             _path_params['version_id'] = version_id
         # process the query parameters
+        if include_page_screenshots is not None:
+            
+            _query_params.append(('include_page_screenshots', include_page_screenshots))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization

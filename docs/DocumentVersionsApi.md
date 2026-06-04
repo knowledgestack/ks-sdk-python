@@ -318,11 +318,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_document_version**
-> DocumentVersionResponse get_document_version(version_id, authorization=authorization, ks_uat=ks_uat)
+> DocumentVersionResponse get_document_version(version_id, include_page_screenshots=include_page_screenshots, authorization=authorization, ks_uat=ks_uat)
 
 Get Document Version Handler
-
-Get a document version by its ID.
 
 ### Example
 
@@ -345,12 +343,13 @@ with ksapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ksapi.DocumentVersionsApi(api_client)
     version_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | DocumentVersion ID
+    include_page_screenshots = False # bool | When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small. (optional) (default to False)
     authorization = 'authorization_example' # str |  (optional)
     ks_uat = 'ks_uat_example' # str |  (optional)
 
     try:
         # Get Document Version Handler
-        api_response = api_instance.get_document_version(version_id, authorization=authorization, ks_uat=ks_uat)
+        api_response = api_instance.get_document_version(version_id, include_page_screenshots=include_page_screenshots, authorization=authorization, ks_uat=ks_uat)
         print("The response of DocumentVersionsApi->get_document_version:\n")
         pprint(api_response)
     except Exception as e:
@@ -365,6 +364,7 @@ with ksapi.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **version_id** | **UUID**| DocumentVersion ID | 
+ **include_page_screenshots** | **bool**| When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small. | [optional] [default to False]
  **authorization** | **str**|  | [optional] 
  **ks_uat** | **str**|  | [optional] 
 

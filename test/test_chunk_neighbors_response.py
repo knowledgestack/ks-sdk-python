@@ -38,7 +38,10 @@ class TestChunkNeighborsResponse(unittest.TestCase):
                 items = [
                     null
                     ],
-                anchor_index = 56
+                anchor_index = 56,
+                anchor_offset = 56,
+                total = 56,
+                document_version_id = ''
             )
         else:
             return ChunkNeighborsResponse(
@@ -46,6 +49,8 @@ class TestChunkNeighborsResponse(unittest.TestCase):
                     null
                     ],
                 anchor_index = 56,
+                anchor_offset = 56,
+                total = 56,
         )
         """
 

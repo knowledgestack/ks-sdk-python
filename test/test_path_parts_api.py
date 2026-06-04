@@ -26,10 +26,10 @@ class TestPathPartsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_bulk_add_path_part_tags(self) -> None:
-        """Test case for bulk_add_path_part_tags
+    def test_append_path_part_event(self) -> None:
+        """Test case for append_path_part_event
 
-        Bulk Add Path Part Tags Handler
+        Append Path Part Event Handler
         """
         pass
 
@@ -68,10 +68,24 @@ class TestPathPartsApi(unittest.TestCase):
         """
         pass
 
+    def test_list_path_part_events(self) -> None:
+        """Test case for list_path_part_events
+
+        List Path Part Events Handler
+        """
+        pass
+
     def test_list_path_parts(self) -> None:
         """Test case for list_path_parts
 
         List Path Parts Handler
+        """
+        pass
+
+    def test_set_path_part_tags(self) -> None:
+        """Test case for set_path_part_tags
+
+        Set Path Part Tags Handler
         """
         pass
 

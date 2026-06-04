@@ -19,27 +19,21 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List
-from uuid import UUID
-from ksapi.models.abcd_path_snapshot import ABCDPathSnapshot
-from ksapi.models.workflow_runner_type import WorkflowRunnerType
+from ksapi.models.input_snapshot import InputSnapshot
+from ksapi.models.instruction_snapshot import InstructionSnapshot
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class WorkflowRunSnapshot(BaseModel):
     """
-    Frozen ABCD configuration captured at workflow trigger time.
+    Frozen workflow configuration captured at trigger time.  ``workflow_definition_id`` and ``user_id`` are NOT stored here — they live directly on the ``WorkflowRun`` row and are surfaced via ``WorkflowRunResponse`` top-level fields.  Inputs are per-run; outputs land in the run's ``outputs/`` folder. The agent resolves the run's inputs/outputs/discussions folders by listing the run-folder children at activity startup.
     """ # noqa: E501
-    workflow_definition_id: UUID
     workflow_name: StrictStr
-    runner_type: WorkflowRunnerType
-    user_id: UUID
     max_run_duration_seconds: StrictInt
-    sources: List[ABCDPathSnapshot]
-    instructions: List[ABCDPathSnapshot]
-    outputs: List[ABCDPathSnapshot]
-    template: ABCDPathSnapshot
-    __properties: ClassVar[List[str]] = ["workflow_definition_id", "workflow_name", "runner_type", "user_id", "max_run_duration_seconds", "sources", "instructions", "outputs", "template"]
+    instruction: InstructionSnapshot
+    inputs: List[InputSnapshot]
+    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -80,30 +74,16 @@ class WorkflowRunSnapshot(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in sources (list)
+        # override the default output from pydantic by calling `to_dict()` of instruction
+        if self.instruction:
+            _dict['instruction'] = self.instruction.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in inputs (list)
         _items = []
-        if self.sources:
-            for _item_sources in self.sources:
-                if _item_sources:
-                    _items.append(_item_sources.to_dict())
-            _dict['sources'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in instructions (list)
-        _items = []
-        if self.instructions:
-            for _item_instructions in self.instructions:
-                if _item_instructions:
-                    _items.append(_item_instructions.to_dict())
-            _dict['instructions'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in outputs (list)
-        _items = []
-        if self.outputs:
-            for _item_outputs in self.outputs:
-                if _item_outputs:
-                    _items.append(_item_outputs.to_dict())
-            _dict['outputs'] = _items
-        # override the default output from pydantic by calling `to_dict()` of template
-        if self.template:
-            _dict['template'] = self.template.to_dict()
+        if self.inputs:
+            for _item_inputs in self.inputs:
+                if _item_inputs:
+                    _items.append(_item_inputs.to_dict())
+            _dict['inputs'] = _items
         return _dict
 
     @classmethod
@@ -116,15 +96,10 @@ class WorkflowRunSnapshot(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "workflow_definition_id": obj.get("workflow_definition_id"),
             "workflow_name": obj.get("workflow_name"),
-            "runner_type": obj.get("runner_type"),
-            "user_id": obj.get("user_id"),
             "max_run_duration_seconds": obj.get("max_run_duration_seconds"),
-            "sources": [ABCDPathSnapshot.from_dict(_item) for _item in obj["sources"]] if obj.get("sources") is not None else None,
-            "instructions": [ABCDPathSnapshot.from_dict(_item) for _item in obj["instructions"]] if obj.get("instructions") is not None else None,
-            "outputs": [ABCDPathSnapshot.from_dict(_item) for _item in obj["outputs"]] if obj.get("outputs") is not None else None,
-            "template": ABCDPathSnapshot.from_dict(obj["template"]) if obj.get("template") is not None else None
+            "instruction": InstructionSnapshot.from_dict(obj["instruction"]) if obj.get("instruction") is not None else None,
+            "inputs": [InputSnapshot.from_dict(_item) for _item in obj["inputs"]] if obj.get("inputs") is not None else None
         })
         return _obj
 

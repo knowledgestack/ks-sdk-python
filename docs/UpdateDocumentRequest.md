@@ -1,6 +1,6 @@
 # UpdateDocumentRequest
 
-Request to update a document (rename, move, and/or change active version).
+Request to update a document (rename, move, active version, qdrant exclusion).
 
 ## Properties
 
@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **name** | **str** | New document name | [optional] 
 **parent_path_part_id** | **UUID** | New parent PathPart ID for move (must be a FOLDER type) | [optional] 
 **active_version_id** | **UUID** | New active version ID | [optional] 
+**exclude_from_qdrant** | **bool** | If set, toggle whether this document is excluded from Qdrant vector indexing. True deletes existing points; False re-embeds the active version. Not allowed on system-managed documents. | [optional] 
+**owner_tenant_user_id** | **UUID** | Transfer ownership to another active tenant_user. Allowed only when the caller is the current owner or has ADMIN/OWNER role. | [optional] 
 
 ## Example
 

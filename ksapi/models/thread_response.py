@@ -27,7 +27,7 @@ from pydantic_core import to_jsonable_python
 
 class ThreadResponse(BaseModel):
     """
-    Thread response model.
+    ThreadResponse
     """ # noqa: E501
     id: UUID = Field(description="Thread ID")
     path_part_id: UUID = Field(description="PathPart ID")

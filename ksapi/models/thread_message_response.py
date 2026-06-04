@@ -30,20 +30,21 @@ from pydantic_core import to_jsonable_python
 
 class ThreadMessageResponse(BaseModel):
     """
-    Thread message response model.
+    ThreadMessageResponse
     """ # noqa: E501
     id: UUID = Field(description="ThreadMessage ID")
     path_part_id: UUID = Field(description="PathPart ID")
     sequence: StrictInt = Field(description="Sequence number (from path_part.name)")
     role: MessageRole
     content: EnrichedThreadMessageContent
-    details: Optional[ThreadMessageDetailsOutput] = None
+    details: Optional[ThreadMessageDetailsOutput] = Field(default=None, description="Message details (None when not requested via with_details)")
     parent_path_id: UUID = Field(description="Thread's PathPart ID")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     tenant_id: UUID = Field(description="Tenant ID")
+    author_tenant_user_id: Optional[UUID] = Field(default=None, description="tenant_user.user_id of the sender for USER messages. NULL for ASSISTANT / SYSTEM rows and for legacy USER rows written before multi-user thread support landed.")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "sequence", "role", "content", "details", "parent_path_id", "materialized_path", "tenant_id", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "sequence", "role", "content", "details", "parent_path_id", "materialized_path", "tenant_id", "author_tenant_user_id", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -90,6 +91,16 @@ class ThreadMessageResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of details
         if self.details:
             _dict['details'] = self.details.to_dict()
+        # set to None if details (nullable) is None
+        # and model_fields_set contains the field
+        if self.details is None and "details" in self.model_fields_set:
+            _dict['details'] = None
+
+        # set to None if author_tenant_user_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.author_tenant_user_id is None and "author_tenant_user_id" in self.model_fields_set:
+            _dict['author_tenant_user_id'] = None
+
         return _dict
 
     @classmethod
@@ -111,6 +122,7 @@ class ThreadMessageResponse(BaseModel):
             "parent_path_id": obj.get("parent_path_id"),
             "materialized_path": obj.get("materialized_path"),
             "tenant_id": obj.get("tenant_id"),
+            "author_tenant_user_id": obj.get("author_tenant_user_id"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

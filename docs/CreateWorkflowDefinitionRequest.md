@@ -1,6 +1,6 @@
 # CreateWorkflowDefinitionRequest
 
-Create a new workflow definition.
+Create a new workflow definition.  Inputs are per-run (see ``POST /workflow-definitions/{id}/runs``) so only the instruction lives on the definition. ``instruction_path_part_id`` is a ``DOCUMENT`` path_part.
 
 ## Properties
 
@@ -8,13 +8,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | 
 **description** | **str** |  | [optional] 
-**runner_type** | [**WorkflowRunnerType**](WorkflowRunnerType.md) |  | 
-**runner_config** | [**SelfHostedRunnerConfig**](SelfHostedRunnerConfig.md) |  | [optional] 
-**max_run_duration_seconds** | **int** |  | [optional] [default to 300]
-**source_path_part_ids** | **List[UUID]** |  | 
-**instruction_path_part_ids** | **List[UUID]** |  | 
-**output_path_part_ids** | **List[UUID]** |  | 
-**template_path_part_id** | **UUID** |  | [optional] 
+**max_run_duration_seconds** | **int** |  | [optional] [default to 1800]
+**instruction_path_part_id** | **UUID** | DOCUMENT path_part of the instruction document. Omit (or pass null) to have the server auto-create an empty instruction.md. | [optional] 
+**approval_required** | **bool** |  | 
 
 ## Example
 

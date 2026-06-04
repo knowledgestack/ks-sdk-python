@@ -18,33 +18,44 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
-from ksapi.models.self_hosted_runner_config_response import SelfHostedRunnerConfigResponse
-from ksapi.models.workflow_runner_type import WorkflowRunnerType
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class WorkflowDefinitionResponse(BaseModel):
     """
-    Workflow definition response.
+    Workflow definition response.  Doubles as a discriminated-union variant for folder-listing responses. The ``part_type`` literal is the discriminator: when the FE walks a folder tree it sees this shape mixed in with ``FolderResponse`` / ``DocumentResponse`` and can route to the dedicated workflow page based on ``part_type``.
     """ # noqa: E501
+    part_type: Optional[StrictStr] = Field(default='WORKFLOW_DEFINITION', description="Path part type")
     id: UUID
+    path_part_id: UUID = Field(description="WORKFLOW_DEFINITION path_part of this definition")
+    parent_path_part_id: Optional[UUID] = Field(description="FOLDER path_part of the containing folder")
+    materialized_path: StrictStr = Field(description="Full materialized path from root")
+    tenant_id: UUID
     name: StrictStr
     description: Optional[StrictStr]
-    runner_type: WorkflowRunnerType
-    runner_config: SelfHostedRunnerConfigResponse
     max_run_duration_seconds: StrictInt
-    source_path_part_ids: List[UUID]
-    instruction_path_part_ids: List[UUID]
-    output_path_part_ids: List[UUID]
-    template_path_part_id: Optional[UUID]
+    instruction_path_part_id: UUID = Field(description="DOCUMENT path_part of the instruction document")
     is_active: StrictBool
+    approval_required: StrictBool
+    approval_state: PathPartApprovalState
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["id", "name", "description", "runner_type", "runner_config", "max_run_duration_seconds", "source_path_part_ids", "instruction_path_part_ids", "output_path_part_ids", "template_path_part_id", "is_active", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "approval_state", "created_at", "updated_at"]
+
+    @field_validator('part_type')
+    def part_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['WORKFLOW_DEFINITION']):
+            raise ValueError("must be one of enum values ('WORKFLOW_DEFINITION')")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -85,18 +96,15 @@ class WorkflowDefinitionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of runner_config
-        if self.runner_config:
-            _dict['runner_config'] = self.runner_config.to_dict()
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
-
-        # set to None if template_path_part_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.template_path_part_id is None and "template_path_part_id" in self.model_fields_set:
-            _dict['template_path_part_id'] = None
 
         return _dict
 
@@ -110,17 +118,19 @@ class WorkflowDefinitionResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "part_type": obj.get("part_type") if obj.get("part_type") is not None else 'WORKFLOW_DEFINITION',
             "id": obj.get("id"),
+            "path_part_id": obj.get("path_part_id"),
+            "parent_path_part_id": obj.get("parent_path_part_id"),
+            "materialized_path": obj.get("materialized_path"),
+            "tenant_id": obj.get("tenant_id"),
             "name": obj.get("name"),
             "description": obj.get("description"),
-            "runner_type": obj.get("runner_type"),
-            "runner_config": SelfHostedRunnerConfigResponse.from_dict(obj["runner_config"]) if obj.get("runner_config") is not None else None,
             "max_run_duration_seconds": obj.get("max_run_duration_seconds"),
-            "source_path_part_ids": obj.get("source_path_part_ids"),
-            "instruction_path_part_ids": obj.get("instruction_path_part_ids"),
-            "output_path_part_ids": obj.get("output_path_part_ids"),
-            "template_path_part_id": obj.get("template_path_part_id"),
+            "instruction_path_part_id": obj.get("instruction_path_part_id"),
             "is_active": obj.get("is_active"),
+            "approval_required": obj.get("approval_required"),
+            "approval_state": obj.get("approval_state"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -27,12 +27,14 @@ from pydantic_core import to_jsonable_python
 
 class CreateThreadRequest(BaseModel):
     """
-    Request to create a new thread.
+    CreateThreadRequest
     """ # noqa: E501
     parent_path_part_id: Optional[UUID] = Field(default=None, description="Parent PathPart ID. When omitted, auto-provisions and uses the user's /users/{user_id}/threads/ folder.")
     title: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="Thread title. Mutually exclusive with message_for_title.")
     message_for_title: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=4096)]] = Field(default=None, description="Message content used solely for automated title generation. This does NOT create a thread message; it is only used to generate the thread title. Mutually exclusive with title.")
-    __properties: ClassVar[List[str]] = ["parent_path_part_id", "title", "message_for_title"]
+    path_part_name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="Override the thread path_part name. Defaults to the thread UUID. Used by the workflow runner to enforce one ``main`` thread per run via the structural sibling-name uniqueness index.")
+    system_managed: Optional[StrictBool] = Field(default=False, description="Mark the thread's path_part as system-managed (immutable from the public API). Used by the workflow runner.")
+    __properties: ClassVar[List[str]] = ["parent_path_part_id", "title", "message_for_title", "path_part_name", "system_managed"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -88,6 +90,11 @@ class CreateThreadRequest(BaseModel):
         if self.message_for_title is None and "message_for_title" in self.model_fields_set:
             _dict['message_for_title'] = None
 
+        # set to None if path_part_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.path_part_name is None and "path_part_name" in self.model_fields_set:
+            _dict['path_part_name'] = None
+
         return _dict
 
     @classmethod
@@ -102,7 +109,9 @@ class CreateThreadRequest(BaseModel):
         _obj = cls.model_validate({
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "title": obj.get("title"),
-            "message_for_title": obj.get("message_for_title")
+            "message_for_title": obj.get("message_for_title"),
+            "path_part_name": obj.get("path_part_name"),
+            "system_managed": obj.get("system_managed") if obj.get("system_managed") is not None else False
         })
         return _obj
 

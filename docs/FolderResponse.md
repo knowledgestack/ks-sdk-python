@@ -13,10 +13,13 @@ Name | Type | Description | Notes
 **parent_path_part_id** | **UUID** | Parent PathPart ID | 
 **materialized_path** | **str** | Full materialized path from root | 
 **system_managed** | **bool** | Whether this folder is system-managed | 
+**approval_state** | [**PathPartApprovalState**](PathPartApprovalState.md) |  | 
+**exclude_from_qdrant** | **bool** | Direct exclusion flag on this folder&#39;s path part only. The effective exclusion also applies when any ancestor folder has the flag set — fetch the ancestry to determine effective state. | 
 **tenant_id** | **UUID** | Tenant ID | 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 **tags** | [**List[TagResponse]**](TagResponse.md) | Tags attached to this folder | [optional] 
+**can_write** | **bool** | Whether the current caller has write access to this folder. Only populated by endpoints that compute it (e.g. folder contents). | [optional] 
 
 ## Example
 

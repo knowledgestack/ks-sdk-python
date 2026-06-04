@@ -21,10 +21,13 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.document_checkout_response import DocumentCheckoutResponse
 from ksapi.models.document_origin import DocumentOrigin
 from ksapi.models.document_type import DocumentType
 from ksapi.models.document_version_response import DocumentVersionResponse
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.tag_response import TagResponse
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -44,11 +47,16 @@ class DocumentResponse(BaseModel):
     active_version: DocumentVersionResponse
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this document is system-managed")
+    approval_state: PathPartApprovalState
+    exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this document's path part only. The effective exclusion also applies when any ancestor folder has the flag set — fetch the ancestry to determine effective state.")
     tenant_id: UUID = Field(description="Tenant ID")
+    owner: UserInfo
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this document")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "document_type", "document_origin", "active_version_id", "active_version", "materialized_path", "system_managed", "tenant_id", "created_at", "updated_at", "tags"]
+    can_write: Optional[StrictBool] = Field(default=None, description="Whether the current caller has write access to this document. Only populated by endpoints that compute it (e.g. folder contents).")
+    checkout: Optional[DocumentCheckoutResponse] = Field(default=None, description="Active write-lock state. Null when no checkout is held. Populated on detail endpoints (GET /v1/documents/{id}). Any tenant member with read access may observe this state.")
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "document_type", "document_origin", "active_version_id", "active_version", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "owner", "created_at", "updated_at", "tags", "can_write", "checkout"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -99,6 +107,9 @@ class DocumentResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of active_version
         if self.active_version:
             _dict['active_version'] = self.active_version.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in tags (list)
         _items = []
         if self.tags:
@@ -106,6 +117,9 @@ class DocumentResponse(BaseModel):
                 if _item_tags:
                     _items.append(_item_tags.to_dict())
             _dict['tags'] = _items
+        # override the default output from pydantic by calling `to_dict()` of checkout
+        if self.checkout:
+            _dict['checkout'] = self.checkout.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -115,6 +129,16 @@ class DocumentResponse(BaseModel):
         # and model_fields_set contains the field
         if self.tags is None and "tags" in self.model_fields_set:
             _dict['tags'] = None
+
+        # set to None if can_write (nullable) is None
+        # and model_fields_set contains the field
+        if self.can_write is None and "can_write" in self.model_fields_set:
+            _dict['can_write'] = None
+
+        # set to None if checkout (nullable) is None
+        # and model_fields_set contains the field
+        if self.checkout is None and "checkout" in self.model_fields_set:
+            _dict['checkout'] = None
 
         return _dict
 
@@ -139,10 +163,15 @@ class DocumentResponse(BaseModel):
             "active_version": DocumentVersionResponse.from_dict(obj["active_version"]) if obj.get("active_version") is not None else None,
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
+            "approval_state": obj.get("approval_state"),
+            "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
             "tenant_id": obj.get("tenant_id"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
-            "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None
+            "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
+            "can_write": obj.get("can_write"),
+            "checkout": DocumentCheckoutResponse.from_dict(obj["checkout"]) if obj.get("checkout") is not None else None
         })
         return _obj
 

@@ -17,10 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.information_statistics import InformationStatistics
 from ksapi.models.pipeline_state import PipelineState
+from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -44,8 +45,13 @@ class DocumentVersionMetadataUpdate(BaseModel):
     xlsx_parse_result_s3: Optional[StrictStr] = None
     xlsx_named_ranges: Optional[List[Dict[str, Any]]] = None
     xlsx_kpi_catalog: Optional[List[Dict[str, Any]]] = None
+    citation_anchors: Optional[List[XlsxCellAnchorInputOrDocxParagraphAnchorInput]] = None
     information_statistics: Optional[InformationStatistics] = None
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "information_statistics"]
+    quota_charged: Optional[StrictBool] = None
+    quota_page_count: Optional[StrictInt] = None
+    quota_idempotency_key: Optional[StrictStr] = None
+    file_md5: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,6 +95,13 @@ class DocumentVersionMetadataUpdate(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pipeline_state
         if self.pipeline_state:
             _dict['pipeline_state'] = self.pipeline_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in citation_anchors (list)
+        _items = []
+        if self.citation_anchors:
+            for _item_citation_anchors in self.citation_anchors:
+                if _item_citation_anchors:
+                    _items.append(_item_citation_anchors.to_dict())
+            _dict['citation_anchors'] = _items
         # override the default output from pydantic by calling `to_dict()` of information_statistics
         if self.information_statistics:
             _dict['information_statistics'] = self.information_statistics.to_dict()
@@ -127,6 +140,11 @@ class DocumentVersionMetadataUpdate(BaseModel):
         if self.hash is None and "hash" in self.model_fields_set:
             _dict['hash'] = None
 
+        # set to None if pipeline_state (nullable) is None
+        # and model_fields_set contains the field
+        if self.pipeline_state is None and "pipeline_state" in self.model_fields_set:
+            _dict['pipeline_state'] = None
+
         # set to None if total_pages (nullable) is None
         # and model_fields_set contains the field
         if self.total_pages is None and "total_pages" in self.model_fields_set:
@@ -162,6 +180,36 @@ class DocumentVersionMetadataUpdate(BaseModel):
         if self.xlsx_kpi_catalog is None and "xlsx_kpi_catalog" in self.model_fields_set:
             _dict['xlsx_kpi_catalog'] = None
 
+        # set to None if citation_anchors (nullable) is None
+        # and model_fields_set contains the field
+        if self.citation_anchors is None and "citation_anchors" in self.model_fields_set:
+            _dict['citation_anchors'] = None
+
+        # set to None if information_statistics (nullable) is None
+        # and model_fields_set contains the field
+        if self.information_statistics is None and "information_statistics" in self.model_fields_set:
+            _dict['information_statistics'] = None
+
+        # set to None if quota_charged (nullable) is None
+        # and model_fields_set contains the field
+        if self.quota_charged is None and "quota_charged" in self.model_fields_set:
+            _dict['quota_charged'] = None
+
+        # set to None if quota_page_count (nullable) is None
+        # and model_fields_set contains the field
+        if self.quota_page_count is None and "quota_page_count" in self.model_fields_set:
+            _dict['quota_page_count'] = None
+
+        # set to None if quota_idempotency_key (nullable) is None
+        # and model_fields_set contains the field
+        if self.quota_idempotency_key is None and "quota_idempotency_key" in self.model_fields_set:
+            _dict['quota_idempotency_key'] = None
+
+        # set to None if file_md5 (nullable) is None
+        # and model_fields_set contains the field
+        if self.file_md5 is None and "file_md5" in self.model_fields_set:
+            _dict['file_md5'] = None
+
         return _dict
 
     @classmethod
@@ -189,7 +237,12 @@ class DocumentVersionMetadataUpdate(BaseModel):
             "xlsx_parse_result_s3": obj.get("xlsx_parse_result_s3"),
             "xlsx_named_ranges": obj.get("xlsx_named_ranges"),
             "xlsx_kpi_catalog": obj.get("xlsx_kpi_catalog"),
-            "information_statistics": InformationStatistics.from_dict(obj["information_statistics"]) if obj.get("information_statistics") is not None else None
+            "citation_anchors": [XlsxCellAnchorInputOrDocxParagraphAnchorInput.from_dict(_item) for _item in obj["citation_anchors"]] if obj.get("citation_anchors") is not None else None,
+            "information_statistics": InformationStatistics.from_dict(obj["information_statistics"]) if obj.get("information_statistics") is not None else None,
+            "quota_charged": obj.get("quota_charged"),
+            "quota_page_count": obj.get("quota_page_count"),
+            "quota_idempotency_key": obj.get("quota_idempotency_key"),
+            "file_md5": obj.get("file_md5")
         })
         return _obj
 

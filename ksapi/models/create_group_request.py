@@ -30,8 +30,7 @@ class CreateGroupRequest(BaseModel):
     """ # noqa: E501
     name: Annotated[str, Field(min_length=1, strict=True, max_length=255)]
     description: Optional[Annotated[str, Field(strict=True, max_length=1024)]] = None
-    email: Optional[Annotated[str, Field(strict=True, max_length=320)]] = None
-    __properties: ClassVar[List[str]] = ["name", "description", "email"]
+    __properties: ClassVar[List[str]] = ["name", "description"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -77,11 +76,6 @@ class CreateGroupRequest(BaseModel):
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
 
-        # set to None if email (nullable) is None
-        # and model_fields_set contains the field
-        if self.email is None and "email" in self.model_fields_set:
-            _dict['email'] = None
-
         return _dict
 
     @classmethod
@@ -95,8 +89,7 @@ class CreateGroupRequest(BaseModel):
 
         _obj = cls.model_validate({
             "name": obj.get("name"),
-            "description": obj.get("description"),
-            "email": obj.get("email")
+            "description": obj.get("description")
         })
         return _obj
 

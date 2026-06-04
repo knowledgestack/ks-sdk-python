@@ -64,32 +64,11 @@ class TestPaginatedResponseThreadMessageResponse(unittest.TestCase):
                                     display_name = '', 
                                     materialized_path = '', )
                                 ], ), 
-                        details = ksapi.models.thread_message_details.ThreadMessageDetails(
-                            steps = [
-                                ksapi.models.step.Step(
-                                    id = '', 
-                                    name = '', 
-                                    kind = 'reasoning', 
-                                    args = null, 
-                                    detail = '', 
-                                    start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                    end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                    steps = [
-                                        ksapi.models.step.Step(
-                                            id = '', 
-                                            name = '', 
-                                            kind = 'reasoning', 
-                                            detail = '', 
-                                            start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                            end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                            steps = [
-                                                
-                                                ], )
-                                        ], )
-                                ], ), 
+                        details = null, 
                         parent_path_id = '', 
                         materialized_path = '', 
                         tenant_id = '', 
+                        author_tenant_user_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
@@ -128,32 +107,11 @@ class TestPaginatedResponseThreadMessageResponse(unittest.TestCase):
                                     display_name = '', 
                                     materialized_path = '', )
                                 ], ), 
-                        details = ksapi.models.thread_message_details.ThreadMessageDetails(
-                            steps = [
-                                ksapi.models.step.Step(
-                                    id = '', 
-                                    name = '', 
-                                    kind = 'reasoning', 
-                                    args = null, 
-                                    detail = '', 
-                                    start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                    end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                    steps = [
-                                        ksapi.models.step.Step(
-                                            id = '', 
-                                            name = '', 
-                                            kind = 'reasoning', 
-                                            detail = '', 
-                                            start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                            end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                            steps = [
-                                                
-                                                ], )
-                                        ], )
-                                ], ), 
+                        details = null, 
                         parent_path_id = '', 
                         materialized_path = '', 
                         tenant_id = '', 
+                        author_tenant_user_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],

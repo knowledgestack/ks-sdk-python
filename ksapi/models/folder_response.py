@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.tag_response import TagResponse
 from typing import Optional, Set
 from typing_extensions import Self
@@ -37,11 +38,14 @@ class FolderResponse(BaseModel):
     parent_path_part_id: Optional[UUID] = Field(description="Parent PathPart ID")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this folder is system-managed")
+    approval_state: PathPartApprovalState
+    exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this folder's path part only. The effective exclusion also applies when any ancestor folder has the flag set — fetch the ancestry to determine effective state.")
     tenant_id: UUID = Field(description="Tenant ID")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this folder")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "materialized_path", "system_managed", "tenant_id", "created_at", "updated_at", "tags"]
+    can_write: Optional[StrictBool] = Field(default=None, description="Whether the current caller has write access to this folder. Only populated by endpoints that compute it (e.g. folder contents).")
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "created_at", "updated_at", "tags", "can_write"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -106,6 +110,11 @@ class FolderResponse(BaseModel):
         if self.tags is None and "tags" in self.model_fields_set:
             _dict['tags'] = None
 
+        # set to None if can_write (nullable) is None
+        # and model_fields_set contains the field
+        if self.can_write is None and "can_write" in self.model_fields_set:
+            _dict['can_write'] = None
+
         return _dict
 
     @classmethod
@@ -125,10 +134,13 @@ class FolderResponse(BaseModel):
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
+            "approval_state": obj.get("approval_state"),
+            "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
             "tenant_id": obj.get("tenant_id"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
-            "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None
+            "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
+            "can_write": obj.get("can_write")
         })
         return _obj
 

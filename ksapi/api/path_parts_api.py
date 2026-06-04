@@ -15,12 +15,16 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import datetime
 from pydantic import Field, StrictBool, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.ancestry_response import AncestryResponse
+from ksapi.models.append_event_request import AppendEventRequest
 from ksapi.models.bulk_tag_request import BulkTagRequest
+from ksapi.models.event_response import EventResponse
+from ksapi.models.paginated_response_event_response import PaginatedResponseEventResponse
 from ksapi.models.paginated_response_path_part_response import PaginatedResponsePathPartResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.path_part_response import PathPartResponse
@@ -46,10 +50,10 @@ class PathPartsApi:
 
 
     @validate_call
-    def bulk_add_path_part_tags(
+    def append_path_part_event(
         self,
         path_part_id: UUID,
-        bulk_tag_request: BulkTagRequest,
+        append_event_request: AppendEventRequest,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -64,15 +68,15 @@ class PathPartsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PathPartTagsResponse:
-        """Bulk Add Path Part Tags Handler
+    ) -> EventResponse:
+        """Append Path Part Event Handler
 
-        Bulk add tags to a path part.  Idempotent — already-attached tags are skipped. Returns 400 if any tag_id doesn't exist (FK violation). Requires write permission on the target path part.
+        Record an event for a subject path_part from the frontend.  Auth: caller must hold ``can_write`` on the subject's materialized_path (OWNER/ADMIN bypass). Server stamps ``actor_user_id`` from the caller's identity — callers cannot impersonate other users on the audit trail.  ``kind`` is free-form text but reserved server namespaces (``workflow.``, ``document.``, ``folder.``, ``permission.``, ``connector.``, ``query.``, ``auth.``, ``tenant.``) are rejected at 422 so clients cannot forge server-emitted audit events. Clients should namespace under ``client.*``. ``payload`` is capped at 64KB encoded JSON.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param bulk_tag_request: (required)
-        :type bulk_tag_request: BulkTagRequest
+        :param append_event_request: (required)
+        :type append_event_request: AppendEventRequest
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -99,9 +103,9 @@ class PathPartsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._bulk_add_path_part_tags_serialize(
+        _param = self._append_path_part_event_serialize(
             path_part_id=path_part_id,
-            bulk_tag_request=bulk_tag_request,
+            append_event_request=append_event_request,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -111,7 +115,7 @@ class PathPartsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PathPartTagsResponse",
+            '201': "EventResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -126,10 +130,10 @@ class PathPartsApi:
 
 
     @validate_call
-    def bulk_add_path_part_tags_with_http_info(
+    def append_path_part_event_with_http_info(
         self,
         path_part_id: UUID,
-        bulk_tag_request: BulkTagRequest,
+        append_event_request: AppendEventRequest,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -144,15 +148,15 @@ class PathPartsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PathPartTagsResponse]:
-        """Bulk Add Path Part Tags Handler
+    ) -> ApiResponse[EventResponse]:
+        """Append Path Part Event Handler
 
-        Bulk add tags to a path part.  Idempotent — already-attached tags are skipped. Returns 400 if any tag_id doesn't exist (FK violation). Requires write permission on the target path part.
+        Record an event for a subject path_part from the frontend.  Auth: caller must hold ``can_write`` on the subject's materialized_path (OWNER/ADMIN bypass). Server stamps ``actor_user_id`` from the caller's identity — callers cannot impersonate other users on the audit trail.  ``kind`` is free-form text but reserved server namespaces (``workflow.``, ``document.``, ``folder.``, ``permission.``, ``connector.``, ``query.``, ``auth.``, ``tenant.``) are rejected at 422 so clients cannot forge server-emitted audit events. Clients should namespace under ``client.*``. ``payload`` is capped at 64KB encoded JSON.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param bulk_tag_request: (required)
-        :type bulk_tag_request: BulkTagRequest
+        :param append_event_request: (required)
+        :type append_event_request: AppendEventRequest
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -179,9 +183,9 @@ class PathPartsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._bulk_add_path_part_tags_serialize(
+        _param = self._append_path_part_event_serialize(
             path_part_id=path_part_id,
-            bulk_tag_request=bulk_tag_request,
+            append_event_request=append_event_request,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -191,7 +195,7 @@ class PathPartsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PathPartTagsResponse",
+            '201': "EventResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -206,10 +210,10 @@ class PathPartsApi:
 
 
     @validate_call
-    def bulk_add_path_part_tags_without_preload_content(
+    def append_path_part_event_without_preload_content(
         self,
         path_part_id: UUID,
-        bulk_tag_request: BulkTagRequest,
+        append_event_request: AppendEventRequest,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -225,14 +229,14 @@ class PathPartsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Bulk Add Path Part Tags Handler
+        """Append Path Part Event Handler
 
-        Bulk add tags to a path part.  Idempotent — already-attached tags are skipped. Returns 400 if any tag_id doesn't exist (FK violation). Requires write permission on the target path part.
+        Record an event for a subject path_part from the frontend.  Auth: caller must hold ``can_write`` on the subject's materialized_path (OWNER/ADMIN bypass). Server stamps ``actor_user_id`` from the caller's identity — callers cannot impersonate other users on the audit trail.  ``kind`` is free-form text but reserved server namespaces (``workflow.``, ``document.``, ``folder.``, ``permission.``, ``connector.``, ``query.``, ``auth.``, ``tenant.``) are rejected at 422 so clients cannot forge server-emitted audit events. Clients should namespace under ``client.*``. ``payload`` is capped at 64KB encoded JSON.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param bulk_tag_request: (required)
-        :type bulk_tag_request: BulkTagRequest
+        :param append_event_request: (required)
+        :type append_event_request: AppendEventRequest
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -259,9 +263,9 @@ class PathPartsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._bulk_add_path_part_tags_serialize(
+        _param = self._append_path_part_event_serialize(
             path_part_id=path_part_id,
-            bulk_tag_request=bulk_tag_request,
+            append_event_request=append_event_request,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -271,7 +275,7 @@ class PathPartsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PathPartTagsResponse",
+            '201': "EventResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -281,10 +285,10 @@ class PathPartsApi:
         return response_data.response
 
 
-    def _bulk_add_path_part_tags_serialize(
+    def _append_path_part_event_serialize(
         self,
         path_part_id,
-        bulk_tag_request,
+        append_event_request,
         authorization,
         ks_uat,
         _request_auth,
@@ -316,8 +320,8 @@ class PathPartsApi:
             _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
-        if bulk_tag_request is not None:
-            _body_params = bulk_tag_request
+        if append_event_request is not None:
+            _body_params = append_event_request
 
 
         # set the HTTP header `Accept`
@@ -348,7 +352,7 @@ class PathPartsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/path-parts/{path_part_id}/tags',
+            resource_path='/v1/path-parts/{path_part_id}/events',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1865,6 +1869,417 @@ class PathPartsApi:
 
 
     @validate_call
+    def list_path_part_events(
+        self,
+        path_part_id: UUID,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseEventResponse:
+        """List Path Part Events Handler
+
+        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param kind: Filter to a single event kind
+        :type kind: str
+        :param since: Only events at or after this timestamp
+        :type since: datetime
+        :param until: Only events strictly before this timestamp
+        :type until: datetime
+        :param recursive: Include events from descendant path_parts as well as the subject itself
+        :type recursive: bool
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_path_part_events_serialize(
+            path_part_id=path_part_id,
+            kind=kind,
+            since=since,
+            until=until,
+            recursive=recursive,
+            limit=limit,
+            offset=offset,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseEventResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def list_path_part_events_with_http_info(
+        self,
+        path_part_id: UUID,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseEventResponse]:
+        """List Path Part Events Handler
+
+        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param kind: Filter to a single event kind
+        :type kind: str
+        :param since: Only events at or after this timestamp
+        :type since: datetime
+        :param until: Only events strictly before this timestamp
+        :type until: datetime
+        :param recursive: Include events from descendant path_parts as well as the subject itself
+        :type recursive: bool
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_path_part_events_serialize(
+            path_part_id=path_part_id,
+            kind=kind,
+            since=since,
+            until=until,
+            recursive=recursive,
+            limit=limit,
+            offset=offset,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseEventResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def list_path_part_events_without_preload_content(
+        self,
+        path_part_id: UUID,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Path Part Events Handler
+
+        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param kind: Filter to a single event kind
+        :type kind: str
+        :param since: Only events at or after this timestamp
+        :type since: datetime
+        :param until: Only events strictly before this timestamp
+        :type until: datetime
+        :param recursive: Include events from descendant path_parts as well as the subject itself
+        :type recursive: bool
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_path_part_events_serialize(
+            path_part_id=path_part_id,
+            kind=kind,
+            since=since,
+            until=until,
+            recursive=recursive,
+            limit=limit,
+            offset=offset,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseEventResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _list_path_part_events_serialize(
+        self,
+        path_part_id,
+        kind,
+        since,
+        until,
+        recursive,
+        limit,
+        offset,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if path_part_id is not None:
+            _path_params['path_part_id'] = path_part_id
+        # process the query parameters
+        if kind is not None:
+            
+            _query_params.append(('kind', kind))
+            
+        if since is not None:
+            if isinstance(since, datetime):
+                _query_params.append(
+                    (
+                        'since',
+                        since.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('since', since))
+            
+        if until is not None:
+            if isinstance(until, datetime):
+                _query_params.append(
+                    (
+                        'until',
+                        until.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('until', until))
+            
+        if recursive is not None:
+            
+            _query_params.append(('recursive', recursive))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/path-parts/{path_part_id}/events',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def list_path_parts(
         self,
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
@@ -1889,7 +2304,7 @@ class PathPartsApi:
     ) -> PaginatedResponsePathPartResponse:
         """List Path Parts Handler
 
-        List path parts (folders) under a parent with traversal.  This is a generic endpoint for traversing the folder hierarchy. It returns only FOLDER type path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
+        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
 
         :param parent_path_id: Parent PathPart ID (defaults to root)
         :type parent_path_id: UUID
@@ -1981,7 +2396,7 @@ class PathPartsApi:
     ) -> ApiResponse[PaginatedResponsePathPartResponse]:
         """List Path Parts Handler
 
-        List path parts (folders) under a parent with traversal.  This is a generic endpoint for traversing the folder hierarchy. It returns only FOLDER type path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
+        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
 
         :param parent_path_id: Parent PathPart ID (defaults to root)
         :type parent_path_id: UUID
@@ -2073,7 +2488,7 @@ class PathPartsApi:
     ) -> RESTResponseType:
         """List Path Parts Handler
 
-        List path parts (folders) under a parent with traversal.  This is a generic endpoint for traversing the folder hierarchy. It returns only FOLDER type path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
+        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
 
         :param parent_path_id: Parent PathPart ID (defaults to root)
         :type parent_path_id: UUID
@@ -2210,6 +2625,325 @@ class PathPartsApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/path-parts',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def set_path_part_tags(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartTagsResponse:
+        """Set Path Part Tags Handler
+
+        Set tags on a path part, replacing any existing tags.  The provided tag_ids become the complete tag set for the path part. Tags not in the list are removed; missing tags are added. An empty list clears all tags. Returns 400 if any tag_id doesn't exist (FK violation). Requires write permission on the target path part.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param bulk_tag_request: (required)
+        :type bulk_tag_request: BulkTagRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._set_path_part_tags_serialize(
+            path_part_id=path_part_id,
+            bulk_tag_request=bulk_tag_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PathPartTagsResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def set_path_part_tags_with_http_info(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartTagsResponse]:
+        """Set Path Part Tags Handler
+
+        Set tags on a path part, replacing any existing tags.  The provided tag_ids become the complete tag set for the path part. Tags not in the list are removed; missing tags are added. An empty list clears all tags. Returns 400 if any tag_id doesn't exist (FK violation). Requires write permission on the target path part.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param bulk_tag_request: (required)
+        :type bulk_tag_request: BulkTagRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._set_path_part_tags_serialize(
+            path_part_id=path_part_id,
+            bulk_tag_request=bulk_tag_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PathPartTagsResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def set_path_part_tags_without_preload_content(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Set Path Part Tags Handler
+
+        Set tags on a path part, replacing any existing tags.  The provided tag_ids become the complete tag set for the path part. Tags not in the list are removed; missing tags are added. An empty list clears all tags. Returns 400 if any tag_id doesn't exist (FK violation). Requires write permission on the target path part.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param bulk_tag_request: (required)
+        :type bulk_tag_request: BulkTagRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._set_path_part_tags_serialize(
+            path_part_id=path_part_id,
+            bulk_tag_request=bulk_tag_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PathPartTagsResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _set_path_part_tags_serialize(
+        self,
+        path_part_id,
+        bulk_tag_request,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if path_part_id is not None:
+            _path_params['path_part_id'] = path_part_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if bulk_tag_request is not None:
+            _body_params = bulk_tag_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/path-parts/{path_part_id}/tags',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

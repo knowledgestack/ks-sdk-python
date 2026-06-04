@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
+from uuid import UUID
 from ksapi.models.section_content_item_or_chunk_content_item import SectionContentItemOrChunkContentItem
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,7 +31,10 @@ class ChunkNeighborsResponse(BaseModel):
     """ # noqa: E501
     items: List[SectionContentItemOrChunkContentItem] = Field(description="Ordered siblings: preceding → anchor → succeeding")
     anchor_index: StrictInt = Field(description="Index of the anchor chunk in items")
-    __properties: ClassVar[List[str]] = ["items", "anchor_index"]
+    anchor_offset: StrictInt = Field(description="0-based position of the anchor in the traversal scope under the active content_type filter. With within_section=true the scope is the parent's filtered sibling chain; with within_section=false it is the entire document version in DFS order.")
+    total: StrictInt = Field(description="Total items in the traversal scope under the active filter. Within-section: filtered direct children of the anchor's parent. Cross-section: filtered DFS items in the document version.")
+    document_version_id: Optional[UUID] = Field(default=None, description="ID of the enclosing document version. Populated only when within_section=false (where it is required to scope the DFS traversal); null when within_section=true.")
+    __properties: ClassVar[List[str]] = ["items", "anchor_index", "anchor_offset", "total", "document_version_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -78,6 +82,11 @@ class ChunkNeighborsResponse(BaseModel):
                 if _item_items:
                     _items.append(_item_items.to_dict())
             _dict['items'] = _items
+        # set to None if document_version_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_version_id is None and "document_version_id" in self.model_fields_set:
+            _dict['document_version_id'] = None
+
         return _dict
 
     @classmethod
@@ -91,7 +100,10 @@ class ChunkNeighborsResponse(BaseModel):
 
         _obj = cls.model_validate({
             "items": [SectionContentItemOrChunkContentItem.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
-            "anchor_index": obj.get("anchor_index")
+            "anchor_index": obj.get("anchor_index"),
+            "anchor_offset": obj.get("anchor_offset"),
+            "total": obj.get("total"),
+            "document_version_id": obj.get("document_version_id")
         })
         return _obj
 

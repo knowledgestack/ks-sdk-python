@@ -37,7 +37,9 @@ class TestUpdateDocumentRequest(unittest.TestCase):
             return UpdateDocumentRequest(
                 name = '0',
                 parent_path_part_id = '',
-                active_version_id = ''
+                active_version_id = '',
+                exclude_from_qdrant = True,
+                owner_tenant_user_id = ''
             )
         else:
             return UpdateDocumentRequest(

@@ -248,8 +248,6 @@ No authorization required
 
 Get Folder Handler
 
-Get a folder by its folder ID.
-
 ### Example
 
 
@@ -319,7 +317,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_folder_contents**
-> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator list_folder_contents(folder_id, max_depth=max_depth, sort_order=sort_order, with_tags=with_tags, limit=limit, offset=offset, authorization=authorization, ks_uat=ks_uat)
+> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator list_folder_contents(folder_id, max_depth=max_depth, sort_order=sort_order, with_tags=with_tags, limit=limit, offset=offset, authorization=authorization, ks_uat=ks_uat)
 
 List Folder Contents Handler
 
@@ -338,7 +336,7 @@ For generic path traversal of folders only, use GET /path-parts.
 
 ```python
 import ksapi
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator
 from ksapi.models.path_order import PathOrder
 from ksapi.rest import ApiException
 from pprint import pprint
@@ -390,7 +388,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator**](PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator.md)
+[**PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator**](PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator.md)
 
 ### Authorization
 
@@ -499,7 +497,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **search_items**
-> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator search_items(name_like, sort_order=sort_order, part_type=part_type, with_tags=with_tags, parent_path_part_id=parent_path_part_id, limit=limit, offset=offset, authorization=authorization, ks_uat=ks_uat)
+> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator search_items(name_like, sort_order=sort_order, part_type=part_type, with_tags=with_tags, parent_path_part_id=parent_path_part_id, limit=limit, offset=offset, authorization=authorization, ks_uat=ks_uat)
 
 Search Items Handler
 
@@ -516,7 +514,7 @@ searched. Otherwise, all accessible items across the tenant are searched.
 
 ```python
 import ksapi
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator
 from ksapi.models.search_sort_order import SearchSortOrder
 from ksapi.models.searchable_part_type import SearchablePartType
 from ksapi.rest import ApiException
@@ -571,7 +569,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator**](PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator.md)
+[**PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator**](PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator.md)
 
 ### Authorization
 
@@ -596,11 +594,13 @@ No authorization required
 
 Update Folder Handler
 
-Update a folder (rename and/or move).
+Update a folder (rename, move, and/or toggle Qdrant exclusion).
 
 To rename: provide `name` field.
 To move: provide `parent_path_part_id` field.
-Both can be done in a single request.
+To toggle Qdrant exclusion for this folder and its descendants: provide
+`exclude_from_qdrant` field.
+Any combination can be sent in a single request.
 
 ### Example
 

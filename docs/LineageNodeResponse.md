@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **id** | **UUID** | Chunk ID | 
 **content** | **str** | Chunk text content | 
 **chunk_type** | [**ChunkType**](ChunkType.md) |  | 
-**chunk_metadata** | [**ChunkMetadataOutput**](ChunkMetadataOutput.md) |  | 
+**chunk_metadata** | [**ChunkMetadata**](ChunkMetadata.md) |  | 
 **tenant_id** | **UUID** | Tenant ID | 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 

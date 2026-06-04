@@ -1,6 +1,5 @@
 # CreateThreadMessageRequest
 
-Request to create a new thread message.
 
 ## Properties
 
@@ -9,7 +8,7 @@ Name | Type | Description | Notes
 **message_id** | **UUID** | Optional caller-supplied ThreadMessage ID for idempotent creates. | [optional] 
 **role** | [**MessageRole**](MessageRole.md) |  | 
 **content** | [**ThreadMessageContent**](ThreadMessageContent.md) |  | 
-**details** | [**ThreadMessageDetailsInput**](ThreadMessageDetailsInput.md) |  | [optional] 
+**details** | [**ThreadMessageDetailsInput**](ThreadMessageDetailsInput.md) | Message details (execution steps). Omit for user messages. | [optional] 
 
 ## Example
 

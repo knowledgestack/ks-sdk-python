@@ -17,10 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.information_statistics import InformationStatistics
 from ksapi.models.pipeline_state import PipelineState
+from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -33,7 +34,7 @@ class DocumentVersionMetadata(BaseModel):
     cleaned_source_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to watermark-removed source document")
     fast_plaintext_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the fast plaintext export of the document")
     hash: Optional[StrictStr] = Field(default=None, description="Base64-encoded SHA256 hash of the uploaded source file")
-    pipeline_state: Optional[PipelineState] = None
+    pipeline_state: Optional[PipelineState] = Field(default=None, description="Current state of the ingestion pipeline workflow")
     total_pages: Optional[StrictInt] = Field(default=None, description="Total number of pages in the document")
     total_sections: Optional[StrictInt] = Field(default=None, description="Total number of sections created")
     total_chunks: Optional[StrictInt] = Field(default=None, description="Total number of chunks created")
@@ -41,9 +42,14 @@ class DocumentVersionMetadata(BaseModel):
     xlsx_parse_result_s3: Optional[StrictStr] = Field(default=None, description="S3 URI to the full XLSX parse result JSON containing dependency graph, named ranges, and KPI catalog")
     xlsx_named_ranges: Optional[List[Dict[str, Any]]] = Field(default=None, description="Named ranges defined in the workbook (name, ref_string, scope)")
     xlsx_kpi_catalog: Optional[List[Dict[str, Any]]] = Field(default=None, description="KPI (Key Performance Indicator) cells detected by the XLSX parser. Each entry contains a label, computed value, cell address, and driver cell references. Applicable to financial models and operational spreadsheets; not populated for template spreadsheets that lack computed KPI cells.")
-    information_statistics: Optional[InformationStatistics] = None
+    citation_anchors: Optional[List[XlsxCellAnchorOutputOrDocxParagraphAnchorOutput]] = Field(default=None, description="In-file citation anchors for agent-generated .xlsx/.docx deliverables. Each anchor binds an in-file location (cell or paragraph) to the chunk IDs cited there. Populated by save_document during upload; ``null`` for versions ingested before this field shipped or for files re-uploaded outside the agent flow. FE enriches chunks via /v1/chunks/bulk.")
+    information_statistics: Optional[InformationStatistics] = Field(default=None, description="Aggregate statistics for the document version (tokens, chunk counts, depth)")
+    quota_charged: Optional[StrictBool] = Field(default=False, description="True once the conversion activity successfully consumed PAGE quota")
+    quota_page_count: Optional[StrictInt] = Field(default=0, description="Page quantity charged at conversion start; 0 if not yet charged")
+    quota_idempotency_key: Optional[StrictStr] = Field(default='UNSET', description="Stable consume key (matches workflow_id); 'UNSET' for pre-Phase-2 docs so refund logic short-circuits")
+    file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "information_statistics"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,6 +95,13 @@ class DocumentVersionMetadata(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pipeline_state
         if self.pipeline_state:
             _dict['pipeline_state'] = self.pipeline_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in citation_anchors (list)
+        _items = []
+        if self.citation_anchors:
+            for _item_citation_anchors in self.citation_anchors:
+                if _item_citation_anchors:
+                    _items.append(_item_citation_anchors.to_dict())
+            _dict['citation_anchors'] = _items
         # override the default output from pydantic by calling `to_dict()` of information_statistics
         if self.information_statistics:
             _dict['information_statistics'] = self.information_statistics.to_dict()
@@ -116,6 +129,11 @@ class DocumentVersionMetadata(BaseModel):
         # and model_fields_set contains the field
         if self.hash is None and "hash" in self.model_fields_set:
             _dict['hash'] = None
+
+        # set to None if pipeline_state (nullable) is None
+        # and model_fields_set contains the field
+        if self.pipeline_state is None and "pipeline_state" in self.model_fields_set:
+            _dict['pipeline_state'] = None
 
         # set to None if total_pages (nullable) is None
         # and model_fields_set contains the field
@@ -152,6 +170,16 @@ class DocumentVersionMetadata(BaseModel):
         if self.xlsx_kpi_catalog is None and "xlsx_kpi_catalog" in self.model_fields_set:
             _dict['xlsx_kpi_catalog'] = None
 
+        # set to None if citation_anchors (nullable) is None
+        # and model_fields_set contains the field
+        if self.citation_anchors is None and "citation_anchors" in self.model_fields_set:
+            _dict['citation_anchors'] = None
+
+        # set to None if information_statistics (nullable) is None
+        # and model_fields_set contains the field
+        if self.information_statistics is None and "information_statistics" in self.model_fields_set:
+            _dict['information_statistics'] = None
+
         return _dict
 
     @classmethod
@@ -176,7 +204,12 @@ class DocumentVersionMetadata(BaseModel):
             "xlsx_parse_result_s3": obj.get("xlsx_parse_result_s3"),
             "xlsx_named_ranges": obj.get("xlsx_named_ranges"),
             "xlsx_kpi_catalog": obj.get("xlsx_kpi_catalog"),
-            "information_statistics": InformationStatistics.from_dict(obj["information_statistics"]) if obj.get("information_statistics") is not None else None
+            "citation_anchors": [XlsxCellAnchorOutputOrDocxParagraphAnchorOutput.from_dict(_item) for _item in obj["citation_anchors"]] if obj.get("citation_anchors") is not None else None,
+            "information_statistics": InformationStatistics.from_dict(obj["information_statistics"]) if obj.get("information_statistics") is not None else None,
+            "quota_charged": obj.get("quota_charged") if obj.get("quota_charged") is not None else False,
+            "quota_page_count": obj.get("quota_page_count") if obj.get("quota_page_count") is not None else 0,
+            "quota_idempotency_key": obj.get("quota_idempotency_key") if obj.get("quota_idempotency_key") is not None else 'UNSET',
+            "file_md5": obj.get("file_md5") if obj.get("file_md5") is not None else 'UNSET'
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

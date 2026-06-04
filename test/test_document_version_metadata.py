@@ -61,13 +61,20 @@ class TestDocumentVersionMetadata(unittest.TestCase):
                 xlsx_kpi_catalog = [
                     { }
                     ],
+                citation_anchors = [
+                    null
+                    ],
                 information_statistics = ksapi.models.information_statistics.InformationStatistics(
                     num_chunks_by_type = {
                         'key' : 56
                         }, 
                     total_tokens = 56, 
                     num_direct_children = 56, 
-                    children_depth = 56, )
+                    children_depth = 56, ),
+                quota_charged = True,
+                quota_page_count = 56,
+                quota_idempotency_key = 'UNSET',
+                file_md5 = 'UNSET'
             )
         else:
             return DocumentVersionMetadata(

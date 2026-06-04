@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **tenant_id** | **UUID** |  | 
 **role** | [**TenantUserRole**](TenantUserRole.md) |  | 
+**skipped_groups** | **List[UUID]** | Groups configured on the invite/tenant link that no longer exist and were therefore skipped. | [optional] 
 
 ## Example
 

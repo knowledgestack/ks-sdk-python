@@ -27,9 +27,9 @@ from pydantic_core import to_jsonable_python
 
 class BulkTagRequest(BaseModel):
     """
-    Request to bulk add or remove tags from a path part.
+    Request to set or remove tags on a path part.
     """ # noqa: E501
-    tag_ids: Annotated[List[UUID], Field(max_length=10)] = Field(description="List of tag IDs to add/remove")
+    tag_ids: Annotated[List[UUID], Field(max_length=10)] = Field(description="List of tag IDs to set/remove")
     __properties: ClassVar[List[str]] = ["tag_ids"]
 
     model_config = ConfigDict(

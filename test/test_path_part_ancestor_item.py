@@ -42,6 +42,7 @@ class TestPathPartAncestorItem(unittest.TestCase):
                 metadata_obj_id = '',
                 materialized_path = '',
                 system_managed = True,
+                exclude_from_qdrant = True,
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
@@ -54,6 +55,7 @@ class TestPathPartAncestorItem(unittest.TestCase):
                 metadata_obj_id = '',
                 materialized_path = '',
                 system_managed = True,
+                exclude_from_qdrant = True,
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

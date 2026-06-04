@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **tenant_id** | **UUID** |  | 
 **email** | **str** |  | 
 **role** | [**TenantUserRole**](TenantUserRole.md) |  | [optional] 
+**groups** | **List[UUID]** | Groups to add the user to on acceptance | [optional] 
 
 ## Example
 

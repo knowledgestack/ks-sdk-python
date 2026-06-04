@@ -28,6 +28,7 @@ class SearchType(str, Enum):
     """
     DENSE_ONLY = 'dense_only'
     FULL_TEXT = 'full_text'
+    HYBRID = 'hybrid'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

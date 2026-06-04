@@ -28,9 +28,9 @@ class PasswordResetWithTokenRequest(BaseModel):
     """
     PasswordResetWithTokenRequest
     """ # noqa: E501
-    email_token: StrictStr = Field(description="Email verification token")
+    password_reset_token: StrictStr = Field(description="Password reset JWT")
     new_password: Annotated[str, Field(min_length=8, strict=True)] = Field(description="New password")
-    __properties: ClassVar[List[str]] = ["email_token", "new_password"]
+    __properties: ClassVar[List[str]] = ["password_reset_token", "new_password"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,7 +83,7 @@ class PasswordResetWithTokenRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "email_token": obj.get("email_token"),
+            "password_reset_token": obj.get("password_reset_token"),
             "new_password": obj.get("new_password")
         })
         return _obj

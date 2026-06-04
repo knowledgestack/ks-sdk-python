@@ -35,11 +35,13 @@ class TenantUserResponse(BaseModel):
     first_name: Optional[StrictStr] = Field(default=None, description="User first name")
     last_name: Optional[StrictStr] = Field(default=None, description="User last name")
     role: TenantUserRole
+    department: Optional[StrictStr] = Field(default=None, description="User's department")
+    job_title: Optional[StrictStr] = Field(default=None, description="User's job title")
     deactivated_on: Optional[datetime] = Field(default=None, description="Soft-deletion timestamp. NULL = active.")
     is_tenant_idp_managed: StrictBool = Field(description="Whether the user is managed by the tenant's identity provider")
     created_at: datetime = Field(description="Date the user was added to the tenant")
     updated_at: datetime = Field(description="Date the user was updated")
-    __properties: ClassVar[List[str]] = ["user_id", "email", "first_name", "last_name", "role", "deactivated_on", "is_tenant_idp_managed", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["user_id", "email", "first_name", "last_name", "role", "department", "job_title", "deactivated_on", "is_tenant_idp_managed", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -95,6 +97,16 @@ class TenantUserResponse(BaseModel):
         if self.last_name is None and "last_name" in self.model_fields_set:
             _dict['last_name'] = None
 
+        # set to None if department (nullable) is None
+        # and model_fields_set contains the field
+        if self.department is None and "department" in self.model_fields_set:
+            _dict['department'] = None
+
+        # set to None if job_title (nullable) is None
+        # and model_fields_set contains the field
+        if self.job_title is None and "job_title" in self.model_fields_set:
+            _dict['job_title'] = None
+
         # set to None if deactivated_on (nullable) is None
         # and model_fields_set contains the field
         if self.deactivated_on is None and "deactivated_on" in self.model_fields_set:
@@ -117,6 +129,8 @@ class TenantUserResponse(BaseModel):
             "first_name": obj.get("first_name"),
             "last_name": obj.get("last_name"),
             "role": obj.get("role"),
+            "department": obj.get("department"),
+            "job_title": obj.get("job_title"),
             "deactivated_on": obj.get("deactivated_on"),
             "is_tenant_idp_managed": obj.get("is_tenant_idp_managed"),
             "created_at": obj.get("created_at"),

@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **metadata_obj_id** | **UUID** | ID of the underlying object | 
 **materialized_path** | **str** | Full materialized path from root | 
 **system_managed** | **bool** | Whether this path part is system-managed | 
+**exclude_from_qdrant** | **bool** | Direct exclusion flag on this ancestor only (not inherited). The effective exclusion is the OR across the full chain. | 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 

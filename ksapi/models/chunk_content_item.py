@@ -21,8 +21,9 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
-from ksapi.models.chunk_metadata_output import ChunkMetadataOutput
+from ksapi.models.chunk_metadata import ChunkMetadata
 from ksapi.models.chunk_type import ChunkType
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -39,12 +40,13 @@ class ChunkContentItem(BaseModel):
     depth: StrictInt = Field(description="Depth relative to document version root")
     content: Optional[StrictStr] = Field(default=None, description="Chunk content")
     chunk_type: Optional[ChunkType] = None
-    chunk_metadata: Optional[ChunkMetadataOutput] = None
+    chunk_metadata: Optional[ChunkMetadata] = Field(default=None, description="Chunk metadata")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this item is system-managed")
+    approval_state: PathPartApprovalState
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "content", "chunk_type", "chunk_metadata", "materialized_path", "system_managed", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "content", "chunk_type", "chunk_metadata", "materialized_path", "system_managed", "approval_state", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -100,6 +102,11 @@ class ChunkContentItem(BaseModel):
         if self.content is None and "content" in self.model_fields_set:
             _dict['content'] = None
 
+        # set to None if chunk_metadata (nullable) is None
+        # and model_fields_set contains the field
+        if self.chunk_metadata is None and "chunk_metadata" in self.model_fields_set:
+            _dict['chunk_metadata'] = None
+
         return _dict
 
     @classmethod
@@ -120,9 +127,10 @@ class ChunkContentItem(BaseModel):
             "depth": obj.get("depth"),
             "content": obj.get("content"),
             "chunk_type": obj.get("chunk_type"),
-            "chunk_metadata": ChunkMetadataOutput.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
+            "chunk_metadata": ChunkMetadata.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
+            "approval_state": obj.get("approval_state"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

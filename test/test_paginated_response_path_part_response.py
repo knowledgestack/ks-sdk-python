@@ -44,6 +44,7 @@ class TestPaginatedResponsePathPartResponse(unittest.TestCase):
                         metadata_obj_id = '', 
                         materialized_path = '', 
                         system_managed = True, 
+                        exclude_from_qdrant = True, 
                         tags = [
                             ksapi.models.tag_response.TagResponse(
                                 id = '', 
@@ -74,6 +75,7 @@ class TestPaginatedResponsePathPartResponse(unittest.TestCase):
                         metadata_obj_id = '', 
                         materialized_path = '', 
                         system_managed = True, 
+                        exclude_from_qdrant = True, 
                         tags = [
                             ksapi.models.tag_response.TagResponse(
                                 id = '', 

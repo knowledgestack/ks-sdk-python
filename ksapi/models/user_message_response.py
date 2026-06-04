@@ -25,7 +25,7 @@ from pydantic_core import to_jsonable_python
 
 class UserMessageResponse(BaseModel):
     """
-    202 response from POST /{thread_id}/user_message.
+    UserMessageResponse
     """ # noqa: E501
     workflow_id: StrictStr
     __properties: ClassVar[List[str]] = ["workflow_id"]

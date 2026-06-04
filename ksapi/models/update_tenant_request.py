@@ -30,8 +30,8 @@ class UpdateTenantRequest(BaseModel):
     Update tenant request model.
     """ # noqa: E501
     name: Optional[StrictStr] = Field(default=None, description="Optional tenant name to update")
-    idp_config: Optional[IdpConfig] = None
-    settings: Optional[TenantSettingsUpdate] = None
+    idp_config: Optional[IdpConfig] = Field(default=None, description="Optional external IdP configuration to update")
+    settings: Optional[TenantSettingsUpdate] = Field(default=None, description="Optional tenant settings to update")
     __properties: ClassVar[List[str]] = ["name", "idp_config", "settings"]
 
     model_config = ConfigDict(
@@ -83,6 +83,16 @@ class UpdateTenantRequest(BaseModel):
         # and model_fields_set contains the field
         if self.name is None and "name" in self.model_fields_set:
             _dict['name'] = None
+
+        # set to None if idp_config (nullable) is None
+        # and model_fields_set contains the field
+        if self.idp_config is None and "idp_config" in self.model_fields_set:
+            _dict['idp_config'] = None
+
+        # set to None if settings (nullable) is None
+        # and model_fields_set contains the field
+        if self.settings is None and "settings" in self.model_fields_set:
+            _dict['settings'] = None
 
         return _dict
 

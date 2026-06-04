@@ -36,8 +36,7 @@ class TestUpdateGroupRequest(unittest.TestCase):
         if include_optional:
             return UpdateGroupRequest(
                 name = '0',
-                description = '',
-                email = ''
+                description = ''
             )
         else:
             return UpdateGroupRequest(

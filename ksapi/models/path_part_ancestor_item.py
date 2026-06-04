@@ -37,9 +37,10 @@ class PathPartAncestorItem(BaseModel):
     metadata_obj_id: Optional[UUID] = Field(description="ID of the underlying object")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this path part is system-managed")
+    exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this ancestor only (not inherited). The effective exclusion is the OR across the full chain.")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["path_part_id", "name", "part_type", "parent_path_id", "metadata_obj_id", "materialized_path", "system_managed", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["path_part_id", "name", "part_type", "parent_path_id", "metadata_obj_id", "materialized_path", "system_managed", "exclude_from_qdrant", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -109,6 +110,7 @@ class PathPartAncestorItem(BaseModel):
             "metadata_obj_id": obj.get("metadata_obj_id"),
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
+            "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

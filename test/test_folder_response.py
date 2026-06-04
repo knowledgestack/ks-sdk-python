@@ -42,6 +42,8 @@ class TestFolderResponse(unittest.TestCase):
                 parent_path_part_id = '',
                 materialized_path = '',
                 system_managed = True,
+                approval_state = 'not_required',
+                exclude_from_qdrant = True,
                 tenant_id = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
@@ -54,7 +56,8 @@ class TestFolderResponse(unittest.TestCase):
                         tenant_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
-                    ]
+                    ],
+                can_write = True
             )
         else:
             return FolderResponse(
@@ -65,6 +68,8 @@ class TestFolderResponse(unittest.TestCase):
                 parent_path_part_id = '',
                 materialized_path = '',
                 system_managed = True,
+                approval_state = 'not_required',
+                exclude_from_qdrant = True,
                 tenant_id = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),

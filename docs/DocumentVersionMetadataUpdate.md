@@ -21,7 +21,12 @@ Name | Type | Description | Notes
 **xlsx_parse_result_s3** | **str** |  | [optional] 
 **xlsx_named_ranges** | **List[Dict[str, object]]** |  | [optional] 
 **xlsx_kpi_catalog** | **List[Dict[str, object]]** |  | [optional] 
+**citation_anchors** | [**List[XlsxCellAnchorInputOrDocxParagraphAnchorInput]**](XlsxCellAnchorInputOrDocxParagraphAnchorInput.md) |  | [optional] 
 **information_statistics** | [**InformationStatistics**](InformationStatistics.md) |  | [optional] 
+**quota_charged** | **bool** |  | [optional] 
+**quota_page_count** | **int** |  | [optional] 
+**quota_idempotency_key** | **str** |  | [optional] 
+**file_md5** | **str** |  | [optional] 
 
 ## Example
 

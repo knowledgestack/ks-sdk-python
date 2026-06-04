@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **idp_config** | **Dict[str, object]** | External IdP configuration | [optional] 
 **settings** | [**TenantSettingsResponse**](TenantSettingsResponse.md) |  | 
 **branding** | [**TenantBrandingResponse**](TenantBrandingResponse.md) |  | [optional] 
+**seats** | **int** | Maximum active members allowed for this tenant. | 
+**subscription_id** | **UUID** | FK to the subscription plan governing the tenant&#39;s caps. Resolve &#x60;&#x60;GET /public/subscriptions&#x60;&#x60; to display plan name and limits. | 
 
 ## Example
 

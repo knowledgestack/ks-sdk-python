@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -27,12 +27,14 @@ from pydantic_core import to_jsonable_python
 
 class UpdateDocumentRequest(BaseModel):
     """
-    Request to update a document (rename, move, and/or change active version).
+    Request to update a document (rename, move, active version, qdrant exclusion).
     """ # noqa: E501
     name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="New document name")
     parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent PathPart ID for move (must be a FOLDER type)")
     active_version_id: Optional[UUID] = Field(default=None, description="New active version ID")
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "active_version_id"]
+    exclude_from_qdrant: Optional[StrictBool] = Field(default=None, description="If set, toggle whether this document is excluded from Qdrant vector indexing. True deletes existing points; False re-embeds the active version. Not allowed on system-managed documents.")
+    owner_tenant_user_id: Optional[UUID] = Field(default=None, description="Transfer ownership to another active tenant_user. Allowed only when the caller is the current owner or has ADMIN/OWNER role.")
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "active_version_id", "exclude_from_qdrant", "owner_tenant_user_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -88,6 +90,16 @@ class UpdateDocumentRequest(BaseModel):
         if self.active_version_id is None and "active_version_id" in self.model_fields_set:
             _dict['active_version_id'] = None
 
+        # set to None if exclude_from_qdrant (nullable) is None
+        # and model_fields_set contains the field
+        if self.exclude_from_qdrant is None and "exclude_from_qdrant" in self.model_fields_set:
+            _dict['exclude_from_qdrant'] = None
+
+        # set to None if owner_tenant_user_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner_tenant_user_id is None and "owner_tenant_user_id" in self.model_fields_set:
+            _dict['owner_tenant_user_id'] = None
+
         return _dict
 
     @classmethod
@@ -102,7 +114,9 @@ class UpdateDocumentRequest(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "parent_path_part_id": obj.get("parent_path_part_id"),
-            "active_version_id": obj.get("active_version_id")
+            "active_version_id": obj.get("active_version_id"),
+            "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
+            "owner_tenant_user_id": obj.get("owner_tenant_user_id")
         })
         return _obj
 

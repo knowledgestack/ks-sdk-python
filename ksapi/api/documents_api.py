@@ -664,7 +664,6 @@ class DocumentsApi:
     ) -> DocumentResponse:
         """Get Document Handler
 
-        Get a document by its document ID.
 
         :param document_id: (required)
         :type document_id: UUID
@@ -744,7 +743,6 @@ class DocumentsApi:
     ) -> ApiResponse[DocumentResponse]:
         """Get Document Handler
 
-        Get a document by its document ID.
 
         :param document_id: (required)
         :type document_id: UUID
@@ -824,7 +822,6 @@ class DocumentsApi:
     ) -> RESTResponseType:
         """Get Document Handler
 
-        Get a document by its document ID.
 
         :param document_id: (required)
         :type document_id: UUID
@@ -2106,7 +2103,7 @@ class DocumentsApi:
     ) -> DocumentResponse:
         """Update Document Handler
 
-        Update a document (rename, move, and/or change active version).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To change active version: provide `active_version_id` field. All can be done in a single request.
+        Update a document (rename, move, change active version, Qdrant exclusion).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To change active version: provide `active_version_id` field. To toggle Qdrant exclusion: provide `exclude_from_qdrant` field. Any combination can be sent in a single request.
 
         :param document_id: (required)
         :type document_id: UUID
@@ -2186,7 +2183,7 @@ class DocumentsApi:
     ) -> ApiResponse[DocumentResponse]:
         """Update Document Handler
 
-        Update a document (rename, move, and/or change active version).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To change active version: provide `active_version_id` field. All can be done in a single request.
+        Update a document (rename, move, change active version, Qdrant exclusion).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To change active version: provide `active_version_id` field. To toggle Qdrant exclusion: provide `exclude_from_qdrant` field. Any combination can be sent in a single request.
 
         :param document_id: (required)
         :type document_id: UUID
@@ -2266,7 +2263,7 @@ class DocumentsApi:
     ) -> RESTResponseType:
         """Update Document Handler
 
-        Update a document (rename, move, and/or change active version).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To change active version: provide `active_version_id` field. All can be done in a single request.
+        Update a document (rename, move, change active version, Qdrant exclusion).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To change active version: provide `active_version_id` field. To toggle Qdrant exclusion: provide `exclude_from_qdrant` field. Any combination can be sent in a single request.
 
         :param document_id: (required)
         :type document_id: UUID

@@ -26,10 +26,24 @@ class TestAuthApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_change_phone_number(self) -> None:
+        """Test case for change_phone_number
+
+        Change Phone Number Handler
+        """
+        pass
+
     def test_create_password_user(self) -> None:
         """Test case for create_password_user
 
         Create Password User Handler
+        """
+        pass
+
+    def test_create_phone_password_user(self) -> None:
+        """Test case for create_phone_password_user
+
+        Create Phone Password User Handler
         """
         pass
 
@@ -68,6 +82,13 @@ class TestAuthApi(unittest.TestCase):
         """
         pass
 
+    def test_pw_phone_verification(self) -> None:
+        """Test case for pw_phone_verification
+
+        Pw Phone Verification Handler
+        """
+        pass
+
     def test_pw_signin(self) -> None:
         """Test case for pw_signin
 
@@ -79,6 +100,13 @@ class TestAuthApi(unittest.TestCase):
         """Test case for refresh_uat
 
         Refresh Uat Handler
+        """
+        pass
+
+    def test_request_phone_change(self) -> None:
+        """Test case for request_phone_change
+
+        Request Phone Change Handler
         """
         pass
 
@@ -114,6 +142,13 @@ class TestAuthApi(unittest.TestCase):
         """Test case for sso_signin
 
         Sso Login Handler
+        """
+        pass
+
+    def test_validate_pw_reset_code(self) -> None:
+        """Test case for validate_pw_reset_code
+
+        Validate Reset Code Handler
         """
         pass
 

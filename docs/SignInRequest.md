@@ -1,11 +1,12 @@
 # SignInRequest
 
+Unified signin — ``username`` matches either email or phone.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**email** | **str** |  | 
+**username** | **str** | Email address or phone number (digit string). The system looks the user up by either field. | 
 **password** | **str** |  | 
 **tenant_id** | **UUID** | Target tenant ID to sign into | [optional] 
 

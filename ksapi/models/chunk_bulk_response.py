@@ -23,7 +23,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.chunk_document_response import ChunkDocumentResponse
 from ksapi.models.chunk_document_version_response import ChunkDocumentVersionResponse
-from ksapi.models.chunk_metadata_output import ChunkMetadataOutput
+from ksapi.models.chunk_metadata import ChunkMetadata
 from ksapi.models.chunk_type import ChunkType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -38,7 +38,7 @@ class ChunkBulkResponse(BaseModel):
     content_id: UUID = Field(description="ChunkContent ID")
     content: StrictStr = Field(description="Chunk text content")
     chunk_type: ChunkType
-    chunk_metadata: ChunkMetadataOutput
+    chunk_metadata: ChunkMetadata
     num_tokens: Optional[StrictInt] = Field(default=None, description="Number of tokens in chunk content")
     parent_path_id: UUID = Field(description="Parent PathPart ID")
     prev_sibling_path_id: Optional[UUID] = Field(default=None, description="Previous sibling PathPart ID")
@@ -49,8 +49,8 @@ class ChunkBulkResponse(BaseModel):
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     asset_s3_urls: Optional[List[StrictStr]] = Field(default=None, description="Presigned URLs to download the chunk's visual assets (6-hour validity)")
-    document: Optional[ChunkDocumentResponse] = None
-    document_version: Optional[ChunkDocumentVersionResponse] = None
+    document: Optional[ChunkDocumentResponse] = Field(default=None, description="Ancestor document info (populated when with_document=true)")
+    document_version: Optional[ChunkDocumentVersionResponse] = Field(default=None, description="Ancestor document version info (populated when with_document=true)")
     path_part_id_segments: List[UUID] = Field(description="Ordered ancestor PathPart IDs from root to chunk")
     __properties: ClassVar[List[str]] = ["id", "path_part_id", "content_id", "content", "chunk_type", "chunk_metadata", "num_tokens", "parent_path_id", "prev_sibling_path_id", "next_sibling_path_id", "materialized_path", "system_managed", "tenant_id", "created_at", "updated_at", "asset_s3_urls", "document", "document_version", "path_part_id_segments"]
 
@@ -117,6 +117,16 @@ class ChunkBulkResponse(BaseModel):
         if self.next_sibling_path_id is None and "next_sibling_path_id" in self.model_fields_set:
             _dict['next_sibling_path_id'] = None
 
+        # set to None if document (nullable) is None
+        # and model_fields_set contains the field
+        if self.document is None and "document" in self.model_fields_set:
+            _dict['document'] = None
+
+        # set to None if document_version (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_version is None and "document_version" in self.model_fields_set:
+            _dict['document_version'] = None
+
         return _dict
 
     @classmethod
@@ -134,7 +144,7 @@ class ChunkBulkResponse(BaseModel):
             "content_id": obj.get("content_id"),
             "content": obj.get("content"),
             "chunk_type": obj.get("chunk_type"),
-            "chunk_metadata": ChunkMetadataOutput.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
+            "chunk_metadata": ChunkMetadata.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
             "num_tokens": obj.get("num_tokens"),
             "parent_path_id": obj.get("parent_path_id"),
             "prev_sibling_path_id": obj.get("prev_sibling_path_id"),

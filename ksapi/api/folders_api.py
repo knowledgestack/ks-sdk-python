@@ -23,7 +23,7 @@ from ksapi.models.create_folder_request import CreateFolderRequest
 from ksapi.models.folder_action import FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse
 from ksapi.models.folder_response import FolderResponse
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator
 from ksapi.models.paginated_response_folder_response import PaginatedResponseFolderResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.search_sort_order import SearchSortOrder
@@ -973,7 +973,6 @@ class FoldersApi:
     ) -> FolderResponse:
         """Get Folder Handler
 
-        Get a folder by its folder ID.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1053,7 +1052,6 @@ class FoldersApi:
     ) -> ApiResponse[FolderResponse]:
         """Get Folder Handler
 
-        Get a folder by its folder ID.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1133,7 +1131,6 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Get Folder Handler
 
-        Get a folder by its folder ID.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1282,7 +1279,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator:
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator:
         """List Folder Contents Handler
 
         List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
@@ -1341,7 +1338,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1378,7 +1375,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator]:
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator]:
         """List Folder Contents Handler
 
         List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
@@ -1437,7 +1434,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1533,7 +1530,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2020,7 +2017,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator:
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator:
         """Search Items Handler
 
         Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
@@ -2082,7 +2079,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2120,7 +2117,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator]:
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator]:
         """Search Items Handler
 
         Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
@@ -2182,7 +2179,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2282,7 +2279,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2413,7 +2410,7 @@ class FoldersApi:
     ) -> FolderResponse:
         """Update Folder Handler
 
-        Update a folder (rename and/or move).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. Both can be done in a single request.
+        Update a folder (rename, move, and/or toggle Qdrant exclusion).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To toggle Qdrant exclusion for this folder and its descendants: provide `exclude_from_qdrant` field. Any combination can be sent in a single request.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -2493,7 +2490,7 @@ class FoldersApi:
     ) -> ApiResponse[FolderResponse]:
         """Update Folder Handler
 
-        Update a folder (rename and/or move).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. Both can be done in a single request.
+        Update a folder (rename, move, and/or toggle Qdrant exclusion).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To toggle Qdrant exclusion for this folder and its descendants: provide `exclude_from_qdrant` field. Any combination can be sent in a single request.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -2573,7 +2570,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Update Folder Handler
 
-        Update a folder (rename and/or move).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. Both can be done in a single request.
+        Update a folder (rename, move, and/or toggle Qdrant exclusion).  To rename: provide `name` field. To move: provide `parent_path_part_id` field. To toggle Qdrant exclusion for this folder and its descendants: provide `exclude_from_qdrant` field. Any combination can be sent in a single request.
 
         :param folder_id: (required)
         :type folder_id: UUID

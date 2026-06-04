@@ -31,6 +31,7 @@ class PipelineStatus(str, Enum):
     COMPLETED = 'completed'
     FAILED = 'failed'
     CANCELLED = 'cancelled'
+    QUOTA_LIMIT = 'quota_limit'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

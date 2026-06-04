@@ -18,32 +18,55 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.user_info import UserInfo
+from ksapi.models.workflow_execution_state import WorkflowExecutionState
 from ksapi.models.workflow_run_snapshot import WorkflowRunSnapshot
-from ksapi.models.workflow_run_status import WorkflowRunStatus
-from ksapi.models.workflow_runner_type import WorkflowRunnerType
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class WorkflowRunResponse(BaseModel):
     """
-    Workflow run response.
+    Workflow run response.  Doubles as a discriminated-union variant for folder-listing responses so the FE can mix WD/Run entries with regular folders + documents and route based on ``part_type``.  Two-step flow note: a NOT_STARTED run has ``started_at=None`` and ``run_snapshot=None``; both are populated when Start dispatches the run. The flat ``input_path_part_ids`` list carries the currently-pinned KB references so the FE can render them on a NOT_STARTED run (the snapshot's typed list is not available yet).
     """ # noqa: E501
+    part_type: Optional[StrictStr] = Field(default='WORKFLOW_RUN', description="Path part type")
     id: UUID
+    path_part_id: UUID = Field(description="WORKFLOW_RUN path_part of this run")
+    parent_path_part_id: Optional[UUID] = Field(description="FOLDER path_part of the containing folder")
+    materialized_path: StrictStr = Field(description="Full materialized path from root")
+    tenant_id: UUID
+    name: StrictStr = Field(description="Run display name; mirrors ``path_part.name`` (the run's UUID until a slug feature lands).")
     workflow_definition_id: UUID
-    user_id: UUID
-    runner_type: WorkflowRunnerType
-    status: WorkflowRunStatus
-    started_at: datetime
+    triggered_by: UserInfo
+    execution_state: WorkflowExecutionState
+    approval_state: PathPartApprovalState
+    started_at: Optional[datetime] = Field(description="When Start dispatched the run. NULL while the run is NOT_STARTED.")
     completed_at: Optional[datetime]
-    run_snapshot: WorkflowRunSnapshot
+    run_snapshot: Optional[WorkflowRunSnapshot] = Field(description="Frozen workflow configuration captured at Start time. NULL while the run is NOT_STARTED.")
     error: Optional[StrictStr]
+    inputs_path_part_id: UUID = Field(description="FOLDER path_part of the run's ``inputs/`` subfolder")
+    outputs_path_part_id: UUID = Field(description="FOLDER path_part of the run's ``outputs/`` subfolder")
+    discussions_path_part_id: UUID = Field(description="FOLDER path_part of the run's ``discussions/`` subfolder")
+    input_path_part_ids: Optional[List[UUID]] = Field(default=None, description="Flat list of currently-pinned KB-reference path_part ids (DOCUMENT + FOLDER). On a NOT_STARTED run this is the only surface for KB refs (run_snapshot is NULL).")
+    outputs_path_part_ids: List[UUID]
+    run_thread_id: Optional[UUID] = Field(default=None, description="The run's primary chat thread (1:1). NULL while NOT_STARTED; set by Start. The FE opens the run by opening this thread.")
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["id", "workflow_definition_id", "user_id", "runner_type", "status", "started_at", "completed_at", "run_snapshot", "error", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "run_thread_id", "created_at", "updated_at"]
+
+    @field_validator('part_type')
+    def part_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['WORKFLOW_RUN']):
+            raise ValueError("must be one of enum values ('WORKFLOW_RUN')")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,18 +107,41 @@ class WorkflowRunResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of triggered_by
+        if self.triggered_by:
+            _dict['triggered_by'] = self.triggered_by.to_dict()
         # override the default output from pydantic by calling `to_dict()` of run_snapshot
         if self.run_snapshot:
             _dict['run_snapshot'] = self.run_snapshot.to_dict()
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
+        # set to None if started_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.started_at is None and "started_at" in self.model_fields_set:
+            _dict['started_at'] = None
+
         # set to None if completed_at (nullable) is None
         # and model_fields_set contains the field
         if self.completed_at is None and "completed_at" in self.model_fields_set:
             _dict['completed_at'] = None
 
+        # set to None if run_snapshot (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_snapshot is None and "run_snapshot" in self.model_fields_set:
+            _dict['run_snapshot'] = None
+
         # set to None if error (nullable) is None
         # and model_fields_set contains the field
         if self.error is None and "error" in self.model_fields_set:
             _dict['error'] = None
+
+        # set to None if run_thread_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_thread_id is None and "run_thread_id" in self.model_fields_set:
+            _dict['run_thread_id'] = None
 
         return _dict
 
@@ -109,15 +155,27 @@ class WorkflowRunResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "part_type": obj.get("part_type") if obj.get("part_type") is not None else 'WORKFLOW_RUN',
             "id": obj.get("id"),
+            "path_part_id": obj.get("path_part_id"),
+            "parent_path_part_id": obj.get("parent_path_part_id"),
+            "materialized_path": obj.get("materialized_path"),
+            "tenant_id": obj.get("tenant_id"),
+            "name": obj.get("name"),
             "workflow_definition_id": obj.get("workflow_definition_id"),
-            "user_id": obj.get("user_id"),
-            "runner_type": obj.get("runner_type"),
-            "status": obj.get("status"),
+            "triggered_by": UserInfo.from_dict(obj["triggered_by"]) if obj.get("triggered_by") is not None else None,
+            "execution_state": obj.get("execution_state"),
+            "approval_state": obj.get("approval_state"),
             "started_at": obj.get("started_at"),
             "completed_at": obj.get("completed_at"),
             "run_snapshot": WorkflowRunSnapshot.from_dict(obj["run_snapshot"]) if obj.get("run_snapshot") is not None else None,
             "error": obj.get("error"),
+            "inputs_path_part_id": obj.get("inputs_path_part_id"),
+            "outputs_path_part_id": obj.get("outputs_path_part_id"),
+            "discussions_path_part_id": obj.get("discussions_path_part_id"),
+            "input_path_part_ids": obj.get("input_path_part_ids"),
+            "outputs_path_part_ids": obj.get("outputs_path_part_ids"),
+            "run_thread_id": obj.get("run_thread_id"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

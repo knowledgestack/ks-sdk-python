@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.tenant_user_role import TenantUserRole
 from typing import Optional, Set
@@ -32,7 +33,8 @@ class InviteUserRequest(BaseModel):
     tenant_id: UUID
     email: StrictStr
     role: Optional[TenantUserRole] = None
-    __properties: ClassVar[List[str]] = ["tenant_id", "email", "role"]
+    groups: Optional[Annotated[List[UUID], Field(max_length=10)]] = Field(default=None, description="Groups to add the user to on acceptance")
+    __properties: ClassVar[List[str]] = ["tenant_id", "email", "role", "groups"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,7 +89,8 @@ class InviteUserRequest(BaseModel):
         _obj = cls.model_validate({
             "tenant_id": obj.get("tenant_id"),
             "email": obj.get("email"),
-            "role": obj.get("role")
+            "role": obj.get("role"),
+            "groups": obj.get("groups")
         })
         return _obj
 

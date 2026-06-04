@@ -38,12 +38,13 @@ class PathPartResponse(BaseModel):
     metadata_obj_id: Optional[UUID] = Field(description="ID of the underlying object")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this path part is system-managed")
+    exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this path part only. The effective exclusion also applies when any ancestor has the flag set — walk the ancestry to determine effective state.")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this path part")
     can_read: StrictBool = Field(description="Whether the current user can read")
     can_write: StrictBool = Field(description="Whether the current user can write")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["path_part_id", "name", "part_type", "parent_path_id", "metadata_obj_id", "materialized_path", "system_managed", "tags", "can_read", "can_write", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["path_part_id", "name", "part_type", "parent_path_id", "metadata_obj_id", "materialized_path", "system_managed", "exclude_from_qdrant", "tags", "can_read", "can_write", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -125,6 +126,7 @@ class PathPartResponse(BaseModel):
             "metadata_obj_id": obj.get("metadata_obj_id"),
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
+            "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
             "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
             "can_read": obj.get("can_read"),
             "can_write": obj.get("can_write"),

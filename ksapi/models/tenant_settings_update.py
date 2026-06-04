@@ -19,6 +19,9 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
+from typing_extensions import Annotated
+from ksapi.models.display_name_format import DisplayNameFormat
+from ksapi.models.invite_link_settings_request import InviteLinkSettingsRequest
 from ksapi.models.supported_language import SupportedLanguage
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,12 +32,15 @@ class TenantSettingsUpdate(BaseModel):
     Partial tenant settings update.
     """ # noqa: E501
     language: Optional[SupportedLanguage] = None
-    description: Optional[StrictStr] = Field(default=None, description="Tenant description")
+    description: Optional[Annotated[str, Field(strict=True, max_length=5000)]] = Field(default=None, description="Tenant description")
+    industry: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Industry / company type captured during onboarding")
     timezone: Optional[StrictStr] = Field(default=None, description="IANA timezone (e.g. 'America/New_York')")
+    display_name: Optional[DisplayNameFormat] = None
     brand_name: Optional[StrictStr] = Field(default=None, description="Custom brand name for logo")
     brand_color: Optional[StrictStr] = Field(default=None, description="Primary brand hex color (e.g. '#2563eb')")
     theme_overrides: Optional[Dict[str, StrictStr]] = Field(default=None, description="Custom CSS variable overrides")
-    __properties: ClassVar[List[str]] = ["language", "description", "timezone", "brand_name", "brand_color", "theme_overrides"]
+    invite_link: Optional[InviteLinkSettingsRequest] = Field(default=None, description="Tenant-wide invite-link configuration")
+    __properties: ClassVar[List[str]] = ["language", "description", "industry", "timezone", "display_name", "brand_name", "brand_color", "theme_overrides", "invite_link"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,10 +81,18 @@ class TenantSettingsUpdate(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of invite_link
+        if self.invite_link:
+            _dict['invite_link'] = self.invite_link.to_dict()
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
+
+        # set to None if industry (nullable) is None
+        # and model_fields_set contains the field
+        if self.industry is None and "industry" in self.model_fields_set:
+            _dict['industry'] = None
 
         # set to None if timezone (nullable) is None
         # and model_fields_set contains the field
@@ -100,6 +114,11 @@ class TenantSettingsUpdate(BaseModel):
         if self.theme_overrides is None and "theme_overrides" in self.model_fields_set:
             _dict['theme_overrides'] = None
 
+        # set to None if invite_link (nullable) is None
+        # and model_fields_set contains the field
+        if self.invite_link is None and "invite_link" in self.model_fields_set:
+            _dict['invite_link'] = None
+
         return _dict
 
     @classmethod
@@ -114,10 +133,13 @@ class TenantSettingsUpdate(BaseModel):
         _obj = cls.model_validate({
             "language": obj.get("language"),
             "description": obj.get("description"),
+            "industry": obj.get("industry"),
             "timezone": obj.get("timezone"),
+            "display_name": obj.get("display_name"),
             "brand_name": obj.get("brand_name"),
             "brand_color": obj.get("brand_color"),
-            "theme_overrides": obj.get("theme_overrides")
+            "theme_overrides": obj.get("theme_overrides"),
+            "invite_link": InviteLinkSettingsRequest.from_dict(obj["invite_link"]) if obj.get("invite_link") is not None else None
         })
         return _obj
 

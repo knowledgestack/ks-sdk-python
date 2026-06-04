@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **tenant_id** | **UUID** |  | 
 **name** | **str** |  | 
 **description** | **str** |  | 
-**email** | **str** |  | [optional] 
 **member_count** | **int** |  | [optional] 
 **created_at** | **datetime** |  | 
 **updated_at** | **datetime** |  | 

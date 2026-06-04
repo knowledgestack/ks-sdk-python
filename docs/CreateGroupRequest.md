@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | 
 **description** | **str** |  | [optional] 
-**email** | **str** |  | [optional] 
 
 ## Example
 

@@ -24,6 +24,7 @@ from ksapi.models.chunk_neighbors_response import ChunkNeighborsResponse
 from ksapi.models.chunk_response import ChunkResponse
 from ksapi.models.chunk_search_request import ChunkSearchRequest
 from ksapi.models.create_chunk_request import CreateChunkRequest
+from ksapi.models.part_type import PartType
 from ksapi.models.scored_chunk_response import ScoredChunkResponse
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest
 from ksapi.models.update_chunk_metadata_request import UpdateChunkMetadataRequest
@@ -954,9 +955,10 @@ class ChunksApi:
     def get_chunk_neighbors(
         self,
         chunk_id: UUID,
-        prev: Annotated[Optional[Annotated[int, Field(le=20, strict=True, ge=0)]], Field(description="Number of preceding siblings to include")] = None,
-        next: Annotated[Optional[Annotated[int, Field(le=20, strict=True, ge=0)]], Field(description="Number of succeeding siblings to include")] = None,
-        chunks_only: Annotated[Optional[StrictBool], Field(description="When true, stop traversal at non-CHUNK siblings (default: false)")] = None,
+        prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
+        next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
+        content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
+        within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -974,16 +976,18 @@ class ChunksApi:
     ) -> ChunkNeighborsResponse:
         """Get Chunk Neighbors Handler
 
-        Get neighboring siblings by traversing the sibling linked list.  Walks the sibling chain backward (prev) and forward (next) from the anchor chunk. Returns sections and chunks in sibling order within the same parent.  When ``chunks_only=true``, the traversal stops at the first non-CHUNK sibling in each direction, returning only chunk neighbors.
+        Return a window of items around an anchor chunk.  Two traversal modes:  - ``within_section=true`` (default): walks the sibling linked-list under   the anchor's parent. Stops at items outside ``content_type`` when set.   Authorized by the anchor's path read permission alone.  - ``within_section=false``: walks the full document version in   depth-first order and slices a window around the anchor. Crosses   section boundaries. Additionally requires read permission on the   enclosing document version's path (matching the   ``/v1/document_versions/{id}/contents`` endpoint). USERs whose path   permissions are scoped to a sub-section of the version will get   ``403`` and should use ``within_section=true``.  ``content_type=SECTION`` is rejected with ``400``: the anchor is always a chunk, so a SECTION-only filter would exclude it.
 
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param prev: Number of preceding siblings to include
+        :param prev: Number of preceding items to include (max 50).
         :type prev: int
-        :param next: Number of succeeding siblings to include
+        :param next: Number of succeeding items to include (max 50).
         :type next: int
-        :param chunks_only: When true, stop traversal at non-CHUNK siblings (default: false)
-        :type chunks_only: bool
+        :param content_type: Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).
+        :type content_type: PartType
+        :param within_section: When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.
+        :type within_section: bool
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -1014,7 +1018,8 @@ class ChunksApi:
             chunk_id=chunk_id,
             prev=prev,
             next=next,
-            chunks_only=chunks_only,
+            content_type=content_type,
+            within_section=within_section,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -1042,9 +1047,10 @@ class ChunksApi:
     def get_chunk_neighbors_with_http_info(
         self,
         chunk_id: UUID,
-        prev: Annotated[Optional[Annotated[int, Field(le=20, strict=True, ge=0)]], Field(description="Number of preceding siblings to include")] = None,
-        next: Annotated[Optional[Annotated[int, Field(le=20, strict=True, ge=0)]], Field(description="Number of succeeding siblings to include")] = None,
-        chunks_only: Annotated[Optional[StrictBool], Field(description="When true, stop traversal at non-CHUNK siblings (default: false)")] = None,
+        prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
+        next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
+        content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
+        within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -1062,16 +1068,18 @@ class ChunksApi:
     ) -> ApiResponse[ChunkNeighborsResponse]:
         """Get Chunk Neighbors Handler
 
-        Get neighboring siblings by traversing the sibling linked list.  Walks the sibling chain backward (prev) and forward (next) from the anchor chunk. Returns sections and chunks in sibling order within the same parent.  When ``chunks_only=true``, the traversal stops at the first non-CHUNK sibling in each direction, returning only chunk neighbors.
+        Return a window of items around an anchor chunk.  Two traversal modes:  - ``within_section=true`` (default): walks the sibling linked-list under   the anchor's parent. Stops at items outside ``content_type`` when set.   Authorized by the anchor's path read permission alone.  - ``within_section=false``: walks the full document version in   depth-first order and slices a window around the anchor. Crosses   section boundaries. Additionally requires read permission on the   enclosing document version's path (matching the   ``/v1/document_versions/{id}/contents`` endpoint). USERs whose path   permissions are scoped to a sub-section of the version will get   ``403`` and should use ``within_section=true``.  ``content_type=SECTION`` is rejected with ``400``: the anchor is always a chunk, so a SECTION-only filter would exclude it.
 
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param prev: Number of preceding siblings to include
+        :param prev: Number of preceding items to include (max 50).
         :type prev: int
-        :param next: Number of succeeding siblings to include
+        :param next: Number of succeeding items to include (max 50).
         :type next: int
-        :param chunks_only: When true, stop traversal at non-CHUNK siblings (default: false)
-        :type chunks_only: bool
+        :param content_type: Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).
+        :type content_type: PartType
+        :param within_section: When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.
+        :type within_section: bool
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -1102,7 +1110,8 @@ class ChunksApi:
             chunk_id=chunk_id,
             prev=prev,
             next=next,
-            chunks_only=chunks_only,
+            content_type=content_type,
+            within_section=within_section,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -1130,9 +1139,10 @@ class ChunksApi:
     def get_chunk_neighbors_without_preload_content(
         self,
         chunk_id: UUID,
-        prev: Annotated[Optional[Annotated[int, Field(le=20, strict=True, ge=0)]], Field(description="Number of preceding siblings to include")] = None,
-        next: Annotated[Optional[Annotated[int, Field(le=20, strict=True, ge=0)]], Field(description="Number of succeeding siblings to include")] = None,
-        chunks_only: Annotated[Optional[StrictBool], Field(description="When true, stop traversal at non-CHUNK siblings (default: false)")] = None,
+        prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
+        next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
+        content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
+        within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -1150,16 +1160,18 @@ class ChunksApi:
     ) -> RESTResponseType:
         """Get Chunk Neighbors Handler
 
-        Get neighboring siblings by traversing the sibling linked list.  Walks the sibling chain backward (prev) and forward (next) from the anchor chunk. Returns sections and chunks in sibling order within the same parent.  When ``chunks_only=true``, the traversal stops at the first non-CHUNK sibling in each direction, returning only chunk neighbors.
+        Return a window of items around an anchor chunk.  Two traversal modes:  - ``within_section=true`` (default): walks the sibling linked-list under   the anchor's parent. Stops at items outside ``content_type`` when set.   Authorized by the anchor's path read permission alone.  - ``within_section=false``: walks the full document version in   depth-first order and slices a window around the anchor. Crosses   section boundaries. Additionally requires read permission on the   enclosing document version's path (matching the   ``/v1/document_versions/{id}/contents`` endpoint). USERs whose path   permissions are scoped to a sub-section of the version will get   ``403`` and should use ``within_section=true``.  ``content_type=SECTION`` is rejected with ``400``: the anchor is always a chunk, so a SECTION-only filter would exclude it.
 
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param prev: Number of preceding siblings to include
+        :param prev: Number of preceding items to include (max 50).
         :type prev: int
-        :param next: Number of succeeding siblings to include
+        :param next: Number of succeeding items to include (max 50).
         :type next: int
-        :param chunks_only: When true, stop traversal at non-CHUNK siblings (default: false)
-        :type chunks_only: bool
+        :param content_type: Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).
+        :type content_type: PartType
+        :param within_section: When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.
+        :type within_section: bool
         :param authorization:
         :type authorization: str
         :param ks_uat:
@@ -1190,7 +1202,8 @@ class ChunksApi:
             chunk_id=chunk_id,
             prev=prev,
             next=next,
-            chunks_only=chunks_only,
+            content_type=content_type,
+            within_section=within_section,
             authorization=authorization,
             ks_uat=ks_uat,
             _request_auth=_request_auth,
@@ -1215,7 +1228,8 @@ class ChunksApi:
         chunk_id,
         prev,
         next,
-        chunks_only,
+        content_type,
+        within_section,
         authorization,
         ks_uat,
         _request_auth,
@@ -1250,9 +1264,13 @@ class ChunksApi:
             
             _query_params.append(('next', next))
             
-        if chunks_only is not None:
+        if content_type is not None:
             
-            _query_params.append(('chunks_only', chunks_only))
+            _query_params.append(('content_type', content_type.value))
+            
+        if within_section is not None:
+            
+            _query_params.append(('within_section', within_section))
             
         # process the header parameters
         if authorization is not None:
@@ -1900,7 +1918,7 @@ class ChunksApi:
     ) -> List[ScoredChunkResponse]:
         """Search Chunks Handler
 
-        Search over chunks using dense vector similarity or BM25 full-text.  Combines vector/keyword search with path-based authorization and optional metadata filters. Uses Qdrant for search and hydrates results from Postgres.
+        Search over chunks using dense vector, BM25 full-text, or hybrid retrieval.  Combines search with path-based authorization and optional metadata filters. Uses Qdrant for retrieval and hydrates the matched chunks from Postgres.  **Billing note.** SEARCH consume runs *before* path-permission resolution. A request that resolves to an empty permission set (caller has read access to nothing in the requested scope) returns ``[]`` cleanly — without raising — so it is **not** refunded. This is intentional: differential billing for a no-results case would leak access shape to the caller. Callers concerned about charged no-op searches should validate path access client-side first.
 
         :param chunk_search_request: (required)
         :type chunk_search_request: ChunkSearchRequest
@@ -1976,7 +1994,7 @@ class ChunksApi:
     ) -> ApiResponse[List[ScoredChunkResponse]]:
         """Search Chunks Handler
 
-        Search over chunks using dense vector similarity or BM25 full-text.  Combines vector/keyword search with path-based authorization and optional metadata filters. Uses Qdrant for search and hydrates results from Postgres.
+        Search over chunks using dense vector, BM25 full-text, or hybrid retrieval.  Combines search with path-based authorization and optional metadata filters. Uses Qdrant for retrieval and hydrates the matched chunks from Postgres.  **Billing note.** SEARCH consume runs *before* path-permission resolution. A request that resolves to an empty permission set (caller has read access to nothing in the requested scope) returns ``[]`` cleanly — without raising — so it is **not** refunded. This is intentional: differential billing for a no-results case would leak access shape to the caller. Callers concerned about charged no-op searches should validate path access client-side first.
 
         :param chunk_search_request: (required)
         :type chunk_search_request: ChunkSearchRequest
@@ -2052,7 +2070,7 @@ class ChunksApi:
     ) -> RESTResponseType:
         """Search Chunks Handler
 
-        Search over chunks using dense vector similarity or BM25 full-text.  Combines vector/keyword search with path-based authorization and optional metadata filters. Uses Qdrant for search and hydrates results from Postgres.
+        Search over chunks using dense vector, BM25 full-text, or hybrid retrieval.  Combines search with path-based authorization and optional metadata filters. Uses Qdrant for retrieval and hydrates the matched chunks from Postgres.  **Billing note.** SEARCH consume runs *before* path-permission resolution. A request that resolves to an empty permission set (caller has read access to nothing in the requested scope) returns ``[]`` cleanly — without raising — so it is **not** refunded. This is intentional: differential billing for a no-results case would leak access shape to the caller. Callers concerned about charged no-op searches should validate path access client-side first.
 
         :param chunk_search_request: (required)
         :type chunk_search_request: ChunkSearchRequest

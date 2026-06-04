@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
-from ksapi.models.chunk_metadata_input import ChunkMetadataInput
+from ksapi.models.chunk_metadata import ChunkMetadata
 from ksapi.models.chunk_type import ChunkType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +34,7 @@ class CreateChunkRequest(BaseModel):
     parent_path_id: UUID = Field(description="Parent PathPart ID (must be DOCUMENT_VERSION or SECTION)")
     content: Annotated[str, Field(min_length=1, strict=True)] = Field(description="Chunk text content")
     chunk_type: ChunkType
-    chunk_metadata: ChunkMetadataInput
+    chunk_metadata: ChunkMetadata
     prev_sibling_path_id: Optional[UUID] = Field(default=None, description="PathPart ID to insert after (null = append to tail)")
     __properties: ClassVar[List[str]] = ["parent_path_id", "content", "chunk_type", "chunk_metadata", "prev_sibling_path_id"]
 
@@ -100,7 +100,7 @@ class CreateChunkRequest(BaseModel):
             "parent_path_id": obj.get("parent_path_id"),
             "content": obj.get("content"),
             "chunk_type": obj.get("chunk_type"),
-            "chunk_metadata": ChunkMetadataInput.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
+            "chunk_metadata": ChunkMetadata.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,
             "prev_sibling_path_id": obj.get("prev_sibling_path_id")
         })
         return _obj

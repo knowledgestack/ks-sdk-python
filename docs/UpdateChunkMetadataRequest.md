@@ -6,7 +6,7 @@ Request to update chunk metadata and/or move the chunk.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**chunk_metadata** | [**ChunkMetadataInput**](ChunkMetadataInput.md) |  | [optional] 
+**chunk_metadata** | [**ChunkMetadata**](ChunkMetadata.md) | Metadata to merge into existing chunk_metadata (optional) | [optional] 
 **parent_path_part_id** | **UUID** | Reparent to this PathPart ID (must be DOCUMENT_VERSION or SECTION in the same document version) | [optional] 
 **prev_sibling_path_id** | **UUID** | Move after this sibling PathPart ID (within new or current parent) | [optional] 
 **move_to_head** | **bool** | Set to true to move to head of sibling list | [optional] [default to False]

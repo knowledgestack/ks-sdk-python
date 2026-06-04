@@ -8,6 +8,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **items** | [**List[SectionContentItemOrChunkContentItem]**](SectionContentItemOrChunkContentItem.md) | Ordered siblings: preceding → anchor → succeeding | 
 **anchor_index** | **int** | Index of the anchor chunk in items | 
+**anchor_offset** | **int** | 0-based position of the anchor in the traversal scope under the active content_type filter. With within_section&#x3D;true the scope is the parent&#39;s filtered sibling chain; with within_section&#x3D;false it is the entire document version in DFS order. | 
+**total** | **int** | Total items in the traversal scope under the active filter. Within-section: filtered direct children of the anchor&#39;s parent. Cross-section: filtered DFS items in the document version. | 
+**document_version_id** | **UUID** | ID of the enclosing document version. Populated only when within_section&#x3D;false (where it is required to scope the DFS traversal); null when within_section&#x3D;true. | [optional] 
 
 ## Example
 

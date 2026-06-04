@@ -24,6 +24,7 @@ from ksapi.models.invite_response import InviteResponse
 from ksapi.models.invite_status import InviteStatus
 from ksapi.models.invite_user_request import InviteUserRequest
 from ksapi.models.paginated_response_invite_response import PaginatedResponseInviteResponse
+from ksapi.models.update_invite_request import UpdateInviteRequest
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -46,7 +47,7 @@ class InvitesApi:
     @validate_call
     def accept_invite(
         self,
-        invite_id: UUID,
+        invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -64,9 +65,9 @@ class InvitesApi:
     ) -> AcceptInviteResponse:
         """Accept Invite
 
-        Update an invite to accepted status and create tenant user.
+        Accept an invite OR a tenant invite-link.  The path parameter ``invite_id`` may be either:   * a Tenant ID (when an admin has enabled ``invite_link`` on the tenant), OR   * an Invite ID (the traditional per-email invite flow).  Tenant lookup is tried first. If the row is found, the request is treated as an invite-link request — both 400 paths below have *distinct* messages so the frontend can branch on copy:   * \"does not have invite link enabled\" → admin hasn't turned it on   * \"does not support inviting users\"   → tenant kill-switch ``system_metadata.can_invite`` is honored on this path too — it's a hard kill switch for self-serve onboarding. Only when no tenant matches do we look up an Invite row.
 
-        :param invite_id: (required)
+        :param invite_id: Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first. (required)
         :type invite_id: UUID
         :param authorization:
         :type authorization: str
@@ -122,7 +123,7 @@ class InvitesApi:
     @validate_call
     def accept_invite_with_http_info(
         self,
-        invite_id: UUID,
+        invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -140,9 +141,9 @@ class InvitesApi:
     ) -> ApiResponse[AcceptInviteResponse]:
         """Accept Invite
 
-        Update an invite to accepted status and create tenant user.
+        Accept an invite OR a tenant invite-link.  The path parameter ``invite_id`` may be either:   * a Tenant ID (when an admin has enabled ``invite_link`` on the tenant), OR   * an Invite ID (the traditional per-email invite flow).  Tenant lookup is tried first. If the row is found, the request is treated as an invite-link request — both 400 paths below have *distinct* messages so the frontend can branch on copy:   * \"does not have invite link enabled\" → admin hasn't turned it on   * \"does not support inviting users\"   → tenant kill-switch ``system_metadata.can_invite`` is honored on this path too — it's a hard kill switch for self-serve onboarding. Only when no tenant matches do we look up an Invite row.
 
-        :param invite_id: (required)
+        :param invite_id: Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first. (required)
         :type invite_id: UUID
         :param authorization:
         :type authorization: str
@@ -198,7 +199,7 @@ class InvitesApi:
     @validate_call
     def accept_invite_without_preload_content(
         self,
-        invite_id: UUID,
+        invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
         authorization: Optional[StrictStr] = None,
         ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
@@ -216,9 +217,9 @@ class InvitesApi:
     ) -> RESTResponseType:
         """Accept Invite
 
-        Update an invite to accepted status and create tenant user.
+        Accept an invite OR a tenant invite-link.  The path parameter ``invite_id`` may be either:   * a Tenant ID (when an admin has enabled ``invite_link`` on the tenant), OR   * an Invite ID (the traditional per-email invite flow).  Tenant lookup is tried first. If the row is found, the request is treated as an invite-link request — both 400 paths below have *distinct* messages so the frontend can branch on copy:   * \"does not have invite link enabled\" → admin hasn't turned it on   * \"does not support inviting users\"   → tenant kill-switch ``system_metadata.can_invite`` is honored on this path too — it's a hard kill switch for self-serve onboarding. Only when no tenant matches do we look up an Invite row.
 
-        :param invite_id: (required)
+        :param invite_id: Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first. (required)
         :type invite_id: UUID
         :param authorization:
         :type authorization: str
@@ -1258,6 +1259,325 @@ class InvitesApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/invites',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def update_invite(
+        self,
+        invite_id: UUID,
+        update_invite_request: UpdateInviteRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> InviteResponse:
+        """Update Invite Handler
+
+        Update an invite's expiry or groups (admin/owner only).  The invite must belong to the caller's current tenant. Any provided groups are validated to belong to the same tenant.
+
+        :param invite_id: (required)
+        :type invite_id: UUID
+        :param update_invite_request: (required)
+        :type update_invite_request: UpdateInviteRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_invite_serialize(
+            invite_id=invite_id,
+            update_invite_request=update_invite_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InviteResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def update_invite_with_http_info(
+        self,
+        invite_id: UUID,
+        update_invite_request: UpdateInviteRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[InviteResponse]:
+        """Update Invite Handler
+
+        Update an invite's expiry or groups (admin/owner only).  The invite must belong to the caller's current tenant. Any provided groups are validated to belong to the same tenant.
+
+        :param invite_id: (required)
+        :type invite_id: UUID
+        :param update_invite_request: (required)
+        :type update_invite_request: UpdateInviteRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_invite_serialize(
+            invite_id=invite_id,
+            update_invite_request=update_invite_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InviteResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def update_invite_without_preload_content(
+        self,
+        invite_id: UUID,
+        update_invite_request: UpdateInviteRequest,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Invite Handler
+
+        Update an invite's expiry or groups (admin/owner only).  The invite must belong to the caller's current tenant. Any provided groups are validated to belong to the same tenant.
+
+        :param invite_id: (required)
+        :type invite_id: UUID
+        :param update_invite_request: (required)
+        :type update_invite_request: UpdateInviteRequest
+        :param authorization:
+        :type authorization: str
+        :param ks_uat:
+        :type ks_uat: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_invite_serialize(
+            invite_id=invite_id,
+            update_invite_request=update_invite_request,
+            authorization=authorization,
+            ks_uat=ks_uat,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InviteResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _update_invite_serialize(
+        self,
+        invite_id,
+        update_invite_request,
+        authorization,
+        ks_uat,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if invite_id is not None:
+            _path_params['invite_id'] = invite_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if update_invite_request is not None:
+            _body_params = update_invite_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/invites/{invite_id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

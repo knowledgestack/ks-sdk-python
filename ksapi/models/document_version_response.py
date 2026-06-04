@@ -19,9 +19,10 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.document_version_metadata import DocumentVersionMetadata
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -38,12 +39,14 @@ class DocumentVersionResponse(BaseModel):
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this version is system-managed")
     tenant_id: UUID = Field(description="Tenant ID")
+    uploader: UserInfo
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL to download the source document (6-hour validity)")
     fast_plaintext_url: Optional[StrictStr] = Field(default=None, description="Presigned URL to download the fast plaintext export (6-hour validity)")
+    page_screenshot_urls: Optional[List[StrictStr]] = Field(default=None, description="Presigned URLs (6-hour validity) to per-page WEBP screenshots in page order: index 0 is page 1, index N-1 is page N. Populated only when the request includes include_page_screenshots=true; null otherwise.")
     system_metadata: Optional[DocumentVersionMetadata] = None
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "version", "name", "parent_path_id", "materialized_path", "system_managed", "tenant_id", "created_at", "updated_at", "asset_s3_url", "fast_plaintext_url", "system_metadata"]
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "version", "name", "parent_path_id", "materialized_path", "system_managed", "tenant_id", "uploader", "created_at", "updated_at", "asset_s3_url", "fast_plaintext_url", "page_screenshot_urls", "system_metadata"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,6 +87,9 @@ class DocumentVersionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of uploader
+        if self.uploader:
+            _dict['uploader'] = self.uploader.to_dict()
         # override the default output from pydantic by calling `to_dict()` of system_metadata
         if self.system_metadata:
             _dict['system_metadata'] = self.system_metadata.to_dict()
@@ -101,6 +107,11 @@ class DocumentVersionResponse(BaseModel):
         # and model_fields_set contains the field
         if self.fast_plaintext_url is None and "fast_plaintext_url" in self.model_fields_set:
             _dict['fast_plaintext_url'] = None
+
+        # set to None if page_screenshot_urls (nullable) is None
+        # and model_fields_set contains the field
+        if self.page_screenshot_urls is None and "page_screenshot_urls" in self.model_fields_set:
+            _dict['page_screenshot_urls'] = None
 
         return _dict
 
@@ -122,10 +133,12 @@ class DocumentVersionResponse(BaseModel):
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),
             "tenant_id": obj.get("tenant_id"),
+            "uploader": UserInfo.from_dict(obj["uploader"]) if obj.get("uploader") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "asset_s3_url": obj.get("asset_s3_url"),
             "fast_plaintext_url": obj.get("fast_plaintext_url"),
+            "page_screenshot_urls": obj.get("page_screenshot_urls"),
             "system_metadata": DocumentVersionMetadata.from_dict(obj["system_metadata"]) if obj.get("system_metadata") is not None else None
         })
         return _obj

@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **parent_path_id** | **UUID** | Parent PathPart ID (must be DOCUMENT_VERSION or SECTION) | 
 **content** | **str** | Chunk text content | 
 **chunk_type** | [**ChunkType**](ChunkType.md) |  | 
-**chunk_metadata** | [**ChunkMetadataInput**](ChunkMetadataInput.md) |  | 
+**chunk_metadata** | [**ChunkMetadata**](ChunkMetadata.md) |  | 
 **prev_sibling_path_id** | **UUID** | PathPart ID to insert after (null &#x3D; append to tail) | [optional] 
 
 ## Example

@@ -44,6 +44,7 @@ class TestSectionContentItemOrChunkContentItem(unittest.TestCase):
                 page_number = 56,
                 materialized_path = '',
                 system_managed = True,
+                approval_state = 'not_required',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 content = '',
@@ -92,6 +93,7 @@ class TestSectionContentItemOrChunkContentItem(unittest.TestCase):
                 depth = 56,
                 materialized_path = '',
                 system_managed = True,
+                approval_state = 'not_required',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

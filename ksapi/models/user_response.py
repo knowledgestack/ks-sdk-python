@@ -17,6 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
@@ -32,13 +33,16 @@ class UserResponse(BaseModel):
     """ # noqa: E501
     id: UUID = Field(description="User ID")
     email: Optional[StrictStr] = Field(description="Email address of the user")
+    phone_number: Optional[StrictStr] = Field(default=None, description="Subscriber number as a string of digits (no country code). Returned as a string to avoid JS Number precision issues.")
     first_name: Optional[StrictStr] = Field(description="First name of the user")
     last_name: Optional[StrictStr] = Field(description="Last name of the user")
     idp_type: IdpType
     current_tenant_id: UUID = Field(description="Current tenant ID the user is logged into")
     current_tenant_role: TenantUserRole
     default_tenant_id: UUID = Field(description="Default tenant ID the user shall be logged into")
-    __properties: ClassVar[List[str]] = ["id", "email", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id"]
+    job_title: Optional[StrictStr] = Field(default=None, description="User's job title at the current tenant (per-membership)")
+    onboarding_completed_at: Optional[datetime] = Field(default=None, description="When the user finished onboarding for the current tenant. NULL = wizard should be shown.")
+    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "onboarding_completed_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,6 +88,11 @@ class UserResponse(BaseModel):
         if self.email is None and "email" in self.model_fields_set:
             _dict['email'] = None
 
+        # set to None if phone_number (nullable) is None
+        # and model_fields_set contains the field
+        if self.phone_number is None and "phone_number" in self.model_fields_set:
+            _dict['phone_number'] = None
+
         # set to None if first_name (nullable) is None
         # and model_fields_set contains the field
         if self.first_name is None and "first_name" in self.model_fields_set:
@@ -93,6 +102,16 @@ class UserResponse(BaseModel):
         # and model_fields_set contains the field
         if self.last_name is None and "last_name" in self.model_fields_set:
             _dict['last_name'] = None
+
+        # set to None if job_title (nullable) is None
+        # and model_fields_set contains the field
+        if self.job_title is None and "job_title" in self.model_fields_set:
+            _dict['job_title'] = None
+
+        # set to None if onboarding_completed_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.onboarding_completed_at is None and "onboarding_completed_at" in self.model_fields_set:
+            _dict['onboarding_completed_at'] = None
 
         return _dict
 
@@ -108,12 +127,15 @@ class UserResponse(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "email": obj.get("email"),
+            "phone_number": obj.get("phone_number"),
             "first_name": obj.get("first_name"),
             "last_name": obj.get("last_name"),
             "idp_type": obj.get("idp_type"),
             "current_tenant_id": obj.get("current_tenant_id"),
             "current_tenant_role": obj.get("current_tenant_role"),
-            "default_tenant_id": obj.get("default_tenant_id")
+            "default_tenant_id": obj.get("default_tenant_id"),
+            "job_title": obj.get("job_title"),
+            "onboarding_completed_at": obj.get("onboarding_completed_at")
         })
         return _obj
 

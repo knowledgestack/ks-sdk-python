@@ -37,36 +37,16 @@ class TestUpdateWorkflowDefinitionRequest(unittest.TestCase):
             return UpdateWorkflowDefinitionRequest(
                 name = '',
                 description = '',
-                runner_type = 'SELF_HOSTED',
-                runner_config = ksapi.models.self_hosted_runner_config.SelfHostedRunnerConfig(
-                    url = '0', 
-                    webhook_secret = '', ),
                 max_run_duration_seconds = 60.0,
-                source_path_part_ids = [
-                    ''
-                    ],
-                instruction_path_part_ids = [
-                    ''
-                    ],
-                output_path_part_ids = [
-                    ''
-                    ],
-                template_path_part_id = '',
-                is_active = True
+                instruction_path_part_id = '',
+                is_active = True,
+                approval_required = True
             )
         else:
             return UpdateWorkflowDefinitionRequest(
                 name = '',
-                runner_type = 'SELF_HOSTED',
-                source_path_part_ids = [
-                    ''
-                    ],
-                instruction_path_part_ids = [
-                    ''
-                    ],
-                output_path_part_ids = [
-                    ''
-                    ],
+                is_active = True,
+                approval_required = True,
         )
         """
 

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**email_token** | **str** | Email verification token | 
+**password_reset_token** | **str** | Password reset JWT | 
 **new_password** | **str** | New password | 
 
 ## Example

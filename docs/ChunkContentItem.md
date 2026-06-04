@@ -14,9 +14,10 @@ Name | Type | Description | Notes
 **depth** | **int** | Depth relative to document version root | 
 **content** | **str** | Chunk content | [optional] 
 **chunk_type** | [**ChunkType**](ChunkType.md) |  | [optional] 
-**chunk_metadata** | [**ChunkMetadataOutput**](ChunkMetadataOutput.md) |  | [optional] 
+**chunk_metadata** | [**ChunkMetadata**](ChunkMetadata.md) | Chunk metadata | [optional] 
 **materialized_path** | **str** | Full materialized path from root | 
 **system_managed** | **bool** | Whether this item is system-managed | 
+**approval_state** | [**PathPartApprovalState**](PathPartApprovalState.md) |  | 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 

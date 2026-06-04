@@ -81,6 +81,11 @@ class SectionSystemMetadata(BaseModel):
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
+        # set to None if information_statistics (nullable) is None
+        # and model_fields_set contains the field
+        if self.information_statistics is None and "information_statistics" in self.model_fields_set:
+            _dict['information_statistics'] = None
+
         return _dict
 
     @classmethod

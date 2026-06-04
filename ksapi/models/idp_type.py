@@ -28,6 +28,8 @@ class IdpType(str, Enum):
     """
     PASSWORD = 'PASSWORD'
     GOOGLE = 'GOOGLE'
+    MICROSOFT = 'MICROSOFT'
+    GITHUB = 'GITHUB'
     TENANT = 'TENANT'
 
     @classmethod

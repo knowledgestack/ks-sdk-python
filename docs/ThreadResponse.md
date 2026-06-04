@@ -1,6 +1,5 @@
 # ThreadResponse
 
-Thread response model.
 
 ## Properties
 

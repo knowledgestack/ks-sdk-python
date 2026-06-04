@@ -36,11 +36,17 @@ class TestFeaturesResponse(unittest.TestCase):
         if include_optional:
             return FeaturesResponse(
                 google_login_enabled = True,
+                microsoft_login_enabled = True,
+                github_login_enabled = True,
+                sms_login_enabled = True,
                 default_frontend_language = 'en'
             )
         else:
             return FeaturesResponse(
                 google_login_enabled = True,
+                microsoft_login_enabled = True,
+                github_login_enabled = True,
+                sms_login_enabled = True,
                 default_frontend_language = 'en',
         )
         """

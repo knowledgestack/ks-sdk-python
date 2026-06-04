@@ -35,12 +35,12 @@ class TestPasswordResetWithTokenRequest(unittest.TestCase):
         model = PasswordResetWithTokenRequest()
         if include_optional:
             return PasswordResetWithTokenRequest(
-                email_token = '',
+                password_reset_token = '',
                 new_password = '01234567'
             )
         else:
             return PasswordResetWithTokenRequest(
-                email_token = '',
+                password_reset_token = '',
                 new_password = '01234567',
         )
         """

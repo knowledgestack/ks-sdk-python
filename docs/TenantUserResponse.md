@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **first_name** | **str** | User first name | [optional] 
 **last_name** | **str** | User last name | [optional] 
 **role** | [**TenantUserRole**](TenantUserRole.md) |  | 
+**department** | **str** | User&#39;s department | [optional] 
+**job_title** | **str** | User&#39;s job title | [optional] 
 **deactivated_on** | **datetime** | Soft-deletion timestamp. NULL &#x3D; active. | [optional] 
 **is_tenant_idp_managed** | **bool** | Whether the user is managed by the tenant&#39;s identity provider | 
 **created_at** | **datetime** | Date the user was added to the tenant | 

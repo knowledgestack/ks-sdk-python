@@ -33,10 +33,31 @@ class TestUsersApi(unittest.TestCase):
         """
         pass
 
+    def test_skip_onboarding(self) -> None:
+        """Test case for skip_onboarding
+
+        Skip Onboarding Handler
+        """
+        pass
+
     def test_update_me(self) -> None:
         """Test case for update_me
 
         Update Me Handler
+        """
+        pass
+
+    def test_update_onboarding_company(self) -> None:
+        """Test case for update_onboarding_company
+
+        Update Onboarding Company Handler
+        """
+        pass
+
+    def test_update_onboarding_profile(self) -> None:
+        """Test case for update_onboarding_profile
+
+        Update Onboarding Profile Handler
         """
         pass
 

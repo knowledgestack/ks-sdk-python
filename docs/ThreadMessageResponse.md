@@ -1,6 +1,5 @@
 # ThreadMessageResponse
 
-Thread message response model.
 
 ## Properties
 
@@ -11,10 +10,11 @@ Name | Type | Description | Notes
 **sequence** | **int** | Sequence number (from path_part.name) | 
 **role** | [**MessageRole**](MessageRole.md) |  | 
 **content** | [**EnrichedThreadMessageContent**](EnrichedThreadMessageContent.md) |  | 
-**details** | [**ThreadMessageDetailsOutput**](ThreadMessageDetailsOutput.md) |  | [optional] 
+**details** | [**ThreadMessageDetailsOutput**](ThreadMessageDetailsOutput.md) | Message details (None when not requested via with_details) | [optional] 
 **parent_path_id** | **UUID** | Thread&#39;s PathPart ID | 
 **materialized_path** | **str** | Full materialized path from root | 
 **tenant_id** | **UUID** | Tenant ID | 
+**author_tenant_user_id** | **UUID** | tenant_user.user_id of the sender for USER messages. NULL for ASSISTANT / SYSTEM rows and for legacy USER rows written before multi-user thread support landed. | [optional] 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 

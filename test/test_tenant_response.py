@@ -41,7 +41,15 @@ class TestTenantResponse(unittest.TestCase):
                 settings = ksapi.models.tenant_settings_response.TenantSettingsResponse(
                     language = 'en', 
                     description = '', 
-                    timezone = '', ),
+                    industry = '', 
+                    timezone = '', 
+                    display_name = 'firstname', 
+                    invite_link = ksapi.models.invite_link_settings_response.InviteLinkSettingsResponse(
+                        enabled = True, 
+                        role = 'USER', 
+                        groups = [
+                            ''
+                            ], ), ),
                 branding = ksapi.models.tenant_branding_response.TenantBrandingResponse(
                     brand_name = '', 
                     brand_color = '', 
@@ -50,7 +58,9 @@ class TestTenantResponse(unittest.TestCase):
                     favicon_url = '', 
                     theme_overrides = {
                         'key' : ''
-                        }, )
+                        }, ),
+                seats = 1.0,
+                subscription_id = ''
             )
         else:
             return TenantResponse(
@@ -59,7 +69,17 @@ class TestTenantResponse(unittest.TestCase):
                 settings = ksapi.models.tenant_settings_response.TenantSettingsResponse(
                     language = 'en', 
                     description = '', 
-                    timezone = '', ),
+                    industry = '', 
+                    timezone = '', 
+                    display_name = 'firstname', 
+                    invite_link = ksapi.models.invite_link_settings_response.InviteLinkSettingsResponse(
+                        enabled = True, 
+                        role = 'USER', 
+                        groups = [
+                            ''
+                            ], ), ),
+                seats = 1.0,
+                subscription_id = '',
         )
         """
 

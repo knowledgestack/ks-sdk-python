@@ -26,6 +26,13 @@ class TestWorkflowRunsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_clone_workflow_run(self) -> None:
+        """Test case for clone_workflow_run
+
+        Clone Workflow Run Handler
+        """
+        pass
+
     def test_delete_workflow_run(self) -> None:
         """Test case for delete_workflow_run
 
@@ -37,6 +44,41 @@ class TestWorkflowRunsApi(unittest.TestCase):
         """Test case for get_workflow_run
 
         Get Workflow Run Handler
+        """
+        pass
+
+    def test_retry_workflow_run(self) -> None:
+        """Test case for retry_workflow_run
+
+        Retry Workflow Run Handler
+        """
+        pass
+
+    def test_set_workflow_run_approval(self) -> None:
+        """Test case for set_workflow_run_approval
+
+        Set Workflow Run Approval Handler
+        """
+        pass
+
+    def test_start_workflow_run(self) -> None:
+        """Test case for start_workflow_run
+
+        Start Workflow Run Handler
+        """
+        pass
+
+    def test_stop_workflow_run(self) -> None:
+        """Test case for stop_workflow_run
+
+        Stop Workflow Run Handler
+        """
+        pass
+
+    def test_update_workflow_run(self) -> None:
+        """Test case for update_workflow_run
+
+        Update Workflow Run Handler
         """
         pass
 

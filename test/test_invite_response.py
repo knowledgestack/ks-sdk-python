@@ -39,6 +39,9 @@ class TestInviteResponse(unittest.TestCase):
                 tenant_id = '',
                 email = '',
                 role = 'USER',
+                groups = [
+                    ''
+                    ],
                 expires_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),

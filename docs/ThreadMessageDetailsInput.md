@@ -6,6 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **steps** | [**List[StepInput]**](StepInput.md) |  | [optional] 
+**checkpoint** | [**CheckpointDetails**](CheckpointDetails.md) | Agent history checkpoint. Present only on role&#x3D;SYSTEM messages written by the agent&#39;s archival path. | [optional] 
+**model_id** | **str** | Model registry id (FE-stable, e.g. &#x60;&#x60;qwen-flash&#x60;&#x60;) that produced this assistant message. &#x60;&#x60;None&#x60;&#x60; for legacy rows that pre-date model selection. | [optional] 
 
 ## Example
 

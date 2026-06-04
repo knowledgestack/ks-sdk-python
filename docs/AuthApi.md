@@ -4,20 +4,102 @@ All URIs are relative to *http://localhost:8000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**change_phone_number**](AuthApi.md#change_phone_number) | **PUT** /v1/auth/pw/me/phone_number | Change Phone Number Handler
 [**create_password_user**](AuthApi.md#create_password_user) | **POST** /v1/auth/pw/user | Create Password User Handler
+[**create_phone_password_user**](AuthApi.md#create_phone_password_user) | **POST** /v1/auth/pw/phone_user | Create Phone Password User Handler
 [**fanwei_directory_sync**](AuthApi.md#fanwei_directory_sync) | **POST** /v1/auth/sso/{tenant_id}/directory_sync | Directory Sync Handler
 [**fanwei_directory_sync_0**](AuthApi.md#fanwei_directory_sync_0) | **POST** /v1/auth/sso/{tenant_id}/directory_sync | Directory Sync Handler
 [**initiate_sso**](AuthApi.md#initiate_sso) | **POST** /v1/auth/sso/initiate | Initiate Sso Handler
 [**oauth2_callback**](AuthApi.md#oauth2_callback) | **GET** /v1/auth/sso/oauth2/callback | Oauth2 Callback Handler
 [**pw_email_verification**](AuthApi.md#pw_email_verification) | **POST** /v1/auth/pw/email_verification | Pw Email Verification Handler
+[**pw_phone_verification**](AuthApi.md#pw_phone_verification) | **POST** /v1/auth/pw/phone_verification | Pw Phone Verification Handler
 [**pw_signin**](AuthApi.md#pw_signin) | **POST** /v1/auth/pw/signin | Signin Handler
 [**refresh_uat**](AuthApi.md#refresh_uat) | **POST** /v1/auth/uat | Refresh Uat Handler
+[**request_phone_change**](AuthApi.md#request_phone_change) | **POST** /v1/auth/pw/me/phone_number/verify | Request Phone Change Handler
 [**reset_password**](AuthApi.md#reset_password) | **POST** /v1/auth/pw/reset | Reset Password Handler
 [**reset_password_with_token**](AuthApi.md#reset_password_with_token) | **POST** /v1/auth/pw/reset_with_token | Reset Password With Token Handler
 [**send_pw_reset_email**](AuthApi.md#send_pw_reset_email) | **POST** /v1/auth/pw/send_reset_email | Send Pw Reset Email Handler
 [**signout**](AuthApi.md#signout) | **POST** /v1/auth/signout | Signout Handler
 [**sso_signin**](AuthApi.md#sso_signin) | **GET** /v1/auth/sso/{tenant_id}/signin | Sso Login Handler
+[**validate_pw_reset_code**](AuthApi.md#validate_pw_reset_code) | **POST** /v1/auth/pw/validate_reset_code | Validate Reset Code Handler
 
+
+# **change_phone_number**
+> UserResponse change_phone_number(change_phone_number_request, authorization=authorization, ks_uat=ks_uat)
+
+Change Phone Number Handler
+
+Apply a verified phone-number change to the authenticated user.
+
+The new phone is read from the Redis validation record pinned by
+``/me/phone_number/verify``.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.change_phone_number_request import ChangePhoneNumberRequest
+from ksapi.models.user_response import UserResponse
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.AuthApi(api_client)
+    change_phone_number_request = ksapi.ChangePhoneNumberRequest() # ChangePhoneNumberRequest | 
+    authorization = 'authorization_example' # str |  (optional)
+    ks_uat = 'ks_uat_example' # str |  (optional)
+
+    try:
+        # Change Phone Number Handler
+        api_response = api_instance.change_phone_number(change_phone_number_request, authorization=authorization, ks_uat=ks_uat)
+        print("The response of AuthApi->change_phone_number:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthApi->change_phone_number: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **change_phone_number_request** | [**ChangePhoneNumberRequest**](ChangePhoneNumberRequest.md)|  | 
+ **authorization** | **str**|  | [optional] 
+ **ks_uat** | **str**|  | [optional] 
+
+### Return type
+
+[**UserResponse**](UserResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_password_user**
 > UserResponse create_password_user(create_password_user_request)
@@ -64,6 +146,81 @@ with ksapi.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_password_user_request** | [**CreatePasswordUserRequest**](CreatePasswordUserRequest.md)|  | 
+
+### Return type
+
+[**UserResponse**](UserResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_phone_password_user**
+> UserResponse create_phone_password_user(create_phone_password_user_request)
+
+Create Phone Password User Handler
+
+Complete phone-based signup using a verified validation code.
+
+The phone number is read from the Redis validation record — it was
+pinned there by ``/phone_verification`` — so the client cannot
+submit a different phone here than the one it just proved ownership
+of.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.create_phone_password_user_request import CreatePhonePasswordUserRequest
+from ksapi.models.user_response import UserResponse
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.AuthApi(api_client)
+    create_phone_password_user_request = ksapi.CreatePhonePasswordUserRequest() # CreatePhonePasswordUserRequest | 
+
+    try:
+        # Create Phone Password User Handler
+        api_response = api_instance.create_phone_password_user(create_phone_password_user_request)
+        print("The response of AuthApi->create_phone_password_user:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthApi->create_phone_password_user: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **create_phone_password_user_request** | [**CreatePhonePasswordUserRequest**](CreatePhonePasswordUserRequest.md)|  | 
 
 ### Return type
 
@@ -466,6 +623,79 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **pw_phone_verification**
+> PhoneValidationResponse pw_phone_verification(phone_verification_request)
+
+Pw Phone Verification Handler
+
+Send a 6-digit signup verification code to ``phone_number``.
+
+Rejects (409) if a user already exists for this phone — this leaks
+enumeration but matches the duplicate-signup UX of the email flow.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.phone_validation_response import PhoneValidationResponse
+from ksapi.models.phone_verification_request import PhoneVerificationRequest
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.AuthApi(api_client)
+    phone_verification_request = ksapi.PhoneVerificationRequest() # PhoneVerificationRequest | 
+
+    try:
+        # Pw Phone Verification Handler
+        api_response = api_instance.pw_phone_verification(phone_verification_request)
+        print("The response of AuthApi->pw_phone_verification:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthApi->pw_phone_verification: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **phone_verification_request** | [**PhoneVerificationRequest**](PhoneVerificationRequest.md)|  | 
+
+### Return type
+
+[**PhoneValidationResponse**](PhoneValidationResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **pw_signin**
 > UserResponse pw_signin(sign_in_request)
 
@@ -613,6 +843,83 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **request_phone_change**
+> PhoneValidationResponse request_phone_change(request_phone_change_request, authorization=authorization, ks_uat=ks_uat)
+
+Request Phone Change Handler
+
+Dispatch an SMS code to authorize a phone-number change.
+
+Confirms the new phone isn't already taken by *another* user. The
+caller is identified by their UAT, so authentication is required.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.phone_validation_response import PhoneValidationResponse
+from ksapi.models.request_phone_change_request import RequestPhoneChangeRequest
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.AuthApi(api_client)
+    request_phone_change_request = ksapi.RequestPhoneChangeRequest() # RequestPhoneChangeRequest | 
+    authorization = 'authorization_example' # str |  (optional)
+    ks_uat = 'ks_uat_example' # str |  (optional)
+
+    try:
+        # Request Phone Change Handler
+        api_response = api_instance.request_phone_change(request_phone_change_request, authorization=authorization, ks_uat=ks_uat)
+        print("The response of AuthApi->request_phone_change:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthApi->request_phone_change: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_phone_change_request** | [**RequestPhoneChangeRequest**](RequestPhoneChangeRequest.md)|  | 
+ **authorization** | **str**|  | [optional] 
+ **ks_uat** | **str**|  | [optional] 
+
+### Return type
+
+[**PhoneValidationResponse**](PhoneValidationResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **reset_password**
 > UserResponse reset_password(password_reset_request, authorization=authorization, ks_uat=ks_uat)
 
@@ -692,7 +999,7 @@ No authorization required
 
 Reset Password With Token Handler
 
-Reset password with email verification token
+Reset password with a single-use PasswordResetToken JWT
 
 ### Example
 
@@ -758,17 +1065,24 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **send_pw_reset_email**
-> EmailSentResponse send_pw_reset_email(email_verification_request)
+> ResponseSendPwResetEmail send_pw_reset_email(send_password_reset_request)
 
 Send Pw Reset Email Handler
+
+Initiate a password reset via the requested ``method``.
+
+``method=EMAIL`` (default) mints a ``PasswordResetToken`` and sends
+the existing reset email. ``method=SMS`` looks up the user by
+phone, dispatches an SMS verification code, and the caller must
+follow up with ``/validate_reset_code``.
 
 ### Example
 
 
 ```python
 import ksapi
-from ksapi.models.email_sent_response import EmailSentResponse
-from ksapi.models.email_verification_request import EmailVerificationRequest
+from ksapi.models.response_send_pw_reset_email import ResponseSendPwResetEmail
+from ksapi.models.send_password_reset_request import SendPasswordResetRequest
 from ksapi.rest import ApiException
 from pprint import pprint
 
@@ -783,11 +1097,11 @@ configuration = ksapi.Configuration(
 with ksapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ksapi.AuthApi(api_client)
-    email_verification_request = ksapi.EmailVerificationRequest() # EmailVerificationRequest | 
+    send_password_reset_request = ksapi.SendPasswordResetRequest() # SendPasswordResetRequest | 
 
     try:
         # Send Pw Reset Email Handler
-        api_response = api_instance.send_pw_reset_email(email_verification_request)
+        api_response = api_instance.send_pw_reset_email(send_password_reset_request)
         print("The response of AuthApi->send_pw_reset_email:\n")
         pprint(api_response)
     except Exception as e:
@@ -801,11 +1115,11 @@ with ksapi.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email_verification_request** | [**EmailVerificationRequest**](EmailVerificationRequest.md)|  | 
+ **send_password_reset_request** | [**SendPasswordResetRequest**](SendPasswordResetRequest.md)|  | 
 
 ### Return type
 
-[**EmailSentResponse**](EmailSentResponse.md)
+[**ResponseSendPwResetEmail**](ResponseSendPwResetEmail.md)
 
 ### Authorization
 
@@ -954,6 +1268,76 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **307** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **validate_pw_reset_code**
+> PasswordResetTokenResponse validate_pw_reset_code(validate_reset_code_request)
+
+Validate Reset Code Handler
+
+Validate an SMS reset code and return a single-use reset JWT.
+
+### Example
+
+
+```python
+import ksapi
+from ksapi.models.password_reset_token_response import PasswordResetTokenResponse
+from ksapi.models.validate_reset_code_request import ValidateResetCodeRequest
+from ksapi.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ksapi.Configuration(
+    host = "http://localhost:8000"
+)
+
+
+# Enter a context with an instance of the API client
+with ksapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = ksapi.AuthApi(api_client)
+    validate_reset_code_request = ksapi.ValidateResetCodeRequest() # ValidateResetCodeRequest | 
+
+    try:
+        # Validate Reset Code Handler
+        api_response = api_instance.validate_pw_reset_code(validate_reset_code_request)
+        print("The response of AuthApi->validate_pw_reset_code:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthApi->validate_pw_reset_code: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **validate_reset_code_request** | [**ValidateResetCodeRequest**](ValidateResetCodeRequest.md)|  | 
+
+### Return type
+
+[**PasswordResetTokenResponse**](PasswordResetTokenResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

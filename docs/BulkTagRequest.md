@@ -1,12 +1,12 @@
 # BulkTagRequest
 
-Request to bulk add or remove tags from a path part.
+Request to set or remove tags on a path part.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**tag_ids** | **List[UUID]** | List of tag IDs to add/remove | 
+**tag_ids** | **List[UUID]** | List of tag IDs to set/remove | 
 
 ## Example
 

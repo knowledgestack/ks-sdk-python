@@ -14,10 +14,12 @@ Name | Type | Description | Notes
 **materialized_path** | **str** | Full materialized path from root | 
 **system_managed** | **bool** | Whether this version is system-managed | 
 **tenant_id** | **UUID** | Tenant ID | 
+**uploader** | [**UserInfo**](UserInfo.md) |  | 
 **created_at** | **datetime** | Creation timestamp | 
 **updated_at** | **datetime** | Last update timestamp | 
 **asset_s3_url** | **str** | Presigned URL to download the source document (6-hour validity) | [optional] 
 **fast_plaintext_url** | **str** | Presigned URL to download the fast plaintext export (6-hour validity) | [optional] 
+**page_screenshot_urls** | **List[str]** | Presigned URLs (6-hour validity) to per-page WEBP screenshots in page order: index 0 is page 1, index N-1 is page N. Populated only when the request includes include_page_screenshots&#x3D;true; null otherwise. | [optional] 
 **system_metadata** | [**DocumentVersionMetadata**](DocumentVersionMetadata.md) |  | [optional] 
 
 ## Example
