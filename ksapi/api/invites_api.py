@@ -48,8 +48,6 @@ class InvitesApi:
     def accept_invite(
         self,
         invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69,10 +67,6 @@ class InvitesApi:
 
         :param invite_id: Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first. (required)
         :type invite_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -97,8 +91,6 @@ class InvitesApi:
 
         _param = self._accept_invite_serialize(
             invite_id=invite_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -124,8 +116,6 @@ class InvitesApi:
     def accept_invite_with_http_info(
         self,
         invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -145,10 +135,6 @@ class InvitesApi:
 
         :param invite_id: Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first. (required)
         :type invite_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -173,8 +159,6 @@ class InvitesApi:
 
         _param = self._accept_invite_serialize(
             invite_id=invite_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -200,8 +184,6 @@ class InvitesApi:
     def accept_invite_without_preload_content(
         self,
         invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -221,10 +203,6 @@ class InvitesApi:
 
         :param invite_id: Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first. (required)
         :type invite_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -249,8 +227,6 @@ class InvitesApi:
 
         _param = self._accept_invite_serialize(
             invite_id=invite_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -271,8 +247,6 @@ class InvitesApi:
     def _accept_invite_serialize(
         self,
         invite_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -298,8 +272,6 @@ class InvitesApi:
             _path_params['invite_id'] = invite_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -315,6 +287,8 @@ class InvitesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -339,8 +313,6 @@ class InvitesApi:
     def create_invite(
         self,
         invite_user_request: InviteUserRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -360,10 +332,6 @@ class InvitesApi:
 
         :param invite_user_request: (required)
         :type invite_user_request: InviteUserRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -388,8 +356,6 @@ class InvitesApi:
 
         _param = self._create_invite_serialize(
             invite_user_request=invite_user_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -415,8 +381,6 @@ class InvitesApi:
     def create_invite_with_http_info(
         self,
         invite_user_request: InviteUserRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -436,10 +400,6 @@ class InvitesApi:
 
         :param invite_user_request: (required)
         :type invite_user_request: InviteUserRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -464,8 +424,6 @@ class InvitesApi:
 
         _param = self._create_invite_serialize(
             invite_user_request=invite_user_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -491,8 +449,6 @@ class InvitesApi:
     def create_invite_without_preload_content(
         self,
         invite_user_request: InviteUserRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -512,10 +468,6 @@ class InvitesApi:
 
         :param invite_user_request: (required)
         :type invite_user_request: InviteUserRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -540,8 +492,6 @@ class InvitesApi:
 
         _param = self._create_invite_serialize(
             invite_user_request=invite_user_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -562,8 +512,6 @@ class InvitesApi:
     def _create_invite_serialize(
         self,
         invite_user_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -587,8 +535,6 @@ class InvitesApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if invite_user_request is not None:
@@ -619,6 +565,8 @@ class InvitesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -643,8 +591,6 @@ class InvitesApi:
     def delete_invite(
         self,
         invite_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -664,10 +610,6 @@ class InvitesApi:
 
         :param invite_id: (required)
         :type invite_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -692,8 +634,6 @@ class InvitesApi:
 
         _param = self._delete_invite_serialize(
             invite_id=invite_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -719,8 +659,6 @@ class InvitesApi:
     def delete_invite_with_http_info(
         self,
         invite_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -740,10 +678,6 @@ class InvitesApi:
 
         :param invite_id: (required)
         :type invite_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -768,8 +702,6 @@ class InvitesApi:
 
         _param = self._delete_invite_serialize(
             invite_id=invite_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -795,8 +727,6 @@ class InvitesApi:
     def delete_invite_without_preload_content(
         self,
         invite_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -816,10 +746,6 @@ class InvitesApi:
 
         :param invite_id: (required)
         :type invite_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -844,8 +770,6 @@ class InvitesApi:
 
         _param = self._delete_invite_serialize(
             invite_id=invite_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -866,8 +790,6 @@ class InvitesApi:
     def _delete_invite_serialize(
         self,
         invite_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -893,8 +815,6 @@ class InvitesApi:
             _path_params['invite_id'] = invite_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -910,6 +830,8 @@ class InvitesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -937,8 +859,6 @@ class InvitesApi:
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -964,10 +884,6 @@ class InvitesApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -995,8 +911,6 @@ class InvitesApi:
             status=status,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1025,8 +939,6 @@ class InvitesApi:
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1052,10 +964,6 @@ class InvitesApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1083,8 +991,6 @@ class InvitesApi:
             status=status,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1113,8 +1019,6 @@ class InvitesApi:
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1140,10 +1044,6 @@ class InvitesApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1171,8 +1071,6 @@ class InvitesApi:
             status=status,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1196,8 +1094,6 @@ class InvitesApi:
         status,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1237,8 +1133,6 @@ class InvitesApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1254,6 +1148,8 @@ class InvitesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1279,8 +1175,6 @@ class InvitesApi:
         self,
         invite_id: UUID,
         update_invite_request: UpdateInviteRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1302,10 +1196,6 @@ class InvitesApi:
         :type invite_id: UUID
         :param update_invite_request: (required)
         :type update_invite_request: UpdateInviteRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1331,8 +1221,6 @@ class InvitesApi:
         _param = self._update_invite_serialize(
             invite_id=invite_id,
             update_invite_request=update_invite_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1359,8 +1247,6 @@ class InvitesApi:
         self,
         invite_id: UUID,
         update_invite_request: UpdateInviteRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1382,10 +1268,6 @@ class InvitesApi:
         :type invite_id: UUID
         :param update_invite_request: (required)
         :type update_invite_request: UpdateInviteRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1411,8 +1293,6 @@ class InvitesApi:
         _param = self._update_invite_serialize(
             invite_id=invite_id,
             update_invite_request=update_invite_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1439,8 +1319,6 @@ class InvitesApi:
         self,
         invite_id: UUID,
         update_invite_request: UpdateInviteRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1462,10 +1340,6 @@ class InvitesApi:
         :type invite_id: UUID
         :param update_invite_request: (required)
         :type update_invite_request: UpdateInviteRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1491,8 +1365,6 @@ class InvitesApi:
         _param = self._update_invite_serialize(
             invite_id=invite_id,
             update_invite_request=update_invite_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1514,8 +1386,6 @@ class InvitesApi:
         self,
         invite_id,
         update_invite_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1541,8 +1411,6 @@ class InvitesApi:
             _path_params['invite_id'] = invite_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_invite_request is not None:
@@ -1573,6 +1441,8 @@ class InvitesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

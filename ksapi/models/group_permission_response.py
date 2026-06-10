@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict
 from uuid import UUID
 from ksapi.models.permission_capability import PermissionCapability
@@ -36,9 +36,10 @@ class GroupPermissionResponse(BaseModel):
     path_part_id: UUID
     materialized_path: StrictStr
     capability: PermissionCapability
+    can_approve: StrictBool
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["id", "tenant_id", "group_id", "path_part_id", "materialized_path", "capability", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "tenant_id", "group_id", "path_part_id", "materialized_path", "capability", "can_approve", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -97,6 +98,7 @@ class GroupPermissionResponse(BaseModel):
             "path_part_id": obj.get("path_part_id"),
             "materialized_path": obj.get("materialized_path"),
             "capability": obj.get("capability"),
+            "can_approve": obj.get("can_approve"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

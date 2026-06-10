@@ -40,6 +40,13 @@ class TestPathPartsApi(unittest.TestCase):
         """
         pass
 
+    def test_check_path_part_access(self) -> None:
+        """Test case for check_path_part_access
+
+        Check Path Part Access Handler
+        """
+        pass
+
     def test_get_path_part(self) -> None:
         """Test case for get_path_part
 

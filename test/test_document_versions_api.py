@@ -54,6 +54,13 @@ class TestDocumentVersionsApi(unittest.TestCase):
         """
         pass
 
+    def test_download_document_version(self) -> None:
+        """Test case for download_document_version
+
+        Download Document Version Handler
+        """
+        pass
+
     def test_get_document_version(self) -> None:
         """Test case for get_document_version
 
@@ -65,6 +72,13 @@ class TestDocumentVersionsApi(unittest.TestCase):
         """Test case for get_document_version_contents
 
         Get Document Version Contents Handler
+        """
+        pass
+
+    def test_get_document_version_diff(self) -> None:
+        """Test case for get_document_version_diff
+
+        Get Document Version Diff Handler
         """
         pass
 

@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.tag_response import TagResponse
 from typing import Optional, Set
@@ -44,8 +45,8 @@ class FolderResponse(BaseModel):
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this folder")
-    can_write: Optional[StrictBool] = Field(default=None, description="Whether the current caller has write access to this folder. Only populated by endpoints that compute it (e.g. folder contents).")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "created_at", "updated_at", "tags", "can_write"]
+    permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "created_at", "updated_at", "tags", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -100,6 +101,9 @@ class FolderResponse(BaseModel):
                 if _item_tags:
                     _items.append(_item_tags.to_dict())
             _dict['tags'] = _items
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -110,10 +114,10 @@ class FolderResponse(BaseModel):
         if self.tags is None and "tags" in self.model_fields_set:
             _dict['tags'] = None
 
-        # set to None if can_write (nullable) is None
+        # set to None if permissions (nullable) is None
         # and model_fields_set contains the field
-        if self.can_write is None and "can_write" in self.model_fields_set:
-            _dict['can_write'] = None
+        if self.permissions is None and "permissions" in self.model_fields_set:
+            _dict['permissions'] = None
 
         return _dict
 
@@ -140,7 +144,7 @@ class FolderResponse(BaseModel):
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
-            "can_write": obj.get("can_write")
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None
         })
         return _obj
 

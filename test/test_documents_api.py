@@ -40,6 +40,13 @@ class TestDocumentsApi(unittest.TestCase):
         """
         pass
 
+    def test_download_document(self) -> None:
+        """Test case for download_document
+
+        Download Document Handler
+        """
+        pass
+
     def test_get_document(self) -> None:
         """Test case for get_document
 

@@ -20,7 +20,7 @@ from typing_extensions import Self
 
 class PermissionCapability(str, Enum):
     """
-    Permission capability.
+    Path access capability, a strict ladder: read < write < delete.
     """
 
     """
@@ -28,6 +28,7 @@ class PermissionCapability(str, Enum):
     """
     READ_ONLY = 'READ_ONLY'
     READ_WRITE = 'READ_WRITE'
+    READ_WRITE_DELETE = 'READ_WRITE_DELETE'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

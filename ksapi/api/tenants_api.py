@@ -51,8 +51,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74,10 +72,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -103,8 +97,6 @@ class TenantsApi:
         _param = self._activate_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -131,8 +123,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -154,10 +144,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -183,8 +169,6 @@ class TenantsApi:
         _param = self._activate_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -211,8 +195,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -234,10 +216,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -263,8 +241,6 @@ class TenantsApi:
         _param = self._activate_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -286,8 +262,6 @@ class TenantsApi:
         self,
         tenant_id,
         user_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -315,8 +289,6 @@ class TenantsApi:
             _path_params['user_id'] = user_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -332,6 +304,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -357,8 +331,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -380,10 +352,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -409,8 +377,6 @@ class TenantsApi:
         _param = self._deactivate_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -437,8 +403,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -460,10 +424,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -489,8 +449,6 @@ class TenantsApi:
         _param = self._deactivate_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -517,8 +475,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -540,10 +496,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -569,8 +521,6 @@ class TenantsApi:
         _param = self._deactivate_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -592,8 +542,6 @@ class TenantsApi:
         self,
         tenant_id,
         user_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -621,8 +569,6 @@ class TenantsApi:
             _path_params['user_id'] = user_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -638,6 +584,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -662,8 +610,6 @@ class TenantsApi:
     def delete_tenant(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -683,10 +629,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -711,8 +653,6 @@ class TenantsApi:
 
         _param = self._delete_tenant_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -738,8 +678,6 @@ class TenantsApi:
     def delete_tenant_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -759,10 +697,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -787,8 +721,6 @@ class TenantsApi:
 
         _param = self._delete_tenant_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -814,8 +746,6 @@ class TenantsApi:
     def delete_tenant_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -835,10 +765,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -863,8 +789,6 @@ class TenantsApi:
 
         _param = self._delete_tenant_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -885,8 +809,6 @@ class TenantsApi:
     def _delete_tenant_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -912,8 +834,6 @@ class TenantsApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -929,6 +849,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -954,8 +876,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         logo_type: Optional[BrandingLogoType] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -977,10 +897,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param logo_type:
         :type logo_type: BrandingLogoType
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1006,8 +922,6 @@ class TenantsApi:
         _param = self._delete_tenant_logo_serialize(
             tenant_id=tenant_id,
             logo_type=logo_type,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1034,8 +948,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         logo_type: Optional[BrandingLogoType] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1057,10 +969,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param logo_type:
         :type logo_type: BrandingLogoType
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1086,8 +994,6 @@ class TenantsApi:
         _param = self._delete_tenant_logo_serialize(
             tenant_id=tenant_id,
             logo_type=logo_type,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1114,8 +1020,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         logo_type: Optional[BrandingLogoType] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1137,10 +1041,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param logo_type:
         :type logo_type: BrandingLogoType
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1166,8 +1066,6 @@ class TenantsApi:
         _param = self._delete_tenant_logo_serialize(
             tenant_id=tenant_id,
             logo_type=logo_type,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1189,8 +1087,6 @@ class TenantsApi:
         self,
         tenant_id,
         logo_type,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1220,8 +1116,6 @@ class TenantsApi:
             _query_params.append(('logo_type', logo_type.value))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1237,6 +1131,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1262,8 +1158,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1285,10 +1179,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1314,8 +1204,6 @@ class TenantsApi:
         _param = self._delete_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1342,8 +1230,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1365,10 +1251,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1394,8 +1276,6 @@ class TenantsApi:
         _param = self._delete_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1422,8 +1302,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1445,10 +1323,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1474,8 +1348,6 @@ class TenantsApi:
         _param = self._delete_tenant_user_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1497,8 +1369,6 @@ class TenantsApi:
         self,
         tenant_id,
         user_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1526,8 +1396,6 @@ class TenantsApi:
             _path_params['user_id'] = user_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1543,6 +1411,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1567,8 +1437,6 @@ class TenantsApi:
     def get_tenant(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1588,10 +1456,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1616,8 +1480,6 @@ class TenantsApi:
 
         _param = self._get_tenant_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1643,8 +1505,6 @@ class TenantsApi:
     def get_tenant_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1664,10 +1524,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1692,8 +1548,6 @@ class TenantsApi:
 
         _param = self._get_tenant_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1719,8 +1573,6 @@ class TenantsApi:
     def get_tenant_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1740,10 +1592,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1768,8 +1616,6 @@ class TenantsApi:
 
         _param = self._get_tenant_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1790,8 +1636,6 @@ class TenantsApi:
     def _get_tenant_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1817,8 +1661,6 @@ class TenantsApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1834,6 +1676,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1858,8 +1702,6 @@ class TenantsApi:
     def get_tenant_quota_state(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1879,10 +1721,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1907,8 +1745,6 @@ class TenantsApi:
 
         _param = self._get_tenant_quota_state_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1934,8 +1770,6 @@ class TenantsApi:
     def get_tenant_quota_state_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1955,10 +1789,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1983,8 +1813,6 @@ class TenantsApi:
 
         _param = self._get_tenant_quota_state_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2010,8 +1838,6 @@ class TenantsApi:
     def get_tenant_quota_state_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2031,10 +1857,6 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2059,8 +1881,6 @@ class TenantsApi:
 
         _param = self._get_tenant_quota_state_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2081,8 +1901,6 @@ class TenantsApi:
     def _get_tenant_quota_state_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2108,8 +1926,6 @@ class TenantsApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2125,6 +1941,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2151,8 +1969,6 @@ class TenantsApi:
         tenant_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2176,10 +1992,6 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2206,8 +2018,6 @@ class TenantsApi:
             tenant_id=tenant_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2235,8 +2045,6 @@ class TenantsApi:
         tenant_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2260,10 +2068,6 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2290,8 +2094,6 @@ class TenantsApi:
             tenant_id=tenant_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2319,8 +2121,6 @@ class TenantsApi:
         tenant_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2344,10 +2144,6 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2374,8 +2170,6 @@ class TenantsApi:
             tenant_id=tenant_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2398,8 +2192,6 @@ class TenantsApi:
         tenant_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2433,8 +2225,6 @@ class TenantsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2450,6 +2240,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2475,8 +2267,6 @@ class TenantsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2498,10 +2288,6 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2527,8 +2313,6 @@ class TenantsApi:
         _param = self._list_tenants_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2555,8 +2339,6 @@ class TenantsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2578,10 +2360,6 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2607,8 +2385,6 @@ class TenantsApi:
         _param = self._list_tenants_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2635,8 +2411,6 @@ class TenantsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2658,10 +2432,6 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2687,8 +2457,6 @@ class TenantsApi:
         _param = self._list_tenants_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2710,8 +2478,6 @@ class TenantsApi:
         self,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2743,8 +2509,6 @@ class TenantsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2760,6 +2524,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2785,8 +2551,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         update_tenant_request: UpdateTenantRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2808,10 +2572,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param update_tenant_request: (required)
         :type update_tenant_request: UpdateTenantRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2837,8 +2597,6 @@ class TenantsApi:
         _param = self._update_tenant_serialize(
             tenant_id=tenant_id,
             update_tenant_request=update_tenant_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2865,8 +2623,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         update_tenant_request: UpdateTenantRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2888,10 +2644,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param update_tenant_request: (required)
         :type update_tenant_request: UpdateTenantRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2917,8 +2669,6 @@ class TenantsApi:
         _param = self._update_tenant_serialize(
             tenant_id=tenant_id,
             update_tenant_request=update_tenant_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2945,8 +2695,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         update_tenant_request: UpdateTenantRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2968,10 +2716,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param update_tenant_request: (required)
         :type update_tenant_request: UpdateTenantRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2997,8 +2741,6 @@ class TenantsApi:
         _param = self._update_tenant_serialize(
             tenant_id=tenant_id,
             update_tenant_request=update_tenant_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3020,8 +2762,6 @@ class TenantsApi:
         self,
         tenant_id,
         update_tenant_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3047,8 +2787,6 @@ class TenantsApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_tenant_request is not None:
@@ -3079,6 +2817,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3105,8 +2845,6 @@ class TenantsApi:
         tenant_id: UUID,
         user_id: UUID,
         tenant_user_edit_request: TenantUserEditRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3130,10 +2868,6 @@ class TenantsApi:
         :type user_id: UUID
         :param tenant_user_edit_request: (required)
         :type tenant_user_edit_request: TenantUserEditRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3160,8 +2894,6 @@ class TenantsApi:
             tenant_id=tenant_id,
             user_id=user_id,
             tenant_user_edit_request=tenant_user_edit_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3189,8 +2921,6 @@ class TenantsApi:
         tenant_id: UUID,
         user_id: UUID,
         tenant_user_edit_request: TenantUserEditRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3214,10 +2944,6 @@ class TenantsApi:
         :type user_id: UUID
         :param tenant_user_edit_request: (required)
         :type tenant_user_edit_request: TenantUserEditRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3244,8 +2970,6 @@ class TenantsApi:
             tenant_id=tenant_id,
             user_id=user_id,
             tenant_user_edit_request=tenant_user_edit_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3273,8 +2997,6 @@ class TenantsApi:
         tenant_id: UUID,
         user_id: UUID,
         tenant_user_edit_request: TenantUserEditRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3298,10 +3020,6 @@ class TenantsApi:
         :type user_id: UUID
         :param tenant_user_edit_request: (required)
         :type tenant_user_edit_request: TenantUserEditRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3328,8 +3046,6 @@ class TenantsApi:
             tenant_id=tenant_id,
             user_id=user_id,
             tenant_user_edit_request=tenant_user_edit_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3352,8 +3068,6 @@ class TenantsApi:
         tenant_id,
         user_id,
         tenant_user_edit_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3381,8 +3095,6 @@ class TenantsApi:
             _path_params['user_id'] = user_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if tenant_user_edit_request is not None:
@@ -3413,6 +3125,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3438,8 +3152,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         logo_type: Optional[BrandingLogoType] = None,
         _request_timeout: Union[
             None,
@@ -3462,10 +3174,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param file: (required)
         :type file: bytes
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param logo_type:
         :type logo_type: BrandingLogoType
         :param _request_timeout: timeout setting for this request. If one
@@ -3493,8 +3201,6 @@ class TenantsApi:
         _param = self._upload_tenant_logo_serialize(
             tenant_id=tenant_id,
             file=file,
-            authorization=authorization,
-            ks_uat=ks_uat,
             logo_type=logo_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3522,8 +3228,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         logo_type: Optional[BrandingLogoType] = None,
         _request_timeout: Union[
             None,
@@ -3546,10 +3250,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param file: (required)
         :type file: bytes
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param logo_type:
         :type logo_type: BrandingLogoType
         :param _request_timeout: timeout setting for this request. If one
@@ -3577,8 +3277,6 @@ class TenantsApi:
         _param = self._upload_tenant_logo_serialize(
             tenant_id=tenant_id,
             file=file,
-            authorization=authorization,
-            ks_uat=ks_uat,
             logo_type=logo_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3606,8 +3304,6 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         logo_type: Optional[BrandingLogoType] = None,
         _request_timeout: Union[
             None,
@@ -3630,10 +3326,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param file: (required)
         :type file: bytes
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param logo_type:
         :type logo_type: BrandingLogoType
         :param _request_timeout: timeout setting for this request. If one
@@ -3661,8 +3353,6 @@ class TenantsApi:
         _param = self._upload_tenant_logo_serialize(
             tenant_id=tenant_id,
             file=file,
-            authorization=authorization,
-            ks_uat=ks_uat,
             logo_type=logo_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3685,8 +3375,6 @@ class TenantsApi:
         self,
         tenant_id,
         file,
-        authorization,
-        ks_uat,
         logo_type,
         _request_auth,
         _content_type,
@@ -3713,8 +3401,6 @@ class TenantsApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         if file is not None:
             _files['file'] = file
@@ -3747,6 +3433,8 @@ class TenantsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

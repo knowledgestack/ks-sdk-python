@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -47,8 +47,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         append_memory_chunk_request: AppendMemoryChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69,10 +67,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param append_memory_chunk_request: (required)
         :type append_memory_chunk_request: AppendMemoryChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -98,8 +92,6 @@ class WorkflowMemoryApi:
         _param = self._append_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             append_memory_chunk_request=append_memory_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -126,8 +118,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         append_memory_chunk_request: AppendMemoryChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -148,10 +138,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param append_memory_chunk_request: (required)
         :type append_memory_chunk_request: AppendMemoryChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -177,8 +163,6 @@ class WorkflowMemoryApi:
         _param = self._append_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             append_memory_chunk_request=append_memory_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -205,8 +189,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         append_memory_chunk_request: AppendMemoryChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -227,10 +209,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param append_memory_chunk_request: (required)
         :type append_memory_chunk_request: AppendMemoryChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -256,8 +234,6 @@ class WorkflowMemoryApi:
         _param = self._append_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             append_memory_chunk_request=append_memory_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -279,8 +255,6 @@ class WorkflowMemoryApi:
         self,
         definition_id,
         append_memory_chunk_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -306,8 +280,6 @@ class WorkflowMemoryApi:
             _path_params['definition_id'] = definition_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if append_memory_chunk_request is not None:
@@ -338,6 +310,8 @@ class WorkflowMemoryApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -364,8 +338,6 @@ class WorkflowMemoryApi:
         definition_id: UUID,
         chunk_id: UUID,
         edit_memory_chunk_request: EditMemoryChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -388,10 +360,6 @@ class WorkflowMemoryApi:
         :type chunk_id: UUID
         :param edit_memory_chunk_request: (required)
         :type edit_memory_chunk_request: EditMemoryChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -418,8 +386,6 @@ class WorkflowMemoryApi:
             definition_id=definition_id,
             chunk_id=chunk_id,
             edit_memory_chunk_request=edit_memory_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -447,8 +413,6 @@ class WorkflowMemoryApi:
         definition_id: UUID,
         chunk_id: UUID,
         edit_memory_chunk_request: EditMemoryChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -471,10 +435,6 @@ class WorkflowMemoryApi:
         :type chunk_id: UUID
         :param edit_memory_chunk_request: (required)
         :type edit_memory_chunk_request: EditMemoryChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -501,8 +461,6 @@ class WorkflowMemoryApi:
             definition_id=definition_id,
             chunk_id=chunk_id,
             edit_memory_chunk_request=edit_memory_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -530,8 +488,6 @@ class WorkflowMemoryApi:
         definition_id: UUID,
         chunk_id: UUID,
         edit_memory_chunk_request: EditMemoryChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -554,10 +510,6 @@ class WorkflowMemoryApi:
         :type chunk_id: UUID
         :param edit_memory_chunk_request: (required)
         :type edit_memory_chunk_request: EditMemoryChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -584,8 +536,6 @@ class WorkflowMemoryApi:
             definition_id=definition_id,
             chunk_id=chunk_id,
             edit_memory_chunk_request=edit_memory_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -608,8 +558,6 @@ class WorkflowMemoryApi:
         definition_id,
         chunk_id,
         edit_memory_chunk_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -637,8 +585,6 @@ class WorkflowMemoryApi:
             _path_params['chunk_id'] = chunk_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if edit_memory_chunk_request is not None:
@@ -669,6 +615,8 @@ class WorkflowMemoryApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -694,8 +642,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -716,10 +662,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -745,8 +687,6 @@ class WorkflowMemoryApi:
         _param = self._forget_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -773,8 +713,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -795,10 +733,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -824,8 +758,6 @@ class WorkflowMemoryApi:
         _param = self._forget_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -852,8 +784,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -874,10 +804,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -903,8 +829,6 @@ class WorkflowMemoryApi:
         _param = self._forget_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -926,8 +850,6 @@ class WorkflowMemoryApi:
         self,
         definition_id,
         chunk_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -955,8 +877,6 @@ class WorkflowMemoryApi:
             _path_params['chunk_id'] = chunk_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -972,6 +892,8 @@ class WorkflowMemoryApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -997,8 +919,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1019,10 +939,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1048,8 +964,6 @@ class WorkflowMemoryApi:
         _param = self._get_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1076,8 +990,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1098,10 +1010,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1127,8 +1035,6 @@ class WorkflowMemoryApi:
         _param = self._get_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1155,8 +1061,6 @@ class WorkflowMemoryApi:
         self,
         definition_id: UUID,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1177,10 +1081,6 @@ class WorkflowMemoryApi:
         :type definition_id: UUID
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1206,8 +1106,6 @@ class WorkflowMemoryApi:
         _param = self._get_workflow_memory_chunk_serialize(
             definition_id=definition_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1229,8 +1127,6 @@ class WorkflowMemoryApi:
         self,
         definition_id,
         chunk_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1258,8 +1154,6 @@ class WorkflowMemoryApi:
             _path_params['chunk_id'] = chunk_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1275,6 +1169,8 @@ class WorkflowMemoryApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1301,8 +1197,6 @@ class WorkflowMemoryApi:
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1325,10 +1219,6 @@ class WorkflowMemoryApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1355,8 +1245,6 @@ class WorkflowMemoryApi:
             definition_id=definition_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1384,8 +1272,6 @@ class WorkflowMemoryApi:
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1408,10 +1294,6 @@ class WorkflowMemoryApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1438,8 +1320,6 @@ class WorkflowMemoryApi:
             definition_id=definition_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1467,8 +1347,6 @@ class WorkflowMemoryApi:
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1491,10 +1369,6 @@ class WorkflowMemoryApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1521,8 +1395,6 @@ class WorkflowMemoryApi:
             definition_id=definition_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1545,8 +1417,6 @@ class WorkflowMemoryApi:
         definition_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1580,8 +1450,6 @@ class WorkflowMemoryApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1597,6 +1465,8 @@ class WorkflowMemoryApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

@@ -61,8 +61,6 @@ class AuthApi:
     def change_phone_number(
         self,
         change_phone_number_request: ChangePhoneNumberRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -82,10 +80,6 @@ class AuthApi:
 
         :param change_phone_number_request: (required)
         :type change_phone_number_request: ChangePhoneNumberRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -110,8 +104,6 @@ class AuthApi:
 
         _param = self._change_phone_number_serialize(
             change_phone_number_request=change_phone_number_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -137,8 +129,6 @@ class AuthApi:
     def change_phone_number_with_http_info(
         self,
         change_phone_number_request: ChangePhoneNumberRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -158,10 +148,6 @@ class AuthApi:
 
         :param change_phone_number_request: (required)
         :type change_phone_number_request: ChangePhoneNumberRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -186,8 +172,6 @@ class AuthApi:
 
         _param = self._change_phone_number_serialize(
             change_phone_number_request=change_phone_number_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -213,8 +197,6 @@ class AuthApi:
     def change_phone_number_without_preload_content(
         self,
         change_phone_number_request: ChangePhoneNumberRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -234,10 +216,6 @@ class AuthApi:
 
         :param change_phone_number_request: (required)
         :type change_phone_number_request: ChangePhoneNumberRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -262,8 +240,6 @@ class AuthApi:
 
         _param = self._change_phone_number_serialize(
             change_phone_number_request=change_phone_number_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -284,8 +260,6 @@ class AuthApi:
     def _change_phone_number_serialize(
         self,
         change_phone_number_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -309,8 +283,6 @@ class AuthApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if change_phone_number_request is not None:
@@ -341,6 +313,8 @@ class AuthApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2956,8 +2930,6 @@ class AuthApi:
     def refresh_uat(
         self,
         tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2977,10 +2949,6 @@ class AuthApi:
 
         :param tenant_id: Target tenant ID to switch to. None=refresh current tenant
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3005,8 +2973,6 @@ class AuthApi:
 
         _param = self._refresh_uat_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3032,8 +2998,6 @@ class AuthApi:
     def refresh_uat_with_http_info(
         self,
         tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3053,10 +3017,6 @@ class AuthApi:
 
         :param tenant_id: Target tenant ID to switch to. None=refresh current tenant
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3081,8 +3041,6 @@ class AuthApi:
 
         _param = self._refresh_uat_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3108,8 +3066,6 @@ class AuthApi:
     def refresh_uat_without_preload_content(
         self,
         tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3129,10 +3085,6 @@ class AuthApi:
 
         :param tenant_id: Target tenant ID to switch to. None=refresh current tenant
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3157,8 +3109,6 @@ class AuthApi:
 
         _param = self._refresh_uat_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3179,8 +3129,6 @@ class AuthApi:
     def _refresh_uat_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3208,8 +3156,6 @@ class AuthApi:
             _query_params.append(('tenant_id', tenant_id))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -3225,6 +3171,8 @@ class AuthApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3249,8 +3197,6 @@ class AuthApi:
     def request_phone_change(
         self,
         request_phone_change_request: RequestPhoneChangeRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3270,10 +3216,6 @@ class AuthApi:
 
         :param request_phone_change_request: (required)
         :type request_phone_change_request: RequestPhoneChangeRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3298,8 +3240,6 @@ class AuthApi:
 
         _param = self._request_phone_change_serialize(
             request_phone_change_request=request_phone_change_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3325,8 +3265,6 @@ class AuthApi:
     def request_phone_change_with_http_info(
         self,
         request_phone_change_request: RequestPhoneChangeRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3346,10 +3284,6 @@ class AuthApi:
 
         :param request_phone_change_request: (required)
         :type request_phone_change_request: RequestPhoneChangeRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3374,8 +3308,6 @@ class AuthApi:
 
         _param = self._request_phone_change_serialize(
             request_phone_change_request=request_phone_change_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3401,8 +3333,6 @@ class AuthApi:
     def request_phone_change_without_preload_content(
         self,
         request_phone_change_request: RequestPhoneChangeRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3422,10 +3352,6 @@ class AuthApi:
 
         :param request_phone_change_request: (required)
         :type request_phone_change_request: RequestPhoneChangeRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3450,8 +3376,6 @@ class AuthApi:
 
         _param = self._request_phone_change_serialize(
             request_phone_change_request=request_phone_change_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3472,8 +3396,6 @@ class AuthApi:
     def _request_phone_change_serialize(
         self,
         request_phone_change_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3497,8 +3419,6 @@ class AuthApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if request_phone_change_request is not None:
@@ -3529,6 +3449,8 @@ class AuthApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3553,8 +3475,6 @@ class AuthApi:
     def reset_password(
         self,
         password_reset_request: PasswordResetRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3574,10 +3494,6 @@ class AuthApi:
 
         :param password_reset_request: (required)
         :type password_reset_request: PasswordResetRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3602,8 +3518,6 @@ class AuthApi:
 
         _param = self._reset_password_serialize(
             password_reset_request=password_reset_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3629,8 +3543,6 @@ class AuthApi:
     def reset_password_with_http_info(
         self,
         password_reset_request: PasswordResetRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3650,10 +3562,6 @@ class AuthApi:
 
         :param password_reset_request: (required)
         :type password_reset_request: PasswordResetRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3678,8 +3586,6 @@ class AuthApi:
 
         _param = self._reset_password_serialize(
             password_reset_request=password_reset_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3705,8 +3611,6 @@ class AuthApi:
     def reset_password_without_preload_content(
         self,
         password_reset_request: PasswordResetRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3726,10 +3630,6 @@ class AuthApi:
 
         :param password_reset_request: (required)
         :type password_reset_request: PasswordResetRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3754,8 +3654,6 @@ class AuthApi:
 
         _param = self._reset_password_serialize(
             password_reset_request=password_reset_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3776,8 +3674,6 @@ class AuthApi:
     def _reset_password_serialize(
         self,
         password_reset_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3801,8 +3697,6 @@ class AuthApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if password_reset_request is not None:
@@ -3833,6 +3727,8 @@ class AuthApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

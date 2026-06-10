@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -45,8 +45,6 @@ class ChunkLineagesApi:
     def create_chunk_lineage(
         self,
         create_chunk_lineage_request: CreateChunkLineageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66,10 +64,6 @@ class ChunkLineagesApi:
 
         :param create_chunk_lineage_request: (required)
         :type create_chunk_lineage_request: CreateChunkLineageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -94,8 +88,6 @@ class ChunkLineagesApi:
 
         _param = self._create_chunk_lineage_serialize(
             create_chunk_lineage_request=create_chunk_lineage_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -121,8 +113,6 @@ class ChunkLineagesApi:
     def create_chunk_lineage_with_http_info(
         self,
         create_chunk_lineage_request: CreateChunkLineageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -142,10 +132,6 @@ class ChunkLineagesApi:
 
         :param create_chunk_lineage_request: (required)
         :type create_chunk_lineage_request: CreateChunkLineageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -170,8 +156,6 @@ class ChunkLineagesApi:
 
         _param = self._create_chunk_lineage_serialize(
             create_chunk_lineage_request=create_chunk_lineage_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -197,8 +181,6 @@ class ChunkLineagesApi:
     def create_chunk_lineage_without_preload_content(
         self,
         create_chunk_lineage_request: CreateChunkLineageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -218,10 +200,6 @@ class ChunkLineagesApi:
 
         :param create_chunk_lineage_request: (required)
         :type create_chunk_lineage_request: CreateChunkLineageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -246,8 +224,6 @@ class ChunkLineagesApi:
 
         _param = self._create_chunk_lineage_serialize(
             create_chunk_lineage_request=create_chunk_lineage_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -268,8 +244,6 @@ class ChunkLineagesApi:
     def _create_chunk_lineage_serialize(
         self,
         create_chunk_lineage_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -293,8 +267,6 @@ class ChunkLineagesApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_chunk_lineage_request is not None:
@@ -325,6 +297,8 @@ class ChunkLineagesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -350,8 +324,6 @@ class ChunkLineagesApi:
         self,
         parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
         chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -373,10 +345,6 @@ class ChunkLineagesApi:
         :type parent_chunk_id: UUID
         :param chunk_id: Child chunk ID (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -402,8 +370,6 @@ class ChunkLineagesApi:
         _param = self._delete_chunk_lineage_serialize(
             parent_chunk_id=parent_chunk_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -430,8 +396,6 @@ class ChunkLineagesApi:
         self,
         parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
         chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -453,10 +417,6 @@ class ChunkLineagesApi:
         :type parent_chunk_id: UUID
         :param chunk_id: Child chunk ID (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -482,8 +442,6 @@ class ChunkLineagesApi:
         _param = self._delete_chunk_lineage_serialize(
             parent_chunk_id=parent_chunk_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -510,8 +468,6 @@ class ChunkLineagesApi:
         self,
         parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
         chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -533,10 +489,6 @@ class ChunkLineagesApi:
         :type parent_chunk_id: UUID
         :param chunk_id: Child chunk ID (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -562,8 +514,6 @@ class ChunkLineagesApi:
         _param = self._delete_chunk_lineage_serialize(
             parent_chunk_id=parent_chunk_id,
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -585,8 +535,6 @@ class ChunkLineagesApi:
         self,
         parent_chunk_id,
         chunk_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -618,8 +566,6 @@ class ChunkLineagesApi:
             _query_params.append(('chunk_id', chunk_id))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -635,6 +581,8 @@ class ChunkLineagesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -660,8 +608,6 @@ class ChunkLineagesApi:
         self,
         chunk_id: UUID,
         max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -683,10 +629,6 @@ class ChunkLineagesApi:
         :type chunk_id: UUID
         :param max_depth:
         :type max_depth: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -712,8 +654,6 @@ class ChunkLineagesApi:
         _param = self._get_chunk_lineage_serialize(
             chunk_id=chunk_id,
             max_depth=max_depth,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -740,8 +680,6 @@ class ChunkLineagesApi:
         self,
         chunk_id: UUID,
         max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -763,10 +701,6 @@ class ChunkLineagesApi:
         :type chunk_id: UUID
         :param max_depth:
         :type max_depth: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -792,8 +726,6 @@ class ChunkLineagesApi:
         _param = self._get_chunk_lineage_serialize(
             chunk_id=chunk_id,
             max_depth=max_depth,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -820,8 +752,6 @@ class ChunkLineagesApi:
         self,
         chunk_id: UUID,
         max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -843,10 +773,6 @@ class ChunkLineagesApi:
         :type chunk_id: UUID
         :param max_depth:
         :type max_depth: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -872,8 +798,6 @@ class ChunkLineagesApi:
         _param = self._get_chunk_lineage_serialize(
             chunk_id=chunk_id,
             max_depth=max_depth,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -895,8 +819,6 @@ class ChunkLineagesApi:
         self,
         chunk_id,
         max_depth,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -926,8 +848,6 @@ class ChunkLineagesApi:
             _query_params.append(('max_depth', max_depth))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -943,6 +863,8 @@ class ChunkLineagesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

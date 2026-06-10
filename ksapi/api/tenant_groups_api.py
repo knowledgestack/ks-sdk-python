@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -54,8 +54,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         add_member_request: AddMemberRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77,10 +75,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param add_member_request: (required)
         :type add_member_request: AddMemberRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -106,8 +100,6 @@ class TenantGroupsApi:
         _param = self._add_group_member_serialize(
             group_id=group_id,
             add_member_request=add_member_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -134,8 +126,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         add_member_request: AddMemberRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -157,10 +147,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param add_member_request: (required)
         :type add_member_request: AddMemberRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -186,8 +172,6 @@ class TenantGroupsApi:
         _param = self._add_group_member_serialize(
             group_id=group_id,
             add_member_request=add_member_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -214,8 +198,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         add_member_request: AddMemberRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -237,10 +219,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param add_member_request: (required)
         :type add_member_request: AddMemberRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -266,8 +244,6 @@ class TenantGroupsApi:
         _param = self._add_group_member_serialize(
             group_id=group_id,
             add_member_request=add_member_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -289,8 +265,6 @@ class TenantGroupsApi:
         self,
         group_id,
         add_member_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -316,8 +290,6 @@ class TenantGroupsApi:
             _path_params['group_id'] = group_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if add_member_request is not None:
@@ -348,6 +320,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -373,8 +347,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         create_group_permission_request: CreateGroupPermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -396,10 +368,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param create_group_permission_request: (required)
         :type create_group_permission_request: CreateGroupPermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -425,8 +393,6 @@ class TenantGroupsApi:
         _param = self._create_group_permission_serialize(
             group_id=group_id,
             create_group_permission_request=create_group_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -453,8 +419,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         create_group_permission_request: CreateGroupPermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -476,10 +440,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param create_group_permission_request: (required)
         :type create_group_permission_request: CreateGroupPermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -505,8 +465,6 @@ class TenantGroupsApi:
         _param = self._create_group_permission_serialize(
             group_id=group_id,
             create_group_permission_request=create_group_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -533,8 +491,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         create_group_permission_request: CreateGroupPermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -556,10 +512,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param create_group_permission_request: (required)
         :type create_group_permission_request: CreateGroupPermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -585,8 +537,6 @@ class TenantGroupsApi:
         _param = self._create_group_permission_serialize(
             group_id=group_id,
             create_group_permission_request=create_group_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -608,8 +558,6 @@ class TenantGroupsApi:
         self,
         group_id,
         create_group_permission_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -635,8 +583,6 @@ class TenantGroupsApi:
             _path_params['group_id'] = group_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_group_permission_request is not None:
@@ -667,6 +613,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -691,8 +639,6 @@ class TenantGroupsApi:
     def create_tenant_group(
         self,
         create_group_request: CreateGroupRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -712,10 +658,6 @@ class TenantGroupsApi:
 
         :param create_group_request: (required)
         :type create_group_request: CreateGroupRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -740,8 +682,6 @@ class TenantGroupsApi:
 
         _param = self._create_tenant_group_serialize(
             create_group_request=create_group_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -767,8 +707,6 @@ class TenantGroupsApi:
     def create_tenant_group_with_http_info(
         self,
         create_group_request: CreateGroupRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -788,10 +726,6 @@ class TenantGroupsApi:
 
         :param create_group_request: (required)
         :type create_group_request: CreateGroupRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -816,8 +750,6 @@ class TenantGroupsApi:
 
         _param = self._create_tenant_group_serialize(
             create_group_request=create_group_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -843,8 +775,6 @@ class TenantGroupsApi:
     def create_tenant_group_without_preload_content(
         self,
         create_group_request: CreateGroupRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -864,10 +794,6 @@ class TenantGroupsApi:
 
         :param create_group_request: (required)
         :type create_group_request: CreateGroupRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -892,8 +818,6 @@ class TenantGroupsApi:
 
         _param = self._create_tenant_group_serialize(
             create_group_request=create_group_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -914,8 +838,6 @@ class TenantGroupsApi:
     def _create_tenant_group_serialize(
         self,
         create_group_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -939,8 +861,6 @@ class TenantGroupsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_group_request is not None:
@@ -971,6 +891,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -996,8 +918,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         permission_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1019,10 +939,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param permission_id: (required)
         :type permission_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1048,8 +964,6 @@ class TenantGroupsApi:
         _param = self._delete_group_permission_serialize(
             group_id=group_id,
             permission_id=permission_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1076,8 +990,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         permission_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1099,10 +1011,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param permission_id: (required)
         :type permission_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1128,8 +1036,6 @@ class TenantGroupsApi:
         _param = self._delete_group_permission_serialize(
             group_id=group_id,
             permission_id=permission_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1156,8 +1062,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         permission_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1179,10 +1083,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param permission_id: (required)
         :type permission_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1208,8 +1108,6 @@ class TenantGroupsApi:
         _param = self._delete_group_permission_serialize(
             group_id=group_id,
             permission_id=permission_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1231,8 +1129,6 @@ class TenantGroupsApi:
         self,
         group_id,
         permission_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1260,8 +1156,6 @@ class TenantGroupsApi:
             _path_params['permission_id'] = permission_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1277,6 +1171,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1301,8 +1197,6 @@ class TenantGroupsApi:
     def delete_tenant_group(
         self,
         group_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1322,10 +1216,6 @@ class TenantGroupsApi:
 
         :param group_id: (required)
         :type group_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1350,8 +1240,6 @@ class TenantGroupsApi:
 
         _param = self._delete_tenant_group_serialize(
             group_id=group_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1377,8 +1265,6 @@ class TenantGroupsApi:
     def delete_tenant_group_with_http_info(
         self,
         group_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1398,10 +1284,6 @@ class TenantGroupsApi:
 
         :param group_id: (required)
         :type group_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1426,8 +1308,6 @@ class TenantGroupsApi:
 
         _param = self._delete_tenant_group_serialize(
             group_id=group_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1453,8 +1333,6 @@ class TenantGroupsApi:
     def delete_tenant_group_without_preload_content(
         self,
         group_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1474,10 +1352,6 @@ class TenantGroupsApi:
 
         :param group_id: (required)
         :type group_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1502,8 +1376,6 @@ class TenantGroupsApi:
 
         _param = self._delete_tenant_group_serialize(
             group_id=group_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1524,8 +1396,6 @@ class TenantGroupsApi:
     def _delete_tenant_group_serialize(
         self,
         group_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1551,8 +1421,6 @@ class TenantGroupsApi:
             _path_params['group_id'] = group_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1568,6 +1436,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1592,8 +1462,6 @@ class TenantGroupsApi:
     def get_tenant_group(
         self,
         group_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1613,10 +1481,6 @@ class TenantGroupsApi:
 
         :param group_id: (required)
         :type group_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1641,8 +1505,6 @@ class TenantGroupsApi:
 
         _param = self._get_tenant_group_serialize(
             group_id=group_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1668,8 +1530,6 @@ class TenantGroupsApi:
     def get_tenant_group_with_http_info(
         self,
         group_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1689,10 +1549,6 @@ class TenantGroupsApi:
 
         :param group_id: (required)
         :type group_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1717,8 +1573,6 @@ class TenantGroupsApi:
 
         _param = self._get_tenant_group_serialize(
             group_id=group_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1744,8 +1598,6 @@ class TenantGroupsApi:
     def get_tenant_group_without_preload_content(
         self,
         group_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1765,10 +1617,6 @@ class TenantGroupsApi:
 
         :param group_id: (required)
         :type group_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1793,8 +1641,6 @@ class TenantGroupsApi:
 
         _param = self._get_tenant_group_serialize(
             group_id=group_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1815,8 +1661,6 @@ class TenantGroupsApi:
     def _get_tenant_group_serialize(
         self,
         group_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1842,8 +1686,6 @@ class TenantGroupsApi:
             _path_params['group_id'] = group_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1859,6 +1701,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1885,8 +1729,6 @@ class TenantGroupsApi:
         group_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1910,10 +1752,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1940,8 +1778,6 @@ class TenantGroupsApi:
             group_id=group_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1969,8 +1805,6 @@ class TenantGroupsApi:
         group_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1994,10 +1828,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2024,8 +1854,6 @@ class TenantGroupsApi:
             group_id=group_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2053,8 +1881,6 @@ class TenantGroupsApi:
         group_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2078,10 +1904,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2108,8 +1930,6 @@ class TenantGroupsApi:
             group_id=group_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2132,8 +1952,6 @@ class TenantGroupsApi:
         group_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2167,8 +1985,6 @@ class TenantGroupsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2184,6 +2000,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2210,8 +2028,6 @@ class TenantGroupsApi:
         group_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2235,10 +2051,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2265,8 +2077,6 @@ class TenantGroupsApi:
             group_id=group_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2294,8 +2104,6 @@ class TenantGroupsApi:
         group_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2319,10 +2127,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2349,8 +2153,6 @@ class TenantGroupsApi:
             group_id=group_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2378,8 +2180,6 @@ class TenantGroupsApi:
         group_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2403,10 +2203,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2433,8 +2229,6 @@ class TenantGroupsApi:
             group_id=group_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2457,8 +2251,6 @@ class TenantGroupsApi:
         group_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2492,8 +2284,6 @@ class TenantGroupsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2509,6 +2299,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2532,8 +2324,6 @@ class TenantGroupsApi:
     @validate_call
     def list_my_groups(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2551,10 +2341,6 @@ class TenantGroupsApi:
 
         List groups the current user belongs to.
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2578,8 +2364,6 @@ class TenantGroupsApi:
         """ # noqa: E501
 
         _param = self._list_my_groups_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2588,7 +2372,6 @@ class TenantGroupsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[GroupResponse]",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2604,8 +2387,6 @@ class TenantGroupsApi:
     @validate_call
     def list_my_groups_with_http_info(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2623,10 +2404,6 @@ class TenantGroupsApi:
 
         List groups the current user belongs to.
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2650,8 +2427,6 @@ class TenantGroupsApi:
         """ # noqa: E501
 
         _param = self._list_my_groups_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2660,7 +2435,6 @@ class TenantGroupsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[GroupResponse]",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2676,8 +2450,6 @@ class TenantGroupsApi:
     @validate_call
     def list_my_groups_without_preload_content(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2695,10 +2467,6 @@ class TenantGroupsApi:
 
         List groups the current user belongs to.
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2722,8 +2490,6 @@ class TenantGroupsApi:
         """ # noqa: E501
 
         _param = self._list_my_groups_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2732,7 +2498,6 @@ class TenantGroupsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[GroupResponse]",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2743,8 +2508,6 @@ class TenantGroupsApi:
 
     def _list_my_groups_serialize(
         self,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2768,8 +2531,6 @@ class TenantGroupsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2785,6 +2546,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2810,8 +2573,6 @@ class TenantGroupsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2833,10 +2594,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2862,8 +2619,6 @@ class TenantGroupsApi:
         _param = self._list_tenant_groups_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2890,8 +2645,6 @@ class TenantGroupsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2913,10 +2666,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2942,8 +2691,6 @@ class TenantGroupsApi:
         _param = self._list_tenant_groups_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2970,8 +2717,6 @@ class TenantGroupsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2993,10 +2738,6 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3022,8 +2763,6 @@ class TenantGroupsApi:
         _param = self._list_tenant_groups_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3045,8 +2784,6 @@ class TenantGroupsApi:
         self,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3078,8 +2815,6 @@ class TenantGroupsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -3095,6 +2830,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3120,8 +2857,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3143,10 +2878,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3172,8 +2903,6 @@ class TenantGroupsApi:
         _param = self._remove_group_member_serialize(
             group_id=group_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3200,8 +2929,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3223,10 +2950,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3252,8 +2975,6 @@ class TenantGroupsApi:
         _param = self._remove_group_member_serialize(
             group_id=group_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3280,8 +3001,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         user_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3303,10 +3022,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param user_id: (required)
         :type user_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3332,8 +3047,6 @@ class TenantGroupsApi:
         _param = self._remove_group_member_serialize(
             group_id=group_id,
             user_id=user_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3355,8 +3068,6 @@ class TenantGroupsApi:
         self,
         group_id,
         user_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3384,8 +3095,6 @@ class TenantGroupsApi:
             _path_params['user_id'] = user_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -3401,6 +3110,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3427,8 +3138,6 @@ class TenantGroupsApi:
         group_id: UUID,
         permission_id: UUID,
         update_group_permission_request: UpdateGroupPermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3452,10 +3161,6 @@ class TenantGroupsApi:
         :type permission_id: UUID
         :param update_group_permission_request: (required)
         :type update_group_permission_request: UpdateGroupPermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3482,8 +3187,6 @@ class TenantGroupsApi:
             group_id=group_id,
             permission_id=permission_id,
             update_group_permission_request=update_group_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3511,8 +3214,6 @@ class TenantGroupsApi:
         group_id: UUID,
         permission_id: UUID,
         update_group_permission_request: UpdateGroupPermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3536,10 +3237,6 @@ class TenantGroupsApi:
         :type permission_id: UUID
         :param update_group_permission_request: (required)
         :type update_group_permission_request: UpdateGroupPermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3566,8 +3263,6 @@ class TenantGroupsApi:
             group_id=group_id,
             permission_id=permission_id,
             update_group_permission_request=update_group_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3595,8 +3290,6 @@ class TenantGroupsApi:
         group_id: UUID,
         permission_id: UUID,
         update_group_permission_request: UpdateGroupPermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3620,10 +3313,6 @@ class TenantGroupsApi:
         :type permission_id: UUID
         :param update_group_permission_request: (required)
         :type update_group_permission_request: UpdateGroupPermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3650,8 +3339,6 @@ class TenantGroupsApi:
             group_id=group_id,
             permission_id=permission_id,
             update_group_permission_request=update_group_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3674,8 +3361,6 @@ class TenantGroupsApi:
         group_id,
         permission_id,
         update_group_permission_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -3703,8 +3388,6 @@ class TenantGroupsApi:
             _path_params['permission_id'] = permission_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_group_permission_request is not None:
@@ -3735,6 +3418,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3760,8 +3445,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         update_group_request: UpdateGroupRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3783,10 +3466,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param update_group_request: (required)
         :type update_group_request: UpdateGroupRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3812,8 +3491,6 @@ class TenantGroupsApi:
         _param = self._update_tenant_group_serialize(
             group_id=group_id,
             update_group_request=update_group_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3840,8 +3517,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         update_group_request: UpdateGroupRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3863,10 +3538,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param update_group_request: (required)
         :type update_group_request: UpdateGroupRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3892,8 +3563,6 @@ class TenantGroupsApi:
         _param = self._update_tenant_group_serialize(
             group_id=group_id,
             update_group_request=update_group_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3920,8 +3589,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         update_group_request: UpdateGroupRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3943,10 +3610,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param update_group_request: (required)
         :type update_group_request: UpdateGroupRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3972,8 +3635,6 @@ class TenantGroupsApi:
         _param = self._update_tenant_group_serialize(
             group_id=group_id,
             update_group_request=update_group_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3995,8 +3656,6 @@ class TenantGroupsApi:
         self,
         group_id,
         update_group_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -4022,8 +3681,6 @@ class TenantGroupsApi:
             _path_params['group_id'] = group_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_group_request is not None:
@@ -4054,6 +3711,8 @@ class TenantGroupsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

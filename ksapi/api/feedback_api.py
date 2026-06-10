@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -47,8 +47,6 @@ class FeedbackApi:
     def delete_feedback(
         self,
         feedback_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -68,10 +66,6 @@ class FeedbackApi:
 
         :param feedback_id: (required)
         :type feedback_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -96,8 +90,6 @@ class FeedbackApi:
 
         _param = self._delete_feedback_serialize(
             feedback_id=feedback_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -123,8 +115,6 @@ class FeedbackApi:
     def delete_feedback_with_http_info(
         self,
         feedback_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -144,10 +134,6 @@ class FeedbackApi:
 
         :param feedback_id: (required)
         :type feedback_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -172,8 +158,6 @@ class FeedbackApi:
 
         _param = self._delete_feedback_serialize(
             feedback_id=feedback_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -199,8 +183,6 @@ class FeedbackApi:
     def delete_feedback_without_preload_content(
         self,
         feedback_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -220,10 +202,6 @@ class FeedbackApi:
 
         :param feedback_id: (required)
         :type feedback_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -248,8 +226,6 @@ class FeedbackApi:
 
         _param = self._delete_feedback_serialize(
             feedback_id=feedback_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -270,8 +246,6 @@ class FeedbackApi:
     def _delete_feedback_serialize(
         self,
         feedback_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -297,8 +271,6 @@ class FeedbackApi:
             _path_params['feedback_id'] = feedback_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -314,6 +286,8 @@ class FeedbackApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -342,8 +316,6 @@ class FeedbackApi:
         rating: Optional[FeedbackRating] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -371,10 +343,6 @@ class FeedbackApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -403,8 +371,6 @@ class FeedbackApi:
             rating=rating,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -434,8 +400,6 @@ class FeedbackApi:
         rating: Optional[FeedbackRating] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -463,10 +427,6 @@ class FeedbackApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -495,8 +455,6 @@ class FeedbackApi:
             rating=rating,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -526,8 +484,6 @@ class FeedbackApi:
         rating: Optional[FeedbackRating] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -555,10 +511,6 @@ class FeedbackApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -587,8 +539,6 @@ class FeedbackApi:
             rating=rating,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -613,8 +563,6 @@ class FeedbackApi:
         rating,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -658,8 +606,6 @@ class FeedbackApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -675,6 +621,8 @@ class FeedbackApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -699,8 +647,6 @@ class FeedbackApi:
     def submit_feedback(
         self,
         submit_feedback_request: SubmitFeedbackRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -720,10 +666,6 @@ class FeedbackApi:
 
         :param submit_feedback_request: (required)
         :type submit_feedback_request: SubmitFeedbackRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -748,8 +690,6 @@ class FeedbackApi:
 
         _param = self._submit_feedback_serialize(
             submit_feedback_request=submit_feedback_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -775,8 +715,6 @@ class FeedbackApi:
     def submit_feedback_with_http_info(
         self,
         submit_feedback_request: SubmitFeedbackRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -796,10 +734,6 @@ class FeedbackApi:
 
         :param submit_feedback_request: (required)
         :type submit_feedback_request: SubmitFeedbackRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -824,8 +758,6 @@ class FeedbackApi:
 
         _param = self._submit_feedback_serialize(
             submit_feedback_request=submit_feedback_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -851,8 +783,6 @@ class FeedbackApi:
     def submit_feedback_without_preload_content(
         self,
         submit_feedback_request: SubmitFeedbackRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -872,10 +802,6 @@ class FeedbackApi:
 
         :param submit_feedback_request: (required)
         :type submit_feedback_request: SubmitFeedbackRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -900,8 +826,6 @@ class FeedbackApi:
 
         _param = self._submit_feedback_serialize(
             submit_feedback_request=submit_feedback_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,8 +846,6 @@ class FeedbackApi:
     def _submit_feedback_serialize(
         self,
         submit_feedback_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -947,8 +869,6 @@ class FeedbackApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if submit_feedback_request is not None:
@@ -979,6 +899,8 @@ class FeedbackApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

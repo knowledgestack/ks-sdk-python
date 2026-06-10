@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -46,8 +46,6 @@ class SectionsApi:
     def create_section(
         self,
         create_section_request: CreateSectionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67,10 +65,6 @@ class SectionsApi:
 
         :param create_section_request: (required)
         :type create_section_request: CreateSectionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -95,8 +89,6 @@ class SectionsApi:
 
         _param = self._create_section_serialize(
             create_section_request=create_section_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -122,8 +114,6 @@ class SectionsApi:
     def create_section_with_http_info(
         self,
         create_section_request: CreateSectionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -143,10 +133,6 @@ class SectionsApi:
 
         :param create_section_request: (required)
         :type create_section_request: CreateSectionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -171,8 +157,6 @@ class SectionsApi:
 
         _param = self._create_section_serialize(
             create_section_request=create_section_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -198,8 +182,6 @@ class SectionsApi:
     def create_section_without_preload_content(
         self,
         create_section_request: CreateSectionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -219,10 +201,6 @@ class SectionsApi:
 
         :param create_section_request: (required)
         :type create_section_request: CreateSectionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -247,8 +225,6 @@ class SectionsApi:
 
         _param = self._create_section_serialize(
             create_section_request=create_section_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -269,8 +245,6 @@ class SectionsApi:
     def _create_section_serialize(
         self,
         create_section_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -294,8 +268,6 @@ class SectionsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_section_request is not None:
@@ -326,6 +298,8 @@ class SectionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -350,8 +324,6 @@ class SectionsApi:
     def delete_section(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -371,10 +343,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -399,8 +367,6 @@ class SectionsApi:
 
         _param = self._delete_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -426,8 +392,6 @@ class SectionsApi:
     def delete_section_with_http_info(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -447,10 +411,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -475,8 +435,6 @@ class SectionsApi:
 
         _param = self._delete_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -502,8 +460,6 @@ class SectionsApi:
     def delete_section_without_preload_content(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -523,10 +479,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -551,8 +503,6 @@ class SectionsApi:
 
         _param = self._delete_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -573,8 +523,6 @@ class SectionsApi:
     def _delete_section_serialize(
         self,
         section_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -600,8 +548,6 @@ class SectionsApi:
             _path_params['section_id'] = section_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -617,6 +563,8 @@ class SectionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -641,8 +589,6 @@ class SectionsApi:
     def dissolve_section(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -662,10 +608,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -690,8 +632,6 @@ class SectionsApi:
 
         _param = self._dissolve_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -717,8 +657,6 @@ class SectionsApi:
     def dissolve_section_with_http_info(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -738,10 +676,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -766,8 +700,6 @@ class SectionsApi:
 
         _param = self._dissolve_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -793,8 +725,6 @@ class SectionsApi:
     def dissolve_section_without_preload_content(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -814,10 +744,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -842,8 +768,6 @@ class SectionsApi:
 
         _param = self._dissolve_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -864,8 +788,6 @@ class SectionsApi:
     def _dissolve_section_serialize(
         self,
         section_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -891,8 +813,6 @@ class SectionsApi:
             _path_params['section_id'] = section_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -908,6 +828,8 @@ class SectionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -932,8 +854,6 @@ class SectionsApi:
     def get_section(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -953,10 +873,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -981,8 +897,6 @@ class SectionsApi:
 
         _param = self._get_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1008,8 +922,6 @@ class SectionsApi:
     def get_section_with_http_info(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1029,10 +941,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1057,8 +965,6 @@ class SectionsApi:
 
         _param = self._get_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1084,8 +990,6 @@ class SectionsApi:
     def get_section_without_preload_content(
         self,
         section_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1105,10 +1009,6 @@ class SectionsApi:
 
         :param section_id: (required)
         :type section_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1133,8 +1033,6 @@ class SectionsApi:
 
         _param = self._get_section_serialize(
             section_id=section_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1155,8 +1053,6 @@ class SectionsApi:
     def _get_section_serialize(
         self,
         section_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1182,8 +1078,6 @@ class SectionsApi:
             _path_params['section_id'] = section_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1199,6 +1093,8 @@ class SectionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1223,8 +1119,6 @@ class SectionsApi:
     def get_sections_bulk(
         self,
         section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1244,10 +1138,6 @@ class SectionsApi:
 
         :param section_ids: Section IDs to fetch (max 200)
         :type section_ids: List[UUID]
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1272,8 +1162,6 @@ class SectionsApi:
 
         _param = self._get_sections_bulk_serialize(
             section_ids=section_ids,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1299,8 +1187,6 @@ class SectionsApi:
     def get_sections_bulk_with_http_info(
         self,
         section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1320,10 +1206,6 @@ class SectionsApi:
 
         :param section_ids: Section IDs to fetch (max 200)
         :type section_ids: List[UUID]
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1348,8 +1230,6 @@ class SectionsApi:
 
         _param = self._get_sections_bulk_serialize(
             section_ids=section_ids,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1375,8 +1255,6 @@ class SectionsApi:
     def get_sections_bulk_without_preload_content(
         self,
         section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1396,10 +1274,6 @@ class SectionsApi:
 
         :param section_ids: Section IDs to fetch (max 200)
         :type section_ids: List[UUID]
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1424,8 +1298,6 @@ class SectionsApi:
 
         _param = self._get_sections_bulk_serialize(
             section_ids=section_ids,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1446,8 +1318,6 @@ class SectionsApi:
     def _get_sections_bulk_serialize(
         self,
         section_ids,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1476,8 +1346,6 @@ class SectionsApi:
             _query_params.append(('section_ids', section_ids))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1493,6 +1361,8 @@ class SectionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1518,8 +1388,6 @@ class SectionsApi:
         self,
         section_id: UUID,
         update_section_request: UpdateSectionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1541,10 +1409,6 @@ class SectionsApi:
         :type section_id: UUID
         :param update_section_request: (required)
         :type update_section_request: UpdateSectionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1570,8 +1434,6 @@ class SectionsApi:
         _param = self._update_section_serialize(
             section_id=section_id,
             update_section_request=update_section_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1598,8 +1460,6 @@ class SectionsApi:
         self,
         section_id: UUID,
         update_section_request: UpdateSectionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1621,10 +1481,6 @@ class SectionsApi:
         :type section_id: UUID
         :param update_section_request: (required)
         :type update_section_request: UpdateSectionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1650,8 +1506,6 @@ class SectionsApi:
         _param = self._update_section_serialize(
             section_id=section_id,
             update_section_request=update_section_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1678,8 +1532,6 @@ class SectionsApi:
         self,
         section_id: UUID,
         update_section_request: UpdateSectionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1701,10 +1553,6 @@ class SectionsApi:
         :type section_id: UUID
         :param update_section_request: (required)
         :type update_section_request: UpdateSectionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1730,8 +1578,6 @@ class SectionsApi:
         _param = self._update_section_serialize(
             section_id=section_id,
             update_section_request=update_section_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1753,8 +1599,6 @@ class SectionsApi:
         self,
         section_id,
         update_section_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1780,8 +1624,6 @@ class SectionsApi:
             _path_params['section_id'] = section_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_section_request is not None:
@@ -1812,6 +1654,8 @@ class SectionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

@@ -48,8 +48,6 @@ class ThreadsApi:
     def create_thread(
         self,
         create_thread_request: CreateThreadRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69,10 +67,6 @@ class ThreadsApi:
 
         :param create_thread_request: (required)
         :type create_thread_request: CreateThreadRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -97,8 +91,6 @@ class ThreadsApi:
 
         _param = self._create_thread_serialize(
             create_thread_request=create_thread_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -124,8 +116,6 @@ class ThreadsApi:
     def create_thread_with_http_info(
         self,
         create_thread_request: CreateThreadRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -145,10 +135,6 @@ class ThreadsApi:
 
         :param create_thread_request: (required)
         :type create_thread_request: CreateThreadRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -173,8 +159,6 @@ class ThreadsApi:
 
         _param = self._create_thread_serialize(
             create_thread_request=create_thread_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -200,8 +184,6 @@ class ThreadsApi:
     def create_thread_without_preload_content(
         self,
         create_thread_request: CreateThreadRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -221,10 +203,6 @@ class ThreadsApi:
 
         :param create_thread_request: (required)
         :type create_thread_request: CreateThreadRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -249,8 +227,6 @@ class ThreadsApi:
 
         _param = self._create_thread_serialize(
             create_thread_request=create_thread_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -271,8 +247,6 @@ class ThreadsApi:
     def _create_thread_serialize(
         self,
         create_thread_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -296,8 +270,6 @@ class ThreadsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_thread_request is not None:
@@ -328,6 +300,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -352,8 +326,6 @@ class ThreadsApi:
     def delete_thread(
         self,
         thread_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -373,10 +345,6 @@ class ThreadsApi:
 
         :param thread_id: (required)
         :type thread_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -401,8 +369,6 @@ class ThreadsApi:
 
         _param = self._delete_thread_serialize(
             thread_id=thread_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -428,8 +394,6 @@ class ThreadsApi:
     def delete_thread_with_http_info(
         self,
         thread_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -449,10 +413,6 @@ class ThreadsApi:
 
         :param thread_id: (required)
         :type thread_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -477,8 +437,6 @@ class ThreadsApi:
 
         _param = self._delete_thread_serialize(
             thread_id=thread_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -504,8 +462,6 @@ class ThreadsApi:
     def delete_thread_without_preload_content(
         self,
         thread_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -525,10 +481,6 @@ class ThreadsApi:
 
         :param thread_id: (required)
         :type thread_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -553,8 +505,6 @@ class ThreadsApi:
 
         _param = self._delete_thread_serialize(
             thread_id=thread_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -575,8 +525,6 @@ class ThreadsApi:
     def _delete_thread_serialize(
         self,
         thread_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -602,8 +550,6 @@ class ThreadsApi:
             _path_params['thread_id'] = thread_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -619,6 +565,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -643,8 +591,6 @@ class ThreadsApi:
     def get_thread(
         self,
         thread_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -664,10 +610,6 @@ class ThreadsApi:
 
         :param thread_id: (required)
         :type thread_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -692,8 +634,6 @@ class ThreadsApi:
 
         _param = self._get_thread_serialize(
             thread_id=thread_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -719,8 +659,6 @@ class ThreadsApi:
     def get_thread_with_http_info(
         self,
         thread_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -740,10 +678,6 @@ class ThreadsApi:
 
         :param thread_id: (required)
         :type thread_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -768,8 +702,6 @@ class ThreadsApi:
 
         _param = self._get_thread_serialize(
             thread_id=thread_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -795,8 +727,6 @@ class ThreadsApi:
     def get_thread_without_preload_content(
         self,
         thread_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -816,10 +746,6 @@ class ThreadsApi:
 
         :param thread_id: (required)
         :type thread_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -844,8 +770,6 @@ class ThreadsApi:
 
         _param = self._get_thread_serialize(
             thread_id=thread_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -866,8 +790,6 @@ class ThreadsApi:
     def _get_thread_serialize(
         self,
         thread_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -893,8 +815,6 @@ class ThreadsApi:
             _path_params['thread_id'] = thread_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -910,6 +830,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -936,8 +858,6 @@ class ThreadsApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -961,10 +881,6 @@ class ThreadsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -991,8 +907,6 @@ class ThreadsApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1020,8 +934,6 @@ class ThreadsApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1045,10 +957,6 @@ class ThreadsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1075,8 +983,6 @@ class ThreadsApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1104,8 +1010,6 @@ class ThreadsApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1129,10 +1033,6 @@ class ThreadsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1159,8 +1059,6 @@ class ThreadsApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1183,8 +1081,6 @@ class ThreadsApi:
         parent_path_part_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1220,8 +1116,6 @@ class ThreadsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1237,6 +1131,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1262,8 +1158,6 @@ class ThreadsApi:
         self,
         thread_id: UUID,
         user_message_request: UserMessageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1285,10 +1179,6 @@ class ThreadsApi:
         :type thread_id: UUID
         :param user_message_request: (required)
         :type user_message_request: UserMessageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1314,8 +1204,6 @@ class ThreadsApi:
         _param = self._send_user_message_serialize(
             thread_id=thread_id,
             user_message_request=user_message_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1342,8 +1230,6 @@ class ThreadsApi:
         self,
         thread_id: UUID,
         user_message_request: UserMessageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1365,10 +1251,6 @@ class ThreadsApi:
         :type thread_id: UUID
         :param user_message_request: (required)
         :type user_message_request: UserMessageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1394,8 +1276,6 @@ class ThreadsApi:
         _param = self._send_user_message_serialize(
             thread_id=thread_id,
             user_message_request=user_message_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1422,8 +1302,6 @@ class ThreadsApi:
         self,
         thread_id: UUID,
         user_message_request: UserMessageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1445,10 +1323,6 @@ class ThreadsApi:
         :type thread_id: UUID
         :param user_message_request: (required)
         :type user_message_request: UserMessageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1474,8 +1348,6 @@ class ThreadsApi:
         _param = self._send_user_message_serialize(
             thread_id=thread_id,
             user_message_request=user_message_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1497,8 +1369,6 @@ class ThreadsApi:
         self,
         thread_id,
         user_message_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1524,8 +1394,6 @@ class ThreadsApi:
             _path_params['thread_id'] = thread_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if user_message_request is not None:
@@ -1556,6 +1424,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1582,8 +1452,6 @@ class ThreadsApi:
         thread_id: UUID,
         last_message_id: Optional[UUID] = None,
         last_entry_id: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1607,10 +1475,6 @@ class ThreadsApi:
         :type last_message_id: UUID
         :param last_entry_id:
         :type last_entry_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1637,8 +1501,6 @@ class ThreadsApi:
             thread_id=thread_id,
             last_message_id=last_message_id,
             last_entry_id=last_entry_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1666,8 +1528,6 @@ class ThreadsApi:
         thread_id: UUID,
         last_message_id: Optional[UUID] = None,
         last_entry_id: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1691,10 +1551,6 @@ class ThreadsApi:
         :type last_message_id: UUID
         :param last_entry_id:
         :type last_entry_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1721,8 +1577,6 @@ class ThreadsApi:
             thread_id=thread_id,
             last_message_id=last_message_id,
             last_entry_id=last_entry_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1750,8 +1604,6 @@ class ThreadsApi:
         thread_id: UUID,
         last_message_id: Optional[UUID] = None,
         last_entry_id: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1775,10 +1627,6 @@ class ThreadsApi:
         :type last_message_id: UUID
         :param last_entry_id:
         :type last_entry_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1805,8 +1653,6 @@ class ThreadsApi:
             thread_id=thread_id,
             last_message_id=last_message_id,
             last_entry_id=last_entry_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1829,8 +1675,6 @@ class ThreadsApi:
         thread_id,
         last_message_id,
         last_entry_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1864,8 +1708,6 @@ class ThreadsApi:
             _query_params.append(('last_entry_id', last_entry_id))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1881,6 +1723,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1906,8 +1750,6 @@ class ThreadsApi:
         self,
         thread_id: UUID,
         update_thread_request: UpdateThreadRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1929,10 +1771,6 @@ class ThreadsApi:
         :type thread_id: UUID
         :param update_thread_request: (required)
         :type update_thread_request: UpdateThreadRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1958,8 +1796,6 @@ class ThreadsApi:
         _param = self._update_thread_serialize(
             thread_id=thread_id,
             update_thread_request=update_thread_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1986,8 +1822,6 @@ class ThreadsApi:
         self,
         thread_id: UUID,
         update_thread_request: UpdateThreadRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2009,10 +1843,6 @@ class ThreadsApi:
         :type thread_id: UUID
         :param update_thread_request: (required)
         :type update_thread_request: UpdateThreadRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2038,8 +1868,6 @@ class ThreadsApi:
         _param = self._update_thread_serialize(
             thread_id=thread_id,
             update_thread_request=update_thread_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2066,8 +1894,6 @@ class ThreadsApi:
         self,
         thread_id: UUID,
         update_thread_request: UpdateThreadRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2089,10 +1915,6 @@ class ThreadsApi:
         :type thread_id: UUID
         :param update_thread_request: (required)
         :type update_thread_request: UpdateThreadRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2118,8 +1940,6 @@ class ThreadsApi:
         _param = self._update_thread_serialize(
             thread_id=thread_id,
             update_thread_request=update_thread_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2141,8 +1961,6 @@ class ThreadsApi:
         self,
         thread_id,
         update_thread_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2168,8 +1986,6 @@ class ThreadsApi:
             _path_params['thread_id'] = thread_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_thread_request is not None:
@@ -2200,6 +2016,8 @@ class ThreadsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

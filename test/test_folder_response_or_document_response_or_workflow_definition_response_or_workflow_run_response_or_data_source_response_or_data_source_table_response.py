@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse
+from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_table_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse
 
-class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse(unittest.TestCase):
-    """FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse unit test stubs"""
+class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(unittest.TestCase):
+    """FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,17 +25,17 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse:
-        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse
+    def make_instance(self, include_optional) -> FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse:
+        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse`
+        # uncomment below to create an instance of `FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse`
         """
-        model = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse()
+        model = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse()
         if include_optional:
-            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse(
-                part_type = 'WORKFLOW_RUN',
+            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(
+                part_type = 'DATA_SOURCE_TABLE',
                 id = '',
                 path_part_id = '',
                 name = '',
@@ -57,7 +57,11 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
-                can_write = True,
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
                 document_type = 'PDF',
                 document_origin = 'SOURCE',
                 active_version_id = '',
@@ -155,11 +159,17 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 outputs_path_part_ids = [
                     ''
                     ],
-                run_thread_id = ''
+                run_thread_id = '',
+                engine = 'MYSQL',
+                data_source_id = '',
+                table_name = '',
+                column_config = [
+                    { }
+                    ]
             )
         else:
-            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse(
-                part_type = 'WORKFLOW_RUN',
+            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(
+                part_type = 'DATA_SOURCE_TABLE',
                 id = '',
                 path_part_id = '',
                 name = '',
@@ -257,11 +267,17 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 outputs_path_part_ids = [
                     ''
                     ],
+                engine = 'MYSQL',
+                data_source_id = '',
+                table_name = '',
+                column_config = [
+                    { }
+                    ],
         )
         """
 
-    def testFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse(self):
-        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse"""
+    def testFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(self):
+        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

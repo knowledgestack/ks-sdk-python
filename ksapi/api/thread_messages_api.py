@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from datetime import datetime
-from pydantic import Field, StrictBool, StrictStr
+from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -47,8 +47,6 @@ class ThreadMessagesApi:
         self,
         thread_id: UUID,
         create_thread_message_request: CreateThreadMessageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70,10 +68,6 @@ class ThreadMessagesApi:
         :type thread_id: UUID
         :param create_thread_message_request: (required)
         :type create_thread_message_request: CreateThreadMessageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -99,8 +93,6 @@ class ThreadMessagesApi:
         _param = self._create_thread_message_serialize(
             thread_id=thread_id,
             create_thread_message_request=create_thread_message_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -127,8 +119,6 @@ class ThreadMessagesApi:
         self,
         thread_id: UUID,
         create_thread_message_request: CreateThreadMessageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -150,10 +140,6 @@ class ThreadMessagesApi:
         :type thread_id: UUID
         :param create_thread_message_request: (required)
         :type create_thread_message_request: CreateThreadMessageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -179,8 +165,6 @@ class ThreadMessagesApi:
         _param = self._create_thread_message_serialize(
             thread_id=thread_id,
             create_thread_message_request=create_thread_message_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -207,8 +191,6 @@ class ThreadMessagesApi:
         self,
         thread_id: UUID,
         create_thread_message_request: CreateThreadMessageRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -230,10 +212,6 @@ class ThreadMessagesApi:
         :type thread_id: UUID
         :param create_thread_message_request: (required)
         :type create_thread_message_request: CreateThreadMessageRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -259,8 +237,6 @@ class ThreadMessagesApi:
         _param = self._create_thread_message_serialize(
             thread_id=thread_id,
             create_thread_message_request=create_thread_message_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -282,8 +258,6 @@ class ThreadMessagesApi:
         self,
         thread_id,
         create_thread_message_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -309,8 +283,6 @@ class ThreadMessagesApi:
             _path_params['thread_id'] = thread_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_thread_message_request is not None:
@@ -341,6 +313,8 @@ class ThreadMessagesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -367,8 +341,6 @@ class ThreadMessagesApi:
         thread_id: UUID,
         message_id: UUID,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -392,10 +364,6 @@ class ThreadMessagesApi:
         :type message_id: UUID
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -422,8 +390,6 @@ class ThreadMessagesApi:
             thread_id=thread_id,
             message_id=message_id,
             with_details=with_details,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -451,8 +417,6 @@ class ThreadMessagesApi:
         thread_id: UUID,
         message_id: UUID,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -476,10 +440,6 @@ class ThreadMessagesApi:
         :type message_id: UUID
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -506,8 +466,6 @@ class ThreadMessagesApi:
             thread_id=thread_id,
             message_id=message_id,
             with_details=with_details,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -535,8 +493,6 @@ class ThreadMessagesApi:
         thread_id: UUID,
         message_id: UUID,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -560,10 +516,6 @@ class ThreadMessagesApi:
         :type message_id: UUID
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -590,8 +542,6 @@ class ThreadMessagesApi:
             thread_id=thread_id,
             message_id=message_id,
             with_details=with_details,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -614,8 +564,6 @@ class ThreadMessagesApi:
         thread_id,
         message_id,
         with_details,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -647,8 +595,6 @@ class ThreadMessagesApi:
             _query_params.append(('with_details', with_details))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -664,6 +610,8 @@ class ThreadMessagesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -692,8 +640,6 @@ class ThreadMessagesApi:
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -721,10 +667,6 @@ class ThreadMessagesApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -753,8 +695,6 @@ class ThreadMessagesApi:
             with_details=with_details,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -784,8 +724,6 @@ class ThreadMessagesApi:
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -813,10 +751,6 @@ class ThreadMessagesApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -845,8 +779,6 @@ class ThreadMessagesApi:
             with_details=with_details,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -876,8 +808,6 @@ class ThreadMessagesApi:
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -905,10 +835,6 @@ class ThreadMessagesApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -937,8 +863,6 @@ class ThreadMessagesApi:
             with_details=with_details,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -963,8 +887,6 @@ class ThreadMessagesApi:
         with_details,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1015,8 +937,6 @@ class ThreadMessagesApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1032,6 +952,8 @@ class ThreadMessagesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

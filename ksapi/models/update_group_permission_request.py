@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.permission_capability import PermissionCapability
@@ -31,7 +31,8 @@ class UpdateGroupPermissionRequest(BaseModel):
     """ # noqa: E501
     path_part_id: Optional[UUID] = None
     capability: Optional[PermissionCapability] = None
-    __properties: ClassVar[List[str]] = ["path_part_id", "capability"]
+    can_approve: Optional[StrictBool] = None
+    __properties: ClassVar[List[str]] = ["path_part_id", "capability", "can_approve"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -77,6 +78,11 @@ class UpdateGroupPermissionRequest(BaseModel):
         if self.path_part_id is None and "path_part_id" in self.model_fields_set:
             _dict['path_part_id'] = None
 
+        # set to None if can_approve (nullable) is None
+        # and model_fields_set contains the field
+        if self.can_approve is None and "can_approve" in self.model_fields_set:
+            _dict['can_approve'] = None
+
         return _dict
 
     @classmethod
@@ -90,7 +96,8 @@ class UpdateGroupPermissionRequest(BaseModel):
 
         _obj = cls.model_validate({
             "path_part_id": obj.get("path_part_id"),
-            "capability": obj.get("capability")
+            "capability": obj.get("capability"),
+            "can_approve": obj.get("can_approve")
         })
         return _obj
 

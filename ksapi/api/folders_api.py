@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBool, StrictStr
+from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -23,7 +23,7 @@ from ksapi.models.create_folder_request import CreateFolderRequest
 from ksapi.models.folder_action import FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse
 from ksapi.models.folder_response import FolderResponse
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_table_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator
 from ksapi.models.paginated_response_folder_response import PaginatedResponseFolderResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.search_sort_order import SearchSortOrder
@@ -52,8 +52,6 @@ class FoldersApi:
     def create_folder(
         self,
         create_folder_request: CreateFolderRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -73,10 +71,6 @@ class FoldersApi:
 
         :param create_folder_request: (required)
         :type create_folder_request: CreateFolderRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -101,8 +95,6 @@ class FoldersApi:
 
         _param = self._create_folder_serialize(
             create_folder_request=create_folder_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -128,8 +120,6 @@ class FoldersApi:
     def create_folder_with_http_info(
         self,
         create_folder_request: CreateFolderRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -149,10 +139,6 @@ class FoldersApi:
 
         :param create_folder_request: (required)
         :type create_folder_request: CreateFolderRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -177,8 +163,6 @@ class FoldersApi:
 
         _param = self._create_folder_serialize(
             create_folder_request=create_folder_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -204,8 +188,6 @@ class FoldersApi:
     def create_folder_without_preload_content(
         self,
         create_folder_request: CreateFolderRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -225,10 +207,6 @@ class FoldersApi:
 
         :param create_folder_request: (required)
         :type create_folder_request: CreateFolderRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -253,8 +231,6 @@ class FoldersApi:
 
         _param = self._create_folder_serialize(
             create_folder_request=create_folder_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -275,8 +251,6 @@ class FoldersApi:
     def _create_folder_serialize(
         self,
         create_folder_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -300,8 +274,6 @@ class FoldersApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_folder_request is not None:
@@ -332,6 +304,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -356,8 +330,6 @@ class FoldersApi:
     def delete_folder(
         self,
         folder_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -373,14 +345,10 @@ class FoldersApi:
     ) -> None:
         """Delete Folder Handler
 
-        Delete a folder and all its contents.  WARNING: This cascades to all children due to parent_id ON DELETE CASCADE. The root folder cannot be deleted.
+        Move a folder and all its contents to trash.
 
         :param folder_id: (required)
         :type folder_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -405,8 +373,6 @@ class FoldersApi:
 
         _param = self._delete_folder_serialize(
             folder_id=folder_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -432,8 +398,6 @@ class FoldersApi:
     def delete_folder_with_http_info(
         self,
         folder_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -449,14 +413,10 @@ class FoldersApi:
     ) -> ApiResponse[None]:
         """Delete Folder Handler
 
-        Delete a folder and all its contents.  WARNING: This cascades to all children due to parent_id ON DELETE CASCADE. The root folder cannot be deleted.
+        Move a folder and all its contents to trash.
 
         :param folder_id: (required)
         :type folder_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -481,8 +441,6 @@ class FoldersApi:
 
         _param = self._delete_folder_serialize(
             folder_id=folder_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -508,8 +466,6 @@ class FoldersApi:
     def delete_folder_without_preload_content(
         self,
         folder_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -525,14 +481,10 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Delete Folder Handler
 
-        Delete a folder and all its contents.  WARNING: This cascades to all children due to parent_id ON DELETE CASCADE. The root folder cannot be deleted.
+        Move a folder and all its contents to trash.
 
         :param folder_id: (required)
         :type folder_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -557,8 +509,6 @@ class FoldersApi:
 
         _param = self._delete_folder_serialize(
             folder_id=folder_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -579,8 +529,6 @@ class FoldersApi:
     def _delete_folder_serialize(
         self,
         folder_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -606,8 +554,6 @@ class FoldersApi:
             _path_params['folder_id'] = folder_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -623,6 +569,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -648,8 +596,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         action: Annotated[FolderAction, Field(description="Action to perform")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -671,10 +617,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param action: Action to perform (required)
         :type action: FolderAction
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -700,8 +642,6 @@ class FoldersApi:
         _param = self._folder_action_serialize(
             folder_id=folder_id,
             action=action,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -728,8 +668,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         action: Annotated[FolderAction, Field(description="Action to perform")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -751,10 +689,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param action: Action to perform (required)
         :type action: FolderAction
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -780,8 +714,6 @@ class FoldersApi:
         _param = self._folder_action_serialize(
             folder_id=folder_id,
             action=action,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -808,8 +740,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         action: Annotated[FolderAction, Field(description="Action to perform")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -831,10 +761,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param action: Action to perform (required)
         :type action: FolderAction
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -860,8 +786,6 @@ class FoldersApi:
         _param = self._folder_action_serialize(
             folder_id=folder_id,
             action=action,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -883,8 +807,6 @@ class FoldersApi:
         self,
         folder_id,
         action,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -914,8 +836,6 @@ class FoldersApi:
             _query_params.append(('action', action.value))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -931,6 +851,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -956,8 +878,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -978,10 +898,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1007,8 +923,6 @@ class FoldersApi:
         _param = self._get_folder_serialize(
             folder_id=folder_id,
             with_tags=with_tags,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1035,8 +949,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1057,10 +969,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1086,8 +994,6 @@ class FoldersApi:
         _param = self._get_folder_serialize(
             folder_id=folder_id,
             with_tags=with_tags,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1114,8 +1020,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1136,10 +1040,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1165,8 +1065,6 @@ class FoldersApi:
         _param = self._get_folder_serialize(
             folder_id=folder_id,
             with_tags=with_tags,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1188,8 +1086,6 @@ class FoldersApi:
         self,
         folder_id,
         with_tags,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1219,8 +1115,6 @@ class FoldersApi:
             _query_params.append(('with_tags', with_tags))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1236,6 +1130,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1265,8 +1161,6 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1279,7 +1173,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator:
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator:
         """List Folder Contents Handler
 
         List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
@@ -1296,10 +1190,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1329,8 +1219,6 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1338,7 +1226,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1361,8 +1249,6 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1375,7 +1261,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator]:
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator]:
         """List Folder Contents Handler
 
         List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
@@ -1392,10 +1278,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1425,8 +1307,6 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1434,7 +1314,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1457,8 +1337,6 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1488,10 +1366,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1521,8 +1395,6 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1530,7 +1402,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1548,8 +1420,6 @@ class FoldersApi:
         with_tags,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1595,8 +1465,6 @@ class FoldersApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1612,6 +1480,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1640,8 +1510,6 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1669,10 +1537,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1701,8 +1565,6 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1732,8 +1594,6 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1761,10 +1621,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1793,8 +1649,6 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1824,8 +1678,6 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1853,10 +1705,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1885,8 +1733,6 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1911,8 +1757,6 @@ class FoldersApi:
         with_tags,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1956,8 +1800,6 @@ class FoldersApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1973,6 +1815,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2003,8 +1847,6 @@ class FoldersApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2017,7 +1859,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator:
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator:
         """Search Items Handler
 
         Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
@@ -2036,10 +1878,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2070,8 +1908,6 @@ class FoldersApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2079,7 +1915,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2103,8 +1939,6 @@ class FoldersApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2117,7 +1951,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator]:
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator]:
         """Search Items Handler
 
         Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
@@ -2136,10 +1970,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2170,8 +2000,6 @@ class FoldersApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2179,7 +2007,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2203,8 +2031,6 @@ class FoldersApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2236,10 +2062,6 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2270,8 +2092,6 @@ class FoldersApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2279,7 +2099,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2298,8 +2118,6 @@ class FoldersApi:
         parent_path_part_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2351,8 +2169,6 @@ class FoldersApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2368,6 +2184,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2393,8 +2211,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         update_folder_request: UpdateFolderRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2416,10 +2232,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param update_folder_request: (required)
         :type update_folder_request: UpdateFolderRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2445,8 +2257,6 @@ class FoldersApi:
         _param = self._update_folder_serialize(
             folder_id=folder_id,
             update_folder_request=update_folder_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2473,8 +2283,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         update_folder_request: UpdateFolderRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2496,10 +2304,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param update_folder_request: (required)
         :type update_folder_request: UpdateFolderRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2525,8 +2329,6 @@ class FoldersApi:
         _param = self._update_folder_serialize(
             folder_id=folder_id,
             update_folder_request=update_folder_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2553,8 +2355,6 @@ class FoldersApi:
         self,
         folder_id: UUID,
         update_folder_request: UpdateFolderRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2576,10 +2376,6 @@ class FoldersApi:
         :type folder_id: UUID
         :param update_folder_request: (required)
         :type update_folder_request: UpdateFolderRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2605,8 +2401,6 @@ class FoldersApi:
         _param = self._update_folder_serialize(
             folder_id=folder_id,
             update_folder_request=update_folder_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2628,8 +2422,6 @@ class FoldersApi:
         self,
         folder_id,
         update_folder_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2655,8 +2447,6 @@ class FoldersApi:
             _path_params['folder_id'] = folder_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_folder_request is not None:
@@ -2687,6 +2477,8 @@ class FoldersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

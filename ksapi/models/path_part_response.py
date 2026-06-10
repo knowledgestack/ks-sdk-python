@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.part_type import PartType
 from ksapi.models.tag_response import TagResponse
 from typing import Optional, Set
@@ -40,11 +41,10 @@ class PathPartResponse(BaseModel):
     system_managed: StrictBool = Field(description="Whether this path part is system-managed")
     exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this path part only. The effective exclusion also applies when any ancestor has the flag set — walk the ancestry to determine effective state.")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this path part")
-    can_read: StrictBool = Field(description="Whether the current user can read")
-    can_write: StrictBool = Field(description="Whether the current user can write")
+    permissions: ItemPermissions
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["path_part_id", "name", "part_type", "parent_path_id", "metadata_obj_id", "materialized_path", "system_managed", "exclude_from_qdrant", "tags", "can_read", "can_write", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["path_part_id", "name", "part_type", "parent_path_id", "metadata_obj_id", "materialized_path", "system_managed", "exclude_from_qdrant", "tags", "permissions", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,6 +92,9 @@ class PathPartResponse(BaseModel):
                 if _item_tags:
                     _items.append(_item_tags.to_dict())
             _dict['tags'] = _items
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # set to None if parent_path_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_id is None and "parent_path_id" in self.model_fields_set:
@@ -128,8 +131,7 @@ class PathPartResponse(BaseModel):
             "system_managed": obj.get("system_managed"),
             "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
             "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
-            "can_read": obj.get("can_read"),
-            "can_write": obj.get("can_write"),
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

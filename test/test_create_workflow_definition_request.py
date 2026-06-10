@@ -38,12 +38,14 @@ class TestCreateWorkflowDefinitionRequest(unittest.TestCase):
                 name = '',
                 description = '',
                 max_run_duration_seconds = 60.0,
+                parent_path_part_id = '',
                 instruction_path_part_id = '',
                 approval_required = True
             )
         else:
             return CreateWorkflowDefinitionRequest(
                 name = '',
+                parent_path_part_id = '',
                 approval_required = True,
         )
         """

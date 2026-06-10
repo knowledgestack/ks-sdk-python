@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
@@ -45,7 +46,8 @@ class WorkflowDefinitionResponse(BaseModel):
     approval_state: PathPartApprovalState
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "approval_state", "created_at", "updated_at"]
+    permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "approval_state", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -96,6 +98,9 @@ class WorkflowDefinitionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -105,6 +110,11 @@ class WorkflowDefinitionResponse(BaseModel):
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
+
+        # set to None if permissions (nullable) is None
+        # and model_fields_set contains the field
+        if self.permissions is None and "permissions" in self.model_fields_set:
+            _dict['permissions'] = None
 
         return _dict
 
@@ -132,7 +142,8 @@ class WorkflowDefinitionResponse(BaseModel):
             "approval_required": obj.get("approval_required"),
             "approval_state": obj.get("approval_state"),
             "created_at": obj.get("created_at"),
-            "updated_at": obj.get("updated_at")
+            "updated_at": obj.get("updated_at"),
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None
         })
         return _obj
 

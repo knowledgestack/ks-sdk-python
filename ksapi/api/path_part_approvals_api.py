@@ -15,8 +15,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
-from typing import Optional
 from uuid import UUID
 from ksapi.models.path_part_approval_response import PathPartApprovalResponse
 from ksapi.models.set_approval_state_request import SetApprovalStateRequest
@@ -43,8 +41,6 @@ class PathPartApprovalsApi:
     def get_path_part_approval(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,10 +60,6 @@ class PathPartApprovalsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -92,8 +84,6 @@ class PathPartApprovalsApi:
 
         _param = self._get_path_part_approval_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -119,8 +109,6 @@ class PathPartApprovalsApi:
     def get_path_part_approval_with_http_info(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -140,10 +128,6 @@ class PathPartApprovalsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -168,8 +152,6 @@ class PathPartApprovalsApi:
 
         _param = self._get_path_part_approval_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -195,8 +177,6 @@ class PathPartApprovalsApi:
     def get_path_part_approval_without_preload_content(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -216,10 +196,6 @@ class PathPartApprovalsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -244,8 +220,6 @@ class PathPartApprovalsApi:
 
         _param = self._get_path_part_approval_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -266,8 +240,6 @@ class PathPartApprovalsApi:
     def _get_path_part_approval_serialize(
         self,
         path_part_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -293,8 +265,6 @@ class PathPartApprovalsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -310,6 +280,8 @@ class PathPartApprovalsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -335,8 +307,6 @@ class PathPartApprovalsApi:
         self,
         path_part_id: UUID,
         set_approval_state_request: SetApprovalStateRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -358,10 +328,6 @@ class PathPartApprovalsApi:
         :type path_part_id: UUID
         :param set_approval_state_request: (required)
         :type set_approval_state_request: SetApprovalStateRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -387,8 +353,6 @@ class PathPartApprovalsApi:
         _param = self._set_path_part_approval_serialize(
             path_part_id=path_part_id,
             set_approval_state_request=set_approval_state_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -415,8 +379,6 @@ class PathPartApprovalsApi:
         self,
         path_part_id: UUID,
         set_approval_state_request: SetApprovalStateRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -438,10 +400,6 @@ class PathPartApprovalsApi:
         :type path_part_id: UUID
         :param set_approval_state_request: (required)
         :type set_approval_state_request: SetApprovalStateRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -467,8 +425,6 @@ class PathPartApprovalsApi:
         _param = self._set_path_part_approval_serialize(
             path_part_id=path_part_id,
             set_approval_state_request=set_approval_state_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -495,8 +451,6 @@ class PathPartApprovalsApi:
         self,
         path_part_id: UUID,
         set_approval_state_request: SetApprovalStateRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -518,10 +472,6 @@ class PathPartApprovalsApi:
         :type path_part_id: UUID
         :param set_approval_state_request: (required)
         :type set_approval_state_request: SetApprovalStateRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -547,8 +497,6 @@ class PathPartApprovalsApi:
         _param = self._set_path_part_approval_serialize(
             path_part_id=path_part_id,
             set_approval_state_request=set_approval_state_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -570,8 +518,6 @@ class PathPartApprovalsApi:
         self,
         path_part_id,
         set_approval_state_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -597,8 +543,6 @@ class PathPartApprovalsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if set_approval_state_request is not None:
@@ -629,6 +573,8 @@ class PathPartApprovalsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

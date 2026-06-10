@@ -17,23 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt
 from typing import Any, ClassVar, Dict, List
-from typing_extensions import Annotated
-from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse
+from ksapi.models.diff_row import DiffRow
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator(BaseModel):
+class TextDiff(BaseModel):
     """
-    PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator
+    A computed side-by-side diff of two texts.
     """ # noqa: E501
-    items: List[FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse] = Field(description="List of items")
-    total: Annotated[int, Field(strict=True, ge=0)] = Field(description="Total number of items")
-    limit: Annotated[int, Field(strict=True, ge=1)] = Field(description="Number of items per page")
-    offset: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of items to skip")
-    __properties: ClassVar[List[str]] = ["items", "total", "limit", "offset"]
+    rows: List[DiffRow]
+    added: StrictInt
+    removed: StrictInt
+    changed: StrictInt
+    truncated: StrictBool
+    __properties: ClassVar[List[str]] = ["rows", "added", "removed", "changed", "truncated"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -53,7 +53,7 @@ class PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefin
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator from a JSON string"""
+        """Create an instance of TextDiff from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,18 +74,18 @@ class PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefin
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in items (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in rows (list)
         _items = []
-        if self.items:
-            for _item_items in self.items:
-                if _item_items:
-                    _items.append(_item_items.to_dict())
-            _dict['items'] = _items
+        if self.rows:
+            for _item_rows in self.rows:
+                if _item_rows:
+                    _items.append(_item_rows.to_dict())
+            _dict['rows'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDiscriminator from a dict"""
+        """Create an instance of TextDiff from a dict"""
         if obj is None:
             return None
 
@@ -93,10 +93,11 @@ class PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefin
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "items": [FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponse.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
-            "total": obj.get("total"),
-            "limit": obj.get("limit"),
-            "offset": obj.get("offset")
+            "rows": [DiffRow.from_dict(_item) for _item in obj["rows"]] if obj.get("rows") is not None else None,
+            "added": obj.get("added"),
+            "removed": obj.get("removed"),
+            "changed": obj.get("changed"),
+            "truncated": obj.get("truncated")
         })
         return _obj
 

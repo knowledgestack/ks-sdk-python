@@ -36,7 +36,8 @@ class TestCreateGroupPermissionRequest(unittest.TestCase):
         if include_optional:
             return CreateGroupPermissionRequest(
                 path_part_id = '',
-                capability = 'READ_ONLY'
+                capability = 'READ_ONLY',
+                can_approve = True
             )
         else:
             return CreateGroupPermissionRequest(

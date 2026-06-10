@@ -25,6 +25,7 @@ from ksapi.models.document_checkout_response import DocumentCheckoutResponse
 from ksapi.models.document_origin import DocumentOrigin
 from ksapi.models.document_type import DocumentType
 from ksapi.models.document_version_response import DocumentVersionResponse
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.tag_response import TagResponse
 from ksapi.models.user_info import UserInfo
@@ -54,9 +55,9 @@ class DocumentResponse(BaseModel):
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this document")
-    can_write: Optional[StrictBool] = Field(default=None, description="Whether the current caller has write access to this document. Only populated by endpoints that compute it (e.g. folder contents).")
+    permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
     checkout: Optional[DocumentCheckoutResponse] = Field(default=None, description="Active write-lock state. Null when no checkout is held. Populated on detail endpoints (GET /v1/documents/{id}). Any tenant member with read access may observe this state.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "document_type", "document_origin", "active_version_id", "active_version", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "owner", "created_at", "updated_at", "tags", "can_write", "checkout"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "document_type", "document_origin", "active_version_id", "active_version", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "owner", "created_at", "updated_at", "tags", "permissions", "checkout"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -117,6 +118,9 @@ class DocumentResponse(BaseModel):
                 if _item_tags:
                     _items.append(_item_tags.to_dict())
             _dict['tags'] = _items
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # override the default output from pydantic by calling `to_dict()` of checkout
         if self.checkout:
             _dict['checkout'] = self.checkout.to_dict()
@@ -130,10 +134,10 @@ class DocumentResponse(BaseModel):
         if self.tags is None and "tags" in self.model_fields_set:
             _dict['tags'] = None
 
-        # set to None if can_write (nullable) is None
+        # set to None if permissions (nullable) is None
         # and model_fields_set contains the field
-        if self.can_write is None and "can_write" in self.model_fields_set:
-            _dict['can_write'] = None
+        if self.permissions is None and "permissions" in self.model_fields_set:
+            _dict['permissions'] = None
 
         # set to None if checkout (nullable) is None
         # and model_fields_set contains the field
@@ -170,7 +174,7 @@ class DocumentResponse(BaseModel):
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
-            "can_write": obj.get("can_write"),
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,
             "checkout": DocumentCheckoutResponse.from_dict(obj["checkout"]) if obj.get("checkout") is not None else None
         })
         return _obj

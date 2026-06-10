@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, StrictBool
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.permission_capability import PermissionCapability
 from typing import Optional, Set
@@ -33,7 +33,8 @@ class CreatePermissionRequest(BaseModel):
     user_id: UUID
     path_part_id: UUID
     capability: PermissionCapability
-    __properties: ClassVar[List[str]] = ["tenant_id", "user_id", "path_part_id", "capability"]
+    can_approve: Optional[StrictBool] = False
+    __properties: ClassVar[List[str]] = ["tenant_id", "user_id", "path_part_id", "capability", "can_approve"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,7 +90,8 @@ class CreatePermissionRequest(BaseModel):
             "tenant_id": obj.get("tenant_id"),
             "user_id": obj.get("user_id"),
             "path_part_id": obj.get("path_part_id"),
-            "capability": obj.get("capability")
+            "capability": obj.get("capability"),
+            "can_approve": obj.get("can_approve") if obj.get("can_approve") is not None else False
         })
         return _obj
 

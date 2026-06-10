@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBool, StrictStr
+from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -44,8 +44,6 @@ class DocumentCheckoutApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67,10 +65,6 @@ class DocumentCheckoutApi:
         :type document_id: UUID
         :param force: OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.
         :type force: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -96,8 +90,6 @@ class DocumentCheckoutApi:
         _param = self._acquire_document_checkout_serialize(
             document_id=document_id,
             force=force,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -124,8 +116,6 @@ class DocumentCheckoutApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -147,10 +137,6 @@ class DocumentCheckoutApi:
         :type document_id: UUID
         :param force: OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.
         :type force: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -176,8 +162,6 @@ class DocumentCheckoutApi:
         _param = self._acquire_document_checkout_serialize(
             document_id=document_id,
             force=force,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -204,8 +188,6 @@ class DocumentCheckoutApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -227,10 +209,6 @@ class DocumentCheckoutApi:
         :type document_id: UUID
         :param force: OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.
         :type force: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -256,8 +234,6 @@ class DocumentCheckoutApi:
         _param = self._acquire_document_checkout_serialize(
             document_id=document_id,
             force=force,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -279,8 +255,6 @@ class DocumentCheckoutApi:
         self,
         document_id,
         force,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -310,8 +284,6 @@ class DocumentCheckoutApi:
             _query_params.append(('force', force))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -327,6 +299,8 @@ class DocumentCheckoutApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -351,8 +325,6 @@ class DocumentCheckoutApi:
     def get_document_checkout(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -372,10 +344,6 @@ class DocumentCheckoutApi:
 
         :param document_id: Document ID (required)
         :type document_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -400,8 +368,6 @@ class DocumentCheckoutApi:
 
         _param = self._get_document_checkout_serialize(
             document_id=document_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -427,8 +393,6 @@ class DocumentCheckoutApi:
     def get_document_checkout_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -448,10 +412,6 @@ class DocumentCheckoutApi:
 
         :param document_id: Document ID (required)
         :type document_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -476,8 +436,6 @@ class DocumentCheckoutApi:
 
         _param = self._get_document_checkout_serialize(
             document_id=document_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -503,8 +461,6 @@ class DocumentCheckoutApi:
     def get_document_checkout_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -524,10 +480,6 @@ class DocumentCheckoutApi:
 
         :param document_id: Document ID (required)
         :type document_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -552,8 +504,6 @@ class DocumentCheckoutApi:
 
         _param = self._get_document_checkout_serialize(
             document_id=document_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -574,8 +524,6 @@ class DocumentCheckoutApi:
     def _get_document_checkout_serialize(
         self,
         document_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -601,8 +549,6 @@ class DocumentCheckoutApi:
             _path_params['document_id'] = document_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -618,6 +564,8 @@ class DocumentCheckoutApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -642,8 +590,6 @@ class DocumentCheckoutApi:
     def release_document_checkout(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -663,10 +609,6 @@ class DocumentCheckoutApi:
 
         :param document_id: Document ID (required)
         :type document_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -691,8 +633,6 @@ class DocumentCheckoutApi:
 
         _param = self._release_document_checkout_serialize(
             document_id=document_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -718,8 +658,6 @@ class DocumentCheckoutApi:
     def release_document_checkout_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -739,10 +677,6 @@ class DocumentCheckoutApi:
 
         :param document_id: Document ID (required)
         :type document_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -767,8 +701,6 @@ class DocumentCheckoutApi:
 
         _param = self._release_document_checkout_serialize(
             document_id=document_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -794,8 +726,6 @@ class DocumentCheckoutApi:
     def release_document_checkout_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -815,10 +745,6 @@ class DocumentCheckoutApi:
 
         :param document_id: Document ID (required)
         :type document_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -843,8 +769,6 @@ class DocumentCheckoutApi:
 
         _param = self._release_document_checkout_serialize(
             document_id=document_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -865,8 +789,6 @@ class DocumentCheckoutApi:
     def _release_document_checkout_serialize(
         self,
         document_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -892,8 +814,6 @@ class DocumentCheckoutApi:
             _path_params['document_id'] = document_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -909,6 +829,8 @@ class DocumentCheckoutApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

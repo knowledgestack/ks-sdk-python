@@ -53,8 +53,11 @@ class TestPathPartResponse(unittest.TestCase):
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
-                can_read = True,
-                can_write = True,
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
@@ -68,8 +71,11 @@ class TestPathPartResponse(unittest.TestCase):
                 materialized_path = '',
                 system_managed = True,
                 exclude_from_qdrant = True,
-                can_read = True,
-                can_write = True,
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

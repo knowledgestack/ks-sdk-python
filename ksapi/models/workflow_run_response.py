@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.user_info import UserInfo
 from ksapi.models.workflow_execution_state import WorkflowExecutionState
@@ -56,7 +57,8 @@ class WorkflowRunResponse(BaseModel):
     run_thread_id: Optional[UUID] = Field(default=None, description="The run's primary chat thread (1:1). NULL while NOT_STARTED; set by Start. The FE opens the run by opening this thread.")
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "run_thread_id", "created_at", "updated_at"]
+    permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "run_thread_id", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -113,6 +115,9 @@ class WorkflowRunResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of run_snapshot
         if self.run_snapshot:
             _dict['run_snapshot'] = self.run_snapshot.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -142,6 +147,11 @@ class WorkflowRunResponse(BaseModel):
         # and model_fields_set contains the field
         if self.run_thread_id is None and "run_thread_id" in self.model_fields_set:
             _dict['run_thread_id'] = None
+
+        # set to None if permissions (nullable) is None
+        # and model_fields_set contains the field
+        if self.permissions is None and "permissions" in self.model_fields_set:
+            _dict['permissions'] = None
 
         return _dict
 
@@ -177,7 +187,8 @@ class WorkflowRunResponse(BaseModel):
             "outputs_path_part_ids": obj.get("outputs_path_part_ids"),
             "run_thread_id": obj.get("run_thread_id"),
             "created_at": obj.get("created_at"),
-            "updated_at": obj.get("updated_at")
+            "updated_at": obj.get("updated_at"),
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None
         })
         return _obj
 

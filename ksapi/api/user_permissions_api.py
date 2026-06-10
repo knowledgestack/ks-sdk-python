@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -46,8 +46,6 @@ class UserPermissionsApi:
     def create_user_permission(
         self,
         create_permission_request: CreatePermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67,10 +65,6 @@ class UserPermissionsApi:
 
         :param create_permission_request: (required)
         :type create_permission_request: CreatePermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -95,8 +89,6 @@ class UserPermissionsApi:
 
         _param = self._create_user_permission_serialize(
             create_permission_request=create_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -122,8 +114,6 @@ class UserPermissionsApi:
     def create_user_permission_with_http_info(
         self,
         create_permission_request: CreatePermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -143,10 +133,6 @@ class UserPermissionsApi:
 
         :param create_permission_request: (required)
         :type create_permission_request: CreatePermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -171,8 +157,6 @@ class UserPermissionsApi:
 
         _param = self._create_user_permission_serialize(
             create_permission_request=create_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -198,8 +182,6 @@ class UserPermissionsApi:
     def create_user_permission_without_preload_content(
         self,
         create_permission_request: CreatePermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -219,10 +201,6 @@ class UserPermissionsApi:
 
         :param create_permission_request: (required)
         :type create_permission_request: CreatePermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -247,8 +225,6 @@ class UserPermissionsApi:
 
         _param = self._create_user_permission_serialize(
             create_permission_request=create_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -269,8 +245,6 @@ class UserPermissionsApi:
     def _create_user_permission_serialize(
         self,
         create_permission_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -294,8 +268,6 @@ class UserPermissionsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_permission_request is not None:
@@ -326,6 +298,8 @@ class UserPermissionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -351,8 +325,6 @@ class UserPermissionsApi:
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -374,10 +346,6 @@ class UserPermissionsApi:
         :type permission_id: UUID
         :param tenant_id: Tenant ID the permission belongs to (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -403,8 +371,6 @@ class UserPermissionsApi:
         _param = self._delete_user_permission_serialize(
             permission_id=permission_id,
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -431,8 +397,6 @@ class UserPermissionsApi:
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -454,10 +418,6 @@ class UserPermissionsApi:
         :type permission_id: UUID
         :param tenant_id: Tenant ID the permission belongs to (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -483,8 +443,6 @@ class UserPermissionsApi:
         _param = self._delete_user_permission_serialize(
             permission_id=permission_id,
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -511,8 +469,6 @@ class UserPermissionsApi:
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -534,10 +490,6 @@ class UserPermissionsApi:
         :type permission_id: UUID
         :param tenant_id: Tenant ID the permission belongs to (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -563,8 +515,6 @@ class UserPermissionsApi:
         _param = self._delete_user_permission_serialize(
             permission_id=permission_id,
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -586,8 +536,6 @@ class UserPermissionsApi:
         self,
         permission_id,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -617,8 +565,6 @@ class UserPermissionsApi:
             _query_params.append(('tenant_id', tenant_id))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -634,6 +580,8 @@ class UserPermissionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -661,8 +609,6 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -688,10 +634,6 @@ class UserPermissionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -719,8 +661,6 @@ class UserPermissionsApi:
             user_id=user_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -749,8 +689,6 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -776,10 +714,6 @@ class UserPermissionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -807,8 +741,6 @@ class UserPermissionsApi:
             user_id=user_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -837,8 +769,6 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -864,10 +794,6 @@ class UserPermissionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -895,8 +821,6 @@ class UserPermissionsApi:
             user_id=user_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -920,8 +844,6 @@ class UserPermissionsApi:
         user_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -961,8 +883,6 @@ class UserPermissionsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -978,6 +898,8 @@ class UserPermissionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1004,8 +926,6 @@ class UserPermissionsApi:
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
         update_permission_request: UpdatePermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1029,10 +949,6 @@ class UserPermissionsApi:
         :type tenant_id: UUID
         :param update_permission_request: (required)
         :type update_permission_request: UpdatePermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1059,8 +975,6 @@ class UserPermissionsApi:
             permission_id=permission_id,
             tenant_id=tenant_id,
             update_permission_request=update_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1088,8 +1002,6 @@ class UserPermissionsApi:
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
         update_permission_request: UpdatePermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1113,10 +1025,6 @@ class UserPermissionsApi:
         :type tenant_id: UUID
         :param update_permission_request: (required)
         :type update_permission_request: UpdatePermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1143,8 +1051,6 @@ class UserPermissionsApi:
             permission_id=permission_id,
             tenant_id=tenant_id,
             update_permission_request=update_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1172,8 +1078,6 @@ class UserPermissionsApi:
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
         update_permission_request: UpdatePermissionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1197,10 +1101,6 @@ class UserPermissionsApi:
         :type tenant_id: UUID
         :param update_permission_request: (required)
         :type update_permission_request: UpdatePermissionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1227,8 +1127,6 @@ class UserPermissionsApi:
             permission_id=permission_id,
             tenant_id=tenant_id,
             update_permission_request=update_permission_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1251,8 +1149,6 @@ class UserPermissionsApi:
         permission_id,
         tenant_id,
         update_permission_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1282,8 +1178,6 @@ class UserPermissionsApi:
             _query_params.append(('tenant_id', tenant_id))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_permission_request is not None:
@@ -1314,6 +1208,8 @@ class UserPermissionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

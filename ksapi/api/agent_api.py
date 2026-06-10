@@ -15,8 +15,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
-from typing import Optional
 from ksapi.models.ask_request import AskRequest
 from ksapi.models.ask_response import AskResponse
 from ksapi.models.extract_request import ExtractRequest
@@ -44,8 +42,6 @@ class AgentApi:
     def agent_ask(
         self,
         ask_request: AskRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65,10 +61,6 @@ class AgentApi:
 
         :param ask_request: (required)
         :type ask_request: AskRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -93,8 +85,6 @@ class AgentApi:
 
         _param = self._agent_ask_serialize(
             ask_request=ask_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -120,8 +110,6 @@ class AgentApi:
     def agent_ask_with_http_info(
         self,
         ask_request: AskRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -141,10 +129,6 @@ class AgentApi:
 
         :param ask_request: (required)
         :type ask_request: AskRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -169,8 +153,6 @@ class AgentApi:
 
         _param = self._agent_ask_serialize(
             ask_request=ask_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -196,8 +178,6 @@ class AgentApi:
     def agent_ask_without_preload_content(
         self,
         ask_request: AskRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -217,10 +197,6 @@ class AgentApi:
 
         :param ask_request: (required)
         :type ask_request: AskRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -245,8 +221,6 @@ class AgentApi:
 
         _param = self._agent_ask_serialize(
             ask_request=ask_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -267,8 +241,6 @@ class AgentApi:
     def _agent_ask_serialize(
         self,
         ask_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -292,8 +264,6 @@ class AgentApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if ask_request is not None:
@@ -324,6 +294,8 @@ class AgentApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -348,8 +320,6 @@ class AgentApi:
     def agent_extract(
         self,
         extract_request: ExtractRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -369,10 +339,6 @@ class AgentApi:
 
         :param extract_request: (required)
         :type extract_request: ExtractRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -397,8 +363,6 @@ class AgentApi:
 
         _param = self._agent_extract_serialize(
             extract_request=extract_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,8 +388,6 @@ class AgentApi:
     def agent_extract_with_http_info(
         self,
         extract_request: ExtractRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -445,10 +407,6 @@ class AgentApi:
 
         :param extract_request: (required)
         :type extract_request: ExtractRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -473,8 +431,6 @@ class AgentApi:
 
         _param = self._agent_extract_serialize(
             extract_request=extract_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -500,8 +456,6 @@ class AgentApi:
     def agent_extract_without_preload_content(
         self,
         extract_request: ExtractRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -521,10 +475,6 @@ class AgentApi:
 
         :param extract_request: (required)
         :type extract_request: ExtractRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -549,8 +499,6 @@ class AgentApi:
 
         _param = self._agent_extract_serialize(
             extract_request=extract_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -571,8 +519,6 @@ class AgentApi:
     def _agent_extract_serialize(
         self,
         extract_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -596,8 +542,6 @@ class AgentApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if extract_request is not None:
@@ -628,6 +572,8 @@ class AgentApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

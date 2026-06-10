@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -35,7 +36,8 @@ class EventResponse(BaseModel):
     ts: datetime
     actor_user_id: Optional[UUID]
     payload: Dict[str, Any]
-    __properties: ClassVar[List[str]] = ["id", "subject_path_part_id", "kind", "ts", "actor_user_id", "payload"]
+    actor: Optional[UserInfo] = None
+    __properties: ClassVar[List[str]] = ["id", "subject_path_part_id", "kind", "ts", "actor_user_id", "payload", "actor"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -76,10 +78,18 @@ class EventResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of actor
+        if self.actor:
+            _dict['actor'] = self.actor.to_dict()
         # set to None if actor_user_id (nullable) is None
         # and model_fields_set contains the field
         if self.actor_user_id is None and "actor_user_id" in self.model_fields_set:
             _dict['actor_user_id'] = None
+
+        # set to None if actor (nullable) is None
+        # and model_fields_set contains the field
+        if self.actor is None and "actor" in self.model_fields_set:
+            _dict['actor'] = None
 
         return _dict
 
@@ -98,7 +108,8 @@ class EventResponse(BaseModel):
             "kind": obj.get("kind"),
             "ts": obj.get("ts"),
             "actor_user_id": obj.get("actor_user_id"),
-            "payload": obj.get("payload")
+            "payload": obj.get("payload"),
+            "actor": UserInfo.from_dict(obj["actor"]) if obj.get("actor") is not None else None
         })
         return _obj
 

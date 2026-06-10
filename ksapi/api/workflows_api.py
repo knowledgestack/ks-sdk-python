@@ -46,8 +46,6 @@ class WorkflowsApi:
     def cancel_temporal_workflow(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67,10 +65,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -95,8 +89,6 @@ class WorkflowsApi:
 
         _param = self._cancel_temporal_workflow_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -122,8 +114,6 @@ class WorkflowsApi:
     def cancel_temporal_workflow_with_http_info(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -143,10 +133,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -171,8 +157,6 @@ class WorkflowsApi:
 
         _param = self._cancel_temporal_workflow_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -198,8 +182,6 @@ class WorkflowsApi:
     def cancel_temporal_workflow_without_preload_content(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -219,10 +201,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -247,8 +225,6 @@ class WorkflowsApi:
 
         _param = self._cancel_temporal_workflow_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -269,8 +245,6 @@ class WorkflowsApi:
     def _cancel_temporal_workflow_serialize(
         self,
         workflow_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -296,8 +270,6 @@ class WorkflowsApi:
             _path_params['workflow_id'] = workflow_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -313,6 +285,8 @@ class WorkflowsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -337,8 +311,6 @@ class WorkflowsApi:
     def dv_workflow_rerun(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -358,10 +330,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -386,8 +354,6 @@ class WorkflowsApi:
 
         _param = self._dv_workflow_rerun_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -413,8 +379,6 @@ class WorkflowsApi:
     def dv_workflow_rerun_with_http_info(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -434,10 +398,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -462,8 +422,6 @@ class WorkflowsApi:
 
         _param = self._dv_workflow_rerun_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -489,8 +447,6 @@ class WorkflowsApi:
     def dv_workflow_rerun_without_preload_content(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -510,10 +466,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -538,8 +490,6 @@ class WorkflowsApi:
 
         _param = self._dv_workflow_rerun_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -560,8 +510,6 @@ class WorkflowsApi:
     def _dv_workflow_rerun_serialize(
         self,
         workflow_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -587,8 +535,6 @@ class WorkflowsApi:
             _path_params['workflow_id'] = workflow_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -604,6 +550,8 @@ class WorkflowsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -628,8 +576,6 @@ class WorkflowsApi:
     def get_dv_workflow(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -649,10 +595,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -677,8 +619,6 @@ class WorkflowsApi:
 
         _param = self._get_dv_workflow_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -704,8 +644,6 @@ class WorkflowsApi:
     def get_dv_workflow_with_http_info(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -725,10 +663,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -753,8 +687,6 @@ class WorkflowsApi:
 
         _param = self._get_dv_workflow_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -780,8 +712,6 @@ class WorkflowsApi:
     def get_dv_workflow_without_preload_content(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -801,10 +731,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -829,8 +755,6 @@ class WorkflowsApi:
 
         _param = self._get_dv_workflow_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -851,8 +775,6 @@ class WorkflowsApi:
     def _get_dv_workflow_serialize(
         self,
         workflow_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -878,8 +800,6 @@ class WorkflowsApi:
             _path_params['workflow_id'] = workflow_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -895,6 +815,8 @@ class WorkflowsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -919,8 +841,6 @@ class WorkflowsApi:
     def get_temporal_workflow_status(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -940,10 +860,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -968,8 +884,6 @@ class WorkflowsApi:
 
         _param = self._get_temporal_workflow_status_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -995,8 +909,6 @@ class WorkflowsApi:
     def get_temporal_workflow_status_with_http_info(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1016,10 +928,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1044,8 +952,6 @@ class WorkflowsApi:
 
         _param = self._get_temporal_workflow_status_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1071,8 +977,6 @@ class WorkflowsApi:
     def get_temporal_workflow_status_without_preload_content(
         self,
         workflow_id: StrictStr,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1092,10 +996,6 @@ class WorkflowsApi:
 
         :param workflow_id: (required)
         :type workflow_id: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1120,8 +1020,6 @@ class WorkflowsApi:
 
         _param = self._get_temporal_workflow_status_serialize(
             workflow_id=workflow_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1142,8 +1040,6 @@ class WorkflowsApi:
     def _get_temporal_workflow_status_serialize(
         self,
         workflow_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1169,8 +1065,6 @@ class WorkflowsApi:
             _path_params['workflow_id'] = workflow_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1186,6 +1080,8 @@ class WorkflowsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1211,8 +1107,6 @@ class WorkflowsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1234,10 +1128,6 @@ class WorkflowsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1263,8 +1153,6 @@ class WorkflowsApi:
         _param = self._list_dv_workflows_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1291,8 +1179,6 @@ class WorkflowsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1314,10 +1200,6 @@ class WorkflowsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1343,8 +1225,6 @@ class WorkflowsApi:
         _param = self._list_dv_workflows_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1371,8 +1251,6 @@ class WorkflowsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1394,10 +1272,6 @@ class WorkflowsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1423,8 +1297,6 @@ class WorkflowsApi:
         _param = self._list_dv_workflows_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1446,8 +1318,6 @@ class WorkflowsApi:
         self,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1479,8 +1349,6 @@ class WorkflowsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1496,6 +1364,8 @@ class WorkflowsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

@@ -46,8 +46,6 @@ class SubscriptionsApi:
         tenant_id: UUID,
         change_subscription_request: ChangeSubscriptionRequest,
         idempotency_key: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71,10 +69,6 @@ class SubscriptionsApi:
         :type change_subscription_request: ChangeSubscriptionRequest
         :param idempotency_key:
         :type idempotency_key: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -101,8 +95,6 @@ class SubscriptionsApi:
             tenant_id=tenant_id,
             change_subscription_request=change_subscription_request,
             idempotency_key=idempotency_key,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -130,8 +122,6 @@ class SubscriptionsApi:
         tenant_id: UUID,
         change_subscription_request: ChangeSubscriptionRequest,
         idempotency_key: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -155,10 +145,6 @@ class SubscriptionsApi:
         :type change_subscription_request: ChangeSubscriptionRequest
         :param idempotency_key:
         :type idempotency_key: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -185,8 +171,6 @@ class SubscriptionsApi:
             tenant_id=tenant_id,
             change_subscription_request=change_subscription_request,
             idempotency_key=idempotency_key,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -214,8 +198,6 @@ class SubscriptionsApi:
         tenant_id: UUID,
         change_subscription_request: ChangeSubscriptionRequest,
         idempotency_key: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -239,10 +221,6 @@ class SubscriptionsApi:
         :type change_subscription_request: ChangeSubscriptionRequest
         :param idempotency_key:
         :type idempotency_key: str
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -269,8 +247,6 @@ class SubscriptionsApi:
             tenant_id=tenant_id,
             change_subscription_request=change_subscription_request,
             idempotency_key=idempotency_key,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -293,8 +269,6 @@ class SubscriptionsApi:
         tenant_id,
         change_subscription_request,
         idempotency_key,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -322,8 +296,6 @@ class SubscriptionsApi:
         # process the header parameters
         if idempotency_key is not None:
             _header_params['Idempotency-Key'] = idempotency_key
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if change_subscription_request is not None:
@@ -354,6 +326,8 @@ class SubscriptionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -378,8 +352,6 @@ class SubscriptionsApi:
     def get_tenant_subscription(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -399,10 +371,6 @@ class SubscriptionsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -427,8 +395,6 @@ class SubscriptionsApi:
 
         _param = self._get_tenant_subscription_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -454,8 +420,6 @@ class SubscriptionsApi:
     def get_tenant_subscription_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -475,10 +439,6 @@ class SubscriptionsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -503,8 +463,6 @@ class SubscriptionsApi:
 
         _param = self._get_tenant_subscription_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -530,8 +488,6 @@ class SubscriptionsApi:
     def get_tenant_subscription_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -551,10 +507,6 @@ class SubscriptionsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -579,8 +531,6 @@ class SubscriptionsApi:
 
         _param = self._get_tenant_subscription_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -601,8 +551,6 @@ class SubscriptionsApi:
     def _get_tenant_subscription_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -628,8 +576,6 @@ class SubscriptionsApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -645,6 +591,8 @@ class SubscriptionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

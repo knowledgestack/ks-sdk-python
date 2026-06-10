@@ -32,9 +32,10 @@ class CreateWorkflowDefinitionRequest(BaseModel):
     name: Annotated[str, Field(strict=True, max_length=255)]
     description: Optional[StrictStr] = None
     max_run_duration_seconds: Optional[Annotated[int, Field(le=7200, strict=True, ge=60)]] = 1800
+    parent_path_part_id: UUID = Field(description="The ``path_part_id`` of the folder the workflow is created under (the folder's PathPart id, not the Folder PDO id). The caller needs write access to it; the workflow may live anywhere in the path tree.")
     instruction_path_part_id: Optional[UUID] = Field(default=None, description="DOCUMENT path_part of the instruction document. Omit (or pass null) to have the server auto-create an empty instruction.md.")
     approval_required: StrictBool
-    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "instruction_path_part_id", "approval_required"]
+    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -100,6 +101,7 @@ class CreateWorkflowDefinitionRequest(BaseModel):
             "name": obj.get("name"),
             "description": obj.get("description"),
             "max_run_duration_seconds": obj.get("max_run_duration_seconds") if obj.get("max_run_duration_seconds") is not None else 1800,
+            "parent_path_part_id": obj.get("parent_path_part_id"),
             "instruction_path_part_id": obj.get("instruction_path_part_id"),
             "approval_required": obj.get("approval_required")
         })

@@ -42,7 +42,8 @@ class TestPaginatedResponseEventResponse(unittest.TestCase):
                         kind = '', 
                         ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         actor_user_id = '', 
-                        payload = { }, )
+                        payload = { }, 
+                        actor = null, )
                     ],
                 total = 0.0,
                 limit = 1.0,
@@ -57,7 +58,8 @@ class TestPaginatedResponseEventResponse(unittest.TestCase):
                         kind = '', 
                         ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         actor_user_id = '', 
-                        payload = { }, )
+                        payload = { }, 
+                        actor = null, )
                     ],
                 total = 0.0,
                 limit = 1.0,

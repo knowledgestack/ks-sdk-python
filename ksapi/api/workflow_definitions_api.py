@@ -48,8 +48,6 @@ class WorkflowDefinitionsApi:
     def create_workflow_definition(
         self,
         create_workflow_definition_request: CreateWorkflowDefinitionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -68,10 +66,6 @@ class WorkflowDefinitionsApi:
 
         :param create_workflow_definition_request: (required)
         :type create_workflow_definition_request: CreateWorkflowDefinitionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -96,8 +90,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._create_workflow_definition_serialize(
             create_workflow_definition_request=create_workflow_definition_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -123,8 +115,6 @@ class WorkflowDefinitionsApi:
     def create_workflow_definition_with_http_info(
         self,
         create_workflow_definition_request: CreateWorkflowDefinitionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -143,10 +133,6 @@ class WorkflowDefinitionsApi:
 
         :param create_workflow_definition_request: (required)
         :type create_workflow_definition_request: CreateWorkflowDefinitionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -171,8 +157,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._create_workflow_definition_serialize(
             create_workflow_definition_request=create_workflow_definition_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -198,8 +182,6 @@ class WorkflowDefinitionsApi:
     def create_workflow_definition_without_preload_content(
         self,
         create_workflow_definition_request: CreateWorkflowDefinitionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -218,10 +200,6 @@ class WorkflowDefinitionsApi:
 
         :param create_workflow_definition_request: (required)
         :type create_workflow_definition_request: CreateWorkflowDefinitionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -246,8 +224,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._create_workflow_definition_serialize(
             create_workflow_definition_request=create_workflow_definition_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -268,8 +244,6 @@ class WorkflowDefinitionsApi:
     def _create_workflow_definition_serialize(
         self,
         create_workflow_definition_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -293,8 +267,6 @@ class WorkflowDefinitionsApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_workflow_definition_request is not None:
@@ -325,6 +297,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -349,8 +323,6 @@ class WorkflowDefinitionsApi:
     def create_workflow_run(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
         input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
@@ -373,10 +345,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param files: DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.
         :type files: List[bytes]
         :param input_scope: JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.
@@ -407,8 +375,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._create_workflow_run_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             files=files,
             input_scope=input_scope,
             idempotency_key=idempotency_key,
@@ -437,8 +403,6 @@ class WorkflowDefinitionsApi:
     def create_workflow_run_with_http_info(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
         input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
@@ -461,10 +425,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param files: DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.
         :type files: List[bytes]
         :param input_scope: JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.
@@ -495,8 +455,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._create_workflow_run_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             files=files,
             input_scope=input_scope,
             idempotency_key=idempotency_key,
@@ -525,8 +483,6 @@ class WorkflowDefinitionsApi:
     def create_workflow_run_without_preload_content(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
         input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
@@ -549,10 +505,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param files: DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.
         :type files: List[bytes]
         :param input_scope: JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.
@@ -583,8 +535,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._create_workflow_run_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             files=files,
             input_scope=input_scope,
             idempotency_key=idempotency_key,
@@ -608,8 +558,6 @@ class WorkflowDefinitionsApi:
     def _create_workflow_run_serialize(
         self,
         definition_id,
-        authorization,
-        ks_uat,
         files,
         input_scope,
         idempotency_key,
@@ -639,8 +587,6 @@ class WorkflowDefinitionsApi:
             _path_params['definition_id'] = definition_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         if files is not None:
             _files['files'] = files
@@ -675,6 +621,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -699,8 +647,6 @@ class WorkflowDefinitionsApi:
     def delete_workflow_definition(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -719,10 +665,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -747,8 +689,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._delete_workflow_definition_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -774,8 +714,6 @@ class WorkflowDefinitionsApi:
     def delete_workflow_definition_with_http_info(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -794,10 +732,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -822,8 +756,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._delete_workflow_definition_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -849,8 +781,6 @@ class WorkflowDefinitionsApi:
     def delete_workflow_definition_without_preload_content(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -869,10 +799,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -897,8 +823,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._delete_workflow_definition_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -919,8 +843,6 @@ class WorkflowDefinitionsApi:
     def _delete_workflow_definition_serialize(
         self,
         definition_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -946,8 +868,6 @@ class WorkflowDefinitionsApi:
             _path_params['definition_id'] = definition_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -963,6 +883,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -987,8 +909,6 @@ class WorkflowDefinitionsApi:
     def get_workflow_definition(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1007,10 +927,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1035,8 +951,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._get_workflow_definition_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1062,8 +976,6 @@ class WorkflowDefinitionsApi:
     def get_workflow_definition_with_http_info(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1082,10 +994,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1110,8 +1018,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._get_workflow_definition_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1137,8 +1043,6 @@ class WorkflowDefinitionsApi:
     def get_workflow_definition_without_preload_content(
         self,
         definition_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1157,10 +1061,6 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1185,8 +1085,6 @@ class WorkflowDefinitionsApi:
 
         _param = self._get_workflow_definition_serialize(
             definition_id=definition_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1207,8 +1105,6 @@ class WorkflowDefinitionsApi:
     def _get_workflow_definition_serialize(
         self,
         definition_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1234,8 +1130,6 @@ class WorkflowDefinitionsApi:
             _path_params['definition_id'] = definition_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1251,6 +1145,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1276,8 +1172,6 @@ class WorkflowDefinitionsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1298,10 +1192,6 @@ class WorkflowDefinitionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1327,8 +1217,6 @@ class WorkflowDefinitionsApi:
         _param = self._list_workflow_definitions_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1355,8 +1243,6 @@ class WorkflowDefinitionsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1377,10 +1263,6 @@ class WorkflowDefinitionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1406,8 +1288,6 @@ class WorkflowDefinitionsApi:
         _param = self._list_workflow_definitions_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1434,8 +1314,6 @@ class WorkflowDefinitionsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1456,10 +1334,6 @@ class WorkflowDefinitionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1485,8 +1359,6 @@ class WorkflowDefinitionsApi:
         _param = self._list_workflow_definitions_serialize(
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1508,8 +1380,6 @@ class WorkflowDefinitionsApi:
         self,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1541,8 +1411,6 @@ class WorkflowDefinitionsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1558,6 +1426,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1584,8 +1454,6 @@ class WorkflowDefinitionsApi:
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1608,10 +1476,6 @@ class WorkflowDefinitionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1638,8 +1502,6 @@ class WorkflowDefinitionsApi:
             definition_id=definition_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1667,8 +1529,6 @@ class WorkflowDefinitionsApi:
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1691,10 +1551,6 @@ class WorkflowDefinitionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1721,8 +1577,6 @@ class WorkflowDefinitionsApi:
             definition_id=definition_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1750,8 +1604,6 @@ class WorkflowDefinitionsApi:
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1774,10 +1626,6 @@ class WorkflowDefinitionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1804,8 +1652,6 @@ class WorkflowDefinitionsApi:
             definition_id=definition_id,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1828,8 +1674,6 @@ class WorkflowDefinitionsApi:
         definition_id,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1863,8 +1707,6 @@ class WorkflowDefinitionsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1880,6 +1722,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1905,8 +1749,6 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1927,10 +1769,6 @@ class WorkflowDefinitionsApi:
         :type definition_id: UUID
         :param update_workflow_definition_request: (required)
         :type update_workflow_definition_request: UpdateWorkflowDefinitionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1956,8 +1794,6 @@ class WorkflowDefinitionsApi:
         _param = self._update_workflow_definition_serialize(
             definition_id=definition_id,
             update_workflow_definition_request=update_workflow_definition_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1984,8 +1820,6 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2006,10 +1840,6 @@ class WorkflowDefinitionsApi:
         :type definition_id: UUID
         :param update_workflow_definition_request: (required)
         :type update_workflow_definition_request: UpdateWorkflowDefinitionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2035,8 +1865,6 @@ class WorkflowDefinitionsApi:
         _param = self._update_workflow_definition_serialize(
             definition_id=definition_id,
             update_workflow_definition_request=update_workflow_definition_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2063,8 +1891,6 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2085,10 +1911,6 @@ class WorkflowDefinitionsApi:
         :type definition_id: UUID
         :param update_workflow_definition_request: (required)
         :type update_workflow_definition_request: UpdateWorkflowDefinitionRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2114,8 +1936,6 @@ class WorkflowDefinitionsApi:
         _param = self._update_workflow_definition_serialize(
             definition_id=definition_id,
             update_workflow_definition_request=update_workflow_definition_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2137,8 +1957,6 @@ class WorkflowDefinitionsApi:
         self,
         definition_id,
         update_workflow_definition_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2164,8 +1982,6 @@ class WorkflowDefinitionsApi:
             _path_params['definition_id'] = definition_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_workflow_definition_request is not None:
@@ -2196,6 +2012,8 @@ class WorkflowDefinitionsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

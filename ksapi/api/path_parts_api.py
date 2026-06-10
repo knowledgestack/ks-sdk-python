@@ -20,6 +20,7 @@ from pydantic import Field, StrictBool, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
+from ksapi.models.access_check_response import AccessCheckResponse
 from ksapi.models.ancestry_response import AncestryResponse
 from ksapi.models.append_event_request import AppendEventRequest
 from ksapi.models.bulk_tag_request import BulkTagRequest
@@ -29,6 +30,7 @@ from ksapi.models.paginated_response_path_part_response import PaginatedResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.path_part_response import PathPartResponse
 from ksapi.models.path_part_tags_response import PathPartTagsResponse
+from ksapi.models.permission_capability import PermissionCapability
 from ksapi.models.subtree_chunks_response import SubtreeChunksResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -54,8 +56,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         append_event_request: AppendEventRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77,10 +77,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param append_event_request: (required)
         :type append_event_request: AppendEventRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -106,8 +102,6 @@ class PathPartsApi:
         _param = self._append_path_part_event_serialize(
             path_part_id=path_part_id,
             append_event_request=append_event_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -134,8 +128,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         append_event_request: AppendEventRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -157,10 +149,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param append_event_request: (required)
         :type append_event_request: AppendEventRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -186,8 +174,6 @@ class PathPartsApi:
         _param = self._append_path_part_event_serialize(
             path_part_id=path_part_id,
             append_event_request=append_event_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -214,8 +200,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         append_event_request: AppendEventRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -237,10 +221,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param append_event_request: (required)
         :type append_event_request: AppendEventRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -266,8 +246,6 @@ class PathPartsApi:
         _param = self._append_path_part_event_serialize(
             path_part_id=path_part_id,
             append_event_request=append_event_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -289,8 +267,6 @@ class PathPartsApi:
         self,
         path_part_id,
         append_event_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -316,8 +292,6 @@ class PathPartsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if append_event_request is not None:
@@ -348,6 +322,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -373,8 +349,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -396,10 +370,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param bulk_tag_request: (required)
         :type bulk_tag_request: BulkTagRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -425,8 +395,6 @@ class PathPartsApi:
         _param = self._bulk_remove_path_part_tags_serialize(
             path_part_id=path_part_id,
             bulk_tag_request=bulk_tag_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -453,8 +421,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -476,10 +442,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param bulk_tag_request: (required)
         :type bulk_tag_request: BulkTagRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -505,8 +467,6 @@ class PathPartsApi:
         _param = self._bulk_remove_path_part_tags_serialize(
             path_part_id=path_part_id,
             bulk_tag_request=bulk_tag_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -533,8 +493,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -556,10 +514,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param bulk_tag_request: (required)
         :type bulk_tag_request: BulkTagRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -585,8 +539,6 @@ class PathPartsApi:
         _param = self._bulk_remove_path_part_tags_serialize(
             path_part_id=path_part_id,
             bulk_tag_request=bulk_tag_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -608,8 +560,6 @@ class PathPartsApi:
         self,
         path_part_id,
         bulk_tag_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -635,8 +585,6 @@ class PathPartsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if bulk_tag_request is not None:
@@ -667,6 +615,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -688,11 +638,308 @@ class PathPartsApi:
 
 
     @validate_call
+    def check_path_part_access(
+        self,
+        path_part_id: UUID,
+        user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
+        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AccessCheckResponse:
+        """Check Path Part Access Handler
+
+        Explain whether ``user_id`` has ``capability`` on a path part.  ADMIN/OWNER-only introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param user_id: The user whose access is being explained (required)
+        :type user_id: UUID
+        :param capability: Capability to check (READ_ONLY or READ_WRITE)
+        :type capability: PermissionCapability
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._check_path_part_access_serialize(
+            path_part_id=path_part_id,
+            user_id=user_id,
+            capability=capability,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AccessCheckResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def check_path_part_access_with_http_info(
+        self,
+        path_part_id: UUID,
+        user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
+        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AccessCheckResponse]:
+        """Check Path Part Access Handler
+
+        Explain whether ``user_id`` has ``capability`` on a path part.  ADMIN/OWNER-only introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param user_id: The user whose access is being explained (required)
+        :type user_id: UUID
+        :param capability: Capability to check (READ_ONLY or READ_WRITE)
+        :type capability: PermissionCapability
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._check_path_part_access_serialize(
+            path_part_id=path_part_id,
+            user_id=user_id,
+            capability=capability,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AccessCheckResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def check_path_part_access_without_preload_content(
+        self,
+        path_part_id: UUID,
+        user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
+        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Check Path Part Access Handler
+
+        Explain whether ``user_id`` has ``capability`` on a path part.  ADMIN/OWNER-only introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param user_id: The user whose access is being explained (required)
+        :type user_id: UUID
+        :param capability: Capability to check (READ_ONLY or READ_WRITE)
+        :type capability: PermissionCapability
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._check_path_part_access_serialize(
+            path_part_id=path_part_id,
+            user_id=user_id,
+            capability=capability,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AccessCheckResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _check_path_part_access_serialize(
+        self,
+        path_part_id,
+        user_id,
+        capability,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if path_part_id is not None:
+            _path_params['path_part_id'] = path_part_id
+        # process the query parameters
+        if user_id is not None:
+            
+            _query_params.append(('user_id', user_id))
+            
+        if capability is not None:
+            
+            _query_params.append(('capability', capability.value))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/path-parts/{path_part_id}/access-check',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_path_part(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -712,10 +959,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -740,8 +983,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -767,8 +1008,6 @@ class PathPartsApi:
     def get_path_part_with_http_info(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -788,10 +1027,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -816,8 +1051,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -843,8 +1076,6 @@ class PathPartsApi:
     def get_path_part_without_preload_content(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -864,10 +1095,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -892,8 +1119,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -914,8 +1139,6 @@ class PathPartsApi:
     def _get_path_part_serialize(
         self,
         path_part_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -941,8 +1164,6 @@ class PathPartsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -958,6 +1179,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -982,8 +1205,6 @@ class PathPartsApi:
     def get_path_part_ancestry(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1003,10 +1224,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1031,8 +1248,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_ancestry_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1058,8 +1273,6 @@ class PathPartsApi:
     def get_path_part_ancestry_with_http_info(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1079,10 +1292,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1107,8 +1316,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_ancestry_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1134,8 +1341,6 @@ class PathPartsApi:
     def get_path_part_ancestry_without_preload_content(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1155,10 +1360,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1183,8 +1384,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_ancestry_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1205,8 +1404,6 @@ class PathPartsApi:
     def _get_path_part_ancestry_serialize(
         self,
         path_part_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1232,8 +1429,6 @@ class PathPartsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1249,6 +1444,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1273,8 +1470,6 @@ class PathPartsApi:
     def get_path_part_subtree_chunks(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1294,10 +1489,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1322,8 +1513,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_subtree_chunks_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1349,8 +1538,6 @@ class PathPartsApi:
     def get_path_part_subtree_chunks_with_http_info(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1370,10 +1557,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1398,8 +1581,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_subtree_chunks_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1425,8 +1606,6 @@ class PathPartsApi:
     def get_path_part_subtree_chunks_without_preload_content(
         self,
         path_part_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1446,10 +1625,6 @@ class PathPartsApi:
 
         :param path_part_id: (required)
         :type path_part_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1474,8 +1649,6 @@ class PathPartsApi:
 
         _param = self._get_path_part_subtree_chunks_serialize(
             path_part_id=path_part_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1496,8 +1669,6 @@ class PathPartsApi:
     def _get_path_part_subtree_chunks_serialize(
         self,
         path_part_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1523,8 +1694,6 @@ class PathPartsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1540,6 +1709,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1565,8 +1736,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1588,10 +1757,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param include_inherited: Include tags inherited from ancestor path parts
         :type include_inherited: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1617,8 +1782,6 @@ class PathPartsApi:
         _param = self._get_path_part_tags_serialize(
             path_part_id=path_part_id,
             include_inherited=include_inherited,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1645,8 +1808,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1668,10 +1829,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param include_inherited: Include tags inherited from ancestor path parts
         :type include_inherited: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1697,8 +1854,6 @@ class PathPartsApi:
         _param = self._get_path_part_tags_serialize(
             path_part_id=path_part_id,
             include_inherited=include_inherited,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1725,8 +1880,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1748,10 +1901,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param include_inherited: Include tags inherited from ancestor path parts
         :type include_inherited: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1777,8 +1926,6 @@ class PathPartsApi:
         _param = self._get_path_part_tags_serialize(
             path_part_id=path_part_id,
             include_inherited=include_inherited,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1800,8 +1947,6 @@ class PathPartsApi:
         self,
         path_part_id,
         include_inherited,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1831,8 +1976,6 @@ class PathPartsApi:
             _query_params.append(('include_inherited', include_inherited))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1848,6 +1991,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1878,8 +2023,6 @@ class PathPartsApi:
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1911,10 +2054,6 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1945,8 +2084,6 @@ class PathPartsApi:
             recursive=recursive,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1978,8 +2115,6 @@ class PathPartsApi:
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2011,10 +2146,6 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2045,8 +2176,6 @@ class PathPartsApi:
             recursive=recursive,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2078,8 +2207,6 @@ class PathPartsApi:
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2111,10 +2238,6 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2145,8 +2268,6 @@ class PathPartsApi:
             recursive=recursive,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2173,8 +2294,6 @@ class PathPartsApi:
         recursive,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2242,8 +2361,6 @@ class PathPartsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2259,6 +2376,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2287,8 +2406,6 @@ class PathPartsApi:
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2316,10 +2433,6 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2348,8 +2461,6 @@ class PathPartsApi:
             sort_order=sort_order,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2379,8 +2490,6 @@ class PathPartsApi:
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2408,10 +2517,6 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2440,8 +2545,6 @@ class PathPartsApi:
             sort_order=sort_order,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2471,8 +2574,6 @@ class PathPartsApi:
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2500,10 +2601,6 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2532,8 +2629,6 @@ class PathPartsApi:
             sort_order=sort_order,
             limit=limit,
             offset=offset,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2558,8 +2653,6 @@ class PathPartsApi:
         sort_order,
         limit,
         offset,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2603,8 +2696,6 @@ class PathPartsApi:
             _query_params.append(('offset', offset))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2620,6 +2711,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2645,8 +2738,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2668,10 +2759,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param bulk_tag_request: (required)
         :type bulk_tag_request: BulkTagRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2697,8 +2784,6 @@ class PathPartsApi:
         _param = self._set_path_part_tags_serialize(
             path_part_id=path_part_id,
             bulk_tag_request=bulk_tag_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2725,8 +2810,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2748,10 +2831,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param bulk_tag_request: (required)
         :type bulk_tag_request: BulkTagRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2777,8 +2856,6 @@ class PathPartsApi:
         _param = self._set_path_part_tags_serialize(
             path_part_id=path_part_id,
             bulk_tag_request=bulk_tag_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2805,8 +2882,6 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2828,10 +2903,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param bulk_tag_request: (required)
         :type bulk_tag_request: BulkTagRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2857,8 +2928,6 @@ class PathPartsApi:
         _param = self._set_path_part_tags_serialize(
             path_part_id=path_part_id,
             bulk_tag_request=bulk_tag_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2880,8 +2949,6 @@ class PathPartsApi:
         self,
         path_part_id,
         bulk_tag_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2907,8 +2974,6 @@ class PathPartsApi:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if bulk_tag_request is not None:
@@ -2939,6 +3004,8 @@ class PathPartsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

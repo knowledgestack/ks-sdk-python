@@ -15,8 +15,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
-from typing import Optional
 from ksapi.models.onboarding_company_request import OnboardingCompanyRequest
 from ksapi.models.onboarding_profile_request import OnboardingProfileRequest
 from ksapi.models.update_user_request import UpdateUserRequest
@@ -43,8 +41,6 @@ class UsersApi:
     @validate_call
     def get_me(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62,10 +58,6 @@ class UsersApi:
 
         Get current user information including current tenant context.  Returns the authenticated user's profile along with their current tenant ID (from the UAT token) and default tenant ID (from user record).
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -89,8 +81,6 @@ class UsersApi:
         """ # noqa: E501
 
         _param = self._get_me_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +89,6 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,8 +104,6 @@ class UsersApi:
     @validate_call
     def get_me_with_http_info(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -134,10 +121,6 @@ class UsersApi:
 
         Get current user information including current tenant context.  Returns the authenticated user's profile along with their current tenant ID (from the UAT token) and default tenant ID (from user record).
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -161,8 +144,6 @@ class UsersApi:
         """ # noqa: E501
 
         _param = self._get_me_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -171,7 +152,6 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -187,8 +167,6 @@ class UsersApi:
     @validate_call
     def get_me_without_preload_content(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -206,10 +184,6 @@ class UsersApi:
 
         Get current user information including current tenant context.  Returns the authenticated user's profile along with their current tenant ID (from the UAT token) and default tenant ID (from user record).
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -233,8 +207,6 @@ class UsersApi:
         """ # noqa: E501
 
         _param = self._get_me_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -243,7 +215,6 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -254,8 +225,6 @@ class UsersApi:
 
     def _get_me_serialize(
         self,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -279,8 +248,6 @@ class UsersApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -296,6 +263,8 @@ class UsersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -319,8 +288,6 @@ class UsersApi:
     @validate_call
     def skip_onboarding(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -338,10 +305,6 @@ class UsersApi:
 
         Mark onboarding complete without writing any profile/company fields.  Idempotent — calling this after onboarding is already complete returns the current state unchanged (the CRUD only stamps the timestamp when it is NULL).
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -365,8 +328,6 @@ class UsersApi:
         """ # noqa: E501
 
         _param = self._skip_onboarding_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -375,7 +336,6 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -391,8 +351,6 @@ class UsersApi:
     @validate_call
     def skip_onboarding_with_http_info(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -410,10 +368,6 @@ class UsersApi:
 
         Mark onboarding complete without writing any profile/company fields.  Idempotent — calling this after onboarding is already complete returns the current state unchanged (the CRUD only stamps the timestamp when it is NULL).
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -437,8 +391,6 @@ class UsersApi:
         """ # noqa: E501
 
         _param = self._skip_onboarding_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -447,7 +399,6 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -463,8 +414,6 @@ class UsersApi:
     @validate_call
     def skip_onboarding_without_preload_content(
         self,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -482,10 +431,6 @@ class UsersApi:
 
         Mark onboarding complete without writing any profile/company fields.  Idempotent — calling this after onboarding is already complete returns the current state unchanged (the CRUD only stamps the timestamp when it is NULL).
 
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -509,8 +454,6 @@ class UsersApi:
         """ # noqa: E501
 
         _param = self._skip_onboarding_serialize(
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -519,7 +462,6 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -530,8 +472,6 @@ class UsersApi:
 
     def _skip_onboarding_serialize(
         self,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -555,8 +495,6 @@ class UsersApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -572,6 +510,8 @@ class UsersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -596,8 +536,6 @@ class UsersApi:
     def update_me(
         self,
         update_user_request: UpdateUserRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -617,10 +555,6 @@ class UsersApi:
 
         :param update_user_request: (required)
         :type update_user_request: UpdateUserRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -645,8 +579,6 @@ class UsersApi:
 
         _param = self._update_me_serialize(
             update_user_request=update_user_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -672,8 +604,6 @@ class UsersApi:
     def update_me_with_http_info(
         self,
         update_user_request: UpdateUserRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -693,10 +623,6 @@ class UsersApi:
 
         :param update_user_request: (required)
         :type update_user_request: UpdateUserRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -721,8 +647,6 @@ class UsersApi:
 
         _param = self._update_me_serialize(
             update_user_request=update_user_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -748,8 +672,6 @@ class UsersApi:
     def update_me_without_preload_content(
         self,
         update_user_request: UpdateUserRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -769,10 +691,6 @@ class UsersApi:
 
         :param update_user_request: (required)
         :type update_user_request: UpdateUserRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -797,8 +715,6 @@ class UsersApi:
 
         _param = self._update_me_serialize(
             update_user_request=update_user_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -819,8 +735,6 @@ class UsersApi:
     def _update_me_serialize(
         self,
         update_user_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -844,8 +758,6 @@ class UsersApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_user_request is not None:
@@ -876,6 +788,8 @@ class UsersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -900,8 +814,6 @@ class UsersApi:
     def update_onboarding_company(
         self,
         onboarding_company_request: OnboardingCompanyRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -921,10 +833,6 @@ class UsersApi:
 
         :param onboarding_company_request: (required)
         :type onboarding_company_request: OnboardingCompanyRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -949,8 +857,6 @@ class UsersApi:
 
         _param = self._update_onboarding_company_serialize(
             onboarding_company_request=onboarding_company_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -976,8 +882,6 @@ class UsersApi:
     def update_onboarding_company_with_http_info(
         self,
         onboarding_company_request: OnboardingCompanyRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -997,10 +901,6 @@ class UsersApi:
 
         :param onboarding_company_request: (required)
         :type onboarding_company_request: OnboardingCompanyRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1025,8 +925,6 @@ class UsersApi:
 
         _param = self._update_onboarding_company_serialize(
             onboarding_company_request=onboarding_company_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1052,8 +950,6 @@ class UsersApi:
     def update_onboarding_company_without_preload_content(
         self,
         onboarding_company_request: OnboardingCompanyRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1073,10 +969,6 @@ class UsersApi:
 
         :param onboarding_company_request: (required)
         :type onboarding_company_request: OnboardingCompanyRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1101,8 +993,6 @@ class UsersApi:
 
         _param = self._update_onboarding_company_serialize(
             onboarding_company_request=onboarding_company_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1123,8 +1013,6 @@ class UsersApi:
     def _update_onboarding_company_serialize(
         self,
         onboarding_company_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1148,8 +1036,6 @@ class UsersApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if onboarding_company_request is not None:
@@ -1180,6 +1066,8 @@ class UsersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1204,8 +1092,6 @@ class UsersApi:
     def update_onboarding_profile(
         self,
         onboarding_profile_request: OnboardingProfileRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1225,10 +1111,6 @@ class UsersApi:
 
         :param onboarding_profile_request: (required)
         :type onboarding_profile_request: OnboardingProfileRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1253,8 +1135,6 @@ class UsersApi:
 
         _param = self._update_onboarding_profile_serialize(
             onboarding_profile_request=onboarding_profile_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1280,8 +1160,6 @@ class UsersApi:
     def update_onboarding_profile_with_http_info(
         self,
         onboarding_profile_request: OnboardingProfileRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1301,10 +1179,6 @@ class UsersApi:
 
         :param onboarding_profile_request: (required)
         :type onboarding_profile_request: OnboardingProfileRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1329,8 +1203,6 @@ class UsersApi:
 
         _param = self._update_onboarding_profile_serialize(
             onboarding_profile_request=onboarding_profile_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1356,8 +1228,6 @@ class UsersApi:
     def update_onboarding_profile_without_preload_content(
         self,
         onboarding_profile_request: OnboardingProfileRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1377,10 +1247,6 @@ class UsersApi:
 
         :param onboarding_profile_request: (required)
         :type onboarding_profile_request: OnboardingProfileRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1405,8 +1271,6 @@ class UsersApi:
 
         _param = self._update_onboarding_profile_serialize(
             onboarding_profile_request=onboarding_profile_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1427,8 +1291,6 @@ class UsersApi:
     def _update_onboarding_profile_serialize(
         self,
         onboarding_profile_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1452,8 +1314,6 @@ class UsersApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if onboarding_profile_request is not None:
@@ -1484,6 +1344,8 @@ class UsersApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

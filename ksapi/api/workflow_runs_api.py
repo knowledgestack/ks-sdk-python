@@ -15,8 +15,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
-from typing import Optional
 from uuid import UUID
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
@@ -48,8 +46,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         clone_workflow_run_request: CloneWorkflowRunRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71,10 +67,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param clone_workflow_run_request: (required)
         :type clone_workflow_run_request: CloneWorkflowRunRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -100,8 +92,6 @@ class WorkflowRunsApi:
         _param = self._clone_workflow_run_serialize(
             run_id=run_id,
             clone_workflow_run_request=clone_workflow_run_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -128,8 +118,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         clone_workflow_run_request: CloneWorkflowRunRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -151,10 +139,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param clone_workflow_run_request: (required)
         :type clone_workflow_run_request: CloneWorkflowRunRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -180,8 +164,6 @@ class WorkflowRunsApi:
         _param = self._clone_workflow_run_serialize(
             run_id=run_id,
             clone_workflow_run_request=clone_workflow_run_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -208,8 +190,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         clone_workflow_run_request: CloneWorkflowRunRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -231,10 +211,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param clone_workflow_run_request: (required)
         :type clone_workflow_run_request: CloneWorkflowRunRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -260,8 +236,6 @@ class WorkflowRunsApi:
         _param = self._clone_workflow_run_serialize(
             run_id=run_id,
             clone_workflow_run_request=clone_workflow_run_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -283,8 +257,6 @@ class WorkflowRunsApi:
         self,
         run_id,
         clone_workflow_run_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -310,8 +282,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if clone_workflow_run_request is not None:
@@ -342,6 +312,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -366,8 +338,6 @@ class WorkflowRunsApi:
     def delete_workflow_run(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -386,10 +356,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -414,8 +380,6 @@ class WorkflowRunsApi:
 
         _param = self._delete_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -441,8 +405,6 @@ class WorkflowRunsApi:
     def delete_workflow_run_with_http_info(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -461,10 +423,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -489,8 +447,6 @@ class WorkflowRunsApi:
 
         _param = self._delete_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -516,8 +472,6 @@ class WorkflowRunsApi:
     def delete_workflow_run_without_preload_content(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -536,10 +490,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -564,8 +514,6 @@ class WorkflowRunsApi:
 
         _param = self._delete_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -586,8 +534,6 @@ class WorkflowRunsApi:
     def _delete_workflow_run_serialize(
         self,
         run_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -613,8 +559,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -630,6 +574,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -654,8 +600,6 @@ class WorkflowRunsApi:
     def get_workflow_run(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -674,10 +618,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -702,8 +642,6 @@ class WorkflowRunsApi:
 
         _param = self._get_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -729,8 +667,6 @@ class WorkflowRunsApi:
     def get_workflow_run_with_http_info(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -749,10 +685,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -777,8 +709,6 @@ class WorkflowRunsApi:
 
         _param = self._get_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -804,8 +734,6 @@ class WorkflowRunsApi:
     def get_workflow_run_without_preload_content(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -824,10 +752,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -852,8 +776,6 @@ class WorkflowRunsApi:
 
         _param = self._get_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -874,8 +796,6 @@ class WorkflowRunsApi:
     def _get_workflow_run_serialize(
         self,
         run_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -901,8 +821,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -918,6 +836,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -942,8 +862,6 @@ class WorkflowRunsApi:
     def retry_workflow_run(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -963,10 +881,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -991,8 +905,6 @@ class WorkflowRunsApi:
 
         _param = self._retry_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1018,8 +930,6 @@ class WorkflowRunsApi:
     def retry_workflow_run_with_http_info(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1039,10 +949,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1067,8 +973,6 @@ class WorkflowRunsApi:
 
         _param = self._retry_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1094,8 +998,6 @@ class WorkflowRunsApi:
     def retry_workflow_run_without_preload_content(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1115,10 +1017,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1143,8 +1041,6 @@ class WorkflowRunsApi:
 
         _param = self._retry_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1165,8 +1061,6 @@ class WorkflowRunsApi:
     def _retry_workflow_run_serialize(
         self,
         run_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1192,8 +1086,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1209,6 +1101,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1234,8 +1128,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1251,16 +1143,12 @@ class WorkflowRunsApi:
     ) -> WorkflowRunResponse:
         """Set Workflow Run Approval Handler
 
-        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires write access to the run folder. ``run_id`` is the WorkflowRun id.
+        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires approve access to the run folder and refuses agents (assumed identities) — approval is human-in-the-loop. ``run_id`` is the WorkflowRun id.
 
         :param run_id: (required)
         :type run_id: UUID
         :param set_workflow_run_approval_request: (required)
         :type set_workflow_run_approval_request: SetWorkflowRunApprovalRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1286,8 +1174,6 @@ class WorkflowRunsApi:
         _param = self._set_workflow_run_approval_serialize(
             run_id=run_id,
             set_workflow_run_approval_request=set_workflow_run_approval_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1314,8 +1200,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1331,16 +1215,12 @@ class WorkflowRunsApi:
     ) -> ApiResponse[WorkflowRunResponse]:
         """Set Workflow Run Approval Handler
 
-        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires write access to the run folder. ``run_id`` is the WorkflowRun id.
+        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires approve access to the run folder and refuses agents (assumed identities) — approval is human-in-the-loop. ``run_id`` is the WorkflowRun id.
 
         :param run_id: (required)
         :type run_id: UUID
         :param set_workflow_run_approval_request: (required)
         :type set_workflow_run_approval_request: SetWorkflowRunApprovalRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1366,8 +1246,6 @@ class WorkflowRunsApi:
         _param = self._set_workflow_run_approval_serialize(
             run_id=run_id,
             set_workflow_run_approval_request=set_workflow_run_approval_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1394,8 +1272,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1411,16 +1287,12 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """Set Workflow Run Approval Handler
 
-        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires write access to the run folder. ``run_id`` is the WorkflowRun id.
+        Approve an entire completed run in one call.  Approves every output document under ``outputs/`` then the run folder. The run must be ``COMPLETED`` and its definition must have required approval. Requires approve access to the run folder and refuses agents (assumed identities) — approval is human-in-the-loop. ``run_id`` is the WorkflowRun id.
 
         :param run_id: (required)
         :type run_id: UUID
         :param set_workflow_run_approval_request: (required)
         :type set_workflow_run_approval_request: SetWorkflowRunApprovalRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1446,8 +1318,6 @@ class WorkflowRunsApi:
         _param = self._set_workflow_run_approval_serialize(
             run_id=run_id,
             set_workflow_run_approval_request=set_workflow_run_approval_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1469,8 +1339,6 @@ class WorkflowRunsApi:
         self,
         run_id,
         set_workflow_run_approval_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1496,8 +1364,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if set_workflow_run_approval_request is not None:
@@ -1528,6 +1394,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1552,8 +1420,6 @@ class WorkflowRunsApi:
     def start_workflow_run(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1573,10 +1439,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1601,8 +1463,6 @@ class WorkflowRunsApi:
 
         _param = self._start_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1628,8 +1488,6 @@ class WorkflowRunsApi:
     def start_workflow_run_with_http_info(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1649,10 +1507,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1677,8 +1531,6 @@ class WorkflowRunsApi:
 
         _param = self._start_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1704,8 +1556,6 @@ class WorkflowRunsApi:
     def start_workflow_run_without_preload_content(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1725,10 +1575,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1753,8 +1599,6 @@ class WorkflowRunsApi:
 
         _param = self._start_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1775,8 +1619,6 @@ class WorkflowRunsApi:
     def _start_workflow_run_serialize(
         self,
         run_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1802,8 +1644,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1819,6 +1659,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1843,8 +1685,6 @@ class WorkflowRunsApi:
     def stop_workflow_run(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1864,10 +1704,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1892,8 +1728,6 @@ class WorkflowRunsApi:
 
         _param = self._stop_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1919,8 +1753,6 @@ class WorkflowRunsApi:
     def stop_workflow_run_with_http_info(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1940,10 +1772,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1968,8 +1796,6 @@ class WorkflowRunsApi:
 
         _param = self._stop_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1995,8 +1821,6 @@ class WorkflowRunsApi:
     def stop_workflow_run_without_preload_content(
         self,
         run_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2016,10 +1840,6 @@ class WorkflowRunsApi:
 
         :param run_id: (required)
         :type run_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2044,8 +1864,6 @@ class WorkflowRunsApi:
 
         _param = self._stop_workflow_run_serialize(
             run_id=run_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2066,8 +1884,6 @@ class WorkflowRunsApi:
     def _stop_workflow_run_serialize(
         self,
         run_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2093,8 +1909,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -2110,6 +1924,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2135,8 +1951,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         update_workflow_run_request: UpdateWorkflowRunRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2158,10 +1972,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param update_workflow_run_request: (required)
         :type update_workflow_run_request: UpdateWorkflowRunRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2187,8 +1997,6 @@ class WorkflowRunsApi:
         _param = self._update_workflow_run_serialize(
             run_id=run_id,
             update_workflow_run_request=update_workflow_run_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2215,8 +2023,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         update_workflow_run_request: UpdateWorkflowRunRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2238,10 +2044,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param update_workflow_run_request: (required)
         :type update_workflow_run_request: UpdateWorkflowRunRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2267,8 +2069,6 @@ class WorkflowRunsApi:
         _param = self._update_workflow_run_serialize(
             run_id=run_id,
             update_workflow_run_request=update_workflow_run_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2295,8 +2095,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         update_workflow_run_request: UpdateWorkflowRunRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2318,10 +2116,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param update_workflow_run_request: (required)
         :type update_workflow_run_request: UpdateWorkflowRunRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2347,8 +2141,6 @@ class WorkflowRunsApi:
         _param = self._update_workflow_run_serialize(
             run_id=run_id,
             update_workflow_run_request=update_workflow_run_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2370,8 +2162,6 @@ class WorkflowRunsApi:
         self,
         run_id,
         update_workflow_run_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2397,8 +2187,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_workflow_run_request is not None:
@@ -2429,6 +2217,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2454,8 +2244,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2477,10 +2265,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param workflow_run_callback_request: (required)
         :type workflow_run_callback_request: WorkflowRunCallbackRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2506,8 +2290,6 @@ class WorkflowRunsApi:
         _param = self._workflow_run_callback_serialize(
             run_id=run_id,
             workflow_run_callback_request=workflow_run_callback_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2534,8 +2316,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2557,10 +2337,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param workflow_run_callback_request: (required)
         :type workflow_run_callback_request: WorkflowRunCallbackRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2586,8 +2362,6 @@ class WorkflowRunsApi:
         _param = self._workflow_run_callback_serialize(
             run_id=run_id,
             workflow_run_callback_request=workflow_run_callback_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2614,8 +2388,6 @@ class WorkflowRunsApi:
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2637,10 +2409,6 @@ class WorkflowRunsApi:
         :type run_id: UUID
         :param workflow_run_callback_request: (required)
         :type workflow_run_callback_request: WorkflowRunCallbackRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2666,8 +2434,6 @@ class WorkflowRunsApi:
         _param = self._workflow_run_callback_serialize(
             run_id=run_id,
             workflow_run_callback_request=workflow_run_callback_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2689,8 +2455,6 @@ class WorkflowRunsApi:
         self,
         run_id,
         workflow_run_callback_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2716,8 +2480,6 @@ class WorkflowRunsApi:
             _path_params['run_id'] = run_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if workflow_run_callback_request is not None:
@@ -2748,6 +2510,8 @@ class WorkflowRunsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

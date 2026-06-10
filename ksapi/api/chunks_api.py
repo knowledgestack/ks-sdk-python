@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBool, StrictStr
+from pydantic import Field, StrictBool
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -52,8 +52,6 @@ class ChunksApi:
     def create_chunk(
         self,
         create_chunk_request: CreateChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -73,10 +71,6 @@ class ChunksApi:
 
         :param create_chunk_request: (required)
         :type create_chunk_request: CreateChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -101,8 +95,6 @@ class ChunksApi:
 
         _param = self._create_chunk_serialize(
             create_chunk_request=create_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -128,8 +120,6 @@ class ChunksApi:
     def create_chunk_with_http_info(
         self,
         create_chunk_request: CreateChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -149,10 +139,6 @@ class ChunksApi:
 
         :param create_chunk_request: (required)
         :type create_chunk_request: CreateChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -177,8 +163,6 @@ class ChunksApi:
 
         _param = self._create_chunk_serialize(
             create_chunk_request=create_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -204,8 +188,6 @@ class ChunksApi:
     def create_chunk_without_preload_content(
         self,
         create_chunk_request: CreateChunkRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -225,10 +207,6 @@ class ChunksApi:
 
         :param create_chunk_request: (required)
         :type create_chunk_request: CreateChunkRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -253,8 +231,6 @@ class ChunksApi:
 
         _param = self._create_chunk_serialize(
             create_chunk_request=create_chunk_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -275,8 +251,6 @@ class ChunksApi:
     def _create_chunk_serialize(
         self,
         create_chunk_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -300,8 +274,6 @@ class ChunksApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if create_chunk_request is not None:
@@ -332,6 +304,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -356,8 +330,6 @@ class ChunksApi:
     def delete_chunk(
         self,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -377,10 +349,6 @@ class ChunksApi:
 
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -405,8 +373,6 @@ class ChunksApi:
 
         _param = self._delete_chunk_serialize(
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -432,8 +398,6 @@ class ChunksApi:
     def delete_chunk_with_http_info(
         self,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -453,10 +417,6 @@ class ChunksApi:
 
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -481,8 +441,6 @@ class ChunksApi:
 
         _param = self._delete_chunk_serialize(
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -508,8 +466,6 @@ class ChunksApi:
     def delete_chunk_without_preload_content(
         self,
         chunk_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -529,10 +485,6 @@ class ChunksApi:
 
         :param chunk_id: (required)
         :type chunk_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -557,8 +509,6 @@ class ChunksApi:
 
         _param = self._delete_chunk_serialize(
             chunk_id=chunk_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -579,8 +529,6 @@ class ChunksApi:
     def _delete_chunk_serialize(
         self,
         chunk_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -606,8 +554,6 @@ class ChunksApi:
             _path_params['chunk_id'] = chunk_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -623,6 +569,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -648,8 +596,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -671,10 +617,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param with_document: Include ancestor document_id and document_version_id (default: false)
         :type with_document: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -700,8 +642,6 @@ class ChunksApi:
         _param = self._get_chunk_serialize(
             chunk_id=chunk_id,
             with_document=with_document,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -728,8 +668,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -751,10 +689,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param with_document: Include ancestor document_id and document_version_id (default: false)
         :type with_document: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -780,8 +714,6 @@ class ChunksApi:
         _param = self._get_chunk_serialize(
             chunk_id=chunk_id,
             with_document=with_document,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -808,8 +740,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -831,10 +761,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param with_document: Include ancestor document_id and document_version_id (default: false)
         :type with_document: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -860,8 +786,6 @@ class ChunksApi:
         _param = self._get_chunk_serialize(
             chunk_id=chunk_id,
             with_document=with_document,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -883,8 +807,6 @@ class ChunksApi:
         self,
         chunk_id,
         with_document,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -914,8 +836,6 @@ class ChunksApi:
             _query_params.append(('with_document', with_document))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -931,6 +851,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -959,8 +881,6 @@ class ChunksApi:
         next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
         content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
         within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -988,10 +908,6 @@ class ChunksApi:
         :type content_type: PartType
         :param within_section: When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.
         :type within_section: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1020,8 +936,6 @@ class ChunksApi:
             next=next,
             content_type=content_type,
             within_section=within_section,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1051,8 +965,6 @@ class ChunksApi:
         next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
         content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
         within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1080,10 +992,6 @@ class ChunksApi:
         :type content_type: PartType
         :param within_section: When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.
         :type within_section: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1112,8 +1020,6 @@ class ChunksApi:
             next=next,
             content_type=content_type,
             within_section=within_section,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1143,8 +1049,6 @@ class ChunksApi:
         next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
         content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
         within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1172,10 +1076,6 @@ class ChunksApi:
         :type content_type: PartType
         :param within_section: When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.
         :type within_section: bool
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1204,8 +1104,6 @@ class ChunksApi:
             next=next,
             content_type=content_type,
             within_section=within_section,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1230,8 +1128,6 @@ class ChunksApi:
         next,
         content_type,
         within_section,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1273,8 +1169,6 @@ class ChunksApi:
             _query_params.append(('within_section', within_section))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1290,6 +1184,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1314,8 +1210,6 @@ class ChunksApi:
     def get_chunks_bulk(
         self,
         chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1335,10 +1229,6 @@ class ChunksApi:
 
         :param chunk_ids: Chunk IDs to resolve (max 200)
         :type chunk_ids: List[UUID]
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1363,8 +1253,6 @@ class ChunksApi:
 
         _param = self._get_chunks_bulk_serialize(
             chunk_ids=chunk_ids,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1390,8 +1278,6 @@ class ChunksApi:
     def get_chunks_bulk_with_http_info(
         self,
         chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1411,10 +1297,6 @@ class ChunksApi:
 
         :param chunk_ids: Chunk IDs to resolve (max 200)
         :type chunk_ids: List[UUID]
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1439,8 +1321,6 @@ class ChunksApi:
 
         _param = self._get_chunks_bulk_serialize(
             chunk_ids=chunk_ids,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1466,8 +1346,6 @@ class ChunksApi:
     def get_chunks_bulk_without_preload_content(
         self,
         chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1487,10 +1365,6 @@ class ChunksApi:
 
         :param chunk_ids: Chunk IDs to resolve (max 200)
         :type chunk_ids: List[UUID]
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1515,8 +1389,6 @@ class ChunksApi:
 
         _param = self._get_chunks_bulk_serialize(
             chunk_ids=chunk_ids,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1537,8 +1409,6 @@ class ChunksApi:
     def _get_chunks_bulk_serialize(
         self,
         chunk_ids,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1567,8 +1437,6 @@ class ChunksApi:
             _query_params.append(('chunk_ids', chunk_ids))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1584,6 +1452,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1608,8 +1478,6 @@ class ChunksApi:
     def get_version_chunk_ids(
         self,
         document_version_id: Annotated[UUID, Field(description="Document version ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1629,10 +1497,6 @@ class ChunksApi:
 
         :param document_version_id: Document version ID (required)
         :type document_version_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1657,8 +1521,6 @@ class ChunksApi:
 
         _param = self._get_version_chunk_ids_serialize(
             document_version_id=document_version_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1684,8 +1546,6 @@ class ChunksApi:
     def get_version_chunk_ids_with_http_info(
         self,
         document_version_id: Annotated[UUID, Field(description="Document version ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1705,10 +1565,6 @@ class ChunksApi:
 
         :param document_version_id: Document version ID (required)
         :type document_version_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1733,8 +1589,6 @@ class ChunksApi:
 
         _param = self._get_version_chunk_ids_serialize(
             document_version_id=document_version_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1760,8 +1614,6 @@ class ChunksApi:
     def get_version_chunk_ids_without_preload_content(
         self,
         document_version_id: Annotated[UUID, Field(description="Document version ID")],
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1781,10 +1633,6 @@ class ChunksApi:
 
         :param document_version_id: Document version ID (required)
         :type document_version_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1809,8 +1657,6 @@ class ChunksApi:
 
         _param = self._get_version_chunk_ids_serialize(
             document_version_id=document_version_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1831,8 +1677,6 @@ class ChunksApi:
     def _get_version_chunk_ids_serialize(
         self,
         document_version_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1860,8 +1704,6 @@ class ChunksApi:
             _query_params.append(('document_version_id', document_version_id))
             
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1877,6 +1719,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1901,8 +1745,6 @@ class ChunksApi:
     def search_chunks(
         self,
         chunk_search_request: ChunkSearchRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1922,10 +1764,6 @@ class ChunksApi:
 
         :param chunk_search_request: (required)
         :type chunk_search_request: ChunkSearchRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1950,8 +1788,6 @@ class ChunksApi:
 
         _param = self._search_chunks_serialize(
             chunk_search_request=chunk_search_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1977,8 +1813,6 @@ class ChunksApi:
     def search_chunks_with_http_info(
         self,
         chunk_search_request: ChunkSearchRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1998,10 +1832,6 @@ class ChunksApi:
 
         :param chunk_search_request: (required)
         :type chunk_search_request: ChunkSearchRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2026,8 +1856,6 @@ class ChunksApi:
 
         _param = self._search_chunks_serialize(
             chunk_search_request=chunk_search_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2053,8 +1881,6 @@ class ChunksApi:
     def search_chunks_without_preload_content(
         self,
         chunk_search_request: ChunkSearchRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2074,10 +1900,6 @@ class ChunksApi:
 
         :param chunk_search_request: (required)
         :type chunk_search_request: ChunkSearchRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2102,8 +1924,6 @@ class ChunksApi:
 
         _param = self._search_chunks_serialize(
             chunk_search_request=chunk_search_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2124,8 +1944,6 @@ class ChunksApi:
     def _search_chunks_serialize(
         self,
         chunk_search_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2149,8 +1967,6 @@ class ChunksApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if chunk_search_request is not None:
@@ -2181,6 +1997,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2206,8 +2024,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         update_chunk_content_request: UpdateChunkContentRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2229,10 +2045,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param update_chunk_content_request: (required)
         :type update_chunk_content_request: UpdateChunkContentRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2258,8 +2070,6 @@ class ChunksApi:
         _param = self._update_chunk_content_serialize(
             chunk_id=chunk_id,
             update_chunk_content_request=update_chunk_content_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2286,8 +2096,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         update_chunk_content_request: UpdateChunkContentRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2309,10 +2117,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param update_chunk_content_request: (required)
         :type update_chunk_content_request: UpdateChunkContentRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2338,8 +2142,6 @@ class ChunksApi:
         _param = self._update_chunk_content_serialize(
             chunk_id=chunk_id,
             update_chunk_content_request=update_chunk_content_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2366,8 +2168,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         update_chunk_content_request: UpdateChunkContentRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2389,10 +2189,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param update_chunk_content_request: (required)
         :type update_chunk_content_request: UpdateChunkContentRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2418,8 +2214,6 @@ class ChunksApi:
         _param = self._update_chunk_content_serialize(
             chunk_id=chunk_id,
             update_chunk_content_request=update_chunk_content_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2441,8 +2235,6 @@ class ChunksApi:
         self,
         chunk_id,
         update_chunk_content_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2468,8 +2260,6 @@ class ChunksApi:
             _path_params['chunk_id'] = chunk_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_chunk_content_request is not None:
@@ -2500,6 +2290,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2525,8 +2317,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         update_chunk_metadata_request: UpdateChunkMetadataRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2548,10 +2338,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param update_chunk_metadata_request: (required)
         :type update_chunk_metadata_request: UpdateChunkMetadataRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2577,8 +2363,6 @@ class ChunksApi:
         _param = self._update_chunk_metadata_serialize(
             chunk_id=chunk_id,
             update_chunk_metadata_request=update_chunk_metadata_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2605,8 +2389,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         update_chunk_metadata_request: UpdateChunkMetadataRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2628,10 +2410,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param update_chunk_metadata_request: (required)
         :type update_chunk_metadata_request: UpdateChunkMetadataRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2657,8 +2435,6 @@ class ChunksApi:
         _param = self._update_chunk_metadata_serialize(
             chunk_id=chunk_id,
             update_chunk_metadata_request=update_chunk_metadata_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2685,8 +2461,6 @@ class ChunksApi:
         self,
         chunk_id: UUID,
         update_chunk_metadata_request: UpdateChunkMetadataRequest,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2708,10 +2482,6 @@ class ChunksApi:
         :type chunk_id: UUID
         :param update_chunk_metadata_request: (required)
         :type update_chunk_metadata_request: UpdateChunkMetadataRequest
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2737,8 +2507,6 @@ class ChunksApi:
         _param = self._update_chunk_metadata_serialize(
             chunk_id=chunk_id,
             update_chunk_metadata_request=update_chunk_metadata_request,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2760,8 +2528,6 @@ class ChunksApi:
         self,
         chunk_id,
         update_chunk_metadata_request,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -2787,8 +2553,6 @@ class ChunksApi:
             _path_params['chunk_id'] = chunk_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
         if update_chunk_metadata_request is not None:
@@ -2819,6 +2583,8 @@ class ChunksApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

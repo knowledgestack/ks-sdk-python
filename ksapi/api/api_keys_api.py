@@ -15,8 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 from ksapi.models.api_key_response import ApiKeyResponse
 from ksapi.models.create_api_key_request import CreateApiKeyRequest
@@ -44,7 +43,6 @@ class ApiKeysApi:
     def create_api_key(
         self,
         create_api_key_request: CreateApiKeyRequest,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,8 +62,6 @@ class ApiKeysApi:
 
         :param create_api_key_request: (required)
         :type create_api_key_request: CreateApiKeyRequest
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -90,7 +86,6 @@ class ApiKeysApi:
 
         _param = self._create_api_key_serialize(
             create_api_key_request=create_api_key_request,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -116,7 +111,6 @@ class ApiKeysApi:
     def create_api_key_with_http_info(
         self,
         create_api_key_request: CreateApiKeyRequest,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -136,8 +130,6 @@ class ApiKeysApi:
 
         :param create_api_key_request: (required)
         :type create_api_key_request: CreateApiKeyRequest
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -162,7 +154,6 @@ class ApiKeysApi:
 
         _param = self._create_api_key_serialize(
             create_api_key_request=create_api_key_request,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -188,7 +179,6 @@ class ApiKeysApi:
     def create_api_key_without_preload_content(
         self,
         create_api_key_request: CreateApiKeyRequest,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -208,8 +198,6 @@ class ApiKeysApi:
 
         :param create_api_key_request: (required)
         :type create_api_key_request: CreateApiKeyRequest
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -234,7 +222,6 @@ class ApiKeysApi:
 
         _param = self._create_api_key_serialize(
             create_api_key_request=create_api_key_request,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -255,7 +242,6 @@ class ApiKeysApi:
     def _create_api_key_serialize(
         self,
         create_api_key_request,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -309,6 +295,7 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -333,7 +320,6 @@ class ApiKeysApi:
     def delete_api_key(
         self,
         api_key_id: UUID,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -353,8 +339,6 @@ class ApiKeysApi:
 
         :param api_key_id: (required)
         :type api_key_id: UUID
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -379,7 +363,6 @@ class ApiKeysApi:
 
         _param = self._delete_api_key_serialize(
             api_key_id=api_key_id,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -405,7 +388,6 @@ class ApiKeysApi:
     def delete_api_key_with_http_info(
         self,
         api_key_id: UUID,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -425,8 +407,6 @@ class ApiKeysApi:
 
         :param api_key_id: (required)
         :type api_key_id: UUID
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -451,7 +431,6 @@ class ApiKeysApi:
 
         _param = self._delete_api_key_serialize(
             api_key_id=api_key_id,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -477,7 +456,6 @@ class ApiKeysApi:
     def delete_api_key_without_preload_content(
         self,
         api_key_id: UUID,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -497,8 +475,6 @@ class ApiKeysApi:
 
         :param api_key_id: (required)
         :type api_key_id: UUID
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -523,7 +499,6 @@ class ApiKeysApi:
 
         _param = self._delete_api_key_serialize(
             api_key_id=api_key_id,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -544,7 +519,6 @@ class ApiKeysApi:
     def _delete_api_key_serialize(
         self,
         api_key_id,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -585,6 +559,7 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -609,7 +584,6 @@ class ApiKeysApi:
     def get_api_key(
         self,
         api_key_id: UUID,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -629,8 +603,6 @@ class ApiKeysApi:
 
         :param api_key_id: (required)
         :type api_key_id: UUID
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -655,7 +627,6 @@ class ApiKeysApi:
 
         _param = self._get_api_key_serialize(
             api_key_id=api_key_id,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -681,7 +652,6 @@ class ApiKeysApi:
     def get_api_key_with_http_info(
         self,
         api_key_id: UUID,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -701,8 +671,6 @@ class ApiKeysApi:
 
         :param api_key_id: (required)
         :type api_key_id: UUID
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -727,7 +695,6 @@ class ApiKeysApi:
 
         _param = self._get_api_key_serialize(
             api_key_id=api_key_id,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -753,7 +720,6 @@ class ApiKeysApi:
     def get_api_key_without_preload_content(
         self,
         api_key_id: UUID,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -773,8 +739,6 @@ class ApiKeysApi:
 
         :param api_key_id: (required)
         :type api_key_id: UUID
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -799,7 +763,6 @@ class ApiKeysApi:
 
         _param = self._get_api_key_serialize(
             api_key_id=api_key_id,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -820,7 +783,6 @@ class ApiKeysApi:
     def _get_api_key_serialize(
         self,
         api_key_id,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -861,6 +823,7 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -884,7 +847,6 @@ class ApiKeysApi:
     @validate_call
     def list_api_keys(
         self,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -902,8 +864,6 @@ class ApiKeysApi:
 
         List all API keys for the current user.
 
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -927,7 +887,6 @@ class ApiKeysApi:
         """ # noqa: E501
 
         _param = self._list_api_keys_serialize(
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -936,7 +895,6 @@ class ApiKeysApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ApiKeyResponse]",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -952,7 +910,6 @@ class ApiKeysApi:
     @validate_call
     def list_api_keys_with_http_info(
         self,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -970,8 +927,6 @@ class ApiKeysApi:
 
         List all API keys for the current user.
 
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -995,7 +950,6 @@ class ApiKeysApi:
         """ # noqa: E501
 
         _param = self._list_api_keys_serialize(
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1004,7 +958,6 @@ class ApiKeysApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ApiKeyResponse]",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1020,7 +973,6 @@ class ApiKeysApi:
     @validate_call
     def list_api_keys_without_preload_content(
         self,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1038,8 +990,6 @@ class ApiKeysApi:
 
         List all API keys for the current user.
 
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1063,7 +1013,6 @@ class ApiKeysApi:
         """ # noqa: E501
 
         _param = self._list_api_keys_serialize(
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1072,7 +1021,6 @@ class ApiKeysApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ApiKeyResponse]",
-            '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1083,7 +1031,6 @@ class ApiKeysApi:
 
     def _list_api_keys_serialize(
         self,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1122,6 +1069,7 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth'
         ]
 
         return self.api_client.param_serialize(
