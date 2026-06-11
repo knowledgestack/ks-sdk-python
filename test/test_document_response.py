@@ -66,6 +66,7 @@ class TestDocumentResponse(unittest.TestCase):
                     system_metadata = ksapi.models.document_version_metadata.DocumentVersionMetadata(
                         source_s3 = '', 
                         cleaned_source_s3 = '', 
+                        preconversion_source_s3 = '', 
                         fast_plaintext_s3 = '', 
                         hash = '', 
                         pipeline_state = null, 
@@ -156,6 +157,7 @@ class TestDocumentResponse(unittest.TestCase):
                     system_metadata = ksapi.models.document_version_metadata.DocumentVersionMetadata(
                         source_s3 = '', 
                         cleaned_source_s3 = '', 
+                        preconversion_source_s3 = '', 
                         fast_plaintext_s3 = '', 
                         hash = '', 
                         pipeline_state = null, 

@@ -32,6 +32,7 @@ class DocumentVersionMetadata(BaseModel):
     """ # noqa: E501
     source_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the source document (set by API on upload)")
     cleaned_source_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to watermark-removed source document")
+    preconversion_source_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the original pre-conversion legacy Office file; null unless this version was converted from a legacy binary format. After conversion source_s3 points at the modern OOXML file and this field preserves the original for traceability.")
     fast_plaintext_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the fast plaintext export of the document")
     hash: Optional[StrictStr] = Field(default=None, description="Base64-encoded SHA256 hash of the uploaded source file")
     pipeline_state: Optional[PipelineState] = Field(default=None, description="Current state of the ingestion pipeline workflow")
@@ -49,7 +50,7 @@ class DocumentVersionMetadata(BaseModel):
     quota_idempotency_key: Optional[StrictStr] = Field(default='UNSET', description="Stable consume key (matches workflow_id); 'UNSET' for pre-Phase-2 docs so refund logic short-circuits")
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -119,6 +120,11 @@ class DocumentVersionMetadata(BaseModel):
         # and model_fields_set contains the field
         if self.cleaned_source_s3 is None and "cleaned_source_s3" in self.model_fields_set:
             _dict['cleaned_source_s3'] = None
+
+        # set to None if preconversion_source_s3 (nullable) is None
+        # and model_fields_set contains the field
+        if self.preconversion_source_s3 is None and "preconversion_source_s3" in self.model_fields_set:
+            _dict['preconversion_source_s3'] = None
 
         # set to None if fast_plaintext_s3 (nullable) is None
         # and model_fields_set contains the field
@@ -194,6 +200,7 @@ class DocumentVersionMetadata(BaseModel):
         _obj = cls.model_validate({
             "source_s3": obj.get("source_s3"),
             "cleaned_source_s3": obj.get("cleaned_source_s3"),
+            "preconversion_source_s3": obj.get("preconversion_source_s3"),
             "fast_plaintext_s3": obj.get("fast_plaintext_s3"),
             "hash": obj.get("hash"),
             "pipeline_state": PipelineState.from_dict(obj["pipeline_state"]) if obj.get("pipeline_state") is not None else None,

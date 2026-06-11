@@ -37,6 +37,7 @@ class TestDocumentVersionMetadataUpdate(unittest.TestCase):
             return DocumentVersionMetadataUpdate(
                 source_s3 = '',
                 cleaned_source_s3 = '',
+                preconversion_source_s3 = '',
                 standard_pipeline_json_s3 = '',
                 fast_plaintext_s3 = '',
                 high_accuracy_content_list_s3 = '',

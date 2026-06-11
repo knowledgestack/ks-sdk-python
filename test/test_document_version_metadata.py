@@ -37,6 +37,7 @@ class TestDocumentVersionMetadata(unittest.TestCase):
             return DocumentVersionMetadata(
                 source_s3 = '',
                 cleaned_source_s3 = '',
+                preconversion_source_s3 = '',
                 fast_plaintext_s3 = '',
                 hash = '',
                 pipeline_state = ksapi.models.pipeline_state.PipelineState(
