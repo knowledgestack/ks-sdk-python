@@ -39,6 +39,7 @@ class TestUpdateWorkflowDefinitionRequest(unittest.TestCase):
                 description = '',
                 max_run_duration_seconds = 60.0,
                 instruction_path_part_id = '',
+                parent_path_part_id = '',
                 is_active = True,
                 approval_required = True
             )

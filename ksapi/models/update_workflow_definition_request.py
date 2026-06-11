@@ -33,9 +33,10 @@ class UpdateWorkflowDefinitionRequest(BaseModel):
     description: Optional[StrictStr] = None
     max_run_duration_seconds: Optional[Annotated[int, Field(le=7200, strict=True, ge=60)]] = 1800
     instruction_path_part_id: Optional[UUID] = Field(default=None, description="DOCUMENT path_part of the instruction document. Pass null (or omit) to retain the existing pinned instruction; pass a UUID to replace it. Never nulled out — the column is NOT NULL.")
+    parent_path_part_id: Optional[UUID] = Field(default=None, description="FOLDER path_part to move the definition under. Pass null (or omit) to leave it where it is. The move is rejected with 409 while any run of this definition is IN_PROGRESS.")
     is_active: StrictBool
     approval_required: StrictBool
-    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required"]
+    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "instruction_path_part_id", "parent_path_part_id", "is_active", "approval_required"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,6 +87,11 @@ class UpdateWorkflowDefinitionRequest(BaseModel):
         if self.instruction_path_part_id is None and "instruction_path_part_id" in self.model_fields_set:
             _dict['instruction_path_part_id'] = None
 
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
         return _dict
 
     @classmethod
@@ -102,6 +108,7 @@ class UpdateWorkflowDefinitionRequest(BaseModel):
             "description": obj.get("description"),
             "max_run_duration_seconds": obj.get("max_run_duration_seconds") if obj.get("max_run_duration_seconds") is not None else 1800,
             "instruction_path_part_id": obj.get("instruction_path_part_id"),
+            "parent_path_part_id": obj.get("parent_path_part_id"),
             "is_active": obj.get("is_active"),
             "approval_required": obj.get("approval_required")
         })

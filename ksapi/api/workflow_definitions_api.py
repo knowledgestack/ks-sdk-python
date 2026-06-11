@@ -1764,6 +1764,7 @@ class WorkflowDefinitionsApi:
     ) -> WorkflowDefinitionResponse:
         """Update Workflow Definition Handler
 
+        Update a workflow definition (PUT semantics).  To move: provide ``parent_path_part_id``. Rejected with 409 while a run is IN_PROGRESS. The FOR UPDATE load serializes the move against run start, which takes the same definition-row lock.
 
         :param definition_id: (required)
         :type definition_id: UUID
@@ -1835,6 +1836,7 @@ class WorkflowDefinitionsApi:
     ) -> ApiResponse[WorkflowDefinitionResponse]:
         """Update Workflow Definition Handler
 
+        Update a workflow definition (PUT semantics).  To move: provide ``parent_path_part_id``. Rejected with 409 while a run is IN_PROGRESS. The FOR UPDATE load serializes the move against run start, which takes the same definition-row lock.
 
         :param definition_id: (required)
         :type definition_id: UUID
@@ -1906,6 +1908,7 @@ class WorkflowDefinitionsApi:
     ) -> RESTResponseType:
         """Update Workflow Definition Handler
 
+        Update a workflow definition (PUT semantics).  To move: provide ``parent_path_part_id``. Rejected with 409 while a run is IN_PROGRESS. The FOR UPDATE load serializes the move against run start, which takes the same definition-row lock.
 
         :param definition_id: (required)
         :type definition_id: UUID
