@@ -68,10 +68,10 @@ class TestLineageGraphResponse(unittest.TestCase):
                                     }
                                 ], 
                             key_cells = [
-                                { }
+                                ''
                                 ], 
                             named_ranges = [
-                                { }
+                                ''
                                 ], ), 
                         tenant_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
@@ -118,10 +118,10 @@ class TestLineageGraphResponse(unittest.TestCase):
                                     }
                                 ], 
                             key_cells = [
-                                { }
+                                ''
                                 ], 
                             named_ranges = [
-                                { }
+                                ''
                                 ], ), 
                         tenant_id = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 

@@ -71,10 +71,10 @@ class TestChunkContentItem(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], ),
                 materialized_path = '',
                 system_managed = True,

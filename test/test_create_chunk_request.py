@@ -66,10 +66,10 @@ class TestCreateChunkRequest(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], ),
                 prev_sibling_path_id = ''
             )
@@ -106,10 +106,10 @@ class TestCreateChunkRequest(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], ),
         )
         """

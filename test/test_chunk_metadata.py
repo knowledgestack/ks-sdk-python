@@ -62,10 +62,10 @@ class TestChunkMetadata(unittest.TestCase):
                         }
                     ],
                 key_cells = [
-                    { }
+                    ''
                     ],
                 named_ranges = [
-                    { }
+                    ''
                     ]
             )
         else:

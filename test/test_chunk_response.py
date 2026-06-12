@@ -68,10 +68,10 @@ class TestChunkResponse(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], ),
                 num_tokens = 56,
                 parent_path_id = '',
@@ -130,10 +130,10 @@ class TestChunkResponse(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], ),
                 parent_path_id = '',
                 materialized_path = '',

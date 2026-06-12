@@ -41,8 +41,8 @@ class ChunkMetadata(BaseModel):
     cell_range: Optional[StrictStr] = Field(default=None, description="Cell address range, e.g. 'A1:D10' (XLSX only)")
     dependency_summary: Optional[Dict[str, Any]] = Field(default=None, description="Upstream/downstream/cross-sheet cell references for audit reasoning (XLSX only)")
     formulas: Optional[List[Dict[str, StrictStr]]] = Field(default=None, description="Formula cells in this chunk as [{address, formula, value}] (XLSX only)")
-    key_cells: Optional[List[Dict[str, Any]]] = Field(default=None, description="Notable output/header cells for quick identification (XLSX only)")
-    named_ranges: Optional[List[Dict[str, Any]]] = Field(default=None, description="Named ranges overlapping this chunk (XLSX only)")
+    key_cells: Optional[List[StrictStr]] = Field(default=None, description="Notable output/header cells as A1 refs, e.g. 'Sheet1!A1' (XLSX only)")
+    named_ranges: Optional[List[StrictStr]] = Field(default=None, description="Names of named ranges overlapping this chunk (XLSX only)")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "extracted_text_s3_uri", "secondary_taxonomy", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
 

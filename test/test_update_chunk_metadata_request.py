@@ -63,10 +63,10 @@ class TestUpdateChunkMetadataRequest(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], ),
                 parent_path_part_id = '',
                 prev_sibling_path_id = '',

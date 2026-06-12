@@ -77,10 +77,10 @@ class TestSectionContentItemOrChunkContentItem(unittest.TestCase):
                             }
                         ], 
                     key_cells = [
-                        { }
+                        ''
                         ], 
                     named_ranges = [
-                        { }
+                        ''
                         ], )
             )
         else:
