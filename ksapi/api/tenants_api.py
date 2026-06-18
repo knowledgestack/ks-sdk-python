@@ -15,17 +15,20 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBytes, StrictStr
+from pydantic import Field, StrictBool, StrictBytes, StrictStr
 from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.branding_logo_type import BrandingLogoType
 from ksapi.models.paginated_response_tenant_response import PaginatedResponseTenantResponse
 from ksapi.models.paginated_response_tenant_user_response import PaginatedResponseTenantUserResponse
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.tenant_quota_state_response import TenantQuotaStateResponse
 from ksapi.models.tenant_response import TenantResponse
 from ksapi.models.tenant_user_edit_request import TenantUserEditRequest
+from ksapi.models.tenant_user_order import TenantUserOrder
 from ksapi.models.tenant_user_response import TenantUserResponse
+from ksapi.models.tenant_user_role import TenantUserRole
 from ksapi.models.update_tenant_request import UpdateTenantRequest
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -1967,6 +1970,11 @@ class TenantsApi:
     def list_tenant_users(
         self,
         tenant_id: UUID,
+        sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
+        active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1988,6 +1996,16 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
+        :param sort_by: Field to sort members by (default: active-first)
+        :type sort_by: TenantUserOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param role: Filter to members with this role
+        :type role: TenantUserRole
+        :param username_like: Case-insensitive substring filter on first/last name
+        :type username_like: str
+        :param active_only: Exclude deactivated members
+        :type active_only: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2016,6 +2034,11 @@ class TenantsApi:
 
         _param = self._list_tenant_users_serialize(
             tenant_id=tenant_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            role=role,
+            username_like=username_like,
+            active_only=active_only,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2043,6 +2066,11 @@ class TenantsApi:
     def list_tenant_users_with_http_info(
         self,
         tenant_id: UUID,
+        sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
+        active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2064,6 +2092,16 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
+        :param sort_by: Field to sort members by (default: active-first)
+        :type sort_by: TenantUserOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param role: Filter to members with this role
+        :type role: TenantUserRole
+        :param username_like: Case-insensitive substring filter on first/last name
+        :type username_like: str
+        :param active_only: Exclude deactivated members
+        :type active_only: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2092,6 +2130,11 @@ class TenantsApi:
 
         _param = self._list_tenant_users_serialize(
             tenant_id=tenant_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            role=role,
+            username_like=username_like,
+            active_only=active_only,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2119,6 +2162,11 @@ class TenantsApi:
     def list_tenant_users_without_preload_content(
         self,
         tenant_id: UUID,
+        sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
+        active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2140,6 +2188,16 @@ class TenantsApi:
 
         :param tenant_id: (required)
         :type tenant_id: UUID
+        :param sort_by: Field to sort members by (default: active-first)
+        :type sort_by: TenantUserOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param role: Filter to members with this role
+        :type role: TenantUserRole
+        :param username_like: Case-insensitive substring filter on first/last name
+        :type username_like: str
+        :param active_only: Exclude deactivated members
+        :type active_only: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2168,6 +2226,11 @@ class TenantsApi:
 
         _param = self._list_tenant_users_serialize(
             tenant_id=tenant_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            role=role,
+            username_like=username_like,
+            active_only=active_only,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2190,6 +2253,11 @@ class TenantsApi:
     def _list_tenant_users_serialize(
         self,
         tenant_id,
+        sort_by,
+        sort_dir,
+        role,
+        username_like,
+        active_only,
         limit,
         offset,
         _request_auth,
@@ -2216,6 +2284,26 @@ class TenantsApi:
         if tenant_id is not None:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if role is not None:
+            
+            _query_params.append(('role', role.value))
+            
+        if username_like is not None:
+            
+            _query_params.append(('username_like', username_like))
+            
+        if active_only is not None:
+            
+            _query_params.append(('active_only', active_only))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))

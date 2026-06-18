@@ -21,8 +21,11 @@ from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.create_permission_request import CreatePermissionRequest
 from ksapi.models.paginated_response_permission_response import PaginatedResponsePermissionResponse
+from ksapi.models.permission_capability import PermissionCapability
 from ksapi.models.permission_response import PermissionResponse
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.update_permission_request import UpdatePermissionRequest
+from ksapi.models.user_permission_order import UserPermissionOrder
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -607,6 +610,9 @@ class UserPermissionsApi:
         self,
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
+        sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -630,6 +636,12 @@ class UserPermissionsApi:
         :type tenant_id: UUID
         :param user_id: User ID to list permissions for (required)
         :type user_id: UUID
+        :param sort_by: Field to sort permissions by (default: CREATED_AT)
+        :type sort_by: UserPermissionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param capability: Filter to a single capability level
+        :type capability: PermissionCapability
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -659,6 +671,9 @@ class UserPermissionsApi:
         _param = self._list_user_permissions_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            capability=capability,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -687,6 +702,9 @@ class UserPermissionsApi:
         self,
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
+        sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -710,6 +728,12 @@ class UserPermissionsApi:
         :type tenant_id: UUID
         :param user_id: User ID to list permissions for (required)
         :type user_id: UUID
+        :param sort_by: Field to sort permissions by (default: CREATED_AT)
+        :type sort_by: UserPermissionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param capability: Filter to a single capability level
+        :type capability: PermissionCapability
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -739,6 +763,9 @@ class UserPermissionsApi:
         _param = self._list_user_permissions_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            capability=capability,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -767,6 +794,9 @@ class UserPermissionsApi:
         self,
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
+        sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -790,6 +820,12 @@ class UserPermissionsApi:
         :type tenant_id: UUID
         :param user_id: User ID to list permissions for (required)
         :type user_id: UUID
+        :param sort_by: Field to sort permissions by (default: CREATED_AT)
+        :type sort_by: UserPermissionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param capability: Filter to a single capability level
+        :type capability: PermissionCapability
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -819,6 +855,9 @@ class UserPermissionsApi:
         _param = self._list_user_permissions_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            capability=capability,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -842,6 +881,9 @@ class UserPermissionsApi:
         self,
         tenant_id,
         user_id,
+        sort_by,
+        sort_dir,
+        capability,
         limit,
         offset,
         _request_auth,
@@ -873,6 +915,18 @@ class UserPermissionsApi:
         if user_id is not None:
             
             _query_params.append(('user_id', user_id))
+            
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if capability is not None:
+            
+            _query_params.append(('capability', capability.value))
             
         if limit is not None:
             

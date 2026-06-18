@@ -25,6 +25,7 @@ from ksapi.models.create_phone_password_user_request import CreatePhonePasswordU
 from ksapi.models.directory_sync_response import DirectorySyncResponse
 from ksapi.models.email_sent_response import EmailSentResponse
 from ksapi.models.email_verification_request import EmailVerificationRequest
+from ksapi.models.error_response import ErrorResponse
 from ksapi.models.idp_type import IdpType
 from ksapi.models.password_reset_request import PasswordResetRequest
 from ksapi.models.password_reset_token_response import PasswordResetTokenResponse
@@ -4560,7 +4561,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ErrorResponse:
         """Sso Login Handler
 
         SSO login endpoint.  Resolves the tenant's IdP configuration and dispatches to the appropriate provider-specific handler. Sets the UAT cookie and redirects to the frontend.
@@ -4632,7 +4633,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ErrorResponse]:
         """Sso Login Handler
 
         SSO login endpoint.  Resolves the tenant's IdP configuration and dispatches to the appropriate provider-specific handler. Sets the UAT cookie and redirects to the frontend.

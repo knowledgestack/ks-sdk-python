@@ -15,13 +15,22 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import datetime
+from pydantic import Field, StrictBool
+from typing import List, Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
+from ksapi.models.paginated_response_workflow_run_response import PaginatedResponseWorkflowRunResponse
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest
 from ksapi.models.workflow_callback_response import WorkflowCallbackResponse
+from ksapi.models.workflow_execution_state import WorkflowExecutionState
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest
+from ksapi.models.workflow_run_order import WorkflowRunOrder
 from ksapi.models.workflow_run_response import WorkflowRunResponse
+from ksapi.models.workflow_run_summary_response import WorkflowRunSummaryResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -843,6 +852,833 @@ class WorkflowRunsApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/workflow-runs/{run_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_workflow_runs_summary(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunSummaryResponse:
+        """Get Workflow Runs Summary Handler
+
+        Aggregate workflow-runs health, read-gated and permission-scoped.  Numbers cover only runs under workflows the caller can read (OWNER/ADMIN ⇒ tenant-wide). Windowed metrics default to the last 7 days; the approval backlog and active-definition count are point-in-time.
+
+        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :type since: datetime
+        :param until: Window end (inclusive). Defaults to open-ended.
+        :type until: datetime
+        :param definition_id: Scope all numbers to one workflow (requires read).
+        :type definition_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_workflow_runs_summary_serialize(
+            since=since,
+            until=until,
+            definition_id=definition_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunSummaryResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_workflow_runs_summary_with_http_info(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunSummaryResponse]:
+        """Get Workflow Runs Summary Handler
+
+        Aggregate workflow-runs health, read-gated and permission-scoped.  Numbers cover only runs under workflows the caller can read (OWNER/ADMIN ⇒ tenant-wide). Windowed metrics default to the last 7 days; the approval backlog and active-definition count are point-in-time.
+
+        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :type since: datetime
+        :param until: Window end (inclusive). Defaults to open-ended.
+        :type until: datetime
+        :param definition_id: Scope all numbers to one workflow (requires read).
+        :type definition_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_workflow_runs_summary_serialize(
+            since=since,
+            until=until,
+            definition_id=definition_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunSummaryResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_workflow_runs_summary_without_preload_content(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Runs Summary Handler
+
+        Aggregate workflow-runs health, read-gated and permission-scoped.  Numbers cover only runs under workflows the caller can read (OWNER/ADMIN ⇒ tenant-wide). Windowed metrics default to the last 7 days; the approval backlog and active-definition count are point-in-time.
+
+        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :type since: datetime
+        :param until: Window end (inclusive). Defaults to open-ended.
+        :type until: datetime
+        :param definition_id: Scope all numbers to one workflow (requires read).
+        :type definition_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_workflow_runs_summary_serialize(
+            since=since,
+            until=until,
+            definition_id=definition_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "WorkflowRunSummaryResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_workflow_runs_summary_serialize(
+        self,
+        since,
+        until,
+        definition_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if since is not None:
+            if isinstance(since, datetime):
+                _query_params.append(
+                    (
+                        'since',
+                        since.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('since', since))
+            
+        if until is not None:
+            if isinstance(until, datetime):
+                _query_params.append(
+                    (
+                        'until',
+                        until.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('until', until))
+            
+        if definition_id is not None:
+            
+            _query_params.append(('definition_id', definition_id))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/workflow-runs/summary',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def list_workflow_runs_for_tenant(
+        self,
+        state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
+        pending_approval_for_me: Annotated[Optional[StrictBool], Field(description="Only runs pending approval that the caller may approve.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseWorkflowRunResponse:
+        """List Workflow Runs For Tenant Handler
+
+        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, ``pending_approval_for_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
+
+        :param state: Keep only runs in these execution states (repeatable).
+        :type state: List[WorkflowExecutionState]
+        :param mine: Only runs the caller created (owner). Overrides owner_id.
+        :type mine: bool
+        :param pending_approval_for_me: Only runs pending approval that the caller may approve.
+        :type pending_approval_for_me: bool
+        :param definition_id: Only runs under this workflow definition.
+        :type definition_id: UUID
+        :param owner_id: Only runs created by this user.
+        :type owner_id: UUID
+        :param sort_by: Field to sort runs by (default: STARTED_AT)
+        :type sort_by: WorkflowRunOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_workflow_runs_for_tenant_serialize(
+            state=state,
+            mine=mine,
+            pending_approval_for_me=pending_approval_for_me,
+            definition_id=definition_id,
+            owner_id=owner_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            limit=limit,
+            offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseWorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def list_workflow_runs_for_tenant_with_http_info(
+        self,
+        state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
+        pending_approval_for_me: Annotated[Optional[StrictBool], Field(description="Only runs pending approval that the caller may approve.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseWorkflowRunResponse]:
+        """List Workflow Runs For Tenant Handler
+
+        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, ``pending_approval_for_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
+
+        :param state: Keep only runs in these execution states (repeatable).
+        :type state: List[WorkflowExecutionState]
+        :param mine: Only runs the caller created (owner). Overrides owner_id.
+        :type mine: bool
+        :param pending_approval_for_me: Only runs pending approval that the caller may approve.
+        :type pending_approval_for_me: bool
+        :param definition_id: Only runs under this workflow definition.
+        :type definition_id: UUID
+        :param owner_id: Only runs created by this user.
+        :type owner_id: UUID
+        :param sort_by: Field to sort runs by (default: STARTED_AT)
+        :type sort_by: WorkflowRunOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_workflow_runs_for_tenant_serialize(
+            state=state,
+            mine=mine,
+            pending_approval_for_me=pending_approval_for_me,
+            definition_id=definition_id,
+            owner_id=owner_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            limit=limit,
+            offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseWorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def list_workflow_runs_for_tenant_without_preload_content(
+        self,
+        state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
+        pending_approval_for_me: Annotated[Optional[StrictBool], Field(description="Only runs pending approval that the caller may approve.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Workflow Runs For Tenant Handler
+
+        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, ``pending_approval_for_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
+
+        :param state: Keep only runs in these execution states (repeatable).
+        :type state: List[WorkflowExecutionState]
+        :param mine: Only runs the caller created (owner). Overrides owner_id.
+        :type mine: bool
+        :param pending_approval_for_me: Only runs pending approval that the caller may approve.
+        :type pending_approval_for_me: bool
+        :param definition_id: Only runs under this workflow definition.
+        :type definition_id: UUID
+        :param owner_id: Only runs created by this user.
+        :type owner_id: UUID
+        :param sort_by: Field to sort runs by (default: STARTED_AT)
+        :type sort_by: WorkflowRunOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_workflow_runs_for_tenant_serialize(
+            state=state,
+            mine=mine,
+            pending_approval_for_me=pending_approval_for_me,
+            definition_id=definition_id,
+            owner_id=owner_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            limit=limit,
+            offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseWorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _list_workflow_runs_for_tenant_serialize(
+        self,
+        state,
+        mine,
+        pending_approval_for_me,
+        definition_id,
+        owner_id,
+        sort_by,
+        sort_dir,
+        limit,
+        offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            'state': 'multi',
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if state is not None:
+            
+            _query_params.append(('state', state))
+            
+        if mine is not None:
+            
+            _query_params.append(('mine', mine))
+            
+        if pending_approval_for_me is not None:
+            
+            _query_params.append(('pending_approval_for_me', pending_approval_for_me))
+            
+        if definition_id is not None:
+            
+            _query_params.append(('definition_id', definition_id))
+            
+        if owner_id is not None:
+            
+            _query_params.append(('owner_id', owner_id))
+            
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/workflow-runs',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

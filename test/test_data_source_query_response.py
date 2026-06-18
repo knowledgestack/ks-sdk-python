@@ -45,7 +45,10 @@ class TestDataSourceQueryResponse(unittest.TestCase):
                     ],
                 row_count = 56,
                 truncated = True,
-                generated_sql = ''
+                generated_sql = '',
+                sql_validation_warnings = [
+                    ''
+                    ]
             )
         else:
             return DataSourceQueryResponse(

@@ -15,12 +15,15 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field
+from datetime import datetime
+from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.create_tag_request import CreateTagRequest
 from ksapi.models.paginated_response_tag_response import PaginatedResponseTagResponse
+from ksapi.models.sort_direction import SortDirection
+from ksapi.models.tag_order import TagOrder
 from ksapi.models.tag_response import TagResponse
 from ksapi.models.update_tag_request import UpdateTagRequest
 
@@ -853,8 +856,15 @@ class TagsApi:
     @validate_call
     def list_tags(
         self,
+        sort_by: Annotated[Optional[TagOrder], Field(description="Field to sort tags by (default: NAME)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -872,10 +882,24 @@ class TagsApi:
 
         List all tags for the current tenant.
 
+        :param sort_by: Field to sort tags by (default: NAME)
+        :type sort_by: TagOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param name_like: Case-insensitive substring filter on name
+        :type name_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -899,8 +923,15 @@ class TagsApi:
         """ # noqa: E501
 
         _param = self._list_tags_serialize(
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            name_like=name_like,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -925,8 +956,15 @@ class TagsApi:
     @validate_call
     def list_tags_with_http_info(
         self,
+        sort_by: Annotated[Optional[TagOrder], Field(description="Field to sort tags by (default: NAME)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -944,10 +982,24 @@ class TagsApi:
 
         List all tags for the current tenant.
 
+        :param sort_by: Field to sort tags by (default: NAME)
+        :type sort_by: TagOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param name_like: Case-insensitive substring filter on name
+        :type name_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -971,8 +1023,15 @@ class TagsApi:
         """ # noqa: E501
 
         _param = self._list_tags_serialize(
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            name_like=name_like,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -997,8 +1056,15 @@ class TagsApi:
     @validate_call
     def list_tags_without_preload_content(
         self,
+        sort_by: Annotated[Optional[TagOrder], Field(description="Field to sort tags by (default: NAME)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1016,10 +1082,24 @@ class TagsApi:
 
         List all tags for the current tenant.
 
+        :param sort_by: Field to sort tags by (default: NAME)
+        :type sort_by: TagOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param name_like: Case-insensitive substring filter on name
+        :type name_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1043,8 +1123,15 @@ class TagsApi:
         """ # noqa: E501
 
         _param = self._list_tags_serialize(
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            name_like=name_like,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1064,8 +1151,15 @@ class TagsApi:
 
     def _list_tags_serialize(
         self,
+        sort_by,
+        sort_dir,
+        name_like,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1088,6 +1182,18 @@ class TagsApi:
 
         # process the path parameters
         # process the query parameters
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if name_like is not None:
+            
+            _query_params.append(('name_like', name_like))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -1095,6 +1201,58 @@ class TagsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters

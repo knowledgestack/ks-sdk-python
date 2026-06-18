@@ -22,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.part_type import PartType
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -38,7 +39,8 @@ class TrashItemResponse(BaseModel):
     materialized_path: StrictStr = Field(description="Original materialized path")
     deleted_at: datetime = Field(description="When the item was moved to trash")
     deleted_by: Optional[UUID] = Field(description="User that moved it to trash")
-    __properties: ClassVar[List[str]] = ["path_part_id", "metadata_obj_id", "part_type", "name", "parent_path_part_id", "materialized_path", "deleted_at", "deleted_by"]
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the item, or null if unowned.")
+    __properties: ClassVar[List[str]] = ["path_part_id", "metadata_obj_id", "part_type", "name", "parent_path_part_id", "materialized_path", "deleted_at", "deleted_by", "owner"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,6 +81,9 @@ class TrashItemResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -88,6 +93,11 @@ class TrashItemResponse(BaseModel):
         # and model_fields_set contains the field
         if self.deleted_by is None and "deleted_by" in self.model_fields_set:
             _dict['deleted_by'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         return _dict
 
@@ -108,7 +118,8 @@ class TrashItemResponse(BaseModel):
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "materialized_path": obj.get("materialized_path"),
             "deleted_at": obj.get("deleted_at"),
-            "deleted_by": obj.get("deleted_by")
+            "deleted_by": obj.get("deleted_by"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None
         })
         return _obj
 

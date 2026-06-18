@@ -23,6 +23,7 @@ from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.data_source_engine import DataSourceEngine
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -40,9 +41,10 @@ class DataSourceResponse(BaseModel):
     name: StrictStr
     engine: DataSourceEngine
     approval_state: PathPartApprovalState
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the connector, or null if unowned.")
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "approval_state", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "approval_state", "owner", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -93,10 +95,18 @@ class DataSourceResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         return _dict
 
@@ -119,6 +129,7 @@ class DataSourceResponse(BaseModel):
             "name": obj.get("name"),
             "engine": obj.get("engine"),
             "approval_state": obj.get("approval_state"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

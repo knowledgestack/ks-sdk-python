@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_table_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse
+from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_table_response_or_api_connection_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse
 
-class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(unittest.TestCase):
-    """FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse unit test stubs"""
+class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse(unittest.TestCase):
+    """FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,17 +25,17 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse:
-        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse
+    def make_instance(self, include_optional) -> FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse:
+        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse`
+        # uncomment below to create an instance of `FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse`
         """
-        model = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse()
+        model = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse()
         if include_optional:
-            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(
-                part_type = 'DATA_SOURCE_TABLE',
+            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse(
+                part_type = 'API_CONNECTION',
                 id = '',
                 path_part_id = '',
                 name = '',
@@ -45,6 +45,10 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 approval_state = 'not_required',
                 exclude_from_qdrant = True,
                 tenant_id = '',
+                owner = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 tags = [
@@ -111,10 +115,6 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         quota_page_count = 56, 
                         quota_idempotency_key = 'UNSET', 
                         file_md5 = 'UNSET', ), ),
-                owner = ksapi.models.user_info.UserInfo(
-                    user_id = '', 
-                    first_name = '', 
-                    last_name = '', ),
                 checkout = ksapi.models.document_checkout_response.DocumentCheckoutResponse(
                     tenant_id = '', 
                     document_id = '', 
@@ -128,6 +128,9 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 instruction_path_part_id = '',
                 is_active = True,
                 approval_required = True,
+                is_template = True,
+                created_from_id = '',
+                copy_count = 56,
                 workflow_definition_id = '',
                 triggered_by = ksapi.models.user_info.UserInfo(
                     user_id = '', 
@@ -166,11 +169,17 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 table_name = '',
                 column_config = [
                     { }
-                    ]
+                    ],
+                base_url = '',
+                network_class = 'PUBLIC',
+                verify_tls = True,
+                api_docs = '',
+                disclaimer_accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                disclaimer_accepted_by = ''
             )
         else:
-            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(
-                part_type = 'DATA_SOURCE_TABLE',
+            return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse(
+                part_type = 'API_CONNECTION',
                 id = '',
                 path_part_id = '',
                 name = '',
@@ -182,6 +191,11 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 tenant_id = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
                 document_type = 'PDF',
                 document_origin = 'SOURCE',
                 active_version_id = '',
@@ -231,15 +245,13 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         quota_page_count = 56, 
                         quota_idempotency_key = 'UNSET', 
                         file_md5 = 'UNSET', ), ),
-                owner = ksapi.models.user_info.UserInfo(
-                    user_id = '', 
-                    first_name = '', 
-                    last_name = '', ),
                 description = '',
                 max_run_duration_seconds = 56,
                 instruction_path_part_id = '',
                 is_active = True,
                 approval_required = True,
+                is_template = True,
+                created_from_id = '',
                 workflow_definition_id = '',
                 triggered_by = ksapi.models.user_info.UserInfo(
                     user_id = '', 
@@ -275,11 +287,17 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 column_config = [
                     { }
                     ],
+                base_url = '',
+                network_class = 'PUBLIC',
+                verify_tls = True,
+                api_docs = '',
+                disclaimer_accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                disclaimer_accepted_by = '',
         )
         """
 
-    def testFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse(self):
-        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse"""
+    def testFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse(self):
+        """Test FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

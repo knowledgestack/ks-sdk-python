@@ -15,6 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import datetime
 from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
@@ -23,11 +24,12 @@ from ksapi.models.create_folder_request import CreateFolderRequest
 from ksapi.models.folder_action import FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse
 from ksapi.models.folder_response import FolderResponse
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_table_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_table_response_api_connection_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator
 from ksapi.models.paginated_response_folder_response import PaginatedResponseFolderResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.search_sort_order import SearchSortOrder
 from ksapi.models.searchable_part_type import SearchablePartType
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.update_folder_request import UpdateFolderRequest
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -1173,7 +1175,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator:
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
         """List Folder Contents Handler
 
         List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
@@ -1226,7 +1228,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1261,7 +1263,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator]:
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator]:
         """List Folder Contents Handler
 
         List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
@@ -1314,7 +1316,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1402,7 +1404,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1507,9 +1509,15 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1531,12 +1539,24 @@ class FoldersApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
+        :param owner_id: Filter to folders owned by this user
+        :type owner_id: UUID
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1562,9 +1582,15 @@ class FoldersApi:
         _param = self._list_folders_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
+            sort_dir=sort_dir,
+            owner_id=owner_id,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1591,9 +1617,15 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1615,12 +1647,24 @@ class FoldersApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
+        :param owner_id: Filter to folders owned by this user
+        :type owner_id: UUID
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1646,9 +1690,15 @@ class FoldersApi:
         _param = self._list_folders_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
+            sort_dir=sort_dir,
+            owner_id=owner_id,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1675,9 +1725,15 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1699,12 +1755,24 @@ class FoldersApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
+        :param owner_id: Filter to folders owned by this user
+        :type owner_id: UUID
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1730,9 +1798,15 @@ class FoldersApi:
         _param = self._list_folders_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
+            sort_dir=sort_dir,
+            owner_id=owner_id,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1754,9 +1828,15 @@ class FoldersApi:
         self,
         parent_path_part_id,
         sort_order,
+        sort_dir,
+        owner_id,
         with_tags,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1787,6 +1867,14 @@ class FoldersApi:
             
             _query_params.append(('sort_order', sort_order.value))
             
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if owner_id is not None:
+            
+            _query_params.append(('owner_id', owner_id))
+            
         if with_tags is not None:
             
             _query_params.append(('with_tags', with_tags))
@@ -1798,6 +1886,58 @@ class FoldersApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters
@@ -1859,7 +1999,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator:
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
         """Search Items Handler
 
         Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
@@ -1915,7 +2055,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1951,7 +2091,7 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator]:
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator]:
         """Search Items Handler
 
         Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
@@ -2007,7 +2147,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2099,7 +2239,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

@@ -44,6 +44,10 @@ class TestDataSourceResponse(unittest.TestCase):
                 name = '',
                 engine = 'MYSQL',
                 approval_state = 'not_required',
+                owner = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )

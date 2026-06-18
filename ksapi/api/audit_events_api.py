@@ -16,11 +16,12 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from datetime import datetime
-from pydantic import Field, StrictBool, StrictStr
-from typing import Optional
+from pydantic import Field, StrictBool, StrictBytes, StrictStr
+from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.paginated_response_event_response import PaginatedResponseEventResponse
+from ksapi.models.sort_direction import SortDirection
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -41,6 +42,377 @@ class AuditEventsApi:
 
 
     @validate_call
+    def export_audit_events(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """Export Audit Events Handler
+
+        Export the tenant's audit events as a CSV download (admin/owner only).  Same filters as ``list_audit_events`` but unpaginated — streams every matching event newest-first. Each row resolves the actor's name and the subject's name + path so an auditor can read the file directly in Excel.
+
+        :param actor_user_id: Filter to one actor
+        :type actor_user_id: UUID
+        :param kind: Filter to one event kind
+        :type kind: str
+        :param since: Only events at or after this timestamp
+        :type since: datetime
+        :param until: Only events strictly before this timestamp
+        :type until: datetime
+        :param subject_path_part_id: Scope to one document/folder/run subject
+        :type subject_path_part_id: UUID
+        :param recursive: Include the subject's descendants (needs subject)
+        :type recursive: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._export_audit_events_serialize(
+            actor_user_id=actor_user_id,
+            kind=kind,
+            since=since,
+            until=until,
+            subject_path_part_id=subject_path_part_id,
+            recursive=recursive,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytes",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def export_audit_events_with_http_info(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """Export Audit Events Handler
+
+        Export the tenant's audit events as a CSV download (admin/owner only).  Same filters as ``list_audit_events`` but unpaginated — streams every matching event newest-first. Each row resolves the actor's name and the subject's name + path so an auditor can read the file directly in Excel.
+
+        :param actor_user_id: Filter to one actor
+        :type actor_user_id: UUID
+        :param kind: Filter to one event kind
+        :type kind: str
+        :param since: Only events at or after this timestamp
+        :type since: datetime
+        :param until: Only events strictly before this timestamp
+        :type until: datetime
+        :param subject_path_part_id: Scope to one document/folder/run subject
+        :type subject_path_part_id: UUID
+        :param recursive: Include the subject's descendants (needs subject)
+        :type recursive: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._export_audit_events_serialize(
+            actor_user_id=actor_user_id,
+            kind=kind,
+            since=since,
+            until=until,
+            subject_path_part_id=subject_path_part_id,
+            recursive=recursive,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytes",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def export_audit_events_without_preload_content(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Export Audit Events Handler
+
+        Export the tenant's audit events as a CSV download (admin/owner only).  Same filters as ``list_audit_events`` but unpaginated — streams every matching event newest-first. Each row resolves the actor's name and the subject's name + path so an auditor can read the file directly in Excel.
+
+        :param actor_user_id: Filter to one actor
+        :type actor_user_id: UUID
+        :param kind: Filter to one event kind
+        :type kind: str
+        :param since: Only events at or after this timestamp
+        :type since: datetime
+        :param until: Only events strictly before this timestamp
+        :type until: datetime
+        :param subject_path_part_id: Scope to one document/folder/run subject
+        :type subject_path_part_id: UUID
+        :param recursive: Include the subject's descendants (needs subject)
+        :type recursive: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._export_audit_events_serialize(
+            actor_user_id=actor_user_id,
+            kind=kind,
+            since=since,
+            until=until,
+            subject_path_part_id=subject_path_part_id,
+            recursive=recursive,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "bytes",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _export_audit_events_serialize(
+        self,
+        actor_user_id,
+        kind,
+        since,
+        until,
+        subject_path_part_id,
+        recursive,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if actor_user_id is not None:
+            
+            _query_params.append(('actor_user_id', actor_user_id))
+            
+        if kind is not None:
+            
+            _query_params.append(('kind', kind))
+            
+        if since is not None:
+            if isinstance(since, datetime):
+                _query_params.append(
+                    (
+                        'since',
+                        since.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('since', since))
+            
+        if until is not None:
+            if isinstance(until, datetime):
+                _query_params.append(
+                    (
+                        'until',
+                        until.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('until', until))
+            
+        if subject_path_part_id is not None:
+            
+            _query_params.append(('subject_path_part_id', subject_path_part_id))
+            
+        if recursive is not None:
+            
+            _query_params.append(('recursive', recursive))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'text/csv', 
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/audit-events/export',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def list_audit_events(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
@@ -49,6 +421,7 @@ class AuditEventsApi:
         until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -80,6 +453,8 @@ class AuditEventsApi:
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
+        :param sort_dir: Sort by timestamp (default: DESC, newest first)
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -113,6 +488,7 @@ class AuditEventsApi:
             until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -145,6 +521,7 @@ class AuditEventsApi:
         until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -176,6 +553,8 @@ class AuditEventsApi:
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
+        :param sort_dir: Sort by timestamp (default: DESC, newest first)
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -209,6 +588,7 @@ class AuditEventsApi:
             until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -241,6 +621,7 @@ class AuditEventsApi:
         until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -272,6 +653,8 @@ class AuditEventsApi:
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
+        :param sort_dir: Sort by timestamp (default: DESC, newest first)
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -305,6 +688,7 @@ class AuditEventsApi:
             until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -332,6 +716,7 @@ class AuditEventsApi:
         until,
         subject_path_part_id,
         recursive,
+        sort_dir,
         limit,
         offset,
         _request_auth,
@@ -397,6 +782,10 @@ class AuditEventsApi:
         if recursive is not None:
             
             _query_params.append(('recursive', recursive))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         if limit is not None:
             

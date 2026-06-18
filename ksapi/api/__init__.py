@@ -9,6 +9,7 @@ from ksapi.api.threads_api import ThreadsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi
+from ksapi.api.api_connections_api import ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi
 from ksapi.api.auth_api import AuthApi

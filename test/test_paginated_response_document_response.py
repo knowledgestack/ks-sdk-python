@@ -96,10 +96,7 @@ class TestPaginatedResponseDocumentResponse(unittest.TestCase):
                         approval_state = 'not_required', 
                         exclude_from_qdrant = True, 
                         tenant_id = '', 
-                        owner = ksapi.models.user_info.UserInfo(
-                            user_id = '', 
-                            first_name = '', 
-                            last_name = '', ), 
+                        owner = null, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         tags = [
@@ -182,10 +179,7 @@ class TestPaginatedResponseDocumentResponse(unittest.TestCase):
                         approval_state = 'not_required', 
                         exclude_from_qdrant = True, 
                         tenant_id = '', 
-                        owner = ksapi.models.user_info.UserInfo(
-                            user_id = '', 
-                            first_name = '', 
-                            last_name = '', ), 
+                        owner = null, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         tags = [

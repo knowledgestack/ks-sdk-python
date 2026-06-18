@@ -35,7 +35,8 @@ class TestCreateApiKeyRequest(unittest.TestCase):
         model = CreateApiKeyRequest()
         if include_optional:
             return CreateApiKeyRequest(
-                name = '0'
+                name = '0',
+                expires_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
             return CreateApiKeyRequest(

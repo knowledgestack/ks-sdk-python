@@ -40,7 +40,8 @@ class TestCreateWorkflowDefinitionRequest(unittest.TestCase):
                 max_run_duration_seconds = 60.0,
                 parent_path_part_id = '',
                 instruction_path_part_id = '',
-                approval_required = True
+                approval_required = True,
+                is_template = True
             )
         else:
             return CreateWorkflowDefinitionRequest(

@@ -37,6 +37,7 @@ class ReferenceType(str, Enum):
     WORKFLOW_RUN = 'WORKFLOW_RUN'
     DATA_SOURCE = 'DATA_SOURCE'
     DATA_SOURCE_TABLE = 'DATA_SOURCE_TABLE'
+    API_CONNECTION = 'API_CONNECTION'
     IMAGE = 'image'
     MEMORY = 'memory'
     TAG = 'tag'

@@ -18,21 +18,22 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class DataSourceQueryResponse(BaseModel):
     """
-    Read-only query result. ``generated_sql`` echoes the executed SQL.
+    Read-only query result. ``generated_sql`` echoes the executed SQL.  ``sql_validation_warnings`` lists non-blocking semantic-lint findings (e.g. aggregate without a filter, fan-out join); empty when the SQL is clean. The query still runs and returns rows regardless of warnings.
     """ # noqa: E501
     columns: List[StrictStr]
     rows: List[List[Any]]
     row_count: StrictInt
     truncated: StrictBool
     generated_sql: StrictStr
-    __properties: ClassVar[List[str]] = ["columns", "rows", "row_count", "truncated", "generated_sql"]
+    sql_validation_warnings: Optional[List[StrictStr]] = None
+    __properties: ClassVar[List[str]] = ["columns", "rows", "row_count", "truncated", "generated_sql", "sql_validation_warnings"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,7 +90,8 @@ class DataSourceQueryResponse(BaseModel):
             "rows": obj.get("rows"),
             "row_count": obj.get("row_count"),
             "truncated": obj.get("truncated"),
-            "generated_sql": obj.get("generated_sql")
+            "generated_sql": obj.get("generated_sql"),
+            "sql_validation_warnings": obj.get("sql_validation_warnings")
         })
         return _obj
 

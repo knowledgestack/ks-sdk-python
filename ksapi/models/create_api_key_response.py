@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +34,8 @@ class CreateApiKeyResponse(BaseModel):
     key: StrictStr
     key_suffix: StrictStr
     created_at: datetime
-    __properties: ClassVar[List[str]] = ["id", "name", "key", "key_suffix", "created_at"]
+    expires_at: Optional[datetime]
+    __properties: ClassVar[List[str]] = ["id", "name", "key", "key_suffix", "created_at", "expires_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,6 +76,11 @@ class CreateApiKeyResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if expires_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.expires_at is None and "expires_at" in self.model_fields_set:
+            _dict['expires_at'] = None
+
         return _dict
 
     @classmethod
@@ -91,7 +97,8 @@ class CreateApiKeyResponse(BaseModel):
             "name": obj.get("name"),
             "key": obj.get("key"),
             "key_suffix": obj.get("key_suffix"),
-            "created_at": obj.get("created_at")
+            "created_at": obj.get("created_at"),
+            "expires_at": obj.get("expires_at")
         })
         return _obj
 

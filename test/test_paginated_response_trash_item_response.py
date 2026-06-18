@@ -44,7 +44,8 @@ class TestPaginatedResponseTrashItemResponse(unittest.TestCase):
                         parent_path_part_id = '', 
                         materialized_path = '', 
                         deleted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        deleted_by = '', )
+                        deleted_by = '', 
+                        owner = null, )
                     ],
                 total = 0.0,
                 limit = 1.0,
@@ -61,7 +62,8 @@ class TestPaginatedResponseTrashItemResponse(unittest.TestCase):
                         parent_path_part_id = '', 
                         materialized_path = '', 
                         deleted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        deleted_by = '', )
+                        deleted_by = '', 
+                        owner = null, )
                     ],
                 total = 0.0,
                 limit = 1.0,

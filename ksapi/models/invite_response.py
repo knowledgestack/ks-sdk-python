@@ -39,9 +39,10 @@ class InviteResponse(BaseModel):
     accepted_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
+    invited_by_user_id: Optional[UUID] = None
     invite_link: StrictStr
     email_id: Optional[UUID] = None
-    __properties: ClassVar[List[str]] = ["id", "tenant_id", "email", "role", "groups", "expires_at", "accepted_at", "created_at", "updated_at", "invite_link", "email_id"]
+    __properties: ClassVar[List[str]] = ["id", "tenant_id", "email", "role", "groups", "expires_at", "accepted_at", "created_at", "updated_at", "invited_by_user_id", "invite_link", "email_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,6 +88,11 @@ class InviteResponse(BaseModel):
         if self.accepted_at is None and "accepted_at" in self.model_fields_set:
             _dict['accepted_at'] = None
 
+        # set to None if invited_by_user_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.invited_by_user_id is None and "invited_by_user_id" in self.model_fields_set:
+            _dict['invited_by_user_id'] = None
+
         # set to None if email_id (nullable) is None
         # and model_fields_set contains the field
         if self.email_id is None and "email_id" in self.model_fields_set:
@@ -113,6 +119,7 @@ class InviteResponse(BaseModel):
             "accepted_at": obj.get("accepted_at"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
+            "invited_by_user_id": obj.get("invited_by_user_id"),
             "invite_link": obj.get("invite_link"),
             "email_id": obj.get("email_id")
         })

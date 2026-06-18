@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +30,8 @@ class CreateApiKeyRequest(BaseModel):
     Request to create a new API key.
     """ # noqa: E501
     name: Annotated[str, Field(min_length=1, strict=True, max_length=100)]
-    __properties: ClassVar[List[str]] = ["name"]
+    expires_at: Optional[datetime] = Field(default=None, description="Optional absolute expiry. Null means the key never expires.")
+    __properties: ClassVar[List[str]] = ["name", "expires_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -70,6 +72,11 @@ class CreateApiKeyRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if expires_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.expires_at is None and "expires_at" in self.model_fields_set:
+            _dict['expires_at'] = None
+
         return _dict
 
     @classmethod
@@ -82,7 +89,8 @@ class CreateApiKeyRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name")
+            "name": obj.get("name"),
+            "expires_at": obj.get("expires_at")
         })
         return _obj
 

@@ -43,6 +43,7 @@ class TestPaginatedResponseThreadResponse(unittest.TestCase):
                         parent_thread_id = '', 
                         materialized_path = '', 
                         tenant_id = '', 
+                        owner = null, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
@@ -60,6 +61,7 @@ class TestPaginatedResponseThreadResponse(unittest.TestCase):
                         parent_thread_id = '', 
                         materialized_path = '', 
                         tenant_id = '', 
+                        owner = null, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],

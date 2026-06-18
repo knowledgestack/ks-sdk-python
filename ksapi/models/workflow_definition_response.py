@@ -23,6 +23,7 @@ from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -43,11 +44,15 @@ class WorkflowDefinitionResponse(BaseModel):
     instruction_path_part_id: UUID = Field(description="DOCUMENT path_part of the instruction document")
     is_active: StrictBool
     approval_required: StrictBool
+    is_template: StrictBool = Field(description="Whether this definition is a non-runnable template")
+    created_from_id: Optional[UUID] = Field(description="Source definition this workflow was copied from (a template or any other workflow); null if hand-authored.")
+    copy_count: Optional[StrictInt] = Field(default=0, description="Number of workflows copied from this definition.")
     approval_state: PathPartApprovalState
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the workflow, or null if unowned.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "approval_state", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "created_from_id", "copy_count", "approval_state", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -98,6 +103,9 @@ class WorkflowDefinitionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of permissions
         if self.permissions:
             _dict['permissions'] = self.permissions.to_dict()
@@ -110,6 +118,16 @@ class WorkflowDefinitionResponse(BaseModel):
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
+
+        # set to None if created_from_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.created_from_id is None and "created_from_id" in self.model_fields_set:
+            _dict['created_from_id'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         # set to None if permissions (nullable) is None
         # and model_fields_set contains the field
@@ -140,7 +158,11 @@ class WorkflowDefinitionResponse(BaseModel):
             "instruction_path_part_id": obj.get("instruction_path_part_id"),
             "is_active": obj.get("is_active"),
             "approval_required": obj.get("approval_required"),
+            "is_template": obj.get("is_template"),
+            "created_from_id": obj.get("created_from_id"),
+            "copy_count": obj.get("copy_count") if obj.get("copy_count") is not None else 0,
             "approval_state": obj.get("approval_state"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None

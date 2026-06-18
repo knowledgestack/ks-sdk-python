@@ -31,7 +31,10 @@ from ksapi.models.path_order import PathOrder
 from ksapi.models.path_part_response import PathPartResponse
 from ksapi.models.path_part_tags_response import PathPartTagsResponse
 from ksapi.models.permission_capability import PermissionCapability
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.subtree_chunks_response import SubtreeChunksResponse
+from ksapi.models.transfer_owner_request import TransferOwnerRequest
+from ksapi.models.transfer_owner_response import TransferOwnerResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -2404,8 +2407,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2429,10 +2437,20 @@ class PathPartsApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2459,8 +2477,13 @@ class PathPartsApi:
             parent_path_id=parent_path_id,
             max_depth=max_depth,
             sort_order=sort_order,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2488,8 +2511,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2513,10 +2541,20 @@ class PathPartsApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2543,8 +2581,13 @@ class PathPartsApi:
             parent_path_id=parent_path_id,
             max_depth=max_depth,
             sort_order=sort_order,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2572,8 +2615,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2597,10 +2645,20 @@ class PathPartsApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2627,8 +2685,13 @@ class PathPartsApi:
             parent_path_id=parent_path_id,
             max_depth=max_depth,
             sort_order=sort_order,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2651,8 +2714,13 @@ class PathPartsApi:
         parent_path_id,
         max_depth,
         sort_order,
+        sort_dir,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -2687,6 +2755,10 @@ class PathPartsApi:
             
             _query_params.append(('sort_order', sort_order.value))
             
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -2694,6 +2766,58 @@ class PathPartsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters
@@ -3011,6 +3135,299 @@ class PathPartsApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/path-parts/{path_part_id}/tags',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def transfer_path_part_owner(
+        self,
+        path_part_id: UUID,
+        transfer_owner_request: TransferOwnerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TransferOwnerResponse:
+        """Transfer Path Part Owner Handler
+
+        Transfer ownership of a shared path_part to another tenant member.  Allowed for the current owner or a tenant ADMIN/OWNER. Personal items (under /users/{uid}) and system-managed items cannot be transferred.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param transfer_owner_request: (required)
+        :type transfer_owner_request: TransferOwnerRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._transfer_path_part_owner_serialize(
+            path_part_id=path_part_id,
+            transfer_owner_request=transfer_owner_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TransferOwnerResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def transfer_path_part_owner_with_http_info(
+        self,
+        path_part_id: UUID,
+        transfer_owner_request: TransferOwnerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TransferOwnerResponse]:
+        """Transfer Path Part Owner Handler
+
+        Transfer ownership of a shared path_part to another tenant member.  Allowed for the current owner or a tenant ADMIN/OWNER. Personal items (under /users/{uid}) and system-managed items cannot be transferred.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param transfer_owner_request: (required)
+        :type transfer_owner_request: TransferOwnerRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._transfer_path_part_owner_serialize(
+            path_part_id=path_part_id,
+            transfer_owner_request=transfer_owner_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TransferOwnerResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def transfer_path_part_owner_without_preload_content(
+        self,
+        path_part_id: UUID,
+        transfer_owner_request: TransferOwnerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Transfer Path Part Owner Handler
+
+        Transfer ownership of a shared path_part to another tenant member.  Allowed for the current owner or a tenant ADMIN/OWNER. Personal items (under /users/{uid}) and system-managed items cannot be transferred.
+
+        :param path_part_id: (required)
+        :type path_part_id: UUID
+        :param transfer_owner_request: (required)
+        :type transfer_owner_request: TransferOwnerRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._transfer_path_part_owner_serialize(
+            path_part_id=path_part_id,
+            transfer_owner_request=transfer_owner_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TransferOwnerResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _transfer_path_part_owner_serialize(
+        self,
+        path_part_id,
+        transfer_owner_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if path_part_id is not None:
+            _path_params['path_part_id'] = path_part_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if transfer_owner_request is not None:
+            _body_params = transfer_owner_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/path-parts/{path_part_id}/owner',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

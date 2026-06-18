@@ -24,6 +24,7 @@ from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.tag_response import TagResponse
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -42,11 +43,12 @@ class FolderResponse(BaseModel):
     approval_state: PathPartApprovalState
     exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this folder's path part only. The effective exclusion also applies when any ancestor folder has the flag set — fetch the ancestry to determine effective state.")
     tenant_id: UUID = Field(description="Tenant ID")
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the folder, or null if unowned.")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this folder")
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "created_at", "updated_at", "tags", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "name", "parent_path_part_id", "materialized_path", "system_managed", "approval_state", "exclude_from_qdrant", "tenant_id", "owner", "created_at", "updated_at", "tags", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -94,6 +96,9 @@ class FolderResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in tags (list)
         _items = []
         if self.tags:
@@ -108,6 +113,11 @@ class FolderResponse(BaseModel):
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         # set to None if tags (nullable) is None
         # and model_fields_set contains the field
@@ -141,6 +151,7 @@ class FolderResponse(BaseModel):
             "approval_state": obj.get("approval_state"),
             "exclude_from_qdrant": obj.get("exclude_from_qdrant"),
             "tenant_id": obj.get("tenant_id"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "tags": [TagResponse.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,

@@ -47,6 +47,20 @@ class TestWorkflowRunsApi(unittest.TestCase):
         """
         pass
 
+    def test_get_workflow_runs_summary(self) -> None:
+        """Test case for get_workflow_runs_summary
+
+        Get Workflow Runs Summary Handler
+        """
+        pass
+
+    def test_list_workflow_runs_for_tenant(self) -> None:
+        """Test case for list_workflow_runs_for_tenant
+
+        List Workflow Runs For Tenant Handler
+        """
+        pass
+
     def test_retry_workflow_run(self) -> None:
         """Test case for retry_workflow_run
 

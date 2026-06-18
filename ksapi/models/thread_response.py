@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -35,9 +36,10 @@ class ThreadResponse(BaseModel):
     parent_thread_id: Optional[UUID] = Field(default=None, description="Parent Thread ID (for subthreads)")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     tenant_id: UUID = Field(description="Tenant ID")
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the thread, or null if unowned.")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "title", "parent_thread_id", "materialized_path", "tenant_id", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "title", "parent_thread_id", "materialized_path", "tenant_id", "owner", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -78,10 +80,18 @@ class ThreadResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # set to None if parent_thread_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_thread_id is None and "parent_thread_id" in self.model_fields_set:
             _dict['parent_thread_id'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         return _dict
 
@@ -101,6 +111,7 @@ class ThreadResponse(BaseModel):
             "parent_thread_id": obj.get("parent_thread_id"),
             "materialized_path": obj.get("materialized_path"),
             "tenant_id": obj.get("tenant_id"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

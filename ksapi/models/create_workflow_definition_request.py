@@ -35,7 +35,8 @@ class CreateWorkflowDefinitionRequest(BaseModel):
     parent_path_part_id: UUID = Field(description="The ``path_part_id`` of the folder the workflow is created under (the folder's PathPart id, not the Folder PDO id). The caller needs write access to it; the workflow may live anywhere in the path tree.")
     instruction_path_part_id: Optional[UUID] = Field(default=None, description="DOCUMENT path_part of the instruction document. Omit (or pass null) to have the server auto-create an empty instruction.md.")
     approval_required: StrictBool
-    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required"]
+    is_template: Optional[StrictBool] = Field(default=False, description="Create a non-runnable template. Templates are excluded from the default list and cannot have runs; users instantiate them into their own runnable workflow. Immutable after creation.")
+    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required", "is_template"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -103,7 +104,8 @@ class CreateWorkflowDefinitionRequest(BaseModel):
             "max_run_duration_seconds": obj.get("max_run_duration_seconds") if obj.get("max_run_duration_seconds") is not None else 1800,
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "instruction_path_part_id": obj.get("instruction_path_part_id"),
-            "approval_required": obj.get("approval_required")
+            "approval_required": obj.get("approval_required"),
+            "is_template": obj.get("is_template") if obj.get("is_template") is not None else False
         })
         return _obj
 

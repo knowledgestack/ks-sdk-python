@@ -37,6 +37,7 @@ class PartType(str, Enum):
     WORKFLOW_RUN = 'WORKFLOW_RUN'
     DATA_SOURCE = 'DATA_SOURCE'
     DATA_SOURCE_TABLE = 'DATA_SOURCE_TABLE'
+    API_CONNECTION = 'API_CONNECTION'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

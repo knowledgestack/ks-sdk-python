@@ -15,15 +15,19 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import datetime
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.accept_invite_response import AcceptInviteResponse
+from ksapi.models.invite_order import InviteOrder
 from ksapi.models.invite_response import InviteResponse
 from ksapi.models.invite_status import InviteStatus
 from ksapi.models.invite_user_request import InviteUserRequest
 from ksapi.models.paginated_response_invite_response import PaginatedResponseInviteResponse
+from ksapi.models.sort_direction import SortDirection
+from ksapi.models.tenant_user_role import TenantUserRole
 from ksapi.models.update_invite_request import UpdateInviteRequest
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -857,8 +861,16 @@ class InvitesApi:
         self,
         email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter by invite role")] = None,
+        invited_by: Annotated[Optional[UUID], Field(description="Filter to invites sent by this user")] = None,
+        sort_by: Annotated[Optional[InviteOrder], Field(description="Field to sort invites by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -874,16 +886,32 @@ class InvitesApi:
     ) -> PaginatedResponseInviteResponse:
         """List Invites Handler
 
-        List invites with pagination, filtering, and sorting.  Supports filtering by tenant_id (requires admin access), email, and status. Results can be sorted by created_at, updated_at, expires_at, or accepted_at.
+        List invites with pagination, filtering, and sorting.  Supports filtering by email, status, role, and a created_at/updated_at timestamp range. Results sort by created_at (ascending) by default.
 
         :param email: Filter by email (case-insensitive partial match)
         :type email: str
         :param status: Filter by invite status (pending, accepted, expired)
         :type status: InviteStatus
+        :param role: Filter by invite role
+        :type role: TenantUserRole
+        :param invited_by: Filter to invites sent by this user
+        :type invited_by: UUID
+        :param sort_by: Field to sort invites by (default: CREATED_AT)
+        :type sort_by: InviteOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -909,8 +937,16 @@ class InvitesApi:
         _param = self._list_invites_serialize(
             email=email,
             status=status,
+            role=role,
+            invited_by=invited_by,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -937,8 +973,16 @@ class InvitesApi:
         self,
         email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter by invite role")] = None,
+        invited_by: Annotated[Optional[UUID], Field(description="Filter to invites sent by this user")] = None,
+        sort_by: Annotated[Optional[InviteOrder], Field(description="Field to sort invites by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -954,16 +998,32 @@ class InvitesApi:
     ) -> ApiResponse[PaginatedResponseInviteResponse]:
         """List Invites Handler
 
-        List invites with pagination, filtering, and sorting.  Supports filtering by tenant_id (requires admin access), email, and status. Results can be sorted by created_at, updated_at, expires_at, or accepted_at.
+        List invites with pagination, filtering, and sorting.  Supports filtering by email, status, role, and a created_at/updated_at timestamp range. Results sort by created_at (ascending) by default.
 
         :param email: Filter by email (case-insensitive partial match)
         :type email: str
         :param status: Filter by invite status (pending, accepted, expired)
         :type status: InviteStatus
+        :param role: Filter by invite role
+        :type role: TenantUserRole
+        :param invited_by: Filter to invites sent by this user
+        :type invited_by: UUID
+        :param sort_by: Field to sort invites by (default: CREATED_AT)
+        :type sort_by: InviteOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -989,8 +1049,16 @@ class InvitesApi:
         _param = self._list_invites_serialize(
             email=email,
             status=status,
+            role=role,
+            invited_by=invited_by,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1017,8 +1085,16 @@ class InvitesApi:
         self,
         email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter by invite role")] = None,
+        invited_by: Annotated[Optional[UUID], Field(description="Filter to invites sent by this user")] = None,
+        sort_by: Annotated[Optional[InviteOrder], Field(description="Field to sort invites by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1034,16 +1110,32 @@ class InvitesApi:
     ) -> RESTResponseType:
         """List Invites Handler
 
-        List invites with pagination, filtering, and sorting.  Supports filtering by tenant_id (requires admin access), email, and status. Results can be sorted by created_at, updated_at, expires_at, or accepted_at.
+        List invites with pagination, filtering, and sorting.  Supports filtering by email, status, role, and a created_at/updated_at timestamp range. Results sort by created_at (ascending) by default.
 
         :param email: Filter by email (case-insensitive partial match)
         :type email: str
         :param status: Filter by invite status (pending, accepted, expired)
         :type status: InviteStatus
+        :param role: Filter by invite role
+        :type role: TenantUserRole
+        :param invited_by: Filter to invites sent by this user
+        :type invited_by: UUID
+        :param sort_by: Field to sort invites by (default: CREATED_AT)
+        :type sort_by: InviteOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1069,8 +1161,16 @@ class InvitesApi:
         _param = self._list_invites_serialize(
             email=email,
             status=status,
+            role=role,
+            invited_by=invited_by,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1092,8 +1192,16 @@ class InvitesApi:
         self,
         email,
         status,
+        role,
+        invited_by,
+        sort_by,
+        sort_dir,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1124,6 +1232,22 @@ class InvitesApi:
             
             _query_params.append(('status', status.value))
             
+        if role is not None:
+            
+            _query_params.append(('role', role.value))
+            
+        if invited_by is not None:
+            
+            _query_params.append(('invited_by', invited_by))
+            
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -1131,6 +1255,58 @@ class InvitesApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters

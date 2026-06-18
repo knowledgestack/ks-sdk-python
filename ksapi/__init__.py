@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.101.2"
+__version__ = "1.102.0"
 
 # Define package exports
 __all__ = [
@@ -26,6 +26,7 @@ __all__ = [
     "WorkflowDefinitionsApi",
     "WorkflowMemoryApi",
     "WorkflowRunsApi",
+    "ApiConnectionsApi",
     "ApiKeysApi",
     "AuditEventsApi",
     "AuthApi",
@@ -60,10 +61,15 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "AcceptDisclaimerRequest",
     "AcceptInviteResponse",
     "AccessCheckResponse",
     "AddMemberRequest",
     "AncestryResponse",
+    "ApiAuthConfig",
+    "ApiConnectionRequestRequest",
+    "ApiConnectionRequestResponse",
+    "ApiConnectionResponse",
     "ApiKeyResponse",
     "AppendEventRequest",
     "AppendMemoryChunkRequest",
@@ -96,6 +102,7 @@ __all__ = [
     "CloneWorkflowRunRequest",
     "ColumnConfig",
     "ConnectionConfig",
+    "CreateApiConnectionRequest",
     "CreateApiKeyRequest",
     "CreateApiKeyResponse",
     "CreateChunkLineageRequest",
@@ -137,6 +144,7 @@ __all__ = [
     "DocumentVersionContentTypeFilter",
     "DocumentVersionMetadata",
     "DocumentVersionMetadataUpdate",
+    "DocumentVersionOrder",
     "DocumentVersionResponse",
     "DocxParagraphAnchorInput",
     "DocxParagraphAnchorOutput",
@@ -146,18 +154,22 @@ __all__ = [
     "EmailVerificationRequest",
     "EnrichedCitation",
     "EnrichedThreadMessageContent",
+    "ErrorResponse",
     "EventResponse",
     "ExtractRequest",
     "ExtractResponse",
     "FeaturesResponse",
     "FeedbackEventResponse",
+    "FeedbackOrder",
     "FeedbackRating",
     "FeedbackReason",
     "FeedbackTargetType",
     "FolderAction",
     "FolderActionResponse",
     "FolderResponse",
-    "FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse",
+    "FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse",
+    "GroupMemberOrder",
+    "GroupPermissionOrder",
     "GroupPermissionResponse",
     "GroupResponse",
     "HTTPValidationError",
@@ -170,9 +182,11 @@ __all__ = [
     "IngestDocumentResponse",
     "IngestionMode",
     "InputSnapshot",
+    "InstantiateWorkflowTemplateRequest",
     "InstructionSnapshot",
     "InviteLinkSettingsRequest",
     "InviteLinkSettingsResponse",
+    "InviteOrder",
     "InviteResponse",
     "InviteStatus",
     "InviteUserRequest",
@@ -189,10 +203,11 @@ __all__ = [
     "MessageRole",
     "MeteredQuotaStatus",
     "ModelTableRequest",
+    "NetworkClass",
     "NonFilesystemReferenceType",
     "OnboardingCompanyRequest",
     "OnboardingProfileRequest",
-    "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator",
+    "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
     "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
     "PaginatedResponseDocumentResponse",
     "PaginatedResponseDocumentVersionResponse",
@@ -258,6 +273,7 @@ __all__ = [
     "SetApprovalStateRequest",
     "SetWorkflowRunApprovalRequest",
     "SignInRequest",
+    "SortDirection",
     "StepInput",
     "StepKind",
     "StepOutput",
@@ -268,14 +284,17 @@ __all__ = [
     "SubtreeChunksResponse",
     "SupportedIdP",
     "SupportedLanguage",
+    "TagOrder",
     "TagResponse",
     "TemporalWorkflowStatusResponse",
     "TenantBrandingResponse",
+    "TenantGroupOrder",
     "TenantQuotaStateResponse",
     "TenantResponse",
     "TenantSettingsResponse",
     "TenantSettingsUpdate",
     "TenantUserEditRequest",
+    "TenantUserOrder",
     "TenantUserResponse",
     "TenantUserRole",
     "TextDiff",
@@ -283,8 +302,12 @@ __all__ = [
     "ThreadMessageDetailsInput",
     "ThreadMessageDetailsOutput",
     "ThreadMessageResponse",
+    "ThreadOrder",
     "ThreadResponse",
+    "TransferOwnerRequest",
+    "TransferOwnerResponse",
     "TrashItemResponse",
+    "UpdateApiConnectionRequest",
     "UpdateChunkContentRequest",
     "UpdateChunkMetadataRequest",
     "UpdateDocumentRequest",
@@ -305,20 +328,25 @@ __all__ = [
     "UserInfo",
     "UserMessageRequest",
     "UserMessageResponse",
+    "UserPermissionOrder",
     "UserResponse",
     "ValidateResetCodeRequest",
     "ValidationError",
     "VersionChunkIdsResponse",
     "VersionDiffResponse",
     "WorkflowActionResponse",
+    "WorkflowAdoptionStats",
     "WorkflowCallbackResponse",
     "WorkflowCancelResponse",
+    "WorkflowDefinitionOrder",
     "WorkflowDefinitionResponse",
     "WorkflowDetailResponse",
     "WorkflowExecutionState",
     "WorkflowRunCallbackRequest",
+    "WorkflowRunOrder",
     "WorkflowRunResponse",
     "WorkflowRunSnapshot",
+    "WorkflowRunSummaryResponse",
     "WorkflowSummaryResponse",
     "XlsxCellAnchorInput",
     "XlsxCellAnchorInputOrDocxParagraphAnchorInput",
@@ -335,6 +363,7 @@ from ksapi.api.threads_api import ThreadsApi as ThreadsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi as WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi as WorkflowMemoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi as WorkflowRunsApi
+from ksapi.api.api_connections_api import ApiConnectionsApi as ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi as ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi as AuditEventsApi
 from ksapi.api.auth_api import AuthApi as AuthApi
@@ -373,10 +402,15 @@ from ksapi.exceptions import ApiAttributeError as ApiAttributeError
 from ksapi.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from ksapi.models.accept_disclaimer_request import AcceptDisclaimerRequest as AcceptDisclaimerRequest
 from ksapi.models.accept_invite_response import AcceptInviteResponse as AcceptInviteResponse
 from ksapi.models.access_check_response import AccessCheckResponse as AccessCheckResponse
 from ksapi.models.add_member_request import AddMemberRequest as AddMemberRequest
 from ksapi.models.ancestry_response import AncestryResponse as AncestryResponse
+from ksapi.models.api_auth_config import ApiAuthConfig as ApiAuthConfig
+from ksapi.models.api_connection_request_request import ApiConnectionRequestRequest as ApiConnectionRequestRequest
+from ksapi.models.api_connection_request_response import ApiConnectionRequestResponse as ApiConnectionRequestResponse
+from ksapi.models.api_connection_response import ApiConnectionResponse as ApiConnectionResponse
 from ksapi.models.api_key_response import ApiKeyResponse as ApiKeyResponse
 from ksapi.models.append_event_request import AppendEventRequest as AppendEventRequest
 from ksapi.models.append_memory_chunk_request import AppendMemoryChunkRequest as AppendMemoryChunkRequest
@@ -409,6 +443,7 @@ from ksapi.models.clear_version_contents_response import ClearVersionContentsRes
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest as CloneWorkflowRunRequest
 from ksapi.models.column_config import ColumnConfig as ColumnConfig
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
+from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest as CreateApiKeyRequest
 from ksapi.models.create_api_key_response import CreateApiKeyResponse as CreateApiKeyResponse
 from ksapi.models.create_chunk_lineage_request import CreateChunkLineageRequest as CreateChunkLineageRequest
@@ -450,6 +485,7 @@ from ksapi.models.document_version_action_response import DocumentVersionActionR
 from ksapi.models.document_version_content_type_filter import DocumentVersionContentTypeFilter as DocumentVersionContentTypeFilter
 from ksapi.models.document_version_metadata import DocumentVersionMetadata as DocumentVersionMetadata
 from ksapi.models.document_version_metadata_update import DocumentVersionMetadataUpdate as DocumentVersionMetadataUpdate
+from ksapi.models.document_version_order import DocumentVersionOrder as DocumentVersionOrder
 from ksapi.models.document_version_response import DocumentVersionResponse as DocumentVersionResponse
 from ksapi.models.docx_paragraph_anchor_input import DocxParagraphAnchorInput as DocxParagraphAnchorInput
 from ksapi.models.docx_paragraph_anchor_output import DocxParagraphAnchorOutput as DocxParagraphAnchorOutput
@@ -459,18 +495,22 @@ from ksapi.models.email_sent_response import EmailSentResponse as EmailSentRespo
 from ksapi.models.email_verification_request import EmailVerificationRequest as EmailVerificationRequest
 from ksapi.models.enriched_citation import EnrichedCitation as EnrichedCitation
 from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageContent as EnrichedThreadMessageContent
+from ksapi.models.error_response import ErrorResponse as ErrorResponse
 from ksapi.models.event_response import EventResponse as EventResponse
 from ksapi.models.extract_request import ExtractRequest as ExtractRequest
 from ksapi.models.extract_response import ExtractResponse as ExtractResponse
 from ksapi.models.features_response import FeaturesResponse as FeaturesResponse
 from ksapi.models.feedback_event_response import FeedbackEventResponse as FeedbackEventResponse
+from ksapi.models.feedback_order import FeedbackOrder as FeedbackOrder
 from ksapi.models.feedback_rating import FeedbackRating as FeedbackRating
 from ksapi.models.feedback_reason import FeedbackReason as FeedbackReason
 from ksapi.models.feedback_target_type import FeedbackTargetType as FeedbackTargetType
 from ksapi.models.folder_action import FolderAction as FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse as FolderActionResponse
 from ksapi.models.folder_response import FolderResponse as FolderResponse
-from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_table_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse as FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponse
+from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_table_response_or_api_connection_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse as FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceTableResponseOrApiConnectionResponse
+from ksapi.models.group_member_order import GroupMemberOrder as GroupMemberOrder
+from ksapi.models.group_permission_order import GroupPermissionOrder as GroupPermissionOrder
 from ksapi.models.group_permission_response import GroupPermissionResponse as GroupPermissionResponse
 from ksapi.models.group_response import GroupResponse as GroupResponse
 from ksapi.models.http_validation_error import HTTPValidationError as HTTPValidationError
@@ -483,9 +523,11 @@ from ksapi.models.information_statistics import InformationStatistics as Informa
 from ksapi.models.ingest_document_response import IngestDocumentResponse as IngestDocumentResponse
 from ksapi.models.ingestion_mode import IngestionMode as IngestionMode
 from ksapi.models.input_snapshot import InputSnapshot as InputSnapshot
+from ksapi.models.instantiate_workflow_template_request import InstantiateWorkflowTemplateRequest as InstantiateWorkflowTemplateRequest
 from ksapi.models.instruction_snapshot import InstructionSnapshot as InstructionSnapshot
 from ksapi.models.invite_link_settings_request import InviteLinkSettingsRequest as InviteLinkSettingsRequest
 from ksapi.models.invite_link_settings_response import InviteLinkSettingsResponse as InviteLinkSettingsResponse
+from ksapi.models.invite_order import InviteOrder as InviteOrder
 from ksapi.models.invite_response import InviteResponse as InviteResponse
 from ksapi.models.invite_status import InviteStatus as InviteStatus
 from ksapi.models.invite_user_request import InviteUserRequest as InviteUserRequest
@@ -502,10 +544,11 @@ from ksapi.models.memory_scope import MemoryScope as MemoryScope
 from ksapi.models.message_role import MessageRole as MessageRole
 from ksapi.models.metered_quota_status import MeteredQuotaStatus as MeteredQuotaStatus
 from ksapi.models.model_table_request import ModelTableRequest as ModelTableRequest
+from ksapi.models.network_class import NetworkClass as NetworkClass
 from ksapi.models.non_filesystem_reference_type import NonFilesystemReferenceType as NonFilesystemReferenceType
 from ksapi.models.onboarding_company_request import OnboardingCompanyRequest as OnboardingCompanyRequest
 from ksapi.models.onboarding_profile_request import OnboardingProfileRequest as OnboardingProfileRequest
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_table_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator as PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_table_response_api_connection_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator as PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator
 from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator import PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator as PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator
 from ksapi.models.paginated_response_document_response import PaginatedResponseDocumentResponse as PaginatedResponseDocumentResponse
 from ksapi.models.paginated_response_document_version_response import PaginatedResponseDocumentVersionResponse as PaginatedResponseDocumentVersionResponse
@@ -571,6 +614,7 @@ from ksapi.models.send_password_reset_request import SendPasswordResetRequest as
 from ksapi.models.set_approval_state_request import SetApprovalStateRequest as SetApprovalStateRequest
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest as SetWorkflowRunApprovalRequest
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
+from ksapi.models.sort_direction import SortDirection as SortDirection
 from ksapi.models.step_input import StepInput as StepInput
 from ksapi.models.step_kind import StepKind as StepKind
 from ksapi.models.step_output import StepOutput as StepOutput
@@ -581,14 +625,17 @@ from ksapi.models.subtree_chunk_group import SubtreeChunkGroup as SubtreeChunkGr
 from ksapi.models.subtree_chunks_response import SubtreeChunksResponse as SubtreeChunksResponse
 from ksapi.models.supported_id_p import SupportedIdP as SupportedIdP
 from ksapi.models.supported_language import SupportedLanguage as SupportedLanguage
+from ksapi.models.tag_order import TagOrder as TagOrder
 from ksapi.models.tag_response import TagResponse as TagResponse
 from ksapi.models.temporal_workflow_status_response import TemporalWorkflowStatusResponse as TemporalWorkflowStatusResponse
 from ksapi.models.tenant_branding_response import TenantBrandingResponse as TenantBrandingResponse
+from ksapi.models.tenant_group_order import TenantGroupOrder as TenantGroupOrder
 from ksapi.models.tenant_quota_state_response import TenantQuotaStateResponse as TenantQuotaStateResponse
 from ksapi.models.tenant_response import TenantResponse as TenantResponse
 from ksapi.models.tenant_settings_response import TenantSettingsResponse as TenantSettingsResponse
 from ksapi.models.tenant_settings_update import TenantSettingsUpdate as TenantSettingsUpdate
 from ksapi.models.tenant_user_edit_request import TenantUserEditRequest as TenantUserEditRequest
+from ksapi.models.tenant_user_order import TenantUserOrder as TenantUserOrder
 from ksapi.models.tenant_user_response import TenantUserResponse as TenantUserResponse
 from ksapi.models.tenant_user_role import TenantUserRole as TenantUserRole
 from ksapi.models.text_diff import TextDiff as TextDiff
@@ -596,8 +643,12 @@ from ksapi.models.thread_message_content import ThreadMessageContent as ThreadMe
 from ksapi.models.thread_message_details_input import ThreadMessageDetailsInput as ThreadMessageDetailsInput
 from ksapi.models.thread_message_details_output import ThreadMessageDetailsOutput as ThreadMessageDetailsOutput
 from ksapi.models.thread_message_response import ThreadMessageResponse as ThreadMessageResponse
+from ksapi.models.thread_order import ThreadOrder as ThreadOrder
 from ksapi.models.thread_response import ThreadResponse as ThreadResponse
+from ksapi.models.transfer_owner_request import TransferOwnerRequest as TransferOwnerRequest
+from ksapi.models.transfer_owner_response import TransferOwnerResponse as TransferOwnerResponse
 from ksapi.models.trash_item_response import TrashItemResponse as TrashItemResponse
+from ksapi.models.update_api_connection_request import UpdateApiConnectionRequest as UpdateApiConnectionRequest
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest as UpdateChunkContentRequest
 from ksapi.models.update_chunk_metadata_request import UpdateChunkMetadataRequest as UpdateChunkMetadataRequest
 from ksapi.models.update_document_request import UpdateDocumentRequest as UpdateDocumentRequest
@@ -618,20 +669,25 @@ from ksapi.models.usage_metric import UsageMetric as UsageMetric
 from ksapi.models.user_info import UserInfo as UserInfo
 from ksapi.models.user_message_request import UserMessageRequest as UserMessageRequest
 from ksapi.models.user_message_response import UserMessageResponse as UserMessageResponse
+from ksapi.models.user_permission_order import UserPermissionOrder as UserPermissionOrder
 from ksapi.models.user_response import UserResponse as UserResponse
 from ksapi.models.validate_reset_code_request import ValidateResetCodeRequest as ValidateResetCodeRequest
 from ksapi.models.validation_error import ValidationError as ValidationError
 from ksapi.models.version_chunk_ids_response import VersionChunkIdsResponse as VersionChunkIdsResponse
 from ksapi.models.version_diff_response import VersionDiffResponse as VersionDiffResponse
 from ksapi.models.workflow_action_response import WorkflowActionResponse as WorkflowActionResponse
+from ksapi.models.workflow_adoption_stats import WorkflowAdoptionStats as WorkflowAdoptionStats
 from ksapi.models.workflow_callback_response import WorkflowCallbackResponse as WorkflowCallbackResponse
 from ksapi.models.workflow_cancel_response import WorkflowCancelResponse as WorkflowCancelResponse
+from ksapi.models.workflow_definition_order import WorkflowDefinitionOrder as WorkflowDefinitionOrder
 from ksapi.models.workflow_definition_response import WorkflowDefinitionResponse as WorkflowDefinitionResponse
 from ksapi.models.workflow_detail_response import WorkflowDetailResponse as WorkflowDetailResponse
 from ksapi.models.workflow_execution_state import WorkflowExecutionState as WorkflowExecutionState
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest as WorkflowRunCallbackRequest
+from ksapi.models.workflow_run_order import WorkflowRunOrder as WorkflowRunOrder
 from ksapi.models.workflow_run_response import WorkflowRunResponse as WorkflowRunResponse
 from ksapi.models.workflow_run_snapshot import WorkflowRunSnapshot as WorkflowRunSnapshot
+from ksapi.models.workflow_run_summary_response import WorkflowRunSummaryResponse as WorkflowRunSummaryResponse
 from ksapi.models.workflow_summary_response import WorkflowSummaryResponse as WorkflowSummaryResponse
 from ksapi.models.xlsx_cell_anchor_input import XlsxCellAnchorInput as XlsxCellAnchorInput
 from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput as XlsxCellAnchorInputOrDocxParagraphAnchorInput

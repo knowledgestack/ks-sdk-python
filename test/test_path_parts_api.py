@@ -96,6 +96,13 @@ class TestPathPartsApi(unittest.TestCase):
         """
         pass
 
+    def test_transfer_path_part_owner(self) -> None:
+        """Test case for transfer_path_part_owner
+
+        Transfer Path Part Owner Handler
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

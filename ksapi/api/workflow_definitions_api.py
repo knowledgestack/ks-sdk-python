@@ -15,15 +15,20 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBytes, StrictStr
+from datetime import datetime
+from pydantic import Field, StrictBool, StrictBytes, StrictStr
 from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.create_workflow_definition_request import CreateWorkflowDefinitionRequest
+from ksapi.models.instantiate_workflow_template_request import InstantiateWorkflowTemplateRequest
 from ksapi.models.paginated_response_workflow_definition_response import PaginatedResponseWorkflowDefinitionResponse
 from ksapi.models.paginated_response_workflow_run_response import PaginatedResponseWorkflowRunResponse
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.update_workflow_definition_request import UpdateWorkflowDefinitionRequest
+from ksapi.models.workflow_definition_order import WorkflowDefinitionOrder
 from ksapi.models.workflow_definition_response import WorkflowDefinitionResponse
+from ksapi.models.workflow_run_order import WorkflowRunOrder
 from ksapi.models.workflow_run_response import WorkflowRunResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -1168,10 +1173,308 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
+    def instantiate_workflow_template(
+        self,
+        template_id: UUID,
+        instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowDefinitionResponse:
+        """Instantiate Workflow Template Handler
+
+
+        :param template_id: (required)
+        :type template_id: UUID
+        :param instantiate_workflow_template_request: (required)
+        :type instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._instantiate_workflow_template_serialize(
+            template_id=template_id,
+            instantiate_workflow_template_request=instantiate_workflow_template_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "WorkflowDefinitionResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def instantiate_workflow_template_with_http_info(
+        self,
+        template_id: UUID,
+        instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowDefinitionResponse]:
+        """Instantiate Workflow Template Handler
+
+
+        :param template_id: (required)
+        :type template_id: UUID
+        :param instantiate_workflow_template_request: (required)
+        :type instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._instantiate_workflow_template_serialize(
+            template_id=template_id,
+            instantiate_workflow_template_request=instantiate_workflow_template_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "WorkflowDefinitionResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def instantiate_workflow_template_without_preload_content(
+        self,
+        template_id: UUID,
+        instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Instantiate Workflow Template Handler
+
+
+        :param template_id: (required)
+        :type template_id: UUID
+        :param instantiate_workflow_template_request: (required)
+        :type instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._instantiate_workflow_template_serialize(
+            template_id=template_id,
+            instantiate_workflow_template_request=instantiate_workflow_template_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "WorkflowDefinitionResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _instantiate_workflow_template_serialize(
+        self,
+        template_id,
+        instantiate_workflow_template_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if template_id is not None:
+            _path_params['template_id'] = template_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if instantiate_workflow_template_request is not None:
+            _body_params = instantiate_workflow_template_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-definitions/{template_id}/instantiate',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def list_workflow_definitions(
         self,
+        mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        is_template: Optional[StrictBool] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1188,10 +1491,26 @@ class WorkflowDefinitionsApi:
         """List Workflow Definitions Handler
 
 
+        :param mine: Only definitions the caller created (owner).
+        :type mine: bool
+        :param sort_by: Field to sort definitions by (default: CREATED_AT)
+        :type sort_by: WorkflowDefinitionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param is_template:
+        :type is_template: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1215,8 +1534,16 @@ class WorkflowDefinitionsApi:
         """ # noqa: E501
 
         _param = self._list_workflow_definitions_serialize(
+            mine=mine,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            is_template=is_template,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1241,8 +1568,16 @@ class WorkflowDefinitionsApi:
     @validate_call
     def list_workflow_definitions_with_http_info(
         self,
+        mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        is_template: Optional[StrictBool] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1259,10 +1594,26 @@ class WorkflowDefinitionsApi:
         """List Workflow Definitions Handler
 
 
+        :param mine: Only definitions the caller created (owner).
+        :type mine: bool
+        :param sort_by: Field to sort definitions by (default: CREATED_AT)
+        :type sort_by: WorkflowDefinitionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param is_template:
+        :type is_template: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1286,8 +1637,16 @@ class WorkflowDefinitionsApi:
         """ # noqa: E501
 
         _param = self._list_workflow_definitions_serialize(
+            mine=mine,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            is_template=is_template,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1312,8 +1671,16 @@ class WorkflowDefinitionsApi:
     @validate_call
     def list_workflow_definitions_without_preload_content(
         self,
+        mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        is_template: Optional[StrictBool] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1330,10 +1697,26 @@ class WorkflowDefinitionsApi:
         """List Workflow Definitions Handler
 
 
+        :param mine: Only definitions the caller created (owner).
+        :type mine: bool
+        :param sort_by: Field to sort definitions by (default: CREATED_AT)
+        :type sort_by: WorkflowDefinitionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param is_template:
+        :type is_template: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1357,8 +1740,16 @@ class WorkflowDefinitionsApi:
         """ # noqa: E501
 
         _param = self._list_workflow_definitions_serialize(
+            mine=mine,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            is_template=is_template,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1378,8 +1769,16 @@ class WorkflowDefinitionsApi:
 
     def _list_workflow_definitions_serialize(
         self,
+        mine,
+        sort_by,
+        sort_dir,
+        is_template,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1402,6 +1801,22 @@ class WorkflowDefinitionsApi:
 
         # process the path parameters
         # process the query parameters
+        if mine is not None:
+            
+            _query_params.append(('mine', mine))
+            
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if is_template is not None:
+            
+            _query_params.append(('is_template', is_template))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -1409,6 +1824,58 @@ class WorkflowDefinitionsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters
@@ -1452,8 +1919,14 @@ class WorkflowDefinitionsApi:
     def list_workflow_runs(
         self,
         definition_id: UUID,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1472,10 +1945,22 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
+        :param sort_by: Field to sort runs by (default: STARTED_AT)
+        :type sort_by: WorkflowRunOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1500,8 +1985,14 @@ class WorkflowDefinitionsApi:
 
         _param = self._list_workflow_runs_serialize(
             definition_id=definition_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1527,8 +2018,14 @@ class WorkflowDefinitionsApi:
     def list_workflow_runs_with_http_info(
         self,
         definition_id: UUID,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1547,10 +2044,22 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
+        :param sort_by: Field to sort runs by (default: STARTED_AT)
+        :type sort_by: WorkflowRunOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1575,8 +2084,14 @@ class WorkflowDefinitionsApi:
 
         _param = self._list_workflow_runs_serialize(
             definition_id=definition_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1602,8 +2117,14 @@ class WorkflowDefinitionsApi:
     def list_workflow_runs_without_preload_content(
         self,
         definition_id: UUID,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1622,10 +2143,22 @@ class WorkflowDefinitionsApi:
 
         :param definition_id: (required)
         :type definition_id: UUID
+        :param sort_by: Field to sort runs by (default: STARTED_AT)
+        :type sort_by: WorkflowRunOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1650,8 +2183,14 @@ class WorkflowDefinitionsApi:
 
         _param = self._list_workflow_runs_serialize(
             definition_id=definition_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1672,8 +2211,14 @@ class WorkflowDefinitionsApi:
     def _list_workflow_runs_serialize(
         self,
         definition_id,
+        sort_by,
+        sort_dir,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1698,6 +2243,14 @@ class WorkflowDefinitionsApi:
         if definition_id is not None:
             _path_params['definition_id'] = definition_id
         # process the query parameters
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -1705,6 +2258,58 @@ class WorkflowDefinitionsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters

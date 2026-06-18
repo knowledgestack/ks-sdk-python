@@ -21,7 +21,9 @@ from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.create_thread_message_request import CreateThreadMessageRequest
+from ksapi.models.message_role import MessageRole
 from ksapi.models.paginated_response_thread_message_response import PaginatedResponseThreadMessageResponse
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.thread_message_response import ThreadMessageResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -637,6 +639,8 @@ class ThreadMessagesApi:
         self,
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
+        role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -661,6 +665,10 @@ class ThreadMessagesApi:
         :type thread_id: UUID
         :param before: Cursor for keyset pagination: only return messages with created_at < this value
         :type before: datetime
+        :param role: Filter messages by role (USER, ASSISTANT, SYSTEM)
+        :type role: MessageRole
+        :param sort_dir: ASC for oldest-first; default/DESC keeps newest-first
+        :type sort_dir: SortDirection
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
         :param limit: Number of items per page
@@ -692,6 +700,8 @@ class ThreadMessagesApi:
         _param = self._list_thread_messages_serialize(
             thread_id=thread_id,
             before=before,
+            role=role,
+            sort_dir=sort_dir,
             with_details=with_details,
             limit=limit,
             offset=offset,
@@ -721,6 +731,8 @@ class ThreadMessagesApi:
         self,
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
+        role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -745,6 +757,10 @@ class ThreadMessagesApi:
         :type thread_id: UUID
         :param before: Cursor for keyset pagination: only return messages with created_at < this value
         :type before: datetime
+        :param role: Filter messages by role (USER, ASSISTANT, SYSTEM)
+        :type role: MessageRole
+        :param sort_dir: ASC for oldest-first; default/DESC keeps newest-first
+        :type sort_dir: SortDirection
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
         :param limit: Number of items per page
@@ -776,6 +792,8 @@ class ThreadMessagesApi:
         _param = self._list_thread_messages_serialize(
             thread_id=thread_id,
             before=before,
+            role=role,
+            sort_dir=sort_dir,
             with_details=with_details,
             limit=limit,
             offset=offset,
@@ -805,6 +823,8 @@ class ThreadMessagesApi:
         self,
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
+        role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -829,6 +849,10 @@ class ThreadMessagesApi:
         :type thread_id: UUID
         :param before: Cursor for keyset pagination: only return messages with created_at < this value
         :type before: datetime
+        :param role: Filter messages by role (USER, ASSISTANT, SYSTEM)
+        :type role: MessageRole
+        :param sort_dir: ASC for oldest-first; default/DESC keeps newest-first
+        :type sort_dir: SortDirection
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
         :param limit: Number of items per page
@@ -860,6 +884,8 @@ class ThreadMessagesApi:
         _param = self._list_thread_messages_serialize(
             thread_id=thread_id,
             before=before,
+            role=role,
+            sort_dir=sort_dir,
             with_details=with_details,
             limit=limit,
             offset=offset,
@@ -884,6 +910,8 @@ class ThreadMessagesApi:
         self,
         thread_id,
         before,
+        role,
+        sort_dir,
         with_details,
         limit,
         offset,
@@ -923,6 +951,14 @@ class ThreadMessagesApi:
                 )
             else:
                 _query_params.append(('before', before))
+            
+        if role is not None:
+            
+            _query_params.append(('role', role.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         if with_details is not None:
             

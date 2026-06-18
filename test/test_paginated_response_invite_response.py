@@ -48,6 +48,7 @@ class TestPaginatedResponseInviteResponse(unittest.TestCase):
                         accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        invited_by_user_id = '', 
                         invite_link = '', 
                         email_id = '', )
                     ],
@@ -70,6 +71,7 @@ class TestPaginatedResponseInviteResponse(unittest.TestCase):
                         accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        invited_by_user_id = '', 
                         invite_link = '', 
                         email_id = '', )
                     ],

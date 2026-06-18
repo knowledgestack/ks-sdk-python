@@ -51,7 +51,7 @@ class DocumentResponse(BaseModel):
     approval_state: PathPartApprovalState
     exclude_from_qdrant: StrictBool = Field(description="Direct exclusion flag on this document's path part only. The effective exclusion also applies when any ancestor folder has the flag set — fetch the ancestry to determine effective state.")
     tenant_id: UUID = Field(description="Tenant ID")
-    owner: UserInfo
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the document, or null if unowned. Transferable via PATCH by the current owner or an ADMIN/OWNER.")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     tags: Optional[List[TagResponse]] = Field(default=None, description="Tags attached to this document")
@@ -128,6 +128,11 @@ class DocumentResponse(BaseModel):
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         # set to None if tags (nullable) is None
         # and model_fields_set contains the field

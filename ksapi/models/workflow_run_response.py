@@ -55,10 +55,11 @@ class WorkflowRunResponse(BaseModel):
     input_path_part_ids: Optional[List[UUID]] = Field(default=None, description="Flat list of currently-pinned KB-reference path_part ids (DOCUMENT + FOLDER). On a NOT_STARTED run this is the only surface for KB refs (run_snapshot is NULL).")
     outputs_path_part_ids: List[UUID]
     run_thread_id: Optional[UUID] = Field(default=None, description="The run's primary chat thread (1:1). NULL while NOT_STARTED; set by Start. The FE opens the run by opening this thread.")
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the run, or null if unowned. Usually the same user as ``triggered_by`` unless ownership was transferred.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "run_thread_id", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -115,6 +116,9 @@ class WorkflowRunResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of run_snapshot
         if self.run_snapshot:
             _dict['run_snapshot'] = self.run_snapshot.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of permissions
         if self.permissions:
             _dict['permissions'] = self.permissions.to_dict()
@@ -147,6 +151,11 @@ class WorkflowRunResponse(BaseModel):
         # and model_fields_set contains the field
         if self.run_thread_id is None and "run_thread_id" in self.model_fields_set:
             _dict['run_thread_id'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
 
         # set to None if permissions (nullable) is None
         # and model_fields_set contains the field
@@ -186,6 +195,7 @@ class WorkflowRunResponse(BaseModel):
             "input_path_part_ids": obj.get("input_path_part_ids"),
             "outputs_path_part_ids": obj.get("outputs_path_part_ids"),
             "run_thread_id": obj.get("run_thread_id"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None

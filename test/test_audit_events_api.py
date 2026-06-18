@@ -26,6 +26,13 @@ class TestAuditEventsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_export_audit_events(self) -> None:
+        """Test case for export_audit_events
+
+        Export Audit Events Handler
+        """
+        pass
+
     def test_list_audit_events(self) -> None:
         """Test case for list_audit_events
 

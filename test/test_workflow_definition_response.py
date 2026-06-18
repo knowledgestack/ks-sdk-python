@@ -47,7 +47,14 @@ class TestWorkflowDefinitionResponse(unittest.TestCase):
                 instruction_path_part_id = '',
                 is_active = True,
                 approval_required = True,
+                is_template = True,
+                created_from_id = '',
+                copy_count = 56,
                 approval_state = 'not_required',
+                owner = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 permissions = ksapi.models.item_permissions.ItemPermissions(
@@ -69,6 +76,8 @@ class TestWorkflowDefinitionResponse(unittest.TestCase):
                 instruction_path_part_id = '',
                 is_active = True,
                 approval_required = True,
+                is_template = True,
+                created_from_id = '',
                 approval_state = 'not_required',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),

@@ -15,6 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import datetime
 from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
@@ -25,10 +26,12 @@ from ksapi.models.document_version_action import DocumentVersionAction
 from ksapi.models.document_version_action_response import DocumentVersionActionResponse
 from ksapi.models.document_version_content_type_filter import DocumentVersionContentTypeFilter
 from ksapi.models.document_version_metadata_update import DocumentVersionMetadataUpdate
+from ksapi.models.document_version_order import DocumentVersionOrder
 from ksapi.models.document_version_response import DocumentVersionResponse
 from ksapi.models.download_artifact import DownloadArtifact
 from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator import PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator
 from ksapi.models.paginated_response_document_version_response import PaginatedResponseDocumentVersionResponse
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.version_diff_response import VersionDiffResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
@@ -2306,8 +2309,15 @@ class DocumentVersionsApi:
     def list_document_versions(
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
+        sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        uploader_tenant_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2323,14 +2333,28 @@ class DocumentVersionsApi:
     ) -> PaginatedResponseDocumentVersionResponse:
         """List Document Versions Handler
 
-        List all versions for a document.  Returns versions ordered by version number ascending (v0, v1, v2...).
+        List all versions for a document.  Returns versions ordered by version number ascending (v0, v1, v2...) by default.
 
         :param document_id: Document ID to list versions for (required)
         :type document_id: UUID
+        :param sort_by: Field to sort versions by (default: VERSION)
+        :type sort_by: DocumentVersionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param uploader_tenant_user_id: Filter to versions created by this user
+        :type uploader_tenant_user_id: UUID
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2355,8 +2379,15 @@ class DocumentVersionsApi:
 
         _param = self._list_document_versions_serialize(
             document_id=document_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            uploader_tenant_user_id=uploader_tenant_user_id,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2382,8 +2413,15 @@ class DocumentVersionsApi:
     def list_document_versions_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
+        sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        uploader_tenant_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2399,14 +2437,28 @@ class DocumentVersionsApi:
     ) -> ApiResponse[PaginatedResponseDocumentVersionResponse]:
         """List Document Versions Handler
 
-        List all versions for a document.  Returns versions ordered by version number ascending (v0, v1, v2...).
+        List all versions for a document.  Returns versions ordered by version number ascending (v0, v1, v2...) by default.
 
         :param document_id: Document ID to list versions for (required)
         :type document_id: UUID
+        :param sort_by: Field to sort versions by (default: VERSION)
+        :type sort_by: DocumentVersionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param uploader_tenant_user_id: Filter to versions created by this user
+        :type uploader_tenant_user_id: UUID
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2431,8 +2483,15 @@ class DocumentVersionsApi:
 
         _param = self._list_document_versions_serialize(
             document_id=document_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            uploader_tenant_user_id=uploader_tenant_user_id,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2458,8 +2517,15 @@ class DocumentVersionsApi:
     def list_document_versions_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
+        sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        uploader_tenant_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2475,14 +2541,28 @@ class DocumentVersionsApi:
     ) -> RESTResponseType:
         """List Document Versions Handler
 
-        List all versions for a document.  Returns versions ordered by version number ascending (v0, v1, v2...).
+        List all versions for a document.  Returns versions ordered by version number ascending (v0, v1, v2...) by default.
 
         :param document_id: Document ID to list versions for (required)
         :type document_id: UUID
+        :param sort_by: Field to sort versions by (default: VERSION)
+        :type sort_by: DocumentVersionOrder
+        :param sort_dir: Sort direction; overrides the field's natural default
+        :type sort_dir: SortDirection
+        :param uploader_tenant_user_id: Filter to versions created by this user
+        :type uploader_tenant_user_id: UUID
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2507,8 +2587,15 @@ class DocumentVersionsApi:
 
         _param = self._list_document_versions_serialize(
             document_id=document_id,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            uploader_tenant_user_id=uploader_tenant_user_id,
             limit=limit,
             offset=offset,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2529,8 +2616,15 @@ class DocumentVersionsApi:
     def _list_document_versions_serialize(
         self,
         document_id,
+        sort_by,
+        sort_dir,
+        uploader_tenant_user_id,
         limit,
         offset,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -2557,6 +2651,18 @@ class DocumentVersionsApi:
             
             _query_params.append(('document_id', document_id))
             
+        if sort_by is not None:
+            
+            _query_params.append(('sort_by', sort_by.value))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if uploader_tenant_user_id is not None:
+            
+            _query_params.append(('uploader_tenant_user_id', uploader_tenant_user_id))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -2564,6 +2670,58 @@ class DocumentVersionsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters

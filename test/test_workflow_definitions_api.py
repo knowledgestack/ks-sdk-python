@@ -54,6 +54,13 @@ class TestWorkflowDefinitionsApi(unittest.TestCase):
         """
         pass
 
+    def test_instantiate_workflow_template(self) -> None:
+        """Test case for instantiate_workflow_template
+
+        Instantiate Workflow Template Handler
+        """
+        pass
+
     def test_list_workflow_definitions(self) -> None:
         """Test case for list_workflow_definitions
 
