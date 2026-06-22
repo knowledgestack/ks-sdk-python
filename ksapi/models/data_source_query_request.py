@@ -26,11 +26,12 @@ from pydantic_core import to_jsonable_python
 
 class DataSourceQueryRequest(BaseModel):
     """
-    A read-only SQL query the caller (or agent) wrote.
+    A read-only SQL query the caller (or agent) wrote.  ``offset`` skips that many leading result rows, so callers can page through a large result a window of ``max_rows`` at a time.
     """ # noqa: E501
     sql: StrictStr
     max_rows: Optional[Annotated[int, Field(le=10000, strict=True, ge=1)]] = 1000
-    __properties: ClassVar[List[str]] = ["sql", "max_rows"]
+    offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = 0
+    __properties: ClassVar[List[str]] = ["sql", "max_rows", "offset"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,7 +85,8 @@ class DataSourceQueryRequest(BaseModel):
 
         _obj = cls.model_validate({
             "sql": obj.get("sql"),
-            "max_rows": obj.get("max_rows") if obj.get("max_rows") is not None else 1000
+            "max_rows": obj.get("max_rows") if obj.get("max_rows") is not None else 1000,
+            "offset": obj.get("offset") if obj.get("offset") is not None else 0
         })
         return _obj
 

@@ -2002,7 +2002,7 @@ class FoldersApi:
     ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
         """Search Items Handler
 
-        Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, and data-source connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -2094,7 +2094,7 @@ class FoldersApi:
     ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator]:
         """Search Items Handler
 
-        Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, and data-source connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -2186,7 +2186,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Search Items Handler
 
-        Search for folders and documents by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, and data-source connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str

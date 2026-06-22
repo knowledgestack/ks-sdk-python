@@ -36,7 +36,8 @@ class TestDataSourceQueryRequest(unittest.TestCase):
         if include_optional:
             return DataSourceQueryRequest(
                 sql = '',
-                max_rows = 1.0
+                max_rows = 1.0,
+                offset = 0.0
             )
         else:
             return DataSourceQueryRequest(

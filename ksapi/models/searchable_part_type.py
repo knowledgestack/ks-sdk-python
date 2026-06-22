@@ -28,6 +28,7 @@ class SearchablePartType(str, Enum):
     """
     FOLDER = 'FOLDER'
     DOCUMENT = 'DOCUMENT'
+    DATA_SOURCE = 'DATA_SOURCE'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
