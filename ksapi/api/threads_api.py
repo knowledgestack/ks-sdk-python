@@ -66,7 +66,7 @@ class ThreadsApi:
     ) -> ThreadResponse:
         """Create Thread Handler
 
-        Create a new thread.  If parent_path_part_id is omitted, the thread is created under the user's /users/{user_id}/threads/ folder (auto-provisioned if needed).
+        Create a new thread.  If parent_path_part_id is omitted, the thread is created under the user's /users/{user_id}/threads/ folder (auto-provisioned if needed).  With ``message_for_title``, the thread is created as \"New Thread\" and its title is summarized in a background task; the FE learns the final title via a ``THREAD_TITLE_CHANGED`` WebSocket event.
 
         :param create_thread_request: (required)
         :type create_thread_request: CreateThreadRequest
@@ -134,7 +134,7 @@ class ThreadsApi:
     ) -> ApiResponse[ThreadResponse]:
         """Create Thread Handler
 
-        Create a new thread.  If parent_path_part_id is omitted, the thread is created under the user's /users/{user_id}/threads/ folder (auto-provisioned if needed).
+        Create a new thread.  If parent_path_part_id is omitted, the thread is created under the user's /users/{user_id}/threads/ folder (auto-provisioned if needed).  With ``message_for_title``, the thread is created as \"New Thread\" and its title is summarized in a background task; the FE learns the final title via a ``THREAD_TITLE_CHANGED`` WebSocket event.
 
         :param create_thread_request: (required)
         :type create_thread_request: CreateThreadRequest
@@ -202,7 +202,7 @@ class ThreadsApi:
     ) -> RESTResponseType:
         """Create Thread Handler
 
-        Create a new thread.  If parent_path_part_id is omitted, the thread is created under the user's /users/{user_id}/threads/ folder (auto-provisioned if needed).
+        Create a new thread.  If parent_path_part_id is omitted, the thread is created under the user's /users/{user_id}/threads/ folder (auto-provisioned if needed).  With ``message_for_title``, the thread is created as \"New Thread\" and its title is summarized in a background task; the FE learns the final title via a ``THREAD_TITLE_CHANGED`` WebSocket event.
 
         :param create_thread_request: (required)
         :type create_thread_request: CreateThreadRequest
