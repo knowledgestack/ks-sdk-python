@@ -32,7 +32,7 @@ class CheckpointDetails(BaseModel):
     """ # noqa: E501
     upto_message_id: UUID = Field(description="Last message covered by this summary (inclusive).")
     upto_message_created_at: datetime = Field(description="created_at of upto_message_id; tiebreaker for identical timestamps.")
-    summary: Dict[str, Any] = Field(description="Agent-internal CompressionSummary as a JSON blob. Server does not interpret this; the agent serializes/deserializes via its own model.")
+    summary: Dict[str, Any] = Field(description="Agent-internal summary blob (currently {\"text\": ...}). Server does not interpret this; the agent reads the summary back from the message's content.text.")
     covered_message_count: Annotated[int, Field(strict=True, ge=0)]
     tokens_before: Annotated[int, Field(strict=True, ge=0)]
     tokens_after: Annotated[int, Field(strict=True, ge=0)]
