@@ -41,6 +41,7 @@ class TestPaginatedResponseGroupResponse(unittest.TestCase):
                         tenant_id = '', 
                         name = '', 
                         description = '', 
+                        idp_group_id = '', 
                         member_count = 56, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
@@ -57,6 +58,7 @@ class TestPaginatedResponseGroupResponse(unittest.TestCase):
                         tenant_id = '', 
                         name = '', 
                         description = '', 
+                        idp_group_id = '', 
                         member_count = 56, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )

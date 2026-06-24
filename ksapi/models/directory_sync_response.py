@@ -32,9 +32,14 @@ class DirectorySyncResponse(BaseModel):
     users_activated: Optional[StrictInt] = 0
     users_deactivated: Optional[StrictInt] = 0
     users_skipped: Optional[StrictInt] = 0
+    seat_cap_excluded_num: Optional[StrictInt] = 0
+    groups_created: Optional[StrictInt] = 0
+    groups_updated: Optional[StrictInt] = 0
+    group_memberships_added: Optional[StrictInt] = 0
+    group_memberships_removed: Optional[StrictInt] = 0
     warnings: Optional[List[StrictStr]] = None
     errors: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["users_created", "users_updated", "users_activated", "users_deactivated", "users_skipped", "warnings", "errors"]
+    __properties: ClassVar[List[str]] = ["users_created", "users_updated", "users_activated", "users_deactivated", "users_skipped", "seat_cap_excluded_num", "groups_created", "groups_updated", "group_memberships_added", "group_memberships_removed", "warnings", "errors"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,6 +97,11 @@ class DirectorySyncResponse(BaseModel):
             "users_activated": obj.get("users_activated") if obj.get("users_activated") is not None else 0,
             "users_deactivated": obj.get("users_deactivated") if obj.get("users_deactivated") is not None else 0,
             "users_skipped": obj.get("users_skipped") if obj.get("users_skipped") is not None else 0,
+            "seat_cap_excluded_num": obj.get("seat_cap_excluded_num") if obj.get("seat_cap_excluded_num") is not None else 0,
+            "groups_created": obj.get("groups_created") if obj.get("groups_created") is not None else 0,
+            "groups_updated": obj.get("groups_updated") if obj.get("groups_updated") is not None else 0,
+            "group_memberships_added": obj.get("group_memberships_added") if obj.get("group_memberships_added") is not None else 0,
+            "group_memberships_removed": obj.get("group_memberships_removed") if obj.get("group_memberships_removed") is not None else 0,
             "warnings": obj.get("warnings"),
             "errors": obj.get("errors")
         })

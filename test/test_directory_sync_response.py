@@ -40,6 +40,11 @@ class TestDirectorySyncResponse(unittest.TestCase):
                 users_activated = 56,
                 users_deactivated = 56,
                 users_skipped = 56,
+                seat_cap_excluded_num = 56,
+                groups_created = 56,
+                groups_updated = 56,
+                group_memberships_added = 56,
+                group_memberships_removed = 56,
                 warnings = [
                     ''
                     ],

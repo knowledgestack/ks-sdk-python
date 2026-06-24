@@ -33,10 +33,11 @@ class GroupResponse(BaseModel):
     tenant_id: UUID
     name: StrictStr
     description: Optional[StrictStr]
+    idp_group_id: Optional[StrictStr] = None
     member_count: Optional[StrictInt] = None
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["id", "tenant_id", "name", "description", "member_count", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "tenant_id", "name", "description", "idp_group_id", "member_count", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,6 +83,11 @@ class GroupResponse(BaseModel):
         if self.description is None and "description" in self.model_fields_set:
             _dict['description'] = None
 
+        # set to None if idp_group_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.idp_group_id is None and "idp_group_id" in self.model_fields_set:
+            _dict['idp_group_id'] = None
+
         # set to None if member_count (nullable) is None
         # and model_fields_set contains the field
         if self.member_count is None and "member_count" in self.model_fields_set:
@@ -103,6 +109,7 @@ class GroupResponse(BaseModel):
             "tenant_id": obj.get("tenant_id"),
             "name": obj.get("name"),
             "description": obj.get("description"),
+            "idp_group_id": obj.get("idp_group_id"),
             "member_count": obj.get("member_count"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")

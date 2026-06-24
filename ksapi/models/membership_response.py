@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, StrictBool
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -33,9 +33,10 @@ class MembershipResponse(BaseModel):
     tenant_id: UUID
     group_id: UUID
     user_id: UUID
+    idp_managed: Optional[StrictBool] = False
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["id", "tenant_id", "group_id", "user_id", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "tenant_id", "group_id", "user_id", "idp_managed", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,6 +93,7 @@ class MembershipResponse(BaseModel):
             "tenant_id": obj.get("tenant_id"),
             "group_id": obj.get("group_id"),
             "user_id": obj.get("user_id"),
+            "idp_managed": obj.get("idp_managed") if obj.get("idp_managed") is not None else False,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })
