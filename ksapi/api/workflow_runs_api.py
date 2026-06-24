@@ -24,6 +24,7 @@ from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
 from ksapi.models.paginated_response_workflow_run_response import PaginatedResponseWorkflowRunResponse
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
 from ksapi.models.sort_direction import SortDirection
+from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest
 from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest
 from ksapi.models.workflow_callback_response import WorkflowCallbackResponse
 from ksapi.models.workflow_execution_state import WorkflowExecutionState
@@ -2256,6 +2257,7 @@ class WorkflowRunsApi:
     def start_workflow_run(
         self,
         run_id: UUID,
+        start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2271,10 +2273,12 @@ class WorkflowRunsApi:
     ) -> WorkflowRunResponse:
         """Start Workflow Run Handler
 
-        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).
+        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).  The body is optional; ``user_message`` (when sent) is pinned into the snapshot and shown in the run thread (see ``StartWorkflowRunRequest``).
 
         :param run_id: (required)
         :type run_id: UUID
+        :param start_workflow_run_request:
+        :type start_workflow_run_request: StartWorkflowRunRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2299,6 +2303,7 @@ class WorkflowRunsApi:
 
         _param = self._start_workflow_run_serialize(
             run_id=run_id,
+            start_workflow_run_request=start_workflow_run_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2324,6 +2329,7 @@ class WorkflowRunsApi:
     def start_workflow_run_with_http_info(
         self,
         run_id: UUID,
+        start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2339,10 +2345,12 @@ class WorkflowRunsApi:
     ) -> ApiResponse[WorkflowRunResponse]:
         """Start Workflow Run Handler
 
-        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).
+        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).  The body is optional; ``user_message`` (when sent) is pinned into the snapshot and shown in the run thread (see ``StartWorkflowRunRequest``).
 
         :param run_id: (required)
         :type run_id: UUID
+        :param start_workflow_run_request:
+        :type start_workflow_run_request: StartWorkflowRunRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2367,6 +2375,7 @@ class WorkflowRunsApi:
 
         _param = self._start_workflow_run_serialize(
             run_id=run_id,
+            start_workflow_run_request=start_workflow_run_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2392,6 +2401,7 @@ class WorkflowRunsApi:
     def start_workflow_run_without_preload_content(
         self,
         run_id: UUID,
+        start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2407,10 +2417,12 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """Start Workflow Run Handler
 
-        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).
+        Flip a NOT_STARTED run to IN_PROGRESS and dispatch its agent run.  Idempotent on IN_PROGRESS (returns the row). Terminal states → 409. Inputs still ingesting or in a failed terminal state → 409. The snapshot is built at this point (KB DOCUMENTs resolve to active versions, uploaded DVs are walked from inputs/, KB FOLDERs stay live).  The body is optional; ``user_message`` (when sent) is pinned into the snapshot and shown in the run thread (see ``StartWorkflowRunRequest``).
 
         :param run_id: (required)
         :type run_id: UUID
+        :param start_workflow_run_request:
+        :type start_workflow_run_request: StartWorkflowRunRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2435,6 +2447,7 @@ class WorkflowRunsApi:
 
         _param = self._start_workflow_run_serialize(
             run_id=run_id,
+            start_workflow_run_request=start_workflow_run_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2455,6 +2468,7 @@ class WorkflowRunsApi:
     def _start_workflow_run_serialize(
         self,
         run_id,
+        start_workflow_run_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2482,6 +2496,8 @@ class WorkflowRunsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if start_workflow_run_request is not None:
+            _body_params = start_workflow_run_request
 
 
         # set the HTTP header `Accept`
@@ -2492,6 +2508,19 @@ class WorkflowRunsApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

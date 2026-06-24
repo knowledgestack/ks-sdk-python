@@ -238,6 +238,7 @@ docs/SetApprovalStateRequest.md
 docs/SetWorkflowRunApprovalRequest.md
 docs/SignInRequest.md
 docs/SortDirection.md
+docs/StartWorkflowRunRequest.md
 docs/StepInput.md
 docs/StepKind.md
 docs/StepOutput.md
@@ -584,6 +585,7 @@ ksapi/models/set_workflow_run_approval_request.py
 ksapi/models/sign_in_request.py
 ksapi/models/sort_direction.py
 ksapi/models/sso_initiate_response.py
+ksapi/models/start_workflow_run_request.py
 ksapi/models/step_input.py
 ksapi/models/step_kind.py
 ksapi/models/step_output.py
@@ -904,6 +906,7 @@ test/test_set_workflow_run_approval_request.py
 test/test_sign_in_request.py
 test/test_sort_direction.py
 test/test_sso_initiate_response.py
+test/test_start_workflow_run_request.py
 test/test_step_input.py
 test/test_step_kind.py
 test/test_step_output.py

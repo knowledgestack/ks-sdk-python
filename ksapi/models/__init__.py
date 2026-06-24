@@ -226,6 +226,7 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
 from ksapi.models.sign_in_request import SignInRequest
 from ksapi.models.sort_direction import SortDirection
+from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest
 from ksapi.models.step_input import StepInput
 from ksapi.models.step_kind import StepKind
 from ksapi.models.step_output import StepOutput

@@ -152,7 +152,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                             path_part_id = '', 
                             materialized_path = '', 
                             part_type = 'DOCUMENT_VERSION', )
-                        ], ),
+                        ], 
+                    user_message = '', ),
                 error = '',
                 inputs_path_part_id = '',
                 outputs_path_part_id = '',
@@ -273,7 +274,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                             path_part_id = '', 
                             materialized_path = '', 
                             part_type = 'DOCUMENT_VERSION', )
-                        ], ),
+                        ], 
+                    user_message = '', ),
                 error = '',
                 inputs_path_part_id = '',
                 outputs_path_part_id = '',

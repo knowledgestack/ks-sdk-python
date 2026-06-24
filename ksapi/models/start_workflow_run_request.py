@@ -17,25 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
-from ksapi.models.input_snapshot import InputSnapshot
-from ksapi.models.instruction_snapshot import InstructionSnapshot
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class WorkflowRunSnapshot(BaseModel):
+class StartWorkflowRunRequest(BaseModel):
     """
-    Frozen workflow configuration captured at trigger time.  ``workflow_definition_id`` and ``user_id`` are NOT stored here — they live directly on the ``WorkflowRun`` row and are surfaced via ``WorkflowRunResponse`` top-level fields.  Inputs are per-run; outputs land in the run's ``outputs/`` folder. The agent resolves the run's inputs/outputs/discussions folders by listing the run-folder children at activity startup.
+    Optional JSON body for ``POST /v1/workflow-runs/{id}/start``.  The whole body is optional: an absent body starts the run with just the localized \"Started workflow: X\" opening message, exactly as before. When ``user_message`` is set it is appended to that opening thread message AND injected into the runner's first user turn, so the agent acts on it as guidance layered on the workflow instruction.
     """ # noqa: E501
-    workflow_name: StrictStr
-    max_run_duration_seconds: StrictInt
-    instruction: InstructionSnapshot
-    inputs: List[InputSnapshot]
-    user_message: Optional[Annotated[str, Field(strict=True, max_length=4000)]] = Field(default=None, description="Optional free-text message the caller supplied at Start. Pinned here so the runner injects it into the agent's first user turn and it survives retry, redrive, and workflow-thread follow-ups (all of which re-assemble the prompt from this snapshot).")
-    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "user_message"]
+    user_message: Optional[Annotated[str, Field(strict=True, max_length=4000)]] = Field(default=None, description="Free-text instruction shown in the run thread and passed to the agent as additional guidance on top of the workflow instruction. Optional.")
+    __properties: ClassVar[List[str]] = ["user_message"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -55,7 +49,7 @@ class WorkflowRunSnapshot(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of WorkflowRunSnapshot from a JSON string"""
+        """Create an instance of StartWorkflowRunRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,16 +70,6 @@ class WorkflowRunSnapshot(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of instruction
-        if self.instruction:
-            _dict['instruction'] = self.instruction.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in inputs (list)
-        _items = []
-        if self.inputs:
-            for _item_inputs in self.inputs:
-                if _item_inputs:
-                    _items.append(_item_inputs.to_dict())
-            _dict['inputs'] = _items
         # set to None if user_message (nullable) is None
         # and model_fields_set contains the field
         if self.user_message is None and "user_message" in self.model_fields_set:
@@ -95,7 +79,7 @@ class WorkflowRunSnapshot(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of WorkflowRunSnapshot from a dict"""
+        """Create an instance of StartWorkflowRunRequest from a dict"""
         if obj is None:
             return None
 
@@ -103,10 +87,6 @@ class WorkflowRunSnapshot(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "workflow_name": obj.get("workflow_name"),
-            "max_run_duration_seconds": obj.get("max_run_duration_seconds"),
-            "instruction": InstructionSnapshot.from_dict(obj["instruction"]) if obj.get("instruction") is not None else None,
-            "inputs": [InputSnapshot.from_dict(_item) for _item in obj["inputs"]] if obj.get("inputs") is not None else None,
             "user_message": obj.get("user_message")
         })
         return _obj

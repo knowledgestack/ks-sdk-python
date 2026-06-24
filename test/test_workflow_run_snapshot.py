@@ -47,7 +47,8 @@ class TestWorkflowRunSnapshot(unittest.TestCase):
                         path_part_id = '', 
                         materialized_path = '', 
                         part_type = 'DOCUMENT_VERSION', )
-                    ]
+                    ],
+                user_message = ''
             )
         else:
             return WorkflowRunSnapshot(

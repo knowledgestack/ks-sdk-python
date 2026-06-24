@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.104.0"
+__version__ = "1.105.0"
 
 # Define package exports
 __all__ = [
@@ -274,6 +274,7 @@ __all__ = [
     "SetWorkflowRunApprovalRequest",
     "SignInRequest",
     "SortDirection",
+    "StartWorkflowRunRequest",
     "StepInput",
     "StepKind",
     "StepOutput",
@@ -615,6 +616,7 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest as S
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest as SetWorkflowRunApprovalRequest
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
 from ksapi.models.sort_direction import SortDirection as SortDirection
+from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest as StartWorkflowRunRequest
 from ksapi.models.step_input import StepInput as StepInput
 from ksapi.models.step_kind import StepKind as StepKind
 from ksapi.models.step_output import StepOutput as StepOutput
