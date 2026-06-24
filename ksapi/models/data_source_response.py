@@ -22,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.data_source_engine import DataSourceEngine
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
@@ -42,9 +43,10 @@ class DataSourceResponse(BaseModel):
     engine: DataSourceEngine
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the connector, or null if unowned.")
+    permissions: ItemPermissions
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "approval_state", "owner", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "approval_state", "owner", "permissions", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -98,6 +100,9 @@ class DataSourceResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -130,6 +135,7 @@ class DataSourceResponse(BaseModel):
             "engine": obj.get("engine"),
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

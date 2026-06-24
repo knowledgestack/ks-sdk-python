@@ -29,6 +29,7 @@ class SearchablePartType(str, Enum):
     FOLDER = 'FOLDER'
     DOCUMENT = 'DOCUMENT'
     DATA_SOURCE = 'DATA_SOURCE'
+    API_CONNECTION = 'API_CONNECTION'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

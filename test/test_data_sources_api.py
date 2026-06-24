@@ -33,6 +33,13 @@ class TestDataSourcesApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_data_source(self) -> None:
+        """Test case for delete_data_source
+
+        Delete Data Source Handler
+        """
+        pass
+
     def test_get_data_source(self) -> None:
         """Test case for get_data_source
 

@@ -48,6 +48,11 @@ class TestDataSourceResponse(unittest.TestCase):
                     user_id = '', 
                     first_name = '', 
                     last_name = '', ),
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
@@ -61,6 +66,11 @@ class TestDataSourceResponse(unittest.TestCase):
                 name = '',
                 engine = 'MYSQL',
                 approval_state = 'not_required',
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

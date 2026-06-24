@@ -40,6 +40,13 @@ class TestApiConnectionsApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_api_connection(self) -> None:
+        """Test case for delete_api_connection
+
+        Delete Api Connection Handler
+        """
+        pass
+
     def test_execute_api_connection_request(self) -> None:
         """Test case for execute_api_connection_request
 

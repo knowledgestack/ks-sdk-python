@@ -1982,7 +1982,7 @@ class FoldersApi:
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
         sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: NAME)")] = None,
-        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: both folders and documents)")] = None,
+        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: all searchable types)")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2002,13 +2002,13 @@ class FoldersApi:
     ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
         """Search Items Handler
 
-        Search for folders, documents, and data-source connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
         :param sort_order: Sort order for results (default: NAME)
         :type sort_order: SearchSortOrder
-        :param part_type: Filter by item type (default: both folders and documents)
+        :param part_type: Filter by item type (default: all searchable types)
         :type part_type: SearchablePartType
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
@@ -2074,7 +2074,7 @@ class FoldersApi:
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
         sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: NAME)")] = None,
-        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: both folders and documents)")] = None,
+        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: all searchable types)")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2094,13 +2094,13 @@ class FoldersApi:
     ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceTableResponseApiConnectionResponseDiscriminator]:
         """Search Items Handler
 
-        Search for folders, documents, and data-source connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
         :param sort_order: Sort order for results (default: NAME)
         :type sort_order: SearchSortOrder
-        :param part_type: Filter by item type (default: both folders and documents)
+        :param part_type: Filter by item type (default: all searchable types)
         :type part_type: SearchablePartType
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
@@ -2166,7 +2166,7 @@ class FoldersApi:
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
         sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: NAME)")] = None,
-        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: both folders and documents)")] = None,
+        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: all searchable types)")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2186,13 +2186,13 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Search Items Handler
 
-        Search for folders, documents, and data-source connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
         :param sort_order: Sort order for results (default: NAME)
         :type sort_order: SearchSortOrder
-        :param part_type: Filter by item type (default: both folders and documents)
+        :param part_type: Filter by item type (default: all searchable types)
         :type part_type: SearchablePartType
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool

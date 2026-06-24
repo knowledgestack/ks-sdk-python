@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
@@ -42,9 +43,10 @@ class DataSourceTableResponse(BaseModel):
     description: Optional[StrictStr]
     column_config: List[Dict[str, Any]]
     approval_state: PathPartApprovalState
+    permissions: ItemPermissions
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "table_name", "description", "column_config", "approval_state", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "table_name", "description", "column_config", "approval_state", "permissions", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -95,6 +97,9 @@ class DataSourceTableResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
         # set to None if parent_path_part_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
@@ -129,6 +134,7 @@ class DataSourceTableResponse(BaseModel):
             "description": obj.get("description"),
             "column_config": obj.get("column_config"),
             "approval_state": obj.get("approval_state"),
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })
