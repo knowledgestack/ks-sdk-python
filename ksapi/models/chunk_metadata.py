@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.polygon_reference import PolygonReference
@@ -31,7 +31,8 @@ class ChunkMetadata(BaseModel):
     """ # noqa: E501
     polygons: Optional[List[PolygonReference]] = Field(default=None, description="List of bounding boxes in the source document for the chunk, potentially from multiple areas of multiple pages.")
     s3_urls: Optional[List[StrictStr]] = Field(default=None, description="Ordered s3:// URIs to visual assets for this chunk. Single-element for standard IMAGE/TABLE/HTML chunks, multi-element for multi-page single-chunk ingestion.")
-    summary: Optional[StrictStr] = Field(default=None, description="LLM-generated summary of the chunk content. Used for TABLE and HTML chunks to enrich embedding text.")
+    summary: Optional[StrictStr] = Field(default=None, description="LLM-generated summary of the chunk content. Used for TABLE and HTML chunks to enrich embedding text, and for JSON/YAML chunks (with summarize_for_embedding) as the sole dense embedding text.")
+    summarize_for_embedding: Optional[StrictBool] = Field(default=False, description="When True, this chunk's dense embedding is built from its LLM-generated summary (see summary) instead of its raw content. Set for parsed JSON/YAML single chunks so noisy structured text does not dominate the vector; the raw content is still kept for display and sparse (keyword) retrieval. Enrichment generates the summary when this is set and summary is empty.")
     extracted_text_s3_uri: Optional[StrictStr] = Field(default=None, description="S3 URI to extracted PDF text used for LLM grounding during enrichment")
     secondary_taxonomy: Optional[ImageTaxonomy] = None
     sheet_name: Optional[StrictStr] = Field(default=None, description="Worksheet name this chunk was extracted from (XLSX only)")
@@ -44,7 +45,7 @@ class ChunkMetadata(BaseModel):
     key_cells: Optional[List[StrictStr]] = Field(default=None, description="Notable output/header cells as A1 refs, e.g. 'Sheet1!A1' (XLSX only)")
     named_ranges: Optional[List[StrictStr]] = Field(default=None, description="Names of named ranges overlapping this chunk (XLSX only)")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "extracted_text_s3_uri", "secondary_taxonomy", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
+    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -169,6 +170,7 @@ class ChunkMetadata(BaseModel):
             "polygons": [PolygonReference.from_dict(_item) for _item in obj["polygons"]] if obj.get("polygons") is not None else None,
             "s3_urls": obj.get("s3_urls"),
             "summary": obj.get("summary"),
+            "summarize_for_embedding": obj.get("summarize_for_embedding") if obj.get("summarize_for_embedding") is not None else False,
             "extracted_text_s3_uri": obj.get("extracted_text_s3_uri"),
             "secondary_taxonomy": obj.get("secondary_taxonomy"),
             "sheet_name": obj.get("sheet_name"),

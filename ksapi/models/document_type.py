@@ -33,6 +33,8 @@ class DocumentType(str, Enum):
     XLSX = 'XLSX'
     CSV = 'CSV'
     PPTX = 'PPTX'
+    JSON = 'JSON'
+    YAML = 'YAML'
     UNKNOWN = 'UNKNOWN'
 
     @classmethod

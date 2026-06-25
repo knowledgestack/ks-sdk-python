@@ -63,6 +63,7 @@ class TestSectionContentItemOrChunkContentItem(unittest.TestCase):
                         ''
                         ], 
                     summary = '', 
+                    summarize_for_embedding = True, 
                     extracted_text_s3_uri = '', 
                     secondary_taxonomy = 'picture', 
                     sheet_name = '', 
