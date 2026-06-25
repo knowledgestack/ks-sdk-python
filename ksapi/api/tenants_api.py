@@ -2948,7 +2948,7 @@ class TenantsApi:
     ) -> TenantUserResponse:
         """Update Tenant User
 
-        Update a user's role in a tenant.  Requires OWNER or ADMIN role. Cannot create a duplicate owner.
+        Update a user's role and optional profile fields in a tenant.  Requires OWNER or ADMIN role. Cannot create a duplicate owner.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
@@ -3024,7 +3024,7 @@ class TenantsApi:
     ) -> ApiResponse[TenantUserResponse]:
         """Update Tenant User
 
-        Update a user's role in a tenant.  Requires OWNER or ADMIN role. Cannot create a duplicate owner.
+        Update a user's role and optional profile fields in a tenant.  Requires OWNER or ADMIN role. Cannot create a duplicate owner.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
@@ -3100,7 +3100,7 @@ class TenantsApi:
     ) -> RESTResponseType:
         """Update Tenant User
 
-        Update a user's role in a tenant.  Requires OWNER or ADMIN role. Cannot create a duplicate owner.
+        Update a user's role and optional profile fields in a tenant.  Requires OWNER or ADMIN role. Cannot create a duplicate owner.
 
         :param tenant_id: (required)
         :type tenant_id: UUID

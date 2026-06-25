@@ -35,7 +35,9 @@ class TestTenantUserEditRequest(unittest.TestCase):
         model = TenantUserEditRequest()
         if include_optional:
             return TenantUserEditRequest(
-                role = 'USER'
+                role = 'USER',
+                job_title = '',
+                department = ''
             )
         else:
             return TenantUserEditRequest(

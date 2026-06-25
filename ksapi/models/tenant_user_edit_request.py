@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, Optional
+from typing_extensions import Annotated
 from ksapi.models.tenant_user_role import TenantUserRole
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +27,12 @@ from pydantic_core import to_jsonable_python
 
 class TenantUserEditRequest(BaseModel):
     """
-    Request to update a tenant user's role.
+    Request to update a tenant user's role and optional profile fields.  ``job_title`` and ``department`` follow partial-update semantics: omit (or send null) to leave the field unchanged, send an empty string to clear it to NULL.
     """ # noqa: E501
     role: TenantUserRole
-    __properties: ClassVar[List[str]] = ["role"]
+    job_title: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="User's job title; omit to leave unchanged, empty string to clear")
+    department: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="User's department; omit to leave unchanged, empty string to clear")
+    __properties: ClassVar[List[str]] = ["role", "job_title", "department"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -70,6 +73,16 @@ class TenantUserEditRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if job_title (nullable) is None
+        # and model_fields_set contains the field
+        if self.job_title is None and "job_title" in self.model_fields_set:
+            _dict['job_title'] = None
+
+        # set to None if department (nullable) is None
+        # and model_fields_set contains the field
+        if self.department is None and "department" in self.model_fields_set:
+            _dict['department'] = None
+
         return _dict
 
     @classmethod
@@ -82,7 +95,9 @@ class TenantUserEditRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "role": obj.get("role")
+            "role": obj.get("role"),
+            "job_title": obj.get("job_title"),
+            "department": obj.get("department")
         })
         return _obj
 
