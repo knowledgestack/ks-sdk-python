@@ -29,6 +29,7 @@ from ksapi.models.args import Args
 from ksapi.models.ask_request import AskRequest
 from ksapi.models.ask_response import AskResponse
 from ksapi.models.branding_logo_type import BrandingLogoType
+from ksapi.models.bulk_download_request import BulkDownloadRequest
 from ksapi.models.bulk_tag_request import BulkTagRequest
 from ksapi.models.catalog_column_response import CatalogColumnResponse
 from ksapi.models.catalog_table_response import CatalogTableResponse

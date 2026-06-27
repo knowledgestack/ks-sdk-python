@@ -13,6 +13,7 @@ from ksapi.api.api_connections_api import ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi
 from ksapi.api.auth_api import AuthApi
+from ksapi.api.bulk_download_api import BulkDownloadApi
 from ksapi.api.chunk_lineages_api import ChunkLineagesApi
 from ksapi.api.chunks_api import ChunksApi
 from ksapi.api.data_sources_api import DataSourcesApi

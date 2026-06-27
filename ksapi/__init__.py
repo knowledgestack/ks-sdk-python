@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.113.0"
+__version__ = "1.114.0"
 
 # Define package exports
 __all__ = [
@@ -30,6 +30,7 @@ __all__ = [
     "ApiKeysApi",
     "AuditEventsApi",
     "AuthApi",
+    "BulkDownloadApi",
     "ChunkLineagesApi",
     "ChunksApi",
     "DataSourcesApi",
@@ -77,6 +78,7 @@ __all__ = [
     "AskRequest",
     "AskResponse",
     "BrandingLogoType",
+    "BulkDownloadRequest",
     "BulkTagRequest",
     "CatalogColumnResponse",
     "CatalogTableResponse",
@@ -371,6 +373,7 @@ from ksapi.api.api_connections_api import ApiConnectionsApi as ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi as ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi as AuditEventsApi
 from ksapi.api.auth_api import AuthApi as AuthApi
+from ksapi.api.bulk_download_api import BulkDownloadApi as BulkDownloadApi
 from ksapi.api.chunk_lineages_api import ChunkLineagesApi as ChunkLineagesApi
 from ksapi.api.chunks_api import ChunksApi as ChunksApi
 from ksapi.api.data_sources_api import DataSourcesApi as DataSourcesApi
@@ -422,6 +425,7 @@ from ksapi.models.args import Args as Args
 from ksapi.models.ask_request import AskRequest as AskRequest
 from ksapi.models.ask_response import AskResponse as AskResponse
 from ksapi.models.branding_logo_type import BrandingLogoType as BrandingLogoType
+from ksapi.models.bulk_download_request import BulkDownloadRequest as BulkDownloadRequest
 from ksapi.models.bulk_tag_request import BulkTagRequest as BulkTagRequest
 from ksapi.models.catalog_column_response import CatalogColumnResponse as CatalogColumnResponse
 from ksapi.models.catalog_table_response import CatalogTableResponse as CatalogTableResponse

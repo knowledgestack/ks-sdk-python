@@ -25,6 +25,8 @@ docs/AskResponse.md
 docs/AuditEventsApi.md
 docs/AuthApi.md
 docs/BrandingLogoType.md
+docs/BulkDownloadApi.md
+docs/BulkDownloadRequest.md
 docs/BulkTagRequest.md
 docs/CatalogColumnResponse.md
 docs/CatalogTableResponse.md
@@ -341,6 +343,7 @@ ksapi/api/api_connections_api.py
 ksapi/api/api_keys_api.py
 ksapi/api/audit_events_api.py
 ksapi/api/auth_api.py
+ksapi/api/bulk_download_api.py
 ksapi/api/chunk_lineages_api.py
 ksapi/api/chunks_api.py
 ksapi/api/data_sources_api.py
@@ -391,6 +394,7 @@ ksapi/models/args.py
 ksapi/models/ask_request.py
 ksapi/models/ask_response.py
 ksapi/models/branding_logo_type.py
+ksapi/models/bulk_download_request.py
 ksapi/models/bulk_tag_request.py
 ksapi/models/catalog_column_response.py
 ksapi/models/catalog_table_response.py
@@ -699,6 +703,8 @@ test/test_ask_response.py
 test/test_audit_events_api.py
 test/test_auth_api.py
 test/test_branding_logo_type.py
+test/test_bulk_download_api.py
+test/test_bulk_download_request.py
 test/test_bulk_tag_request.py
 test/test_catalog_column_response.py
 test/test_catalog_table_response.py
