@@ -37,7 +37,11 @@ class TestCatalogColumnResponse(unittest.TestCase):
             return CatalogColumnResponse(
                 name = '',
                 data_type = '',
-                is_pk = True
+                is_pk = True,
+                references = ksapi.models.column_reference.ColumnReference(
+                    schema_name = '', 
+                    table = '', 
+                    column = '', )
             )
         else:
             return CatalogColumnResponse(

@@ -38,11 +38,13 @@ class TestDataSourceCatalogResponse(unittest.TestCase):
                 tables = [
                     ksapi.models.catalog_table_response.CatalogTableResponse(
                         name = '', 
+                        schema_name = '', 
                         columns = [
                             ksapi.models.catalog_column_response.CatalogColumnResponse(
                                 name = '', 
                                 data_type = '', 
-                                is_pk = True, )
+                                is_pk = True, 
+                                references = null, )
                             ], )
                     ]
             )
@@ -51,11 +53,13 @@ class TestDataSourceCatalogResponse(unittest.TestCase):
                 tables = [
                     ksapi.models.catalog_table_response.CatalogTableResponse(
                         name = '', 
+                        schema_name = '', 
                         columns = [
                             ksapi.models.catalog_column_response.CatalogColumnResponse(
                                 name = '', 
                                 data_type = '', 
-                                is_pk = True, )
+                                is_pk = True, 
+                                references = null, )
                             ], )
                     ],
         )

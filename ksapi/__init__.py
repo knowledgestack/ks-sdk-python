@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.111.1"
+__version__ = "1.112.0"
 
 # Define package exports
 __all__ = [
@@ -101,6 +101,7 @@ __all__ = [
     "ClearVersionContentsResponse",
     "CloneWorkflowRunRequest",
     "ColumnConfig",
+    "ColumnReference",
     "ConnectionConfig",
     "CreateApiConnectionRequest",
     "CreateApiKeyRequest",
@@ -126,6 +127,8 @@ __all__ = [
     "DataSourceQueryRequest",
     "DataSourceQueryResponse",
     "DataSourceResponse",
+    "DataSourceSchemaListResponse",
+    "DataSourceSchemaResponse",
     "DataSourceTableResponse",
     "DiffFormat",
     "DiffRow",
@@ -443,6 +446,7 @@ from ksapi.models.cited_chunk import CitedChunk as CitedChunk
 from ksapi.models.clear_version_contents_response import ClearVersionContentsResponse as ClearVersionContentsResponse
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest as CloneWorkflowRunRequest
 from ksapi.models.column_config import ColumnConfig as ColumnConfig
+from ksapi.models.column_reference import ColumnReference as ColumnReference
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest as CreateApiKeyRequest
@@ -468,6 +472,8 @@ from ksapi.models.data_source_engine import DataSourceEngine as DataSourceEngine
 from ksapi.models.data_source_query_request import DataSourceQueryRequest as DataSourceQueryRequest
 from ksapi.models.data_source_query_response import DataSourceQueryResponse as DataSourceQueryResponse
 from ksapi.models.data_source_response import DataSourceResponse as DataSourceResponse
+from ksapi.models.data_source_schema_list_response import DataSourceSchemaListResponse as DataSourceSchemaListResponse
+from ksapi.models.data_source_schema_response import DataSourceSchemaResponse as DataSourceSchemaResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse as DataSourceTableResponse
 from ksapi.models.diff_format import DiffFormat as DiffFormat
 from ksapi.models.diff_row import DiffRow as DiffRow

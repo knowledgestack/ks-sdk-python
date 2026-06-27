@@ -38,7 +38,9 @@ class TestUpdateWorkflowRunRequest(unittest.TestCase):
                 input_scope = [
                     ''
                     ],
-                name = '0'
+                name = '0',
+                auto_start = True,
+                user_message = ''
             )
         else:
             return UpdateWorkflowRunRequest(

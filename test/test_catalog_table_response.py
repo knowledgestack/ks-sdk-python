@@ -36,21 +36,25 @@ class TestCatalogTableResponse(unittest.TestCase):
         if include_optional:
             return CatalogTableResponse(
                 name = '',
+                schema_name = '',
                 columns = [
                     ksapi.models.catalog_column_response.CatalogColumnResponse(
                         name = '', 
                         data_type = '', 
-                        is_pk = True, )
+                        is_pk = True, 
+                        references = null, )
                     ]
             )
         else:
             return CatalogTableResponse(
                 name = '',
+                schema_name = '',
                 columns = [
                     ksapi.models.catalog_column_response.CatalogColumnResponse(
                         name = '', 
                         data_type = '', 
-                        is_pk = True, )
+                        is_pk = True, 
+                        references = null, )
                     ],
         )
         """

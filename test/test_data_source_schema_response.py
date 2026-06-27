@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.column_config import ColumnConfig
+from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 
-class TestColumnConfig(unittest.TestCase):
-    """ColumnConfig unit test stubs"""
+class TestDataSourceSchemaResponse(unittest.TestCase):
+    """DataSourceSchemaResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,34 +25,28 @@ class TestColumnConfig(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> ColumnConfig:
-        """Test ColumnConfig
+    def make_instance(self, include_optional) -> DataSourceSchemaResponse:
+        """Test DataSourceSchemaResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `ColumnConfig`
+        # uncomment below to create an instance of `DataSourceSchemaResponse`
         """
-        model = ColumnConfig()
+        model = DataSourceSchemaResponse()
         if include_optional:
-            return ColumnConfig(
+            return DataSourceSchemaResponse(
                 name = '',
-                data_type = '',
-                comment = '',
-                is_pk = True,
-                exposed = True,
-                references = ksapi.models.column_reference.ColumnReference(
-                    schema_name = '', 
-                    table = '', 
-                    column = '', )
+                is_default = True
             )
         else:
-            return ColumnConfig(
+            return DataSourceSchemaResponse(
                 name = '',
+                is_default = True,
         )
         """
 
-    def testColumnConfig(self):
-        """Test ColumnConfig"""
+    def testDataSourceSchemaResponse(self):
+        """Test DataSourceSchemaResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

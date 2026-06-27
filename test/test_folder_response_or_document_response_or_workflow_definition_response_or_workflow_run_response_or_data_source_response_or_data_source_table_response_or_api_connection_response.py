@@ -155,6 +155,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         ], 
                     user_message = '', ),
                 error = '',
+                auto_start = True,
+                auto_start_user_message = '',
                 inputs_path_part_id = '',
                 outputs_path_part_id = '',
                 discussions_path_part_id = '',
@@ -168,6 +170,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 engine = 'MYSQL',
                 data_source_id = '',
                 table_name = '',
+                schema_name = '',
                 column_config = [
                     { }
                     ],
@@ -277,6 +280,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         ], 
                     user_message = '', ),
                 error = '',
+                auto_start = True,
                 inputs_path_part_id = '',
                 outputs_path_part_id = '',
                 discussions_path_part_id = '',

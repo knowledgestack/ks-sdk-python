@@ -17,22 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict, Optional
-from ksapi.models.column_reference import ColumnReference
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CatalogColumnResponse(BaseModel):
+class ColumnReference(BaseModel):
     """
-    CatalogColumnResponse
+    The table+column a foreign-key column points at.
     """ # noqa: E501
-    name: StrictStr
-    data_type: StrictStr
-    is_pk: StrictBool
-    references: Optional[ColumnReference] = None
-    __properties: ClassVar[List[str]] = ["name", "data_type", "is_pk", "references"]
+    schema_name: Optional[StrictStr] = None
+    table: StrictStr
+    column: StrictStr
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["schema_name", "table", "column"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -52,7 +51,7 @@ class CatalogColumnResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CatalogColumnResponse from a JSON string"""
+        """Create an instance of ColumnReference from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -64,8 +63,10 @@ class CatalogColumnResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -73,19 +74,21 @@ class CatalogColumnResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of references
-        if self.references:
-            _dict['references'] = self.references.to_dict()
-        # set to None if references (nullable) is None
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
+        # set to None if schema_name (nullable) is None
         # and model_fields_set contains the field
-        if self.references is None and "references" in self.model_fields_set:
-            _dict['references'] = None
+        if self.schema_name is None and "schema_name" in self.model_fields_set:
+            _dict['schema_name'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CatalogColumnResponse from a dict"""
+        """Create an instance of ColumnReference from a dict"""
         if obj is None:
             return None
 
@@ -93,11 +96,15 @@ class CatalogColumnResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "data_type": obj.get("data_type"),
-            "is_pk": obj.get("is_pk"),
-            "references": ColumnReference.from_dict(obj["references"]) if obj.get("references") is not None else None
+            "schema_name": obj.get("schema_name"),
+            "table": obj.get("table"),
+            "column": obj.get("column")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

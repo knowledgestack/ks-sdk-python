@@ -29,10 +29,11 @@ class ModelTableRequest(BaseModel):
     Model a DB table as a queryable child of the connector.
     """ # noqa: E501
     table_name: StrictStr
+    schema_name: Optional[StrictStr] = Field(default=None, description="Schema/namespace of the table; omit for the default schema")
     name: Optional[StrictStr] = Field(default=None, description="Display name; defaults to table_name")
     description: Optional[StrictStr] = None
     column_config: Optional[List[ColumnConfig]] = Field(default=None, description="Omit to auto-introspect all columns as exposed")
-    __properties: ClassVar[List[str]] = ["table_name", "name", "description", "column_config"]
+    __properties: ClassVar[List[str]] = ["table_name", "schema_name", "name", "description", "column_config"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -80,6 +81,11 @@ class ModelTableRequest(BaseModel):
                 if _item_column_config:
                     _items.append(_item_column_config.to_dict())
             _dict['column_config'] = _items
+        # set to None if schema_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.schema_name is None and "schema_name" in self.model_fields_set:
+            _dict['schema_name'] = None
+
         # set to None if name (nullable) is None
         # and model_fields_set contains the field
         if self.name is None and "name" in self.model_fields_set:
@@ -108,6 +114,7 @@ class ModelTableRequest(BaseModel):
 
         _obj = cls.model_validate({
             "table_name": obj.get("table_name"),
+            "schema_name": obj.get("schema_name"),
             "name": obj.get("name"),
             "description": obj.get("description"),
             "column_config": [ColumnConfig.from_dict(_item) for _item in obj["column_config"]] if obj.get("column_config") is not None else None

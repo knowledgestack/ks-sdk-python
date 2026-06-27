@@ -53,6 +53,7 @@ from ksapi.models.cited_chunk import CitedChunk
 from ksapi.models.clear_version_contents_response import ClearVersionContentsResponse
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
 from ksapi.models.column_config import ColumnConfig
+from ksapi.models.column_reference import ColumnReference
 from ksapi.models.connection_config import ConnectionConfig
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest
@@ -78,6 +79,8 @@ from ksapi.models.data_source_engine import DataSourceEngine
 from ksapi.models.data_source_query_request import DataSourceQueryRequest
 from ksapi.models.data_source_query_response import DataSourceQueryResponse
 from ksapi.models.data_source_response import DataSourceResponse
+from ksapi.models.data_source_schema_list_response import DataSourceSchemaListResponse
+from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse
 from ksapi.models.diff_format import DiffFormat
 from ksapi.models.diff_row import DiffRow

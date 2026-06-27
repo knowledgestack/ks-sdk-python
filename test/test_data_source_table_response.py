@@ -44,6 +44,7 @@ class TestDataSourceTableResponse(unittest.TestCase):
                 name = '',
                 data_source_id = '',
                 table_name = '',
+                schema_name = '',
                 description = '',
                 column_config = [
                     { }

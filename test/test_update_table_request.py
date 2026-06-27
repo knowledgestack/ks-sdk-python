@@ -42,7 +42,8 @@ class TestUpdateTableRequest(unittest.TestCase):
                         data_type = '', 
                         comment = '', 
                         is_pk = True, 
-                        exposed = True, )
+                        exposed = True, 
+                        references = null, )
                     ]
             )
         else:

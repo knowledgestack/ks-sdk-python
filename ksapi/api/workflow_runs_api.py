@@ -2831,7 +2831,7 @@ class WorkflowRunsApi:
     ) -> WorkflowRunResponse:
         """Update Workflow Run Handler
 
-        Edit a NOT_STARTED run's KB scope and / or display name.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.
+        Edit a NOT_STARTED run's KB scope, name, and / or auto_start.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` or ``PENDING`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.  Arming ``auto_start`` on a run that is already ``NOT_STARTED`` (its inputs have settled) dispatches it immediately — the run would otherwise never receive an ingestion-completion hook to start it. A ``PENDING`` run is left to auto-advance when its uploads finish.
 
         :param run_id: (required)
         :type run_id: UUID
@@ -2903,7 +2903,7 @@ class WorkflowRunsApi:
     ) -> ApiResponse[WorkflowRunResponse]:
         """Update Workflow Run Handler
 
-        Edit a NOT_STARTED run's KB scope and / or display name.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.
+        Edit a NOT_STARTED run's KB scope, name, and / or auto_start.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` or ``PENDING`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.  Arming ``auto_start`` on a run that is already ``NOT_STARTED`` (its inputs have settled) dispatches it immediately — the run would otherwise never receive an ingestion-completion hook to start it. A ``PENDING`` run is left to auto-advance when its uploads finish.
 
         :param run_id: (required)
         :type run_id: UUID
@@ -2975,7 +2975,7 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """Update Workflow Run Handler
 
-        Edit a NOT_STARTED run's KB scope and / or display name.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.
+        Edit a NOT_STARTED run's KB scope, name, and / or auto_start.  Both body fields are optional but at least one must be present. The run must be ``NOT_STARTED`` or ``PENDING`` (409 otherwise). Caller must be the triggerer or OWNER/ADMIN (403 otherwise). A name collision with a sibling run under the same definition's ``runs/`` folder maps to a 409 via ``IntegrityError`` translation.  Arming ``auto_start`` on a run that is already ``NOT_STARTED`` (its inputs have settled) dispatches it immediately — the run would otherwise never receive an ingestion-completion hook to start it. A ``PENDING`` run is left to auto-advance when its uploads finish.
 
         :param run_id: (required)
         :type run_id: UUID

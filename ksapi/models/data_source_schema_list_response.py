@@ -17,22 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict, Optional
-from ksapi.models.column_reference import ColumnReference
+from pydantic import BaseModel, ConfigDict
+from typing import Any, ClassVar, Dict, List
+from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CatalogColumnResponse(BaseModel):
+class DataSourceSchemaListResponse(BaseModel):
     """
-    CatalogColumnResponse
+    The source's user namespaces (PG schemas / MySQL databases).
     """ # noqa: E501
-    name: StrictStr
-    data_type: StrictStr
-    is_pk: StrictBool
-    references: Optional[ColumnReference] = None
-    __properties: ClassVar[List[str]] = ["name", "data_type", "is_pk", "references"]
+    schemas: List[DataSourceSchemaResponse]
+    __properties: ClassVar[List[str]] = ["schemas"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -52,7 +49,7 @@ class CatalogColumnResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CatalogColumnResponse from a JSON string"""
+        """Create an instance of DataSourceSchemaListResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,19 +70,18 @@ class CatalogColumnResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of references
-        if self.references:
-            _dict['references'] = self.references.to_dict()
-        # set to None if references (nullable) is None
-        # and model_fields_set contains the field
-        if self.references is None and "references" in self.model_fields_set:
-            _dict['references'] = None
-
+        # override the default output from pydantic by calling `to_dict()` of each item in schemas (list)
+        _items = []
+        if self.schemas:
+            for _item_schemas in self.schemas:
+                if _item_schemas:
+                    _items.append(_item_schemas.to_dict())
+            _dict['schemas'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CatalogColumnResponse from a dict"""
+        """Create an instance of DataSourceSchemaListResponse from a dict"""
         if obj is None:
             return None
 
@@ -93,10 +89,7 @@ class CatalogColumnResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "data_type": obj.get("data_type"),
-            "is_pk": obj.get("is_pk"),
-            "references": ColumnReference.from_dict(obj["references"]) if obj.get("references") is not None else None
+            "schemas": [DataSourceSchemaResponse.from_dict(_item) for _item in obj["schemas"]] if obj.get("schemas") is not None else None
         })
         return _obj
 

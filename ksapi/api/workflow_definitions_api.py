@@ -331,6 +331,8 @@ class WorkflowDefinitionsApi:
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
         input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
+        auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
+        user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -356,6 +358,10 @@ class WorkflowDefinitionsApi:
         :type input_scope: str
         :param idempotency_key: Optional key to prevent duplicate runs from retries.
         :type idempotency_key: str
+        :param auto_start: When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.
+        :type auto_start: bool
+        :param user_message: Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.
+        :type user_message: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -383,6 +389,8 @@ class WorkflowDefinitionsApi:
             files=files,
             input_scope=input_scope,
             idempotency_key=idempotency_key,
+            auto_start=auto_start,
+            user_message=user_message,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -411,6 +419,8 @@ class WorkflowDefinitionsApi:
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
         input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
+        auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
+        user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -436,6 +446,10 @@ class WorkflowDefinitionsApi:
         :type input_scope: str
         :param idempotency_key: Optional key to prevent duplicate runs from retries.
         :type idempotency_key: str
+        :param auto_start: When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.
+        :type auto_start: bool
+        :param user_message: Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.
+        :type user_message: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -463,6 +477,8 @@ class WorkflowDefinitionsApi:
             files=files,
             input_scope=input_scope,
             idempotency_key=idempotency_key,
+            auto_start=auto_start,
+            user_message=user_message,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -491,6 +507,8 @@ class WorkflowDefinitionsApi:
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
         input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
+        auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
+        user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -516,6 +534,10 @@ class WorkflowDefinitionsApi:
         :type input_scope: str
         :param idempotency_key: Optional key to prevent duplicate runs from retries.
         :type idempotency_key: str
+        :param auto_start: When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.
+        :type auto_start: bool
+        :param user_message: Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.
+        :type user_message: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -543,6 +565,8 @@ class WorkflowDefinitionsApi:
             files=files,
             input_scope=input_scope,
             idempotency_key=idempotency_key,
+            auto_start=auto_start,
+            user_message=user_message,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -566,6 +590,8 @@ class WorkflowDefinitionsApi:
         files,
         input_scope,
         idempotency_key,
+        auto_start,
+        user_message,
         _request_auth,
         _content_type,
         _headers,
@@ -599,6 +625,10 @@ class WorkflowDefinitionsApi:
             _form_params.append(('input_scope', input_scope))
         if idempotency_key is not None:
             _form_params.append(('idempotency_key', idempotency_key))
+        if auto_start is not None:
+            _form_params.append(('auto_start', auto_start))
+        if user_message is not None:
+            _form_params.append(('user_message', user_message))
         # process the body parameter
 
 

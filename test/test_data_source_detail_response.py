@@ -64,6 +64,7 @@ class TestDataSourceDetailResponse(unittest.TestCase):
                         name = '', 
                         data_source_id = '', 
                         table_name = '', 
+                        schema_name = '', 
                         description = '', 
                         column_config = [
                             { }
@@ -109,6 +110,7 @@ class TestDataSourceDetailResponse(unittest.TestCase):
                         name = '', 
                         data_source_id = '', 
                         table_name = '', 
+                        schema_name = '', 
                         description = '', 
                         column_config = [
                             { }

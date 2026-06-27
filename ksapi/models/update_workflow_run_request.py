@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -31,7 +31,9 @@ class UpdateWorkflowRunRequest(BaseModel):
     """ # noqa: E501
     input_scope: Optional[Annotated[List[UUID], Field(max_length=50)]] = Field(default=None, description="New KB-reference scope (DOCUMENT + FOLDER pp_ids). Replaces the row's ``input_path_part_ids`` wholesale. Uploaded files live in ``inputs/`` and are walked at Start; they are not part of this list.")
     name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="New display name for the run (mirrors path_part.name).")
-    __properties: ClassVar[List[str]] = ["input_scope", "name"]
+    auto_start: Optional[StrictBool] = Field(default=None, description="Arm (or disarm) auto-start on a draft run. When set true, the run dispatches itself once its ``inputs/`` uploads finish ingesting (see ``CreateWorkflowRunRequest.auto_start``). Arm a PENDING run after queuing all uploads to avoid a partial-input start. ``null`` leaves the current setting unchanged.")
+    user_message: Optional[Annotated[str, Field(strict=True, max_length=4000)]] = Field(default=None, description="Set the note applied when this run auto-starts (see ``CreateWorkflowRunRequest.user_message``). ``null`` leaves the stored message unchanged; send an empty string to clear it.")
+    __properties: ClassVar[List[str]] = ["input_scope", "name", "auto_start", "user_message"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,6 +84,16 @@ class UpdateWorkflowRunRequest(BaseModel):
         if self.name is None and "name" in self.model_fields_set:
             _dict['name'] = None
 
+        # set to None if auto_start (nullable) is None
+        # and model_fields_set contains the field
+        if self.auto_start is None and "auto_start" in self.model_fields_set:
+            _dict['auto_start'] = None
+
+        # set to None if user_message (nullable) is None
+        # and model_fields_set contains the field
+        if self.user_message is None and "user_message" in self.model_fields_set:
+            _dict['user_message'] = None
+
         return _dict
 
     @classmethod
@@ -95,7 +107,9 @@ class UpdateWorkflowRunRequest(BaseModel):
 
         _obj = cls.model_validate({
             "input_scope": obj.get("input_scope"),
-            "name": obj.get("name")
+            "name": obj.get("name"),
+            "auto_start": obj.get("auto_start"),
+            "user_message": obj.get("user_message")
         })
         return _obj
 

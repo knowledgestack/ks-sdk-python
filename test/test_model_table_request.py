@@ -36,6 +36,7 @@ class TestModelTableRequest(unittest.TestCase):
         if include_optional:
             return ModelTableRequest(
                 table_name = '',
+                schema_name = '',
                 name = '',
                 description = '',
                 column_config = [
@@ -44,7 +45,8 @@ class TestModelTableRequest(unittest.TestCase):
                         data_type = '', 
                         comment = '', 
                         is_pk = True, 
-                        exposed = True, )
+                        exposed = True, 
+                        references = null, )
                     ]
             )
         else:

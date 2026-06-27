@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from ksapi.models.column_reference import ColumnReference
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -32,8 +33,9 @@ class ColumnConfig(BaseModel):
     comment: Optional[StrictStr] = None
     is_pk: Optional[StrictBool] = False
     exposed: Optional[StrictBool] = True
+    references: Optional[ColumnReference] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["name", "data_type", "comment", "is_pk", "exposed"]
+    __properties: ClassVar[List[str]] = ["name", "data_type", "comment", "is_pk", "exposed", "references"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -76,6 +78,9 @@ class ColumnConfig(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of references
+        if self.references:
+            _dict['references'] = self.references.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -85,6 +90,11 @@ class ColumnConfig(BaseModel):
         # and model_fields_set contains the field
         if self.comment is None and "comment" in self.model_fields_set:
             _dict['comment'] = None
+
+        # set to None if references (nullable) is None
+        # and model_fields_set contains the field
+        if self.references is None and "references" in self.model_fields_set:
+            _dict['references'] = None
 
         return _dict
 
@@ -102,7 +112,8 @@ class ColumnConfig(BaseModel):
             "data_type": obj.get("data_type") if obj.get("data_type") is not None else '',
             "comment": obj.get("comment"),
             "is_pk": obj.get("is_pk") if obj.get("is_pk") is not None else False,
-            "exposed": obj.get("exposed") if obj.get("exposed") is not None else True
+            "exposed": obj.get("exposed") if obj.get("exposed") is not None else True,
+            "references": ColumnReference.from_dict(obj["references"]) if obj.get("references") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

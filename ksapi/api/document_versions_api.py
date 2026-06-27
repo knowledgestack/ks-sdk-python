@@ -2781,7 +2781,7 @@ class DocumentVersionsApi:
     ) -> DocumentVersionResponse:
         """Update Document Version Metadata Handler
 
-        Merge metadata fields into an existing document version's metadata.  Only non-null fields in the request body are merged; existing metadata fields not present in the request are preserved.
+        Merge metadata fields into an existing document version's metadata.  Only non-null fields in the request body are merged; existing metadata fields not present in the request are preserved.  When this PATCH settles an ``inputs/`` upload's ingestion (an in-progress pipeline reaching a terminal state), it drives the parent workflow run forward: the two-step ``PENDING <-> NOT_STARTED`` toggle, plus auto-start / auto-fail for an ``auto_start`` run (see ``WorkflowRunStartService.auto_advance_on_input_settled``).
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
@@ -2853,7 +2853,7 @@ class DocumentVersionsApi:
     ) -> ApiResponse[DocumentVersionResponse]:
         """Update Document Version Metadata Handler
 
-        Merge metadata fields into an existing document version's metadata.  Only non-null fields in the request body are merged; existing metadata fields not present in the request are preserved.
+        Merge metadata fields into an existing document version's metadata.  Only non-null fields in the request body are merged; existing metadata fields not present in the request are preserved.  When this PATCH settles an ``inputs/`` upload's ingestion (an in-progress pipeline reaching a terminal state), it drives the parent workflow run forward: the two-step ``PENDING <-> NOT_STARTED`` toggle, plus auto-start / auto-fail for an ``auto_start`` run (see ``WorkflowRunStartService.auto_advance_on_input_settled``).
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
@@ -2925,7 +2925,7 @@ class DocumentVersionsApi:
     ) -> RESTResponseType:
         """Update Document Version Metadata Handler
 
-        Merge metadata fields into an existing document version's metadata.  Only non-null fields in the request body are merged; existing metadata fields not present in the request are preserved.
+        Merge metadata fields into an existing document version's metadata.  Only non-null fields in the request body are merged; existing metadata fields not present in the request are preserved.  When this PATCH settles an ``inputs/`` upload's ingestion (an in-progress pipeline reaching a terminal state), it drives the parent workflow run forward: the two-step ``PENDING <-> NOT_STARTED`` toggle, plus auto-start / auto-fail for an ``auto_start`` run (see ``WorkflowRunStartService.auto_advance_on_input_settled``).
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID

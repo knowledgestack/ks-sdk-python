@@ -29,8 +29,9 @@ class CatalogTableResponse(BaseModel):
     CatalogTableResponse
     """ # noqa: E501
     name: StrictStr
+    schema_name: StrictStr
     columns: List[CatalogColumnResponse]
-    __properties: ClassVar[List[str]] = ["name", "columns"]
+    __properties: ClassVar[List[str]] = ["name", "schema_name", "columns"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -91,6 +92,7 @@ class CatalogTableResponse(BaseModel):
 
         _obj = cls.model_validate({
             "name": obj.get("name"),
+            "schema_name": obj.get("schema_name"),
             "columns": [CatalogColumnResponse.from_dict(_item) for _item in obj["columns"]] if obj.get("columns") is not None else None
         })
         return _obj

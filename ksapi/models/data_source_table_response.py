@@ -40,13 +40,14 @@ class DataSourceTableResponse(BaseModel):
     name: StrictStr
     data_source_id: UUID
     table_name: StrictStr
+    schema_name: Optional[StrictStr] = Field(default=None, description="Schema/namespace in the external DB; null = default schema")
     description: Optional[StrictStr]
     column_config: List[Dict[str, Any]]
     approval_state: PathPartApprovalState
     permissions: ItemPermissions
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "table_name", "description", "column_config", "approval_state", "permissions", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "table_name", "schema_name", "description", "column_config", "approval_state", "permissions", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -105,6 +106,11 @@ class DataSourceTableResponse(BaseModel):
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
 
+        # set to None if schema_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.schema_name is None and "schema_name" in self.model_fields_set:
+            _dict['schema_name'] = None
+
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
@@ -131,6 +137,7 @@ class DataSourceTableResponse(BaseModel):
             "name": obj.get("name"),
             "data_source_id": obj.get("data_source_id"),
             "table_name": obj.get("table_name"),
+            "schema_name": obj.get("schema_name"),
             "description": obj.get("description"),
             "column_config": obj.get("column_config"),
             "approval_state": obj.get("approval_state"),

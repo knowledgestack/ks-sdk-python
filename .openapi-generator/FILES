@@ -51,6 +51,7 @@ docs/CitedChunk.md
 docs/ClearVersionContentsResponse.md
 docs/CloneWorkflowRunRequest.md
 docs/ColumnConfig.md
+docs/ColumnReference.md
 docs/ConnectionConfig.md
 docs/CreateApiConnectionRequest.md
 docs/CreateApiKeyRequest.md
@@ -76,6 +77,8 @@ docs/DataSourceEngine.md
 docs/DataSourceQueryRequest.md
 docs/DataSourceQueryResponse.md
 docs/DataSourceResponse.md
+docs/DataSourceSchemaListResponse.md
+docs/DataSourceSchemaResponse.md
 docs/DataSourceTableResponse.md
 docs/DataSourcesApi.md
 docs/DefaultApi.md
@@ -412,6 +415,7 @@ ksapi/models/cited_chunk.py
 ksapi/models/clear_version_contents_response.py
 ksapi/models/clone_workflow_run_request.py
 ksapi/models/column_config.py
+ksapi/models/column_reference.py
 ksapi/models/connection_config.py
 ksapi/models/create_api_connection_request.py
 ksapi/models/create_api_key_request.py
@@ -437,6 +441,8 @@ ksapi/models/data_source_engine.py
 ksapi/models/data_source_query_request.py
 ksapi/models/data_source_query_response.py
 ksapi/models/data_source_response.py
+ksapi/models/data_source_schema_list_response.py
+ksapi/models/data_source_schema_response.py
 ksapi/models/data_source_table_response.py
 ksapi/models/diff_format.py
 ksapi/models/diff_row.py
@@ -719,6 +725,7 @@ test/test_cited_chunk.py
 test/test_clear_version_contents_response.py
 test/test_clone_workflow_run_request.py
 test/test_column_config.py
+test/test_column_reference.py
 test/test_connection_config.py
 test/test_create_api_connection_request.py
 test/test_create_api_key_request.py
@@ -744,6 +751,8 @@ test/test_data_source_engine.py
 test/test_data_source_query_request.py
 test/test_data_source_query_response.py
 test/test_data_source_response.py
+test/test_data_source_schema_list_response.py
+test/test_data_source_schema_response.py
 test/test_data_source_table_response.py
 test/test_data_sources_api.py
 test/test_default_api.py

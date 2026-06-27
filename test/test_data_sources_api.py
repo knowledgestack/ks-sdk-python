@@ -54,6 +54,13 @@ class TestDataSourcesApi(unittest.TestCase):
         """
         pass
 
+    def test_list_data_source_schemas(self) -> None:
+        """Test case for list_data_source_schemas
+
+        List Data Source Schemas Handler
+        """
+        pass
+
     def test_model_data_source_table(self) -> None:
         """Test case for model_data_source_table
 
