@@ -333,6 +333,7 @@ class WorkflowDefinitionsApi:
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
         auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
         user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -362,6 +363,8 @@ class WorkflowDefinitionsApi:
         :type auto_start: bool
         :param user_message: Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.
         :type user_message: str
+        :param name: Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.
+        :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -391,6 +394,7 @@ class WorkflowDefinitionsApi:
             idempotency_key=idempotency_key,
             auto_start=auto_start,
             user_message=user_message,
+            name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -421,6 +425,7 @@ class WorkflowDefinitionsApi:
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
         auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
         user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -450,6 +455,8 @@ class WorkflowDefinitionsApi:
         :type auto_start: bool
         :param user_message: Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.
         :type user_message: str
+        :param name: Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.
+        :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -479,6 +486,7 @@ class WorkflowDefinitionsApi:
             idempotency_key=idempotency_key,
             auto_start=auto_start,
             user_message=user_message,
+            name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -509,6 +517,7 @@ class WorkflowDefinitionsApi:
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
         auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
         user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -538,6 +547,8 @@ class WorkflowDefinitionsApi:
         :type auto_start: bool
         :param user_message: Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.
         :type user_message: str
+        :param name: Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.
+        :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -567,6 +578,7 @@ class WorkflowDefinitionsApi:
             idempotency_key=idempotency_key,
             auto_start=auto_start,
             user_message=user_message,
+            name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -592,6 +604,7 @@ class WorkflowDefinitionsApi:
         idempotency_key,
         auto_start,
         user_message,
+        name,
         _request_auth,
         _content_type,
         _headers,
@@ -629,6 +642,8 @@ class WorkflowDefinitionsApi:
             _form_params.append(('auto_start', auto_start))
         if user_message is not None:
             _form_params.append(('user_message', user_message))
+        if name is not None:
+            _form_params.append(('name', name))
         # process the body parameter
 
 
