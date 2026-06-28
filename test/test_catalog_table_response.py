@@ -37,6 +37,7 @@ class TestCatalogTableResponse(unittest.TestCase):
             return CatalogTableResponse(
                 name = '',
                 schema_name = '',
+                is_view = True,
                 columns = [
                     ksapi.models.catalog_column_response.CatalogColumnResponse(
                         name = '', 

@@ -39,6 +39,7 @@ class TestDataSourceCatalogResponse(unittest.TestCase):
                     ksapi.models.catalog_table_response.CatalogTableResponse(
                         name = '', 
                         schema_name = '', 
+                        is_view = True, 
                         columns = [
                             ksapi.models.catalog_column_response.CatalogColumnResponse(
                                 name = '', 
@@ -54,6 +55,7 @@ class TestDataSourceCatalogResponse(unittest.TestCase):
                     ksapi.models.catalog_table_response.CatalogTableResponse(
                         name = '', 
                         schema_name = '', 
+                        is_view = True, 
                         columns = [
                             ksapi.models.catalog_column_response.CatalogColumnResponse(
                                 name = '', 

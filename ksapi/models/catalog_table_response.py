@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.catalog_column_response import CatalogColumnResponse
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,8 +30,9 @@ class CatalogTableResponse(BaseModel):
     """ # noqa: E501
     name: StrictStr
     schema_name: StrictStr
+    is_view: Optional[StrictBool] = False
     columns: List[CatalogColumnResponse]
-    __properties: ClassVar[List[str]] = ["name", "schema_name", "columns"]
+    __properties: ClassVar[List[str]] = ["name", "schema_name", "is_view", "columns"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -93,6 +94,7 @@ class CatalogTableResponse(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "schema_name": obj.get("schema_name"),
+            "is_view": obj.get("is_view") if obj.get("is_view") is not None else False,
             "columns": [CatalogColumnResponse.from_dict(_item) for _item in obj["columns"]] if obj.get("columns") is not None else None
         })
         return _obj
