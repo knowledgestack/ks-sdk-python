@@ -267,6 +267,7 @@ from ksapi.models.trash_item_response import TrashItemResponse
 from ksapi.models.update_api_connection_request import UpdateApiConnectionRequest
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest
 from ksapi.models.update_chunk_metadata_request import UpdateChunkMetadataRequest
+from ksapi.models.update_data_source_request import UpdateDataSourceRequest
 from ksapi.models.update_document_request import UpdateDocumentRequest
 from ksapi.models.update_folder_request import UpdateFolderRequest
 from ksapi.models.update_group_permission_request import UpdateGroupPermissionRequest

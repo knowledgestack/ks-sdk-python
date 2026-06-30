@@ -35,6 +35,8 @@ class TestUpdateApiConnectionRequest(unittest.TestCase):
         model = UpdateApiConnectionRequest()
         if include_optional:
             return UpdateApiConnectionRequest(
+                name = '0',
+                parent_path_part_id = '',
                 base_url = '',
                 network_class = 'PUBLIC',
                 verify_tls = True,

@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.117.0"
+__version__ = "1.118.0"
 
 # Define package exports
 __all__ = [
@@ -316,6 +316,7 @@ __all__ = [
     "UpdateApiConnectionRequest",
     "UpdateChunkContentRequest",
     "UpdateChunkMetadataRequest",
+    "UpdateDataSourceRequest",
     "UpdateDocumentRequest",
     "UpdateFolderRequest",
     "UpdateGroupPermissionRequest",
@@ -663,6 +664,7 @@ from ksapi.models.trash_item_response import TrashItemResponse as TrashItemRespo
 from ksapi.models.update_api_connection_request import UpdateApiConnectionRequest as UpdateApiConnectionRequest
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest as UpdateChunkContentRequest
 from ksapi.models.update_chunk_metadata_request import UpdateChunkMetadataRequest as UpdateChunkMetadataRequest
+from ksapi.models.update_data_source_request import UpdateDataSourceRequest as UpdateDataSourceRequest
 from ksapi.models.update_document_request import UpdateDocumentRequest as UpdateDocumentRequest
 from ksapi.models.update_folder_request import UpdateFolderRequest as UpdateFolderRequest
 from ksapi.models.update_group_permission_request import UpdateGroupPermissionRequest as UpdateGroupPermissionRequest

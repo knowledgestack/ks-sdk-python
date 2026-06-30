@@ -82,6 +82,13 @@ class TestDataSourcesApi(unittest.TestCase):
         """
         pass
 
+    def test_update_data_source(self) -> None:
+        """Test case for update_data_source
+
+        Update Data Source Handler
+        """
+        pass
+
     def test_update_data_source_table(self) -> None:
         """Test case for update_data_source_table
 

@@ -27,7 +27,7 @@ class CloneWorkflowRunRequest(BaseModel):
     """
     POST body for ``/v1/workflow-runs/{id}/clone``.  Creates a new NOT_STARTED run under the same definition. When ``include_inputs`` is True, the new run's ``input_path_part_ids`` are pinned from the source's ``run_snapshot.inputs`` — uploaded DVs stay in the source's ``inputs/`` and are referenced by path_part_id (no S3 copy, no re-ingest). The source must have a snapshot to clone from, so cloning a NOT_STARTED source returns 409.
     """ # noqa: E501
-    include_inputs: StrictBool = Field(description="When True, the new run's input_path_part_ids are pinned from the source run's snapshotted inputs (DOCUMENT_VERSION + FOLDER path_parts). When False, the new run is created with an empty input scope.")
+    include_inputs: StrictBool = Field(description="When True, the new run's input_path_part_ids are pinned from the source run's snapshotted inputs (DOCUMENT_VERSION, FOLDER, DATA_SOURCE, API_CONNECTION path_parts). When False, the new run is created with an empty input scope.")
     __properties: ClassVar[List[str]] = ["include_inputs"]
 
     model_config = ConfigDict(

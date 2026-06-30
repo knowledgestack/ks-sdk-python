@@ -17,28 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class InputSnapshot(BaseModel):
+class UpdateDataSourceRequest(BaseModel):
     """
-    One entry of a run's input scope, self-describing its pin semantics.  ``part_type`` is the kind discriminator:  * ``DOCUMENT_VERSION`` — a pinned document version. The DOCUMENT in   the request scope was resolved to its active version at trigger   time; ``path_part_id`` is that DOCUMENT_VERSION path_part and the   entry does not float. * ``FOLDER`` — a live folder reference. ``path_part_id`` is the   FOLDER path_part itself; its contents are NOT captured here and   are enumerated live by the runner (see ``materialized_path`` for   subtree scoping). * ``DATA_SOURCE`` / ``API_CONNECTION`` — a live connector reference   (DB / API). ``path_part_id`` is the connector path_part itself; the   runner queries it live via its connector tools, nothing is captured   here.  The underlying PDO id (DocumentVersion / Folder / connector) is resolved live at run time from ``path_part.metadata_obj_id``, not stored here.
+    Rename and/or move a connector (PATCH). Both fields optional.  A body with both ``None`` is rejected as a no-op 400. ``name`` renames the connector path_part; ``parent_path_part_id`` moves it under a new FOLDER (the move cascades ``materialized_path`` to the modeled-table children). Connection credentials and engine are not editable here.
     """ # noqa: E501
-    path_part_id: UUID = Field(description="DOCUMENT_VERSION path_part of the pinned input version, or the path_part of a live FOLDER / DATA_SOURCE / API_CONNECTION reference — see ``part_type``.")
-    materialized_path: StrictStr
-    part_type: StrictStr
-    __properties: ClassVar[List[str]] = ["path_part_id", "materialized_path", "part_type"]
-
-    @field_validator('part_type')
-    def part_type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['DOCUMENT_VERSION', 'FOLDER', 'DATA_SOURCE', 'API_CONNECTION']):
-            raise ValueError("must be one of enum values ('DOCUMENT_VERSION', 'FOLDER', 'DATA_SOURCE', 'API_CONNECTION')")
-        return value
+    name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = None
+    parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent FOLDER path_part to move the connector under.")
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -58,7 +51,7 @@ class InputSnapshot(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of InputSnapshot from a JSON string"""
+        """Create an instance of UpdateDataSourceRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -79,11 +72,21 @@ class InputSnapshot(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if name (nullable) is None
+        # and model_fields_set contains the field
+        if self.name is None and "name" in self.model_fields_set:
+            _dict['name'] = None
+
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of InputSnapshot from a dict"""
+        """Create an instance of UpdateDataSourceRequest from a dict"""
         if obj is None:
             return None
 
@@ -91,9 +94,8 @@ class InputSnapshot(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "path_part_id": obj.get("path_part_id"),
-            "materialized_path": obj.get("materialized_path"),
-            "part_type": obj.get("part_type")
+            "name": obj.get("name"),
+            "parent_path_part_id": obj.get("parent_path_part_id")
         })
         return _obj
 

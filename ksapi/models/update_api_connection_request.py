@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
+from uuid import UUID
 from ksapi.models.api_auth_config import ApiAuthConfig
 from ksapi.models.network_class import NetworkClass
 from typing import Optional, Set
@@ -28,14 +29,16 @@ from pydantic_core import to_jsonable_python
 
 class UpdateApiConnectionRequest(BaseModel):
     """
-    Partial update (PATCH). A risk-increasing change re-arms the disclaimer.
+    Partial update (PATCH). A risk-increasing change re-arms the disclaimer.  ``name`` renames the connection and ``parent_path_part_id`` moves it under a new FOLDER; neither is a risk-increasing change, so a rename/move alone leaves the disclaimer intact.
     """ # noqa: E501
+    name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = None
+    parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent FOLDER path_part to move the connection under.")
     base_url: Optional[Annotated[str, Field(strict=True, max_length=2048)]] = None
     network_class: Optional[NetworkClass] = None
     verify_tls: Optional[StrictBool] = None
     auth_config: Optional[ApiAuthConfig] = None
     api_docs: Optional[Annotated[str, Field(strict=True, max_length=100000)]] = None
-    __properties: ClassVar[List[str]] = ["base_url", "network_class", "verify_tls", "auth_config", "api_docs"]
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "base_url", "network_class", "verify_tls", "auth_config", "api_docs"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,6 +82,16 @@ class UpdateApiConnectionRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of auth_config
         if self.auth_config:
             _dict['auth_config'] = self.auth_config.to_dict()
+        # set to None if name (nullable) is None
+        # and model_fields_set contains the field
+        if self.name is None and "name" in self.model_fields_set:
+            _dict['name'] = None
+
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
         # set to None if base_url (nullable) is None
         # and model_fields_set contains the field
         if self.base_url is None and "base_url" in self.model_fields_set:
@@ -111,6 +124,8 @@ class UpdateApiConnectionRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "name": obj.get("name"),
+            "parent_path_part_id": obj.get("parent_path_part_id"),
             "base_url": obj.get("base_url"),
             "network_class": obj.get("network_class"),
             "verify_tls": obj.get("verify_tls"),

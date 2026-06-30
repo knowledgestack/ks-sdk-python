@@ -287,6 +287,7 @@ docs/TrashItemResponse.md
 docs/UpdateApiConnectionRequest.md
 docs/UpdateChunkContentRequest.md
 docs/UpdateChunkMetadataRequest.md
+docs/UpdateDataSourceRequest.md
 docs/UpdateDocumentRequest.md
 docs/UpdateFolderRequest.md
 docs/UpdateGroupPermissionRequest.md
@@ -632,6 +633,7 @@ ksapi/models/trash_item_response.py
 ksapi/models/update_api_connection_request.py
 ksapi/models/update_chunk_content_request.py
 ksapi/models/update_chunk_metadata_request.py
+ksapi/models/update_data_source_request.py
 ksapi/models/update_document_request.py
 ksapi/models/update_folder_request.py
 ksapi/models/update_group_permission_request.py
@@ -965,6 +967,7 @@ test/test_trash_item_response.py
 test/test_update_api_connection_request.py
 test/test_update_chunk_content_request.py
 test/test_update_chunk_metadata_request.py
+test/test_update_data_source_request.py
 test/test_update_document_request.py
 test/test_update_folder_request.py
 test/test_update_group_permission_request.py
