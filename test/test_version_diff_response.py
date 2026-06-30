@@ -70,12 +70,114 @@ class TestVersionDiffResponse(unittest.TestCase):
                             address = '', 
                             old = '', 
                             new = '', 
+                            type = 'added', 
+                            old_formula = '', 
+                            new_formula = '', 
+                            formula_changed = True, 
+                            formatting_changed = True, 
+                            comment_changed = True, 
+                            old_comment = '', 
+                            new_comment = '', )
+                        ], 
+                    added = 56, 
+                    removed = 56, 
+                    modified = 56, 
+                    truncated = True, 
+                    sheet_visibility_changes = [
+                        ksapi.models.sheet_visibility_change.SheetVisibilityChange(
+                            sheet = '', 
+                            old_state = '', 
+                            new_state = '', )
+                        ], ),
+                structured = ksapi.models.structured_diff.StructuredDiff(
+                    changes = [
+                        ksapi.models.structured_change.StructuredChange(
+                            path = '', 
+                            old = '', 
+                            new = '', 
                             type = 'added', )
                         ], 
                     added = 56, 
                     removed = 56, 
                     modified = 56, 
-                    truncated = True, )
+                    truncated = True, 
+                    omitted = 56, ),
+                document = ksapi.models.document_diff.DocumentDiff(
+                    blocks = [
+                        ksapi.models.document_block_change.DocumentBlockChange(
+                            type = 'added', 
+                            kind = 'paragraph', 
+                            change_class = 'text', 
+                            from_paragraph_index = 56, 
+                            to_paragraph_index = 56, 
+                            old_text = '', 
+                            new_text = '', 
+                            old_spans = [
+                                ksapi.models.diff_span.DiffSpan(
+                                    start = 56, 
+                                    end = 56, )
+                                ], 
+                            new_spans = [
+                                ksapi.models.diff_span.DiffSpan(
+                                    start = 56, 
+                                    end = 56, )
+                                ], 
+                            formatting_changed = True, 
+                            numeric_delta = '', 
+                            numeric_pct = '', 
+                            anchor_text = '', 
+                            surface = 'body', 
+                            cell_changes = [
+                                ksapi.models.table_cell_change.TableCellChange(
+                                    row = 56, 
+                                    col = 56, 
+                                    type = 'added', 
+                                    old = '', 
+                                    new = '', )
+                                ], 
+                            revisions = [
+                                ksapi.models.revision_edit.RevisionEdit(
+                                    type = , 
+                                    author = '', 
+                                    date = '', 
+                                    text = '', )
+                                ], 
+                            old_image_ref = '', 
+                            new_image_ref = '', 
+                            image_regions = [
+                                ksapi.models.pixel_region.PixelRegion(
+                                    x = 56, 
+                                    y = 56, 
+                                    width = 56, 
+                                    height = 56, )
+                                ], 
+                            image_note = '', )
+                        ], 
+                    added = 56, 
+                    removed = 56, 
+                    modified = 56, 
+                    truncated = True, 
+                    omitted_blocks = 56, 
+                    surfaces_checked = [
+                        ''
+                        ], 
+                    unaccepted_revisions = 56, 
+                    decode_degraded = True, ),
+                degraded = True,
+                degraded_reason = '',
+                algorithm_version = '1',
+                from_content_hash = '',
+                to_content_hash = '',
+                from_uploader = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
+                to_uploader = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
+                from_uploaded_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                to_uploaded_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
             return VersionDiffResponse(

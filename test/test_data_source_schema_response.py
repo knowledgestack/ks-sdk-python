@@ -35,13 +35,71 @@ class TestDataSourceSchemaResponse(unittest.TestCase):
         model = DataSourceSchemaResponse()
         if include_optional:
             return DataSourceSchemaResponse(
+                part_type = 'DATA_SOURCE_SCHEMA',
+                id = '',
+                path_part_id = '',
+                parent_path_part_id = '',
+                materialized_path = '',
+                tenant_id = '',
                 name = '',
-                is_default = True
+                data_source_id = '',
+                schema_name = '',
+                is_default = True,
+                description = '',
+                approval_state = 'not_required',
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
+                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                tables = [
+                    ksapi.models.data_source_table_response.DataSourceTableResponse(
+                        part_type = 'DATA_SOURCE_TABLE', 
+                        id = '', 
+                        path_part_id = '', 
+                        parent_path_part_id = '', 
+                        materialized_path = '', 
+                        tenant_id = '', 
+                        name = '', 
+                        data_source_id = '', 
+                        data_source_schema_id = '', 
+                        table_name = '', 
+                        description = '', 
+                        column_config = [
+                            { }
+                            ], 
+                        approval_state = 'not_required', 
+                        permissions = ksapi.models.item_permissions.ItemPermissions(
+                            can_read = True, 
+                            can_write = True, 
+                            can_delete = True, 
+                            can_approve = True, ), 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
+                    ]
             )
         else:
             return DataSourceSchemaResponse(
+                id = '',
+                path_part_id = '',
+                parent_path_part_id = '',
+                materialized_path = '',
+                tenant_id = '',
                 name = '',
+                data_source_id = '',
+                schema_name = '',
                 is_default = True,
+                description = '',
+                approval_state = 'not_required',
+                permissions = ksapi.models.item_permissions.ItemPermissions(
+                    can_read = True, 
+                    can_write = True, 
+                    can_delete = True, 
+                    can_approve = True, ),
+                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )
         """
 

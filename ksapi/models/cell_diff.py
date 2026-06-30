@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt
 from typing import Any, ClassVar, Dict, List
 from ksapi.models.cell_change import CellChange
+from ksapi.models.sheet_visibility_change import SheetVisibilityChange
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -33,7 +34,8 @@ class CellDiff(BaseModel):
     removed: StrictInt
     modified: StrictInt
     truncated: StrictBool
-    __properties: ClassVar[List[str]] = ["changes", "added", "removed", "modified", "truncated"]
+    sheet_visibility_changes: List[SheetVisibilityChange]
+    __properties: ClassVar[List[str]] = ["changes", "added", "removed", "modified", "truncated", "sheet_visibility_changes"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -81,6 +83,13 @@ class CellDiff(BaseModel):
                 if _item_changes:
                     _items.append(_item_changes.to_dict())
             _dict['changes'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in sheet_visibility_changes (list)
+        _items = []
+        if self.sheet_visibility_changes:
+            for _item_sheet_visibility_changes in self.sheet_visibility_changes:
+                if _item_sheet_visibility_changes:
+                    _items.append(_item_sheet_visibility_changes.to_dict())
+            _dict['sheet_visibility_changes'] = _items
         return _dict
 
     @classmethod
@@ -97,7 +106,8 @@ class CellDiff(BaseModel):
             "added": obj.get("added"),
             "removed": obj.get("removed"),
             "modified": obj.get("modified"),
-            "truncated": obj.get("truncated")
+            "truncated": obj.get("truncated"),
+            "sheet_visibility_changes": [SheetVisibilityChange.from_dict(_item) for _item in obj["sheet_visibility_changes"]] if obj.get("sheet_visibility_changes") is not None else None
         })
         return _obj
 

@@ -18,20 +18,22 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
+from uuid import UUID
 from ksapi.models.data_source_response import DataSourceResponse
-from ksapi.models.data_source_table_response import DataSourceTableResponse
+from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class DataSourceDetailResponse(BaseModel):
     """
-    A connector plus the modeled tables the caller can read (describe).
+    A connector plus the schemas (and their readable tables) the caller sees.  ``description_document_id`` points at the connector's generated, ingested \"Database overview\" Document (a hidden system file); null until generated.
     """ # noqa: E501
     data_source: DataSourceResponse
-    tables: List[DataSourceTableResponse]
-    __properties: ClassVar[List[str]] = ["data_source", "tables"]
+    schemas: List[DataSourceSchemaResponse]
+    description_document_id: Optional[UUID] = None
+    __properties: ClassVar[List[str]] = ["data_source", "schemas", "description_document_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,13 +77,18 @@ class DataSourceDetailResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of data_source
         if self.data_source:
             _dict['data_source'] = self.data_source.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in tables (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in schemas (list)
         _items = []
-        if self.tables:
-            for _item_tables in self.tables:
-                if _item_tables:
-                    _items.append(_item_tables.to_dict())
-            _dict['tables'] = _items
+        if self.schemas:
+            for _item_schemas in self.schemas:
+                if _item_schemas:
+                    _items.append(_item_schemas.to_dict())
+            _dict['schemas'] = _items
+        # set to None if description_document_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.description_document_id is None and "description_document_id" in self.model_fields_set:
+            _dict['description_document_id'] = None
+
         return _dict
 
     @classmethod
@@ -95,7 +102,8 @@ class DataSourceDetailResponse(BaseModel):
 
         _obj = cls.model_validate({
             "data_source": DataSourceResponse.from_dict(obj["data_source"]) if obj.get("data_source") is not None else None,
-            "tables": [DataSourceTableResponse.from_dict(_item) for _item in obj["tables"]] if obj.get("tables") is not None else None
+            "schemas": [DataSourceSchemaResponse.from_dict(_item) for _item in obj["schemas"]] if obj.get("schemas") is not None else None,
+            "description_document_id": obj.get("description_document_id")
         })
         return _obj
 

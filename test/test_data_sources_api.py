@@ -40,6 +40,27 @@ class TestDataSourcesApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_data_source_schema(self) -> None:
+        """Test case for delete_data_source_schema
+
+        Delete Data Source Schema Handler
+        """
+        pass
+
+    def test_delete_data_source_table(self) -> None:
+        """Test case for delete_data_source_table
+
+        Delete Data Source Table Handler
+        """
+        pass
+
+    def test_generate_data_source_description(self) -> None:
+        """Test case for generate_data_source_description
+
+        Generate Data Source Description Handler
+        """
+        pass
+
     def test_get_data_source(self) -> None:
         """Test case for get_data_source
 
@@ -65,6 +86,13 @@ class TestDataSourcesApi(unittest.TestCase):
         """Test case for model_data_source_table
 
         Model Data Source Table Handler
+        """
+        pass
+
+    def test_model_data_source_tables(self) -> None:
+        """Test case for model_data_source_tables
+
+        Model Data Source Tables Handler
         """
         pass
 

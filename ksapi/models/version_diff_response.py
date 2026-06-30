@@ -17,19 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.cell_diff import CellDiff
 from ksapi.models.diff_format import DiffFormat
+from ksapi.models.document_diff import DocumentDiff
+from ksapi.models.structured_diff import StructuredDiff
 from ksapi.models.text_diff import TextDiff
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class VersionDiffResponse(BaseModel):
     """
-    The diff between two document versions.  ``format`` selects the populated payload: ``text`` (side-by-side line diff, for Word/PDF/text) or ``cells`` (cell-level diff, for spreadsheets).
+    The diff between two document versions.  ``format`` selects the populated payload: ``text`` (side-by-side line diff, for PDF/Markdown/text), ``cells`` (cell-level diff, for spreadsheets), ``structured`` (key-path diff, for JSON/YAML), or ``document`` (structured block diff, for Word .docx).
     """ # noqa: E501
     from_version_id: Optional[UUID]
     to_version_id: UUID
@@ -38,7 +42,18 @@ class VersionDiffResponse(BaseModel):
     format: DiffFormat
     text: Optional[TextDiff] = None
     cells: Optional[CellDiff] = None
-    __properties: ClassVar[List[str]] = ["from_version_id", "to_version_id", "from_version", "to_version", "format", "text", "cells"]
+    structured: Optional[StructuredDiff] = None
+    document: Optional[DocumentDiff] = None
+    degraded: Optional[StrictBool] = False
+    degraded_reason: Optional[StrictStr] = None
+    algorithm_version: Optional[StrictStr] = '1'
+    from_content_hash: Optional[StrictStr] = None
+    to_content_hash: Optional[StrictStr] = None
+    from_uploader: Optional[UserInfo] = None
+    to_uploader: Optional[UserInfo] = None
+    from_uploaded_at: Optional[datetime] = None
+    to_uploaded_at: Optional[datetime] = None
+    __properties: ClassVar[List[str]] = ["from_version_id", "to_version_id", "from_version", "to_version", "format", "text", "cells", "structured", "document", "degraded", "degraded_reason", "algorithm_version", "from_content_hash", "to_content_hash", "from_uploader", "to_uploader", "from_uploaded_at", "to_uploaded_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -85,6 +100,18 @@ class VersionDiffResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of cells
         if self.cells:
             _dict['cells'] = self.cells.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of structured
+        if self.structured:
+            _dict['structured'] = self.structured.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of document
+        if self.document:
+            _dict['document'] = self.document.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of from_uploader
+        if self.from_uploader:
+            _dict['from_uploader'] = self.from_uploader.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of to_uploader
+        if self.to_uploader:
+            _dict['to_uploader'] = self.to_uploader.to_dict()
         # set to None if from_version_id (nullable) is None
         # and model_fields_set contains the field
         if self.from_version_id is None and "from_version_id" in self.model_fields_set:
@@ -110,6 +137,51 @@ class VersionDiffResponse(BaseModel):
         if self.cells is None and "cells" in self.model_fields_set:
             _dict['cells'] = None
 
+        # set to None if structured (nullable) is None
+        # and model_fields_set contains the field
+        if self.structured is None and "structured" in self.model_fields_set:
+            _dict['structured'] = None
+
+        # set to None if document (nullable) is None
+        # and model_fields_set contains the field
+        if self.document is None and "document" in self.model_fields_set:
+            _dict['document'] = None
+
+        # set to None if degraded_reason (nullable) is None
+        # and model_fields_set contains the field
+        if self.degraded_reason is None and "degraded_reason" in self.model_fields_set:
+            _dict['degraded_reason'] = None
+
+        # set to None if from_content_hash (nullable) is None
+        # and model_fields_set contains the field
+        if self.from_content_hash is None and "from_content_hash" in self.model_fields_set:
+            _dict['from_content_hash'] = None
+
+        # set to None if to_content_hash (nullable) is None
+        # and model_fields_set contains the field
+        if self.to_content_hash is None and "to_content_hash" in self.model_fields_set:
+            _dict['to_content_hash'] = None
+
+        # set to None if from_uploader (nullable) is None
+        # and model_fields_set contains the field
+        if self.from_uploader is None and "from_uploader" in self.model_fields_set:
+            _dict['from_uploader'] = None
+
+        # set to None if to_uploader (nullable) is None
+        # and model_fields_set contains the field
+        if self.to_uploader is None and "to_uploader" in self.model_fields_set:
+            _dict['to_uploader'] = None
+
+        # set to None if from_uploaded_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.from_uploaded_at is None and "from_uploaded_at" in self.model_fields_set:
+            _dict['from_uploaded_at'] = None
+
+        # set to None if to_uploaded_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.to_uploaded_at is None and "to_uploaded_at" in self.model_fields_set:
+            _dict['to_uploaded_at'] = None
+
         return _dict
 
     @classmethod
@@ -128,7 +200,18 @@ class VersionDiffResponse(BaseModel):
             "to_version": obj.get("to_version"),
             "format": obj.get("format"),
             "text": TextDiff.from_dict(obj["text"]) if obj.get("text") is not None else None,
-            "cells": CellDiff.from_dict(obj["cells"]) if obj.get("cells") is not None else None
+            "cells": CellDiff.from_dict(obj["cells"]) if obj.get("cells") is not None else None,
+            "structured": StructuredDiff.from_dict(obj["structured"]) if obj.get("structured") is not None else None,
+            "document": DocumentDiff.from_dict(obj["document"]) if obj.get("document") is not None else None,
+            "degraded": obj.get("degraded") if obj.get("degraded") is not None else False,
+            "degraded_reason": obj.get("degraded_reason"),
+            "algorithm_version": obj.get("algorithm_version") if obj.get("algorithm_version") is not None else '1',
+            "from_content_hash": obj.get("from_content_hash"),
+            "to_content_hash": obj.get("to_content_hash"),
+            "from_uploader": UserInfo.from_dict(obj["from_uploader"]) if obj.get("from_uploader") is not None else None,
+            "to_uploader": UserInfo.from_dict(obj["to_uploader"]) if obj.get("to_uploader") is not None else None,
+            "from_uploaded_at": obj.get("from_uploaded_at"),
+            "to_uploaded_at": obj.get("to_uploaded_at")
         })
         return _obj
 

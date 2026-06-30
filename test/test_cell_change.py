@@ -39,7 +39,14 @@ class TestCellChange(unittest.TestCase):
                 address = '',
                 old = '',
                 new = '',
-                type = 'added'
+                type = 'added',
+                old_formula = '',
+                new_formula = '',
+                formula_changed = True,
+                formatting_changed = True,
+                comment_changed = True,
+                old_comment = '',
+                new_comment = ''
             )
         else:
             return CellChange(

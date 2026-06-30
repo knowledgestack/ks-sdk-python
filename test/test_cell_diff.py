@@ -41,12 +41,25 @@ class TestCellDiff(unittest.TestCase):
                         address = '', 
                         old = '', 
                         new = '', 
-                        type = 'added', )
+                        type = 'added', 
+                        old_formula = '', 
+                        new_formula = '', 
+                        formula_changed = True, 
+                        formatting_changed = True, 
+                        comment_changed = True, 
+                        old_comment = '', 
+                        new_comment = '', )
                     ],
                 added = 56,
                 removed = 56,
                 modified = 56,
-                truncated = True
+                truncated = True,
+                sheet_visibility_changes = [
+                    ksapi.models.sheet_visibility_change.SheetVisibilityChange(
+                        sheet = '', 
+                        old_state = '', 
+                        new_state = '', )
+                    ]
             )
         else:
             return CellDiff(
@@ -56,12 +69,25 @@ class TestCellDiff(unittest.TestCase):
                         address = '', 
                         old = '', 
                         new = '', 
-                        type = 'added', )
+                        type = 'added', 
+                        old_formula = '', 
+                        new_formula = '', 
+                        formula_changed = True, 
+                        formatting_changed = True, 
+                        comment_changed = True, 
+                        old_comment = '', 
+                        new_comment = '', )
                     ],
                 added = 56,
                 removed = 56,
                 modified = 56,
                 truncated = True,
+                sheet_visibility_changes = [
+                    ksapi.models.sheet_visibility_change.SheetVisibilityChange(
+                        sheet = '', 
+                        old_state = '', 
+                        new_state = '', )
+                    ],
         )
         """
 

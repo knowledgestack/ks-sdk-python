@@ -43,8 +43,8 @@ class TestDataSourceTableResponse(unittest.TestCase):
                 tenant_id = '',
                 name = '',
                 data_source_id = '',
+                data_source_schema_id = '',
                 table_name = '',
-                schema_name = '',
                 description = '',
                 column_config = [
                     { }
@@ -67,6 +67,7 @@ class TestDataSourceTableResponse(unittest.TestCase):
                 tenant_id = '',
                 name = '',
                 data_source_id = '',
+                data_source_schema_id = '',
                 table_name = '',
                 description = '',
                 column_config = [

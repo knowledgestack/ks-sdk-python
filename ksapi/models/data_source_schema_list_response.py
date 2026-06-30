@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
-from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
+from ksapi.models.data_source_schema_list_item import DataSourceSchemaListItem
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -28,7 +28,7 @@ class DataSourceSchemaListResponse(BaseModel):
     """
     The source's user namespaces (PG schemas / MySQL databases).
     """ # noqa: E501
-    schemas: List[DataSourceSchemaResponse]
+    schemas: List[DataSourceSchemaListItem]
     __properties: ClassVar[List[str]] = ["schemas"]
 
     model_config = ConfigDict(
@@ -89,7 +89,7 @@ class DataSourceSchemaListResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "schemas": [DataSourceSchemaResponse.from_dict(_item) for _item in obj["schemas"]] if obj.get("schemas") is not None else None
+            "schemas": [DataSourceSchemaListItem.from_dict(_item) for _item in obj["schemas"]] if obj.get("schemas") is not None else None
         })
         return _obj
 

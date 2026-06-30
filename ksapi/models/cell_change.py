@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from ksapi.models.cell_change_type import CellChangeType
 from typing import Optional, Set
@@ -26,14 +26,21 @@ from pydantic_core import to_jsonable_python
 
 class CellChange(BaseModel):
     """
-    One changed spreadsheet cell (``old`` is null for added, ``new`` for removed).
+    One changed spreadsheet cell (``old`` is null for added, ``new`` for removed).  ``old``/``new`` are the displayed values (cached result for a formula cell); ``*_formula`` carry the formula text so a formula edit is visible even when the computed value is unchanged. ``formatting_changed`` flags a bold/colour/ number-format change on an otherwise unchanged cell.
     """ # noqa: E501
     sheet: StrictStr
     address: StrictStr
     old: Optional[StrictStr]
     new: Optional[StrictStr]
     type: CellChangeType
-    __properties: ClassVar[List[str]] = ["sheet", "address", "old", "new", "type"]
+    old_formula: Optional[StrictStr] = None
+    new_formula: Optional[StrictStr] = None
+    formula_changed: Optional[StrictBool] = False
+    formatting_changed: Optional[StrictBool] = False
+    comment_changed: Optional[StrictBool] = False
+    old_comment: Optional[StrictStr] = None
+    new_comment: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["sheet", "address", "old", "new", "type", "old_formula", "new_formula", "formula_changed", "formatting_changed", "comment_changed", "old_comment", "new_comment"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -84,6 +91,26 @@ class CellChange(BaseModel):
         if self.new is None and "new" in self.model_fields_set:
             _dict['new'] = None
 
+        # set to None if old_formula (nullable) is None
+        # and model_fields_set contains the field
+        if self.old_formula is None and "old_formula" in self.model_fields_set:
+            _dict['old_formula'] = None
+
+        # set to None if new_formula (nullable) is None
+        # and model_fields_set contains the field
+        if self.new_formula is None and "new_formula" in self.model_fields_set:
+            _dict['new_formula'] = None
+
+        # set to None if old_comment (nullable) is None
+        # and model_fields_set contains the field
+        if self.old_comment is None and "old_comment" in self.model_fields_set:
+            _dict['old_comment'] = None
+
+        # set to None if new_comment (nullable) is None
+        # and model_fields_set contains the field
+        if self.new_comment is None and "new_comment" in self.model_fields_set:
+            _dict['new_comment'] = None
+
         return _dict
 
     @classmethod
@@ -100,7 +127,14 @@ class CellChange(BaseModel):
             "address": obj.get("address"),
             "old": obj.get("old"),
             "new": obj.get("new"),
-            "type": obj.get("type")
+            "type": obj.get("type"),
+            "old_formula": obj.get("old_formula"),
+            "new_formula": obj.get("new_formula"),
+            "formula_changed": obj.get("formula_changed") if obj.get("formula_changed") is not None else False,
+            "formatting_changed": obj.get("formatting_changed") if obj.get("formatting_changed") is not None else False,
+            "comment_changed": obj.get("comment_changed") if obj.get("comment_changed") is not None else False,
+            "old_comment": obj.get("old_comment"),
+            "new_comment": obj.get("new_comment")
         })
         return _obj
 

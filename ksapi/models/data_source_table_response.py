@@ -29,25 +29,25 @@ from pydantic_core import to_jsonable_python
 
 class DataSourceTableResponse(BaseModel):
     """
-    Modeled-table response; a discriminated-union variant for listings.
+    Modeled-table response; a discriminated-union variant for listings.  The table's schema is its parent ``DataSourceSchema`` PDO; the table no longer carries a ``schema_name`` of its own.
     """ # noqa: E501
     part_type: Optional[StrictStr] = Field(default='DATA_SOURCE_TABLE', description="Path part type")
     id: UUID
     path_part_id: UUID = Field(description="DATA_SOURCE_TABLE path_part of this table")
-    parent_path_part_id: Optional[UUID] = Field(description="DATA_SOURCE path_part of the parent connector")
+    parent_path_part_id: Optional[UUID] = Field(description="DATA_SOURCE_SCHEMA path_part of the parent schema")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     tenant_id: UUID
     name: StrictStr
     data_source_id: UUID
+    data_source_schema_id: UUID = Field(description="PDO id of the parent schema this table belongs to")
     table_name: StrictStr
-    schema_name: Optional[StrictStr] = Field(default=None, description="Schema/namespace in the external DB; null = default schema")
     description: Optional[StrictStr]
     column_config: List[Dict[str, Any]]
     approval_state: PathPartApprovalState
     permissions: ItemPermissions
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "table_name", "schema_name", "description", "column_config", "approval_state", "permissions", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "data_source_schema_id", "table_name", "description", "column_config", "approval_state", "permissions", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -106,11 +106,6 @@ class DataSourceTableResponse(BaseModel):
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
 
-        # set to None if schema_name (nullable) is None
-        # and model_fields_set contains the field
-        if self.schema_name is None and "schema_name" in self.model_fields_set:
-            _dict['schema_name'] = None
-
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
@@ -136,8 +131,8 @@ class DataSourceTableResponse(BaseModel):
             "tenant_id": obj.get("tenant_id"),
             "name": obj.get("name"),
             "data_source_id": obj.get("data_source_id"),
+            "data_source_schema_id": obj.get("data_source_schema_id"),
             "table_name": obj.get("table_name"),
-            "schema_name": obj.get("schema_name"),
             "description": obj.get("description"),
             "column_config": obj.get("column_config"),
             "approval_state": obj.get("approval_state"),

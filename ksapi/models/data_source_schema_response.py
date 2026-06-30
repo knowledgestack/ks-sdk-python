@@ -17,19 +17,48 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
+from uuid import UUID
+from ksapi.models.data_source_table_response import DataSourceTableResponse
+from ksapi.models.item_permissions import ItemPermissions
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class DataSourceSchemaResponse(BaseModel):
     """
-    DataSourceSchemaResponse
+    A schema PDO under a connector, with the readable tables it contains.
     """ # noqa: E501
+    part_type: Optional[StrictStr] = Field(default='DATA_SOURCE_SCHEMA', description="Path part type")
+    id: UUID
+    path_part_id: UUID = Field(description="DATA_SOURCE_SCHEMA path_part of this schema")
+    parent_path_part_id: Optional[UUID] = Field(description="DATA_SOURCE path_part of the parent connector")
+    materialized_path: StrictStr = Field(description="Full materialized path from root")
+    tenant_id: UUID
     name: StrictStr
-    is_default: StrictBool
-    __properties: ClassVar[List[str]] = ["name", "is_default"]
+    data_source_id: UUID
+    schema_name: StrictStr = Field(description="Real namespace in the external DB")
+    is_default: StrictBool = Field(description="True for the connection's default namespace")
+    description: Optional[StrictStr]
+    approval_state: PathPartApprovalState
+    permissions: ItemPermissions
+    created_at: datetime
+    updated_at: datetime
+    tables: Optional[List[DataSourceTableResponse]] = Field(default=None, description="Readable modeled tables in this schema")
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "data_source_id", "schema_name", "is_default", "description", "approval_state", "permissions", "created_at", "updated_at", "tables"]
+
+    @field_validator('part_type')
+    def part_type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['DATA_SOURCE_SCHEMA']):
+            raise ValueError("must be one of enum values ('DATA_SOURCE_SCHEMA')")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -70,6 +99,26 @@ class DataSourceSchemaResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of permissions
+        if self.permissions:
+            _dict['permissions'] = self.permissions.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in tables (list)
+        _items = []
+        if self.tables:
+            for _item_tables in self.tables:
+                if _item_tables:
+                    _items.append(_item_tables.to_dict())
+            _dict['tables'] = _items
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
+        # set to None if description (nullable) is None
+        # and model_fields_set contains the field
+        if self.description is None and "description" in self.model_fields_set:
+            _dict['description'] = None
+
         return _dict
 
     @classmethod
@@ -82,8 +131,22 @@ class DataSourceSchemaResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "part_type": obj.get("part_type") if obj.get("part_type") is not None else 'DATA_SOURCE_SCHEMA',
+            "id": obj.get("id"),
+            "path_part_id": obj.get("path_part_id"),
+            "parent_path_part_id": obj.get("parent_path_part_id"),
+            "materialized_path": obj.get("materialized_path"),
+            "tenant_id": obj.get("tenant_id"),
             "name": obj.get("name"),
-            "is_default": obj.get("is_default")
+            "data_source_id": obj.get("data_source_id"),
+            "schema_name": obj.get("schema_name"),
+            "is_default": obj.get("is_default"),
+            "description": obj.get("description"),
+            "approval_state": obj.get("approval_state"),
+            "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,
+            "created_at": obj.get("created_at"),
+            "updated_at": obj.get("updated_at"),
+            "tables": [DataSourceTableResponse.from_dict(_item) for _item in obj["tables"]] if obj.get("tables") is not None else None
         })
         return _obj
 

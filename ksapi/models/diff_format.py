@@ -28,6 +28,8 @@ class DiffFormat(str, Enum):
     """
     TEXT = 'text'
     CELLS = 'cells'
+    STRUCTURED = 'structured'
+    DOCUMENT = 'document'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

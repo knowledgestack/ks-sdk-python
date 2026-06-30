@@ -36,7 +36,7 @@ class TestDataSourceSchemaListResponse(unittest.TestCase):
         if include_optional:
             return DataSourceSchemaListResponse(
                 schemas = [
-                    ksapi.models.data_source_schema_response.DataSourceSchemaResponse(
+                    ksapi.models.data_source_schema_list_item.DataSourceSchemaListItem(
                         name = '', 
                         is_default = True, )
                     ]
@@ -44,7 +44,7 @@ class TestDataSourceSchemaListResponse(unittest.TestCase):
         else:
             return DataSourceSchemaListResponse(
                 schemas = [
-                    ksapi.models.data_source_schema_response.DataSourceSchemaResponse(
+                    ksapi.models.data_source_schema_list_item.DataSourceSchemaListItem(
                         name = '', 
                         is_default = True, )
                     ],
