@@ -41,7 +41,10 @@ class TestCreateWorkflowDefinitionRequest(unittest.TestCase):
                 parent_path_part_id = '',
                 instruction_path_part_id = '',
                 approval_required = True,
-                is_template = True
+                is_template = True,
+                common_file_path_part_ids = [
+                    ''
+                    ]
             )
         else:
             return CreateWorkflowDefinitionRequest(

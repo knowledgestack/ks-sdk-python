@@ -60,6 +60,7 @@ from ksapi.models.clear_version_contents_response import ClearVersionContentsRes
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
 from ksapi.models.column_config import ColumnConfig
 from ksapi.models.column_reference import ColumnReference
+from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason
 from ksapi.models.connection_config import ConnectionConfig
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest
@@ -121,6 +122,7 @@ from ksapi.models.enriched_citation import EnrichedCitation
 from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageContent
 from ksapi.models.error_response import ErrorResponse
 from ksapi.models.event_response import EventResponse
+from ksapi.models.excluded_common_file import ExcludedCommonFile
 from ksapi.models.extract_request import ExtractRequest
 from ksapi.models.extract_response import ExtractResponse
 from ksapi.models.features_response import FeaturesResponse
@@ -146,6 +148,7 @@ from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.information_statistics import InformationStatistics
 from ksapi.models.ingest_document_response import IngestDocumentResponse
 from ksapi.models.ingestion_mode import IngestionMode
+from ksapi.models.input_origin import InputOrigin
 from ksapi.models.input_snapshot import InputSnapshot
 from ksapi.models.instantiate_workflow_template_request import InstantiateWorkflowTemplateRequest
 from ksapi.models.instruction_snapshot import InstructionSnapshot

@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
@@ -45,6 +45,7 @@ class WorkflowDefinitionResponse(BaseModel):
     is_active: StrictBool
     approval_required: StrictBool
     is_template: StrictBool = Field(description="Whether this definition is a non-runnable template")
+    common_file_path_part_ids: Optional[List[UUID]] = Field(default=None, description="Common files attached to every run (path_part ids). The FE renders these as 'attached to every run' on the workflow page.")
     created_from_id: Optional[UUID] = Field(description="Source definition this workflow was copied from (a template or any other workflow); null if hand-authored.")
     copy_count: Optional[StrictInt] = Field(default=0, description="Number of workflows copied from this definition.")
     approval_state: PathPartApprovalState
@@ -52,7 +53,7 @@ class WorkflowDefinitionResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "created_from_id", "copy_count", "approval_state", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "common_file_path_part_ids", "created_from_id", "copy_count", "approval_state", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -159,6 +160,7 @@ class WorkflowDefinitionResponse(BaseModel):
             "is_active": obj.get("is_active"),
             "approval_required": obj.get("approval_required"),
             "is_template": obj.get("is_template"),
+            "common_file_path_part_ids": obj.get("common_file_path_part_ids"),
             "created_from_id": obj.get("created_from_id"),
             "copy_count": obj.get("copy_count") if obj.get("copy_count") is not None else 0,
             "approval_state": obj.get("approval_state"),

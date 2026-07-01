@@ -59,6 +59,7 @@ docs/ClearVersionContentsResponse.md
 docs/CloneWorkflowRunRequest.md
 docs/ColumnConfig.md
 docs/ColumnReference.md
+docs/CommonFileExclusionReason.md
 docs/ConnectionConfig.md
 docs/CreateApiConnectionRequest.md
 docs/CreateApiKeyRequest.md
@@ -125,6 +126,7 @@ docs/EnrichedCitation.md
 docs/EnrichedThreadMessageContent.md
 docs/ErrorResponse.md
 docs/EventResponse.md
+docs/ExcludedCommonFile.md
 docs/ExtractRequest.md
 docs/ExtractResponse.md
 docs/FeaturesApi.md
@@ -153,6 +155,7 @@ docs/ImageTaxonomy.md
 docs/InformationStatistics.md
 docs/IngestDocumentResponse.md
 docs/IngestionMode.md
+docs/InputOrigin.md
 docs/InputSnapshot.md
 docs/InstantiateWorkflowTemplateRequest.md
 docs/InstructionSnapshot.md
@@ -443,6 +446,7 @@ ksapi/models/clear_version_contents_response.py
 ksapi/models/clone_workflow_run_request.py
 ksapi/models/column_config.py
 ksapi/models/column_reference.py
+ksapi/models/common_file_exclusion_reason.py
 ksapi/models/connection_config.py
 ksapi/models/create_api_connection_request.py
 ksapi/models/create_api_key_request.py
@@ -504,6 +508,7 @@ ksapi/models/enriched_citation.py
 ksapi/models/enriched_thread_message_content.py
 ksapi/models/error_response.py
 ksapi/models/event_response.py
+ksapi/models/excluded_common_file.py
 ksapi/models/extract_request.py
 ksapi/models/extract_response.py
 ksapi/models/features_response.py
@@ -529,6 +534,7 @@ ksapi/models/image_taxonomy.py
 ksapi/models/information_statistics.py
 ksapi/models/ingest_document_response.py
 ksapi/models/ingestion_mode.py
+ksapi/models/input_origin.py
 ksapi/models/input_snapshot.py
 ksapi/models/instantiate_workflow_template_request.py
 ksapi/models/instruction_snapshot.py
@@ -773,6 +779,7 @@ test/test_clear_version_contents_response.py
 test/test_clone_workflow_run_request.py
 test/test_column_config.py
 test/test_column_reference.py
+test/test_common_file_exclusion_reason.py
 test/test_connection_config.py
 test/test_create_api_connection_request.py
 test/test_create_api_key_request.py
@@ -839,6 +846,7 @@ test/test_enriched_citation.py
 test/test_enriched_thread_message_content.py
 test/test_error_response.py
 test/test_event_response.py
+test/test_excluded_common_file.py
 test/test_extract_request.py
 test/test_extract_response.py
 test/test_features_api.py
@@ -867,6 +875,7 @@ test/test_image_taxonomy.py
 test/test_information_statistics.py
 test/test_ingest_document_response.py
 test/test_ingestion_mode.py
+test/test_input_origin.py
 test/test_input_snapshot.py
 test/test_instantiate_workflow_template_request.py
 test/test_instruction_snapshot.py

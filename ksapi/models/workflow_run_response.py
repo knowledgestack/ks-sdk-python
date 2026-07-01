@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.excluded_common_file import ExcludedCommonFile
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.user_info import UserInfo
@@ -56,12 +57,13 @@ class WorkflowRunResponse(BaseModel):
     discussions_path_part_id: UUID = Field(description="FOLDER path_part of the run's ``discussions/`` subfolder")
     input_path_part_ids: Optional[List[UUID]] = Field(default=None, description="Flat list of currently-pinned KB-reference path_part ids (DOCUMENT + FOLDER). On a NOT_STARTED run this is the only surface for KB refs (run_snapshot is NULL).")
     outputs_path_part_ids: List[UUID]
+    excluded_common_files: Optional[List[ExcludedCommonFile]] = Field(default=None, description="Definition common files that were excluded from this run at Start (deleted or unreadable by the starter). Empty until Start builds the snapshot, and empty for the common happy path.")
     run_thread_id: Optional[UUID] = Field(default=None, description="The run's primary chat thread (1:1). NULL while NOT_STARTED; set by Start. The FE opens the run by opening this thread.")
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the run, or null if unowned. Usually the same user as ``triggered_by`` unless ownership was transferred.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "auto_start", "auto_start_user_message", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "auto_start", "auto_start_user_message", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "excluded_common_files", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -118,6 +120,13 @@ class WorkflowRunResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of run_snapshot
         if self.run_snapshot:
             _dict['run_snapshot'] = self.run_snapshot.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in excluded_common_files (list)
+        _items = []
+        if self.excluded_common_files:
+            for _item_excluded_common_files in self.excluded_common_files:
+                if _item_excluded_common_files:
+                    _items.append(_item_excluded_common_files.to_dict())
+            _dict['excluded_common_files'] = _items
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
@@ -203,6 +212,7 @@ class WorkflowRunResponse(BaseModel):
             "discussions_path_part_id": obj.get("discussions_path_part_id"),
             "input_path_part_ids": obj.get("input_path_part_ids"),
             "outputs_path_part_ids": obj.get("outputs_path_part_ids"),
+            "excluded_common_files": [ExcludedCommonFile.from_dict(_item) for _item in obj["excluded_common_files"]] if obj.get("excluded_common_files") is not None else None,
             "run_thread_id": obj.get("run_thread_id"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),

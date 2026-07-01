@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from typing import Optional, Set
@@ -36,7 +36,8 @@ class UpdateWorkflowDefinitionRequest(BaseModel):
     parent_path_part_id: Optional[UUID] = Field(default=None, description="FOLDER path_part to move the definition under. Pass null (or omit) to leave it where it is. The move is rejected with 409 while any run of this definition is IN_PROGRESS.")
     is_active: StrictBool
     approval_required: StrictBool
-    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "instruction_path_part_id", "parent_path_part_id", "is_active", "approval_required"]
+    common_file_path_part_ids: Optional[Annotated[List[UUID], Field(max_length=20)]] = Field(default=None, description="Common files attached to every run (DOCUMENT / FOLDER / DATA_SOURCE / API_CONNECTION path_part ids). Like ``instruction_path_part_id``, this is the exception to PUT semantics: null (or omit) retains the stored list; pass [] to clear; pass a list to replace it wholesale. The caller must be able to read each one.")
+    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "instruction_path_part_id", "parent_path_part_id", "is_active", "approval_required", "common_file_path_part_ids"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,6 +93,11 @@ class UpdateWorkflowDefinitionRequest(BaseModel):
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
 
+        # set to None if common_file_path_part_ids (nullable) is None
+        # and model_fields_set contains the field
+        if self.common_file_path_part_ids is None and "common_file_path_part_ids" in self.model_fields_set:
+            _dict['common_file_path_part_ids'] = None
+
         return _dict
 
     @classmethod
@@ -110,7 +116,8 @@ class UpdateWorkflowDefinitionRequest(BaseModel):
             "instruction_path_part_id": obj.get("instruction_path_part_id"),
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "is_active": obj.get("is_active"),
-            "approval_required": obj.get("approval_required")
+            "approval_required": obj.get("approval_required"),
+            "common_file_path_part_ids": obj.get("common_file_path_part_ids")
         })
         return _obj
 

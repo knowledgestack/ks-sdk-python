@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.119.0"
+__version__ = "1.120.0"
 
 # Define package exports
 __all__ = [
@@ -109,6 +109,7 @@ __all__ = [
     "CloneWorkflowRunRequest",
     "ColumnConfig",
     "ColumnReference",
+    "CommonFileExclusionReason",
     "ConnectionConfig",
     "CreateApiConnectionRequest",
     "CreateApiKeyRequest",
@@ -170,6 +171,7 @@ __all__ = [
     "EnrichedThreadMessageContent",
     "ErrorResponse",
     "EventResponse",
+    "ExcludedCommonFile",
     "ExtractRequest",
     "ExtractResponse",
     "FeaturesResponse",
@@ -195,6 +197,7 @@ __all__ = [
     "InformationStatistics",
     "IngestDocumentResponse",
     "IngestionMode",
+    "InputOrigin",
     "InputSnapshot",
     "InstantiateWorkflowTemplateRequest",
     "InstructionSnapshot",
@@ -474,6 +477,7 @@ from ksapi.models.clear_version_contents_response import ClearVersionContentsRes
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest as CloneWorkflowRunRequest
 from ksapi.models.column_config import ColumnConfig as ColumnConfig
 from ksapi.models.column_reference import ColumnReference as ColumnReference
+from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason as CommonFileExclusionReason
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest as CreateApiKeyRequest
@@ -535,6 +539,7 @@ from ksapi.models.enriched_citation import EnrichedCitation as EnrichedCitation
 from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageContent as EnrichedThreadMessageContent
 from ksapi.models.error_response import ErrorResponse as ErrorResponse
 from ksapi.models.event_response import EventResponse as EventResponse
+from ksapi.models.excluded_common_file import ExcludedCommonFile as ExcludedCommonFile
 from ksapi.models.extract_request import ExtractRequest as ExtractRequest
 from ksapi.models.extract_response import ExtractResponse as ExtractResponse
 from ksapi.models.features_response import FeaturesResponse as FeaturesResponse
@@ -560,6 +565,7 @@ from ksapi.models.image_taxonomy import ImageTaxonomy as ImageTaxonomy
 from ksapi.models.information_statistics import InformationStatistics as InformationStatistics
 from ksapi.models.ingest_document_response import IngestDocumentResponse as IngestDocumentResponse
 from ksapi.models.ingestion_mode import IngestionMode as IngestionMode
+from ksapi.models.input_origin import InputOrigin as InputOrigin
 from ksapi.models.input_snapshot import InputSnapshot as InputSnapshot
 from ksapi.models.instantiate_workflow_template_request import InstantiateWorkflowTemplateRequest as InstantiateWorkflowTemplateRequest
 from ksapi.models.instruction_snapshot import InstructionSnapshot as InstructionSnapshot

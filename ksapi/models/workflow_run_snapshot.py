@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from ksapi.models.excluded_common_file import ExcludedCommonFile
 from ksapi.models.input_snapshot import InputSnapshot
 from ksapi.models.instruction_snapshot import InstructionSnapshot
 from typing import Optional, Set
@@ -34,8 +35,9 @@ class WorkflowRunSnapshot(BaseModel):
     max_run_duration_seconds: StrictInt
     instruction: InstructionSnapshot
     inputs: List[InputSnapshot]
+    excluded_common_files: Optional[List[ExcludedCommonFile]] = Field(default=None, description="Definition common files left out of this run at Start (deleted or unreadable by the starter), each with its exclusion reason. Empty for the common happy path; pre-feature snapshots default to empty.")
     user_message: Optional[Annotated[str, Field(strict=True, max_length=4000)]] = Field(default=None, description="Optional free-text message the caller supplied at Start. Pinned here so the runner injects it into the agent's first user turn and it survives retry, redrive, and workflow-thread follow-ups (all of which re-assemble the prompt from this snapshot).")
-    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "user_message"]
+    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "excluded_common_files", "user_message"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,6 +88,13 @@ class WorkflowRunSnapshot(BaseModel):
                 if _item_inputs:
                     _items.append(_item_inputs.to_dict())
             _dict['inputs'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in excluded_common_files (list)
+        _items = []
+        if self.excluded_common_files:
+            for _item_excluded_common_files in self.excluded_common_files:
+                if _item_excluded_common_files:
+                    _items.append(_item_excluded_common_files.to_dict())
+            _dict['excluded_common_files'] = _items
         # set to None if user_message (nullable) is None
         # and model_fields_set contains the field
         if self.user_message is None and "user_message" in self.model_fields_set:
@@ -107,6 +116,7 @@ class WorkflowRunSnapshot(BaseModel):
             "max_run_duration_seconds": obj.get("max_run_duration_seconds"),
             "instruction": InstructionSnapshot.from_dict(obj["instruction"]) if obj.get("instruction") is not None else None,
             "inputs": [InputSnapshot.from_dict(_item) for _item in obj["inputs"]] if obj.get("inputs") is not None else None,
+            "excluded_common_files": [ExcludedCommonFile.from_dict(_item) for _item in obj["excluded_common_files"]] if obj.get("excluded_common_files") is not None else None,
             "user_message": obj.get("user_message")
         })
         return _obj

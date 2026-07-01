@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.input_snapshot import InputSnapshot
+from ksapi.models.excluded_common_file import ExcludedCommonFile
 
-class TestInputSnapshot(unittest.TestCase):
-    """InputSnapshot unit test stubs"""
+class TestExcludedCommonFile(unittest.TestCase):
+    """ExcludedCommonFile unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,31 +25,28 @@ class TestInputSnapshot(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> InputSnapshot:
-        """Test InputSnapshot
+    def make_instance(self, include_optional) -> ExcludedCommonFile:
+        """Test ExcludedCommonFile
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `InputSnapshot`
+        # uncomment below to create an instance of `ExcludedCommonFile`
         """
-        model = InputSnapshot()
+        model = ExcludedCommonFile()
         if include_optional:
-            return InputSnapshot(
+            return ExcludedCommonFile(
                 path_part_id = '',
-                materialized_path = '',
-                part_type = 'DOCUMENT_VERSION',
-                origin = 'DEFINITION_COMMON'
+                reason = 'NOT_FOUND'
             )
         else:
-            return InputSnapshot(
+            return ExcludedCommonFile(
                 path_part_id = '',
-                materialized_path = '',
-                part_type = 'DOCUMENT_VERSION',
+                reason = 'NOT_FOUND',
         )
         """
 
-    def testInputSnapshot(self):
-        """Test InputSnapshot"""
+    def testExcludedCommonFile(self):
+        """Test ExcludedCommonFile"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

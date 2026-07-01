@@ -46,7 +46,13 @@ class TestWorkflowRunSnapshot(unittest.TestCase):
                     ksapi.models.input_snapshot.InputSnapshot(
                         path_part_id = '', 
                         materialized_path = '', 
-                        part_type = 'DOCUMENT_VERSION', )
+                        part_type = 'DOCUMENT_VERSION', 
+                        origin = 'DEFINITION_COMMON', )
+                    ],
+                excluded_common_files = [
+                    ksapi.models.excluded_common_file.ExcludedCommonFile(
+                        path_part_id = '', 
+                        reason = 'NOT_FOUND', )
                     ],
                 user_message = ''
             )
@@ -63,7 +69,8 @@ class TestWorkflowRunSnapshot(unittest.TestCase):
                     ksapi.models.input_snapshot.InputSnapshot(
                         path_part_id = '', 
                         materialized_path = '', 
-                        part_type = 'DOCUMENT_VERSION', )
+                        part_type = 'DOCUMENT_VERSION', 
+                        origin = 'DEFINITION_COMMON', )
                     ],
         )
         """

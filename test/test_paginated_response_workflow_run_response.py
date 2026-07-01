@@ -66,6 +66,11 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                         outputs_path_part_ids = [
                             ''
                             ], 
+                        excluded_common_files = [
+                            ksapi.models.excluded_common_file.ExcludedCommonFile(
+                                path_part_id = '', 
+                                reason = 'NOT_FOUND', )
+                            ], 
                         run_thread_id = '', 
                         owner = null, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
@@ -108,6 +113,11 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                             ], 
                         outputs_path_part_ids = [
                             ''
+                            ], 
+                        excluded_common_files = [
+                            ksapi.models.excluded_common_file.ExcludedCommonFile(
+                                path_part_id = '', 
+                                reason = 'NOT_FOUND', )
                             ], 
                         run_thread_id = '', 
                         owner = null, 

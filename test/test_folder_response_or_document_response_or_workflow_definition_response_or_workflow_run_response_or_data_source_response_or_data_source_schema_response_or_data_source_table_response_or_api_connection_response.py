@@ -129,6 +129,9 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 is_active = True,
                 approval_required = True,
                 is_template = True,
+                common_file_path_part_ids = [
+                    ''
+                    ],
                 created_from_id = '',
                 copy_count = 56,
                 workflow_definition_id = '',
@@ -151,7 +154,13 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         ksapi.models.input_snapshot.InputSnapshot(
                             path_part_id = '', 
                             materialized_path = '', 
-                            part_type = 'DOCUMENT_VERSION', )
+                            part_type = 'DOCUMENT_VERSION', 
+                            origin = 'DEFINITION_COMMON', )
+                        ], 
+                    excluded_common_files = [
+                        ksapi.models.excluded_common_file.ExcludedCommonFile(
+                            path_part_id = '', 
+                            reason = 'NOT_FOUND', )
                         ], 
                     user_message = '', ),
                 error = '',
@@ -165,6 +174,11 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     ],
                 outputs_path_part_ids = [
                     ''
+                    ],
+                excluded_common_files = [
+                    ksapi.models.excluded_common_file.ExcludedCommonFile(
+                        path_part_id = '', 
+                        reason = 'NOT_FOUND', )
                     ],
                 run_thread_id = '',
                 engine = 'MYSQL',
@@ -303,7 +317,13 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         ksapi.models.input_snapshot.InputSnapshot(
                             path_part_id = '', 
                             materialized_path = '', 
-                            part_type = 'DOCUMENT_VERSION', )
+                            part_type = 'DOCUMENT_VERSION', 
+                            origin = 'DEFINITION_COMMON', )
+                        ], 
+                    excluded_common_files = [
+                        ksapi.models.excluded_common_file.ExcludedCommonFile(
+                            path_part_id = '', 
+                            reason = 'NOT_FOUND', )
                         ], 
                     user_message = '', ),
                 error = '',

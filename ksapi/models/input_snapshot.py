@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.input_origin import InputOrigin
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -31,7 +32,8 @@ class InputSnapshot(BaseModel):
     path_part_id: UUID = Field(description="DOCUMENT_VERSION path_part of the pinned input version, or the path_part of a live FOLDER / DATA_SOURCE / API_CONNECTION reference — see ``part_type``.")
     materialized_path: StrictStr
     part_type: StrictStr
-    __properties: ClassVar[List[str]] = ["path_part_id", "materialized_path", "part_type"]
+    origin: Optional[InputOrigin] = None
+    __properties: ClassVar[List[str]] = ["path_part_id", "materialized_path", "part_type", "origin"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -93,7 +95,8 @@ class InputSnapshot(BaseModel):
         _obj = cls.model_validate({
             "path_part_id": obj.get("path_part_id"),
             "materialized_path": obj.get("materialized_path"),
-            "part_type": obj.get("part_type")
+            "part_type": obj.get("part_type"),
+            "origin": obj.get("origin")
         })
         return _obj
 

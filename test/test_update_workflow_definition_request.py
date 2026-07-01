@@ -41,7 +41,10 @@ class TestUpdateWorkflowDefinitionRequest(unittest.TestCase):
                 instruction_path_part_id = '',
                 parent_path_part_id = '',
                 is_active = True,
-                approval_required = True
+                approval_required = True,
+                common_file_path_part_ids = [
+                    ''
+                    ]
             )
         else:
             return UpdateWorkflowDefinitionRequest(

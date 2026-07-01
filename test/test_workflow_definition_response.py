@@ -48,6 +48,9 @@ class TestWorkflowDefinitionResponse(unittest.TestCase):
                 is_active = True,
                 approval_required = True,
                 is_template = True,
+                common_file_path_part_ids = [
+                    ''
+                    ],
                 created_from_id = '',
                 copy_count = 56,
                 approval_state = 'not_required',
