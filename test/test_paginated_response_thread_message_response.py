@@ -65,9 +65,6 @@ class TestPaginatedResponseThreadMessageResponse(unittest.TestCase):
                                     materialized_path = '', )
                                 ], ), 
                         details = null, 
-                        parts = [
-                            null
-                            ], 
                         parent_path_id = '', 
                         materialized_path = '', 
                         tenant_id = '', 
@@ -111,9 +108,6 @@ class TestPaginatedResponseThreadMessageResponse(unittest.TestCase):
                                     materialized_path = '', )
                                 ], ), 
                         details = null, 
-                        parts = [
-                            null
-                            ], 
                         parent_path_id = '', 
                         materialized_path = '', 
                         tenant_id = '', 
