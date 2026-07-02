@@ -17,25 +17,26 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict
 from uuid import UUID
-from ksapi.models.message_role import MessageRole
-from ksapi.models.thread_message_content import ThreadMessageContent
-from ksapi.models.thread_message_details import ThreadMessageDetails
+from ksapi.models.part_type import PartType
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateThreadMessageRequest(BaseModel):
+class WorkflowRunAsset(BaseModel):
     """
-    CreateThreadMessageRequest
+    One input or output file/reference of a run, actionable in one call.  ``id`` is the PDO id (``path_part.metadata_obj_id``); ``path_part_id`` is the underlying path part (kept for approval-state / path-part lookups). Route on ``part_type`` to pick the API that takes ``id``: ``DOCUMENT`` → download_document / bulk-download (active version); ``DOCUMENT_VERSION`` → download_document_version (a version-pinned input, e.g. a cloned run's inputs); ``FOLDER`` / ``DATA_SOURCE`` / ``API_CONNECTION`` → list/query via that type's endpoint. Output assets are always ``DOCUMENT``.
     """ # noqa: E501
-    message_id: Optional[UUID] = Field(default=None, description="Optional caller-supplied ThreadMessage ID for idempotent creates.")
-    role: MessageRole
-    content: ThreadMessageContent
-    details: Optional[ThreadMessageDetails] = Field(default=None, description="Message details (execution steps). Omit for user messages.")
-    __properties: ClassVar[List[str]] = ["message_id", "role", "content", "details"]
+    id: UUID = Field(description="PDO id accepted by the download / list-contents APIs")
+    path_part_id: UUID
+    name: StrictStr
+    part_type: PartType
+    materialized_path: StrictStr
+    approval_state: PathPartApprovalState
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "name", "part_type", "materialized_path", "approval_state"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -55,7 +56,7 @@ class CreateThreadMessageRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateThreadMessageRequest from a JSON string"""
+        """Create an instance of WorkflowRunAsset from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,27 +77,11 @@ class CreateThreadMessageRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of content
-        if self.content:
-            _dict['content'] = self.content.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of details
-        if self.details:
-            _dict['details'] = self.details.to_dict()
-        # set to None if message_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.message_id is None and "message_id" in self.model_fields_set:
-            _dict['message_id'] = None
-
-        # set to None if details (nullable) is None
-        # and model_fields_set contains the field
-        if self.details is None and "details" in self.model_fields_set:
-            _dict['details'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateThreadMessageRequest from a dict"""
+        """Create an instance of WorkflowRunAsset from a dict"""
         if obj is None:
             return None
 
@@ -104,10 +89,12 @@ class CreateThreadMessageRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "message_id": obj.get("message_id"),
-            "role": obj.get("role"),
-            "content": ThreadMessageContent.from_dict(obj["content"]) if obj.get("content") is not None else None,
-            "details": ThreadMessageDetails.from_dict(obj["details"]) if obj.get("details") is not None else None
+            "id": obj.get("id"),
+            "path_part_id": obj.get("path_part_id"),
+            "name": obj.get("name"),
+            "part_type": obj.get("part_type"),
+            "materialized_path": obj.get("materialized_path"),
+            "approval_state": obj.get("approval_state")
         })
         return _obj
 

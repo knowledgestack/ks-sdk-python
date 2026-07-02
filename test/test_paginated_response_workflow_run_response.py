@@ -63,9 +63,26 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                         input_path_part_ids = [
                             ''
                             ], 
-                        outputs_path_part_ids = [
-                            ''
+                        output_assets = [
+                            ksapi.models.workflow_run_asset.WorkflowRunAsset(
+                                id = '', 
+                                path_part_id = '', 
+                                name = '', 
+                                part_type = 'FOLDER', 
+                                materialized_path = '', 
+                                approval_state = 'not_required', )
                             ], 
+                        input_assets = [
+                            ksapi.models.workflow_run_asset.WorkflowRunAsset(
+                                id = '', 
+                                path_part_id = '', 
+                                name = '', 
+                                part_type = 'FOLDER', 
+                                materialized_path = '', 
+                                approval_state = , )
+                            ], 
+                        inputs_path = '', 
+                        outputs_path = '', 
                         excluded_common_files = [
                             ksapi.models.excluded_common_file.ExcludedCommonFile(
                                 path_part_id = '', 
@@ -111,9 +128,26 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                         input_path_part_ids = [
                             ''
                             ], 
-                        outputs_path_part_ids = [
-                            ''
+                        output_assets = [
+                            ksapi.models.workflow_run_asset.WorkflowRunAsset(
+                                id = '', 
+                                path_part_id = '', 
+                                name = '', 
+                                part_type = 'FOLDER', 
+                                materialized_path = '', 
+                                approval_state = 'not_required', )
                             ], 
+                        input_assets = [
+                            ksapi.models.workflow_run_asset.WorkflowRunAsset(
+                                id = '', 
+                                path_part_id = '', 
+                                name = '', 
+                                part_type = 'FOLDER', 
+                                materialized_path = '', 
+                                approval_state = , )
+                            ], 
+                        inputs_path = '', 
+                        outputs_path = '', 
                         excluded_common_files = [
                             ksapi.models.excluded_common_file.ExcludedCommonFile(
                                 path_part_id = '', 

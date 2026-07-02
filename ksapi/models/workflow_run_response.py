@@ -26,6 +26,7 @@ from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.user_info import UserInfo
 from ksapi.models.workflow_execution_state import WorkflowExecutionState
+from ksapi.models.workflow_run_asset import WorkflowRunAsset
 from ksapi.models.workflow_run_snapshot import WorkflowRunSnapshot
 from typing import Optional, Set
 from typing_extensions import Self
@@ -56,14 +57,17 @@ class WorkflowRunResponse(BaseModel):
     outputs_path_part_id: UUID = Field(description="FOLDER path_part of the run's ``outputs/`` subfolder")
     discussions_path_part_id: UUID = Field(description="FOLDER path_part of the run's ``discussions/`` subfolder")
     input_path_part_ids: Optional[List[UUID]] = Field(default=None, description="Flat list of currently-pinned KB-reference path_part ids (DOCUMENT + FOLDER). On a NOT_STARTED run this is the only surface for KB refs (run_snapshot is NULL).")
-    outputs_path_part_ids: List[UUID]
+    output_assets: Optional[List[WorkflowRunAsset]] = Field(default=None, description="Generated files under ``outputs/`` (recursing nested folders), each carrying the DOCUMENT PDO ``id`` to feed straight to download / bulk-download. Empty until the run produces output.")
+    input_assets: Optional[List[WorkflowRunAsset]] = Field(default=None, description="The run's input context: pinned KB references (``input_path_part_ids``) plus any files uploaded under ``inputs/``, each resolved to its PDO ``id`` + metadata.")
+    inputs_path: StrictStr = Field(description="Full materialized path of the run's ``inputs/`` folder")
+    outputs_path: StrictStr = Field(description="Full materialized path of the run's ``outputs/`` folder")
     excluded_common_files: Optional[List[ExcludedCommonFile]] = Field(default=None, description="Definition common files that were excluded from this run at Start (deleted or unreadable by the starter). Empty until Start builds the snapshot, and empty for the common happy path.")
     run_thread_id: Optional[UUID] = Field(default=None, description="The run's primary chat thread (1:1). NULL while NOT_STARTED; set by Start. The FE opens the run by opening this thread.")
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the run, or null if unowned. Usually the same user as ``triggered_by`` unless ownership was transferred.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "auto_start", "auto_start_user_message", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "outputs_path_part_ids", "excluded_common_files", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "auto_start", "auto_start_user_message", "inputs_path_part_id", "outputs_path_part_id", "discussions_path_part_id", "input_path_part_ids", "output_assets", "input_assets", "inputs_path", "outputs_path", "excluded_common_files", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -120,6 +124,20 @@ class WorkflowRunResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of run_snapshot
         if self.run_snapshot:
             _dict['run_snapshot'] = self.run_snapshot.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in output_assets (list)
+        _items = []
+        if self.output_assets:
+            for _item_output_assets in self.output_assets:
+                if _item_output_assets:
+                    _items.append(_item_output_assets.to_dict())
+            _dict['output_assets'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in input_assets (list)
+        _items = []
+        if self.input_assets:
+            for _item_input_assets in self.input_assets:
+                if _item_input_assets:
+                    _items.append(_item_input_assets.to_dict())
+            _dict['input_assets'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in excluded_common_files (list)
         _items = []
         if self.excluded_common_files:
@@ -211,7 +229,10 @@ class WorkflowRunResponse(BaseModel):
             "outputs_path_part_id": obj.get("outputs_path_part_id"),
             "discussions_path_part_id": obj.get("discussions_path_part_id"),
             "input_path_part_ids": obj.get("input_path_part_ids"),
-            "outputs_path_part_ids": obj.get("outputs_path_part_ids"),
+            "output_assets": [WorkflowRunAsset.from_dict(_item) for _item in obj["output_assets"]] if obj.get("output_assets") is not None else None,
+            "input_assets": [WorkflowRunAsset.from_dict(_item) for _item in obj["input_assets"]] if obj.get("input_assets") is not None else None,
+            "inputs_path": obj.get("inputs_path"),
+            "outputs_path": obj.get("outputs_path"),
             "excluded_common_files": [ExcludedCommonFile.from_dict(_item) for _item in obj["excluded_common_files"]] if obj.get("excluded_common_files") is not None else None,
             "run_thread_id": obj.get("run_thread_id"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,

@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.120.1"
+__version__ = "1.121.0"
 
 # Define package exports
 __all__ = [
@@ -147,6 +147,7 @@ __all__ = [
     "DirectorySyncResponse",
     "DisplayNameFormat",
     "DissolveSectionResponse",
+    "DocEditPart",
     "DocumentBlockChange",
     "DocumentCheckoutResponse",
     "DocumentDiff",
@@ -197,6 +198,7 @@ __all__ = [
     "InformationStatistics",
     "IngestDocumentResponse",
     "IngestionMode",
+    "Input",
     "InputOrigin",
     "InputSnapshot",
     "InstantiateWorkflowTemplateRequest",
@@ -218,6 +220,7 @@ __all__ = [
     "MemoryKind",
     "MemoryScope",
     "MessageRole",
+    "MessageUsage",
     "MeteredQuotaStatus",
     "ModelTableRequest",
     "ModelTableResult",
@@ -272,6 +275,7 @@ __all__ = [
     "PolygonReference",
     "ProposeMemoryChunkRequest",
     "ProposedMemoryChunkResponse",
+    "ReasoningPart",
     "ReferenceType",
     "RequestPhoneChangeRequest",
     "ResolvedReferenceInput",
@@ -296,9 +300,8 @@ __all__ = [
     "SignInRequest",
     "SortDirection",
     "StartWorkflowRunRequest",
-    "StepInput",
+    "Step",
     "StepKind",
-    "StepOutput",
     "StructuredChange",
     "StructuredChangeType",
     "StructuredDiff",
@@ -324,12 +327,15 @@ __all__ = [
     "TenantUserResponse",
     "TenantUserRole",
     "TextDiff",
+    "TextPart",
+    "TextPartOrReasoningPartOrToolPartOrDocEditPart",
     "ThreadMessageContent",
-    "ThreadMessageDetailsInput",
-    "ThreadMessageDetailsOutput",
+    "ThreadMessageDetails",
     "ThreadMessageResponse",
     "ThreadOrder",
     "ThreadResponse",
+    "ToolPart",
+    "ToolStatus",
     "TransferOwnerRequest",
     "TransferOwnerResponse",
     "TrashItemResponse",
@@ -369,6 +375,7 @@ __all__ = [
     "WorkflowDefinitionResponse",
     "WorkflowDetailResponse",
     "WorkflowExecutionState",
+    "WorkflowRunAsset",
     "WorkflowRunCallbackRequest",
     "WorkflowRunOrder",
     "WorkflowRunResponse",
@@ -515,6 +522,7 @@ from ksapi.models.diff_span import DiffSpan as DiffSpan
 from ksapi.models.directory_sync_response import DirectorySyncResponse as DirectorySyncResponse
 from ksapi.models.display_name_format import DisplayNameFormat as DisplayNameFormat
 from ksapi.models.dissolve_section_response import DissolveSectionResponse as DissolveSectionResponse
+from ksapi.models.doc_edit_part import DocEditPart as DocEditPart
 from ksapi.models.document_block_change import DocumentBlockChange as DocumentBlockChange
 from ksapi.models.document_checkout_response import DocumentCheckoutResponse as DocumentCheckoutResponse
 from ksapi.models.document_diff import DocumentDiff as DocumentDiff
@@ -565,6 +573,7 @@ from ksapi.models.image_taxonomy import ImageTaxonomy as ImageTaxonomy
 from ksapi.models.information_statistics import InformationStatistics as InformationStatistics
 from ksapi.models.ingest_document_response import IngestDocumentResponse as IngestDocumentResponse
 from ksapi.models.ingestion_mode import IngestionMode as IngestionMode
+from ksapi.models.input import Input as Input
 from ksapi.models.input_origin import InputOrigin as InputOrigin
 from ksapi.models.input_snapshot import InputSnapshot as InputSnapshot
 from ksapi.models.instantiate_workflow_template_request import InstantiateWorkflowTemplateRequest as InstantiateWorkflowTemplateRequest
@@ -586,6 +595,7 @@ from ksapi.models.memory_chunk_response import MemoryChunkResponse as MemoryChun
 from ksapi.models.memory_kind import MemoryKind as MemoryKind
 from ksapi.models.memory_scope import MemoryScope as MemoryScope
 from ksapi.models.message_role import MessageRole as MessageRole
+from ksapi.models.message_usage import MessageUsage as MessageUsage
 from ksapi.models.metered_quota_status import MeteredQuotaStatus as MeteredQuotaStatus
 from ksapi.models.model_table_request import ModelTableRequest as ModelTableRequest
 from ksapi.models.model_table_result import ModelTableResult as ModelTableResult
@@ -640,6 +650,7 @@ from ksapi.models.polygon import Polygon as Polygon
 from ksapi.models.polygon_reference import PolygonReference as PolygonReference
 from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest as ProposeMemoryChunkRequest
 from ksapi.models.proposed_memory_chunk_response import ProposedMemoryChunkResponse as ProposedMemoryChunkResponse
+from ksapi.models.reasoning_part import ReasoningPart as ReasoningPart
 from ksapi.models.reference_type import ReferenceType as ReferenceType
 from ksapi.models.request_phone_change_request import RequestPhoneChangeRequest as RequestPhoneChangeRequest
 from ksapi.models.resolved_reference_input import ResolvedReferenceInput as ResolvedReferenceInput
@@ -664,9 +675,8 @@ from ksapi.models.sheet_visibility_change import SheetVisibilityChange as SheetV
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
 from ksapi.models.sort_direction import SortDirection as SortDirection
 from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest as StartWorkflowRunRequest
-from ksapi.models.step_input import StepInput as StepInput
+from ksapi.models.step import Step as Step
 from ksapi.models.step_kind import StepKind as StepKind
-from ksapi.models.step_output import StepOutput as StepOutput
 from ksapi.models.structured_change import StructuredChange as StructuredChange
 from ksapi.models.structured_change_type import StructuredChangeType as StructuredChangeType
 from ksapi.models.structured_diff import StructuredDiff as StructuredDiff
@@ -692,12 +702,15 @@ from ksapi.models.tenant_user_order import TenantUserOrder as TenantUserOrder
 from ksapi.models.tenant_user_response import TenantUserResponse as TenantUserResponse
 from ksapi.models.tenant_user_role import TenantUserRole as TenantUserRole
 from ksapi.models.text_diff import TextDiff as TextDiff
+from ksapi.models.text_part import TextPart as TextPart
+from ksapi.models.text_part_or_reasoning_part_or_tool_part_or_doc_edit_part import TextPartOrReasoningPartOrToolPartOrDocEditPart as TextPartOrReasoningPartOrToolPartOrDocEditPart
 from ksapi.models.thread_message_content import ThreadMessageContent as ThreadMessageContent
-from ksapi.models.thread_message_details_input import ThreadMessageDetailsInput as ThreadMessageDetailsInput
-from ksapi.models.thread_message_details_output import ThreadMessageDetailsOutput as ThreadMessageDetailsOutput
+from ksapi.models.thread_message_details import ThreadMessageDetails as ThreadMessageDetails
 from ksapi.models.thread_message_response import ThreadMessageResponse as ThreadMessageResponse
 from ksapi.models.thread_order import ThreadOrder as ThreadOrder
 from ksapi.models.thread_response import ThreadResponse as ThreadResponse
+from ksapi.models.tool_part import ToolPart as ToolPart
+from ksapi.models.tool_status import ToolStatus as ToolStatus
 from ksapi.models.transfer_owner_request import TransferOwnerRequest as TransferOwnerRequest
 from ksapi.models.transfer_owner_response import TransferOwnerResponse as TransferOwnerResponse
 from ksapi.models.trash_item_response import TrashItemResponse as TrashItemResponse
@@ -737,6 +750,7 @@ from ksapi.models.workflow_definition_order import WorkflowDefinitionOrder as Wo
 from ksapi.models.workflow_definition_response import WorkflowDefinitionResponse as WorkflowDefinitionResponse
 from ksapi.models.workflow_detail_response import WorkflowDetailResponse as WorkflowDetailResponse
 from ksapi.models.workflow_execution_state import WorkflowExecutionState as WorkflowExecutionState
+from ksapi.models.workflow_run_asset import WorkflowRunAsset as WorkflowRunAsset
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest as WorkflowRunCallbackRequest
 from ksapi.models.workflow_run_order import WorkflowRunOrder as WorkflowRunOrder
 from ksapi.models.workflow_run_response import WorkflowRunResponse as WorkflowRunResponse

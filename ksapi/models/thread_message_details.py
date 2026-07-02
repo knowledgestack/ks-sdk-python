@@ -21,19 +21,23 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from ksapi.models.checkpoint_details import CheckpointDetails
-from ksapi.models.step_output import StepOutput
+from ksapi.models.message_usage import MessageUsage
+from ksapi.models.step import Step
+from ksapi.models.text_part_or_reasoning_part_or_tool_part_or_doc_edit_part import TextPartOrReasoningPartOrToolPartOrDocEditPart
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class ThreadMessageDetailsOutput(BaseModel):
+class ThreadMessageDetails(BaseModel):
     """
-    ThreadMessageDetailsOutput
+    ThreadMessageDetails
     """ # noqa: E501
-    steps: Optional[List[StepOutput]] = None
+    parts: Optional[List[TextPartOrReasoningPartOrToolPartOrDocEditPart]] = None
+    usage: Optional[MessageUsage] = None
+    steps: Optional[List[Step]] = None
     checkpoint: Optional[CheckpointDetails] = Field(default=None, description="Agent history checkpoint. Present only on role=SYSTEM messages written by the agent's archival path.")
     model_id: Optional[Annotated[str, Field(strict=True, max_length=64)]] = Field(default=None, description="Model registry id (FE-stable, e.g. ``qwen-flash``) that produced this assistant message. ``None`` for legacy rows that pre-date model selection.")
-    __properties: ClassVar[List[str]] = ["steps", "checkpoint", "model_id"]
+    __properties: ClassVar[List[str]] = ["parts", "usage", "steps", "checkpoint", "model_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -53,7 +57,7 @@ class ThreadMessageDetailsOutput(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ThreadMessageDetailsOutput from a JSON string"""
+        """Create an instance of ThreadMessageDetails from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,6 +78,16 @@ class ThreadMessageDetailsOutput(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in parts (list)
+        _items = []
+        if self.parts:
+            for _item_parts in self.parts:
+                if _item_parts:
+                    _items.append(_item_parts.to_dict())
+            _dict['parts'] = _items
+        # override the default output from pydantic by calling `to_dict()` of usage
+        if self.usage:
+            _dict['usage'] = self.usage.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in steps (list)
         _items = []
         if self.steps:
@@ -84,6 +98,11 @@ class ThreadMessageDetailsOutput(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of checkpoint
         if self.checkpoint:
             _dict['checkpoint'] = self.checkpoint.to_dict()
+        # set to None if usage (nullable) is None
+        # and model_fields_set contains the field
+        if self.usage is None and "usage" in self.model_fields_set:
+            _dict['usage'] = None
+
         # set to None if checkpoint (nullable) is None
         # and model_fields_set contains the field
         if self.checkpoint is None and "checkpoint" in self.model_fields_set:
@@ -98,7 +117,7 @@ class ThreadMessageDetailsOutput(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ThreadMessageDetailsOutput from a dict"""
+        """Create an instance of ThreadMessageDetails from a dict"""
         if obj is None:
             return None
 
@@ -106,7 +125,9 @@ class ThreadMessageDetailsOutput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "steps": [StepOutput.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None,
+            "parts": [TextPartOrReasoningPartOrToolPartOrDocEditPart.from_dict(_item) for _item in obj["parts"]] if obj.get("parts") is not None else None,
+            "usage": MessageUsage.from_dict(obj["usage"]) if obj.get("usage") is not None else None,
+            "steps": [Step.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None,
             "checkpoint": CheckpointDetails.from_dict(obj["checkpoint"]) if obj.get("checkpoint") is not None else None,
             "model_id": obj.get("model_id")
         })

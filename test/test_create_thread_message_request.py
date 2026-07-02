@@ -55,6 +55,10 @@ class TestCreateThreadMessageRequest(unittest.TestCase):
                             materialized_path = '', )
                         ], ),
                 details = ksapi.models.thread_message_details.ThreadMessageDetails(
+                    parts = [
+                        null
+                        ], 
+                    usage = null, 
                     steps = [
                         ksapi.models.step.Step(
                             id = '', 
@@ -63,19 +67,7 @@ class TestCreateThreadMessageRequest(unittest.TestCase):
                             args = null, 
                             detail = '', 
                             start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                            end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                            steps = [
-                                ksapi.models.step.Step(
-                                    id = '', 
-                                    name = '', 
-                                    kind = 'reasoning', 
-                                    detail = '', 
-                                    start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                    end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                    steps = [
-                                        
-                                        ], )
-                                ], )
+                            end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                         ], 
                     checkpoint = null, 
                     model_id = '', )

@@ -99,6 +99,7 @@ docs/DiffSpan.md
 docs/DirectorySyncResponse.md
 docs/DisplayNameFormat.md
 docs/DissolveSectionResponse.md
+docs/DocEditPart.md
 docs/DocumentBlockChange.md
 docs/DocumentCheckoutApi.md
 docs/DocumentCheckoutResponse.md
@@ -155,6 +156,7 @@ docs/ImageTaxonomy.md
 docs/InformationStatistics.md
 docs/IngestDocumentResponse.md
 docs/IngestionMode.md
+docs/Input.md
 docs/InputOrigin.md
 docs/InputSnapshot.md
 docs/InstantiateWorkflowTemplateRequest.md
@@ -178,6 +180,7 @@ docs/MemoryChunkResponse.md
 docs/MemoryKind.md
 docs/MemoryScope.md
 docs/MessageRole.md
+docs/MessageUsage.md
 docs/MeteredQuotaStatus.md
 docs/ModelTableRequest.md
 docs/ModelTableResult.md
@@ -235,6 +238,7 @@ docs/PolygonReference.md
 docs/ProposeMemoryChunkRequest.md
 docs/ProposedMemoryChunkResponse.md
 docs/PublicApi.md
+docs/ReasoningPart.md
 docs/ReferenceType.md
 docs/RequestPhoneChangeRequest.md
 docs/ResolvedReferenceInput.md
@@ -260,9 +264,8 @@ docs/SheetVisibilityChange.md
 docs/SignInRequest.md
 docs/SortDirection.md
 docs/StartWorkflowRunRequest.md
-docs/StepInput.md
+docs/Step.md
 docs/StepKind.md
-docs/StepOutput.md
 docs/StructuredChange.md
 docs/StructuredChangeType.md
 docs/StructuredDiff.md
@@ -292,14 +295,17 @@ docs/TenantUserResponse.md
 docs/TenantUserRole.md
 docs/TenantsApi.md
 docs/TextDiff.md
+docs/TextPart.md
+docs/TextPartOrReasoningPartOrToolPartOrDocEditPart.md
 docs/ThreadMessageContent.md
-docs/ThreadMessageDetailsInput.md
-docs/ThreadMessageDetailsOutput.md
+docs/ThreadMessageDetails.md
 docs/ThreadMessageResponse.md
 docs/ThreadMessagesApi.md
 docs/ThreadOrder.md
 docs/ThreadResponse.md
 docs/ThreadsApi.md
+docs/ToolPart.md
+docs/ToolStatus.md
 docs/TransferOwnerRequest.md
 docs/TransferOwnerResponse.md
 docs/TrashApi.md
@@ -344,6 +350,7 @@ docs/WorkflowDefinitionsApi.md
 docs/WorkflowDetailResponse.md
 docs/WorkflowExecutionState.md
 docs/WorkflowMemoryApi.md
+docs/WorkflowRunAsset.md
 docs/WorkflowRunCallbackRequest.md
 docs/WorkflowRunOrder.md
 docs/WorkflowRunResponse.md
@@ -484,6 +491,7 @@ ksapi/models/diff_span.py
 ksapi/models/directory_sync_response.py
 ksapi/models/display_name_format.py
 ksapi/models/dissolve_section_response.py
+ksapi/models/doc_edit_part.py
 ksapi/models/document_block_change.py
 ksapi/models/document_checkout_response.py
 ksapi/models/document_diff.py
@@ -534,6 +542,7 @@ ksapi/models/image_taxonomy.py
 ksapi/models/information_statistics.py
 ksapi/models/ingest_document_response.py
 ksapi/models/ingestion_mode.py
+ksapi/models/input.py
 ksapi/models/input_origin.py
 ksapi/models/input_snapshot.py
 ksapi/models/instantiate_workflow_template_request.py
@@ -555,6 +564,7 @@ ksapi/models/memory_chunk_response.py
 ksapi/models/memory_kind.py
 ksapi/models/memory_scope.py
 ksapi/models/message_role.py
+ksapi/models/message_usage.py
 ksapi/models/metered_quota_status.py
 ksapi/models/model_table_request.py
 ksapi/models/model_table_result.py
@@ -609,6 +619,7 @@ ksapi/models/polygon.py
 ksapi/models/polygon_reference.py
 ksapi/models/propose_memory_chunk_request.py
 ksapi/models/proposed_memory_chunk_response.py
+ksapi/models/reasoning_part.py
 ksapi/models/reference_type.py
 ksapi/models/request_phone_change_request.py
 ksapi/models/resolved_reference_input.py
@@ -633,9 +644,8 @@ ksapi/models/sign_in_request.py
 ksapi/models/sort_direction.py
 ksapi/models/sso_initiate_response.py
 ksapi/models/start_workflow_run_request.py
-ksapi/models/step_input.py
+ksapi/models/step.py
 ksapi/models/step_kind.py
-ksapi/models/step_output.py
 ksapi/models/structured_change.py
 ksapi/models/structured_change_type.py
 ksapi/models/structured_diff.py
@@ -661,12 +671,15 @@ ksapi/models/tenant_user_order.py
 ksapi/models/tenant_user_response.py
 ksapi/models/tenant_user_role.py
 ksapi/models/text_diff.py
+ksapi/models/text_part.py
+ksapi/models/text_part_or_reasoning_part_or_tool_part_or_doc_edit_part.py
 ksapi/models/thread_message_content.py
-ksapi/models/thread_message_details_input.py
-ksapi/models/thread_message_details_output.py
+ksapi/models/thread_message_details.py
 ksapi/models/thread_message_response.py
 ksapi/models/thread_order.py
 ksapi/models/thread_response.py
+ksapi/models/tool_part.py
+ksapi/models/tool_status.py
 ksapi/models/transfer_owner_request.py
 ksapi/models/transfer_owner_response.py
 ksapi/models/trash_item_response.py
@@ -706,6 +719,7 @@ ksapi/models/workflow_definition_order.py
 ksapi/models/workflow_definition_response.py
 ksapi/models/workflow_detail_response.py
 ksapi/models/workflow_execution_state.py
+ksapi/models/workflow_run_asset.py
 ksapi/models/workflow_run_callback_request.py
 ksapi/models/workflow_run_order.py
 ksapi/models/workflow_run_response.py
@@ -819,6 +833,7 @@ test/test_diff_span.py
 test/test_directory_sync_response.py
 test/test_display_name_format.py
 test/test_dissolve_section_response.py
+test/test_doc_edit_part.py
 test/test_document_block_change.py
 test/test_document_checkout_api.py
 test/test_document_checkout_response.py
@@ -875,6 +890,7 @@ test/test_image_taxonomy.py
 test/test_information_statistics.py
 test/test_ingest_document_response.py
 test/test_ingestion_mode.py
+test/test_input.py
 test/test_input_origin.py
 test/test_input_snapshot.py
 test/test_instantiate_workflow_template_request.py
@@ -898,6 +914,7 @@ test/test_memory_chunk_response.py
 test/test_memory_kind.py
 test/test_memory_scope.py
 test/test_message_role.py
+test/test_message_usage.py
 test/test_metered_quota_status.py
 test/test_model_table_request.py
 test/test_model_table_result.py
@@ -955,6 +972,7 @@ test/test_polygon_reference.py
 test/test_propose_memory_chunk_request.py
 test/test_proposed_memory_chunk_response.py
 test/test_public_api.py
+test/test_reasoning_part.py
 test/test_reference_type.py
 test/test_request_phone_change_request.py
 test/test_resolved_reference_input.py
@@ -980,9 +998,8 @@ test/test_sign_in_request.py
 test/test_sort_direction.py
 test/test_sso_initiate_response.py
 test/test_start_workflow_run_request.py
-test/test_step_input.py
+test/test_step.py
 test/test_step_kind.py
-test/test_step_output.py
 test/test_structured_change.py
 test/test_structured_change_type.py
 test/test_structured_diff.py
@@ -1012,14 +1029,17 @@ test/test_tenant_user_response.py
 test/test_tenant_user_role.py
 test/test_tenants_api.py
 test/test_text_diff.py
+test/test_text_part.py
+test/test_text_part_or_reasoning_part_or_tool_part_or_doc_edit_part.py
 test/test_thread_message_content.py
-test/test_thread_message_details_input.py
-test/test_thread_message_details_output.py
+test/test_thread_message_details.py
 test/test_thread_message_response.py
 test/test_thread_messages_api.py
 test/test_thread_order.py
 test/test_thread_response.py
 test/test_threads_api.py
+test/test_tool_part.py
+test/test_tool_status.py
 test/test_transfer_owner_request.py
 test/test_transfer_owner_response.py
 test/test_trash_api.py
@@ -1064,6 +1084,7 @@ test/test_workflow_definitions_api.py
 test/test_workflow_detail_response.py
 test/test_workflow_execution_state.py
 test/test_workflow_memory_api.py
+test/test_workflow_run_asset.py
 test/test_workflow_run_callback_request.py
 test/test_workflow_run_order.py
 test/test_workflow_run_response.py

@@ -19,11 +19,12 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageContent
 from ksapi.models.message_role import MessageRole
-from ksapi.models.thread_message_details_output import ThreadMessageDetailsOutput
+from ksapi.models.text_part_or_reasoning_part_or_tool_part_or_doc_edit_part import TextPartOrReasoningPartOrToolPartOrDocEditPart
+from ksapi.models.thread_message_details import ThreadMessageDetails
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -37,14 +38,15 @@ class ThreadMessageResponse(BaseModel):
     sequence: StrictInt = Field(description="Sequence number (from path_part.name)")
     role: MessageRole
     content: EnrichedThreadMessageContent
-    details: Optional[ThreadMessageDetailsOutput] = Field(default=None, description="Message details (None when not requested via with_details)")
+    details: Optional[ThreadMessageDetails] = Field(default=None, description="Message details (None when not requested via with_details)")
+    parts: Optional[List[TextPartOrReasoningPartOrToolPartOrDocEditPart]] = Field(default=None, description="Ordered content parts (text/reasoning/tool/doc_edit). Native rows return details.parts; legacy rows return a best-effort read-time projection of details.steps. Empty when details are not requested.")
     parent_path_id: UUID = Field(description="Thread's PathPart ID")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     tenant_id: UUID = Field(description="Tenant ID")
     author_tenant_user_id: Optional[UUID] = Field(default=None, description="tenant_user.user_id of the sender for USER messages. NULL for ASSISTANT / SYSTEM rows and for legacy USER rows written before multi-user thread support landed.")
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "sequence", "role", "content", "details", "parent_path_id", "materialized_path", "tenant_id", "author_tenant_user_id", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "sequence", "role", "content", "details", "parts", "parent_path_id", "materialized_path", "tenant_id", "author_tenant_user_id", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -91,6 +93,13 @@ class ThreadMessageResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of details
         if self.details:
             _dict['details'] = self.details.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in parts (list)
+        _items = []
+        if self.parts:
+            for _item_parts in self.parts:
+                if _item_parts:
+                    _items.append(_item_parts.to_dict())
+            _dict['parts'] = _items
         # set to None if details (nullable) is None
         # and model_fields_set contains the field
         if self.details is None and "details" in self.model_fields_set:
@@ -118,7 +127,8 @@ class ThreadMessageResponse(BaseModel):
             "sequence": obj.get("sequence"),
             "role": obj.get("role"),
             "content": EnrichedThreadMessageContent.from_dict(obj["content"]) if obj.get("content") is not None else None,
-            "details": ThreadMessageDetailsOutput.from_dict(obj["details"]) if obj.get("details") is not None else None,
+            "details": ThreadMessageDetails.from_dict(obj["details"]) if obj.get("details") is not None else None,
+            "parts": [TextPartOrReasoningPartOrToolPartOrDocEditPart.from_dict(_item) for _item in obj["parts"]] if obj.get("parts") is not None else None,
             "parent_path_id": obj.get("parent_path_id"),
             "materialized_path": obj.get("materialized_path"),
             "tenant_id": obj.get("tenant_id"),

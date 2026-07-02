@@ -19,16 +19,16 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, Optional
 from ksapi.models.args import Args
 from ksapi.models.step_kind import StepKind
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class StepOutput(BaseModel):
+class Step(BaseModel):
     """
-    StepOutput
+    Step
     """ # noqa: E501
     id: StrictStr = Field(description="Stable step identifier within the message")
     name: StrictStr = Field(description="The name of the step")
@@ -37,8 +37,7 @@ class StepOutput(BaseModel):
     detail: Optional[StrictStr] = None
     start_time: datetime = Field(description="The start time of the step")
     end_time: Optional[datetime] = None
-    steps: Optional[List[StepOutput]] = None
-    __properties: ClassVar[List[str]] = ["id", "name", "kind", "args", "detail", "start_time", "end_time", "steps"]
+    __properties: ClassVar[List[str]] = ["id", "name", "kind", "args", "detail", "start_time", "end_time"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -58,7 +57,7 @@ class StepOutput(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of StepOutput from a JSON string"""
+        """Create an instance of Step from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -82,13 +81,6 @@ class StepOutput(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of args
         if self.args:
             _dict['args'] = self.args.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in steps (list)
-        _items = []
-        if self.steps:
-            for _item_steps in self.steps:
-                if _item_steps:
-                    _items.append(_item_steps.to_dict())
-            _dict['steps'] = _items
         # set to None if args (nullable) is None
         # and model_fields_set contains the field
         if self.args is None and "args" in self.model_fields_set:
@@ -104,16 +96,11 @@ class StepOutput(BaseModel):
         if self.end_time is None and "end_time" in self.model_fields_set:
             _dict['end_time'] = None
 
-        # set to None if steps (nullable) is None
-        # and model_fields_set contains the field
-        if self.steps is None and "steps" in self.model_fields_set:
-            _dict['steps'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of StepOutput from a dict"""
+        """Create an instance of Step from a dict"""
         if obj is None:
             return None
 
@@ -127,11 +114,8 @@ class StepOutput(BaseModel):
             "args": Args.from_dict(obj["args"]) if obj.get("args") is not None else None,
             "detail": obj.get("detail"),
             "start_time": obj.get("start_time"),
-            "end_time": obj.get("end_time"),
-            "steps": [StepOutput.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None
+            "end_time": obj.get("end_time")
         })
         return _obj
 
-# TODO: Rewrite to not use raise_errors
-StepOutput.model_rebuild(raise_errors=False)
 

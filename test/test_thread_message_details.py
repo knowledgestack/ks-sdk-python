@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.thread_message_details_output import ThreadMessageDetailsOutput
+from ksapi.models.thread_message_details import ThreadMessageDetails
 
-class TestThreadMessageDetailsOutput(unittest.TestCase):
-    """ThreadMessageDetailsOutput unit test stubs"""
+class TestThreadMessageDetails(unittest.TestCase):
+    """ThreadMessageDetails unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,16 +25,22 @@ class TestThreadMessageDetailsOutput(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> ThreadMessageDetailsOutput:
-        """Test ThreadMessageDetailsOutput
+    def make_instance(self, include_optional) -> ThreadMessageDetails:
+        """Test ThreadMessageDetails
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `ThreadMessageDetailsOutput`
+        # uncomment below to create an instance of `ThreadMessageDetails`
         """
-        model = ThreadMessageDetailsOutput()
+        model = ThreadMessageDetails()
         if include_optional:
-            return ThreadMessageDetailsOutput(
+            return ThreadMessageDetails(
+                parts = [
+                    null
+                    ],
+                usage = ksapi.models.message_usage.MessageUsage(
+                    input_tokens = 0.0, 
+                    output_tokens = 0.0, ),
                 steps = [
                     ksapi.models.step.Step(
                         id = '', 
@@ -43,19 +49,7 @@ class TestThreadMessageDetailsOutput(unittest.TestCase):
                         args = null, 
                         detail = '', 
                         start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        steps = [
-                            ksapi.models.step.Step(
-                                id = '', 
-                                name = '', 
-                                kind = 'reasoning', 
-                                detail = '', 
-                                start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                                steps = [
-                                    
-                                    ], )
-                            ], )
+                        end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
                 checkpoint = ksapi.models.checkpoint_details.CheckpointDetails(
                     upto_message_id = '', 
@@ -69,12 +63,12 @@ class TestThreadMessageDetailsOutput(unittest.TestCase):
                 model_id = ''
             )
         else:
-            return ThreadMessageDetailsOutput(
+            return ThreadMessageDetails(
         )
         """
 
-    def testThreadMessageDetailsOutput(self):
-        """Test ThreadMessageDetailsOutput"""
+    def testThreadMessageDetails(self):
+        """Test ThreadMessageDetails"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

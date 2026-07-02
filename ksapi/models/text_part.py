@@ -18,27 +18,36 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from ksapi.models.args import Args
-from ksapi.models.step_kind import StepKind
+from typing_extensions import Annotated
+from ksapi.models.citation import Citation
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class StepInput(BaseModel):
+class TextPart(BaseModel):
     """
-    StepInput
+    TextPart
     """ # noqa: E501
-    id: StrictStr = Field(description="Stable step identifier within the message")
-    name: StrictStr = Field(description="The name of the step")
-    kind: StepKind
-    args: Optional[Args] = None
-    detail: Optional[StrictStr] = None
-    start_time: datetime = Field(description="The start time of the step")
+    id: StrictStr = Field(description="Stable per-message part id (uuid)")
+    seq: Annotated[int, Field(strict=True, ge=0)] = Field(description="0-based order within the message")
+    start_time: datetime
     end_time: Optional[datetime] = None
-    steps: Optional[List[StepInput]] = None
-    __properties: ClassVar[List[str]] = ["id", "name", "kind", "args", "detail", "start_time", "end_time", "steps"]
+    kind: Optional[StrictStr] = 'text'
+    text: StrictStr
+    citations: Optional[List[Citation]] = None
+    __properties: ClassVar[List[str]] = ["id", "seq", "start_time", "end_time", "kind", "text", "citations"]
+
+    @field_validator('kind')
+    def kind_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['text']):
+            raise ValueError("must be one of enum values ('text')")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -58,7 +67,7 @@ class StepInput(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of StepInput from a JSON string"""
+        """Create an instance of TextPart from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -79,41 +88,28 @@ class StepInput(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of args
-        if self.args:
-            _dict['args'] = self.args.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in steps (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in citations (list)
         _items = []
-        if self.steps:
-            for _item_steps in self.steps:
-                if _item_steps:
-                    _items.append(_item_steps.to_dict())
-            _dict['steps'] = _items
-        # set to None if args (nullable) is None
-        # and model_fields_set contains the field
-        if self.args is None and "args" in self.model_fields_set:
-            _dict['args'] = None
-
-        # set to None if detail (nullable) is None
-        # and model_fields_set contains the field
-        if self.detail is None and "detail" in self.model_fields_set:
-            _dict['detail'] = None
-
+        if self.citations:
+            for _item_citations in self.citations:
+                if _item_citations:
+                    _items.append(_item_citations.to_dict())
+            _dict['citations'] = _items
         # set to None if end_time (nullable) is None
         # and model_fields_set contains the field
         if self.end_time is None and "end_time" in self.model_fields_set:
             _dict['end_time'] = None
 
-        # set to None if steps (nullable) is None
+        # set to None if citations (nullable) is None
         # and model_fields_set contains the field
-        if self.steps is None and "steps" in self.model_fields_set:
-            _dict['steps'] = None
+        if self.citations is None and "citations" in self.model_fields_set:
+            _dict['citations'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of StepInput from a dict"""
+        """Create an instance of TextPart from a dict"""
         if obj is None:
             return None
 
@@ -122,16 +118,13 @@ class StepInput(BaseModel):
 
         _obj = cls.model_validate({
             "id": obj.get("id"),
-            "name": obj.get("name"),
-            "kind": obj.get("kind"),
-            "args": Args.from_dict(obj["args"]) if obj.get("args") is not None else None,
-            "detail": obj.get("detail"),
+            "seq": obj.get("seq"),
             "start_time": obj.get("start_time"),
             "end_time": obj.get("end_time"),
-            "steps": [StepInput.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None
+            "kind": obj.get("kind") if obj.get("kind") is not None else 'text',
+            "text": obj.get("text"),
+            "citations": [Citation.from_dict(_item) for _item in obj["citations"]] if obj.get("citations") is not None else None
         })
         return _obj
 
-# TODO: Rewrite to not use raise_errors
-StepInput.model_rebuild(raise_errors=False)
 

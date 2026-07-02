@@ -18,24 +18,19 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, Optional
-from uuid import UUID
-from ksapi.models.message_role import MessageRole
-from ksapi.models.thread_message_content import ThreadMessageContent
-from ksapi.models.thread_message_details import ThreadMessageDetails
+from typing import Any, ClassVar, Dict
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateThreadMessageRequest(BaseModel):
+class MessageUsage(BaseModel):
     """
-    CreateThreadMessageRequest
+    Token counts only — the run's model lives on ``details.model_id``.
     """ # noqa: E501
-    message_id: Optional[UUID] = Field(default=None, description="Optional caller-supplied ThreadMessage ID for idempotent creates.")
-    role: MessageRole
-    content: ThreadMessageContent
-    details: Optional[ThreadMessageDetails] = Field(default=None, description="Message details (execution steps). Omit for user messages.")
-    __properties: ClassVar[List[str]] = ["message_id", "role", "content", "details"]
+    input_tokens: Annotated[int, Field(strict=True, ge=0)]
+    output_tokens: Annotated[int, Field(strict=True, ge=0)]
+    __properties: ClassVar[List[str]] = ["input_tokens", "output_tokens"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -55,7 +50,7 @@ class CreateThreadMessageRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateThreadMessageRequest from a JSON string"""
+        """Create an instance of MessageUsage from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,27 +71,11 @@ class CreateThreadMessageRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of content
-        if self.content:
-            _dict['content'] = self.content.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of details
-        if self.details:
-            _dict['details'] = self.details.to_dict()
-        # set to None if message_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.message_id is None and "message_id" in self.model_fields_set:
-            _dict['message_id'] = None
-
-        # set to None if details (nullable) is None
-        # and model_fields_set contains the field
-        if self.details is None and "details" in self.model_fields_set:
-            _dict['details'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateThreadMessageRequest from a dict"""
+        """Create an instance of MessageUsage from a dict"""
         if obj is None:
             return None
 
@@ -104,10 +83,8 @@ class CreateThreadMessageRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "message_id": obj.get("message_id"),
-            "role": obj.get("role"),
-            "content": ThreadMessageContent.from_dict(obj["content"]) if obj.get("content") is not None else None,
-            "details": ThreadMessageDetails.from_dict(obj["details"]) if obj.get("details") is not None else None
+            "input_tokens": obj.get("input_tokens"),
+            "output_tokens": obj.get("output_tokens")
         })
         return _obj
 
