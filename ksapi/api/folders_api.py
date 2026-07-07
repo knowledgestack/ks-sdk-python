@@ -17,7 +17,7 @@ from typing_extensions import Annotated
 
 from datetime import datetime
 from pydantic import Field, StrictBool
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.create_folder_request import CreateFolderRequest
@@ -27,6 +27,7 @@ from ksapi.models.folder_response import FolderResponse
 from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_schema_response_data_source_table_response_api_connection_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator
 from ksapi.models.paginated_response_folder_response import PaginatedResponseFolderResponse
 from ksapi.models.path_order import PathOrder
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.search_sort_order import SearchSortOrder
 from ksapi.models.searchable_part_type import SearchablePartType
 from ksapi.models.sort_direction import SortDirection
@@ -1163,6 +1164,9 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1178,7 +1182,7 @@ class FoldersApi:
     ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1192,6 +1196,12 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param approval_state: Keep only items in these approval states (repeatable): not_required, pending, approved.
+        :type approval_state: List[PathPartApprovalState]
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1221,6 +1231,9 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
+            approval_state=approval_state,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1251,6 +1264,9 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1266,7 +1282,7 @@ class FoldersApi:
     ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator]:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1280,6 +1296,12 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param approval_state: Keep only items in these approval states (repeatable): not_required, pending, approved.
+        :type approval_state: List[PathPartApprovalState]
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1309,6 +1331,9 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
+            approval_state=approval_state,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1339,6 +1364,9 @@ class FoldersApi:
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1354,7 +1382,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1368,6 +1396,12 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param approval_state: Keep only items in these approval states (repeatable): not_required, pending, approved.
+        :type approval_state: List[PathPartApprovalState]
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1397,6 +1431,9 @@ class FoldersApi:
             with_tags=with_tags,
             limit=limit,
             offset=offset,
+            approval_state=approval_state,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1422,6 +1459,9 @@ class FoldersApi:
         with_tags,
         limit,
         offset,
+        approval_state,
+        include_tag_ids,
+        exclude_tag_ids,
         _request_auth,
         _content_type,
         _headers,
@@ -1431,6 +1471,9 @@ class FoldersApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'approval_state': 'multi',
+            'include_tag_ids': 'multi',
+            'exclude_tag_ids': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -1465,6 +1508,18 @@ class FoldersApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if approval_state is not None:
+            
+            _query_params.append(('approval_state', approval_state))
+            
+        if include_tag_ids is not None:
+            
+            _query_params.append(('include_tag_ids', include_tag_ids))
+            
+        if exclude_tag_ids is not None:
+            
+            _query_params.append(('exclude_tag_ids', exclude_tag_ids))
             
         # process the header parameters
         # process the form parameters

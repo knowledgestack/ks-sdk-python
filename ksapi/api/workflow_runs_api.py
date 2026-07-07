@@ -22,6 +22,7 @@ from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
 from ksapi.models.paginated_response_workflow_run_response import PaginatedResponseWorkflowRunResponse
+from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
 from ksapi.models.sort_direction import SortDirection
 from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest
@@ -1192,7 +1193,7 @@ class WorkflowRunsApi:
         self,
         state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
         mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
-        pending_approval_for_me: Annotated[Optional[StrictBool], Field(description="Only runs pending approval that the caller may approve.")] = None,
+        approvable_by_me: Annotated[Optional[StrictBool], Field(description="Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
@@ -1203,6 +1204,9 @@ class WorkflowRunsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1218,14 +1222,14 @@ class WorkflowRunsApi:
     ) -> PaginatedResponseWorkflowRunResponse:
         """List Workflow Runs For Tenant Handler
 
-        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, ``pending_approval_for_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
+        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, and the approval worklist ``approval_state=pending`` + ``approvable_by_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
 
         :param state: Keep only runs in these execution states (repeatable).
         :type state: List[WorkflowExecutionState]
         :param mine: Only runs the caller created (owner). Overrides owner_id.
         :type mine: bool
-        :param pending_approval_for_me: Only runs pending approval that the caller may approve.
-        :type pending_approval_for_me: bool
+        :param approvable_by_me: Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.
+        :type approvable_by_me: bool
         :param definition_id: Only runs under this workflow definition.
         :type definition_id: UUID
         :param owner_id: Only runs created by this user.
@@ -1246,6 +1250,12 @@ class WorkflowRunsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param approval_state: Keep only items in these approval states (repeatable): not_required, pending, approved.
+        :type approval_state: List[PathPartApprovalState]
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1271,7 +1281,7 @@ class WorkflowRunsApi:
         _param = self._list_workflow_runs_for_tenant_serialize(
             state=state,
             mine=mine,
-            pending_approval_for_me=pending_approval_for_me,
+            approvable_by_me=approvable_by_me,
             definition_id=definition_id,
             owner_id=owner_id,
             sort_by=sort_by,
@@ -1282,6 +1292,9 @@ class WorkflowRunsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            approval_state=approval_state,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1308,7 +1321,7 @@ class WorkflowRunsApi:
         self,
         state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
         mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
-        pending_approval_for_me: Annotated[Optional[StrictBool], Field(description="Only runs pending approval that the caller may approve.")] = None,
+        approvable_by_me: Annotated[Optional[StrictBool], Field(description="Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
@@ -1319,6 +1332,9 @@ class WorkflowRunsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1334,14 +1350,14 @@ class WorkflowRunsApi:
     ) -> ApiResponse[PaginatedResponseWorkflowRunResponse]:
         """List Workflow Runs For Tenant Handler
 
-        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, ``pending_approval_for_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
+        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, and the approval worklist ``approval_state=pending`` + ``approvable_by_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
 
         :param state: Keep only runs in these execution states (repeatable).
         :type state: List[WorkflowExecutionState]
         :param mine: Only runs the caller created (owner). Overrides owner_id.
         :type mine: bool
-        :param pending_approval_for_me: Only runs pending approval that the caller may approve.
-        :type pending_approval_for_me: bool
+        :param approvable_by_me: Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.
+        :type approvable_by_me: bool
         :param definition_id: Only runs under this workflow definition.
         :type definition_id: UUID
         :param owner_id: Only runs created by this user.
@@ -1362,6 +1378,12 @@ class WorkflowRunsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param approval_state: Keep only items in these approval states (repeatable): not_required, pending, approved.
+        :type approval_state: List[PathPartApprovalState]
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1387,7 +1409,7 @@ class WorkflowRunsApi:
         _param = self._list_workflow_runs_for_tenant_serialize(
             state=state,
             mine=mine,
-            pending_approval_for_me=pending_approval_for_me,
+            approvable_by_me=approvable_by_me,
             definition_id=definition_id,
             owner_id=owner_id,
             sort_by=sort_by,
@@ -1398,6 +1420,9 @@ class WorkflowRunsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            approval_state=approval_state,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1424,7 +1449,7 @@ class WorkflowRunsApi:
         self,
         state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
         mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
-        pending_approval_for_me: Annotated[Optional[StrictBool], Field(description="Only runs pending approval that the caller may approve.")] = None,
+        approvable_by_me: Annotated[Optional[StrictBool], Field(description="Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
@@ -1435,6 +1460,9 @@ class WorkflowRunsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1450,14 +1478,14 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """List Workflow Runs For Tenant Handler
 
-        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, ``pending_approval_for_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
+        List runs across every workflow in the tenant, permission-scoped.  The single spine behind the dashboard worklists — the FE composes its tabs from preset filters (``mine`` + ``state``, and the approval worklist ``approval_state=pending`` + ``approvable_by_me``). Visibility follows the same model as the per-definition list: OWNER/ADMIN see all; a USER sees runs under workflows they can read.
 
         :param state: Keep only runs in these execution states (repeatable).
         :type state: List[WorkflowExecutionState]
         :param mine: Only runs the caller created (owner). Overrides owner_id.
         :type mine: bool
-        :param pending_approval_for_me: Only runs pending approval that the caller may approve.
-        :type pending_approval_for_me: bool
+        :param approvable_by_me: Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.
+        :type approvable_by_me: bool
         :param definition_id: Only runs under this workflow definition.
         :type definition_id: UUID
         :param owner_id: Only runs created by this user.
@@ -1478,6 +1506,12 @@ class WorkflowRunsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param approval_state: Keep only items in these approval states (repeatable): not_required, pending, approved.
+        :type approval_state: List[PathPartApprovalState]
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1503,7 +1537,7 @@ class WorkflowRunsApi:
         _param = self._list_workflow_runs_for_tenant_serialize(
             state=state,
             mine=mine,
-            pending_approval_for_me=pending_approval_for_me,
+            approvable_by_me=approvable_by_me,
             definition_id=definition_id,
             owner_id=owner_id,
             sort_by=sort_by,
@@ -1514,6 +1548,9 @@ class WorkflowRunsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            approval_state=approval_state,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1535,7 +1572,7 @@ class WorkflowRunsApi:
         self,
         state,
         mine,
-        pending_approval_for_me,
+        approvable_by_me,
         definition_id,
         owner_id,
         sort_by,
@@ -1546,6 +1583,9 @@ class WorkflowRunsApi:
         created_before,
         updated_after,
         updated_before,
+        approval_state,
+        include_tag_ids,
+        exclude_tag_ids,
         _request_auth,
         _content_type,
         _headers,
@@ -1556,6 +1596,9 @@ class WorkflowRunsApi:
 
         _collection_formats: Dict[str, str] = {
             'state': 'multi',
+            'approval_state': 'multi',
+            'include_tag_ids': 'multi',
+            'exclude_tag_ids': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -1577,9 +1620,9 @@ class WorkflowRunsApi:
             
             _query_params.append(('mine', mine))
             
-        if pending_approval_for_me is not None:
+        if approvable_by_me is not None:
             
-            _query_params.append(('pending_approval_for_me', pending_approval_for_me))
+            _query_params.append(('approvable_by_me', approvable_by_me))
             
         if definition_id is not None:
             
@@ -1656,6 +1699,18 @@ class WorkflowRunsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if approval_state is not None:
+            
+            _query_params.append(('approval_state', approval_state))
+            
+        if include_tag_ids is not None:
+            
+            _query_params.append(('include_tag_ids', include_tag_ids))
+            
+        if exclude_tag_ids is not None:
+            
+            _query_params.append(('exclude_tag_ids', exclude_tag_ids))
             
         # process the header parameters
         # process the form parameters
