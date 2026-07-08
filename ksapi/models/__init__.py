@@ -62,6 +62,7 @@ from ksapi.models.column_config import ColumnConfig
 from ksapi.models.column_reference import ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason
 from ksapi.models.connection_config import ConnectionConfig
+from ksapi.models.contents_sort_order import ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest
 from ksapi.models.create_api_key_response import CreateApiKeyResponse

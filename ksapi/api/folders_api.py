@@ -20,6 +20,7 @@ from pydantic import Field, StrictBool
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
+from ksapi.models.contents_sort_order import ContentsSortOrder
 from ksapi.models.create_folder_request import CreateFolderRequest
 from ksapi.models.folder_action import FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse
@@ -1160,13 +1161,20 @@ class FoldersApi:
         self,
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
-        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
+        name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1182,14 +1190,20 @@ class FoldersApi:
     ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
         :param max_depth: Maximum depth to traverse (1=direct children, default: 1)
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
-        :type sort_order: PathOrder
+        :type sort_order: ContentsSortOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
+        :param owner_id: Filter to items owned by this user
+        :type owner_id: UUID
+        :param name_like: Case-insensitive substring filter on the item name
+        :type name_like: str
         :param with_tags: Include tag IDs for each item (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
@@ -1202,6 +1216,14 @@ class FoldersApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1228,12 +1250,19 @@ class FoldersApi:
             folder_id=folder_id,
             max_depth=max_depth,
             sort_order=sort_order,
+            sort_dir=sort_dir,
+            owner_id=owner_id,
+            name_like=name_like,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
             approval_state=approval_state,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1260,13 +1289,20 @@ class FoldersApi:
         self,
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
-        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
+        name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1282,14 +1318,20 @@ class FoldersApi:
     ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator]:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
         :param max_depth: Maximum depth to traverse (1=direct children, default: 1)
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
-        :type sort_order: PathOrder
+        :type sort_order: ContentsSortOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
+        :param owner_id: Filter to items owned by this user
+        :type owner_id: UUID
+        :param name_like: Case-insensitive substring filter on the item name
+        :type name_like: str
         :param with_tags: Include tag IDs for each item (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
@@ -1302,6 +1344,14 @@ class FoldersApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1328,12 +1378,19 @@ class FoldersApi:
             folder_id=folder_id,
             max_depth=max_depth,
             sort_order=sort_order,
+            sort_dir=sort_dir,
+            owner_id=owner_id,
+            name_like=name_like,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
             approval_state=approval_state,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1360,13 +1417,20 @@ class FoldersApi:
         self,
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
-        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
+        name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1382,14 +1446,20 @@ class FoldersApi:
     ) -> RESTResponseType:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
         :param max_depth: Maximum depth to traverse (1=direct children, default: 1)
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
-        :type sort_order: PathOrder
+        :type sort_order: ContentsSortOrder
+        :param sort_dir: Sort direction; overrides the column's natural default
+        :type sort_dir: SortDirection
+        :param owner_id: Filter to items owned by this user
+        :type owner_id: UUID
+        :param name_like: Case-insensitive substring filter on the item name
+        :type name_like: str
         :param with_tags: Include tag IDs for each item (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
@@ -1402,6 +1472,14 @@ class FoldersApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1428,12 +1506,19 @@ class FoldersApi:
             folder_id=folder_id,
             max_depth=max_depth,
             sort_order=sort_order,
+            sort_dir=sort_dir,
+            owner_id=owner_id,
+            name_like=name_like,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
             approval_state=approval_state,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1456,12 +1541,19 @@ class FoldersApi:
         folder_id,
         max_depth,
         sort_order,
+        sort_dir,
+        owner_id,
+        name_like,
         with_tags,
         limit,
         offset,
         approval_state,
         include_tag_ids,
         exclude_tag_ids,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1497,6 +1589,18 @@ class FoldersApi:
             
             _query_params.append(('sort_order', sort_order.value))
             
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if owner_id is not None:
+            
+            _query_params.append(('owner_id', owner_id))
+            
+        if name_like is not None:
+            
+            _query_params.append(('name_like', name_like))
+            
         if with_tags is not None:
             
             _query_params.append(('with_tags', with_tags))
@@ -1520,6 +1624,58 @@ class FoldersApi:
         if exclude_tag_ids is not None:
             
             _query_params.append(('exclude_tag_ids', exclude_tag_ids))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters

@@ -61,6 +61,7 @@ docs/ColumnConfig.md
 docs/ColumnReference.md
 docs/CommonFileExclusionReason.md
 docs/ConnectionConfig.md
+docs/ContentsSortOrder.md
 docs/CreateApiConnectionRequest.md
 docs/CreateApiKeyRequest.md
 docs/CreateApiKeyResponse.md
@@ -455,6 +456,7 @@ ksapi/models/column_config.py
 ksapi/models/column_reference.py
 ksapi/models/common_file_exclusion_reason.py
 ksapi/models/connection_config.py
+ksapi/models/contents_sort_order.py
 ksapi/models/create_api_connection_request.py
 ksapi/models/create_api_key_request.py
 ksapi/models/create_api_key_response.py
@@ -795,6 +797,7 @@ test/test_column_config.py
 test/test_column_reference.py
 test/test_common_file_exclusion_reason.py
 test/test_connection_config.py
+test/test_contents_sort_order.py
 test/test_create_api_connection_request.py
 test/test_create_api_key_request.py
 test/test_create_api_key_response.py

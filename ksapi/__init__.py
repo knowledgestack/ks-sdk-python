@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.127.0"
+__version__ = "1.128.0"
 
 # Define package exports
 __all__ = [
@@ -111,6 +111,7 @@ __all__ = [
     "ColumnReference",
     "CommonFileExclusionReason",
     "ConnectionConfig",
+    "ContentsSortOrder",
     "CreateApiConnectionRequest",
     "CreateApiKeyRequest",
     "CreateApiKeyResponse",
@@ -486,6 +487,7 @@ from ksapi.models.column_config import ColumnConfig as ColumnConfig
 from ksapi.models.column_reference import ColumnReference as ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason as CommonFileExclusionReason
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
+from ksapi.models.contents_sort_order import ContentsSortOrder as ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest as CreateApiKeyRequest
 from ksapi.models.create_api_key_response import CreateApiKeyResponse as CreateApiKeyResponse
