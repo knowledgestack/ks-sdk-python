@@ -88,7 +88,8 @@ class TestWorkflowRunResponse(unittest.TestCase):
                         name = '', 
                         part_type = 'FOLDER', 
                         materialized_path = '', 
-                        approval_state = 'not_required', )
+                        approval_state = 'not_required', 
+                        origin = 'DEFINITION_COMMON', )
                     ],
                 input_assets = [
                     ksapi.models.workflow_run_asset.WorkflowRunAsset(
@@ -97,7 +98,8 @@ class TestWorkflowRunResponse(unittest.TestCase):
                         name = '', 
                         part_type = 'FOLDER', 
                         materialized_path = '', 
-                        approval_state = 'not_required', )
+                        approval_state = 'not_required', 
+                        origin = 'DEFINITION_COMMON', )
                     ],
                 inputs_path = '',
                 outputs_path = '',

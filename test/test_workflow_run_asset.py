@@ -40,7 +40,8 @@ class TestWorkflowRunAsset(unittest.TestCase):
                 name = '',
                 part_type = 'FOLDER',
                 materialized_path = '',
-                approval_state = 'not_required'
+                approval_state = 'not_required',
+                origin = 'DEFINITION_COMMON'
             )
         else:
             return WorkflowRunAsset(

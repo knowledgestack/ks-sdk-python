@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.input_origin import InputOrigin
 from ksapi.models.part_type import PartType
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from typing import Optional, Set
@@ -28,7 +29,7 @@ from pydantic_core import to_jsonable_python
 
 class WorkflowRunAsset(BaseModel):
     """
-    One input or output file/reference of a run, actionable in one call.  ``id`` is the PDO id (``path_part.metadata_obj_id``); ``path_part_id`` is the underlying path part (kept for approval-state / path-part lookups). Route on ``part_type`` to pick the API that takes ``id``: ``DOCUMENT`` → download_document / bulk-download (active version); ``DOCUMENT_VERSION`` → download_document_version (a version-pinned input, e.g. a cloned run's inputs); ``FOLDER`` / ``DATA_SOURCE`` / ``API_CONNECTION`` → list/query via that type's endpoint. Output assets are always ``DOCUMENT``.
+    One input or output file/reference of a run, actionable in one call.  ``id`` is the PDO id (``path_part.metadata_obj_id``); ``path_part_id`` is the underlying path part (kept for approval-state / path-part lookups). Route on ``part_type`` to pick the API that takes ``id``: ``DOCUMENT`` → download_document / bulk-download (active version); ``DOCUMENT_VERSION`` → download_document_version (a version-pinned input, e.g. a cloned run's inputs); ``FOLDER`` / ``DATA_SOURCE`` / ``API_CONNECTION`` → list/query via that type's endpoint. Output assets are always ``DOCUMENT``.  ``origin`` tags an input asset's provenance (definition common file vs run reference vs upload) so the FE can group them; it is ``None`` on output assets.
     """ # noqa: E501
     id: UUID = Field(description="PDO id accepted by the download / list-contents APIs")
     path_part_id: UUID
@@ -36,7 +37,8 @@ class WorkflowRunAsset(BaseModel):
     part_type: PartType
     materialized_path: StrictStr
     approval_state: PathPartApprovalState
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "name", "part_type", "materialized_path", "approval_state"]
+    origin: Optional[InputOrigin] = None
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "name", "part_type", "materialized_path", "approval_state", "origin"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -94,7 +96,8 @@ class WorkflowRunAsset(BaseModel):
             "name": obj.get("name"),
             "part_type": obj.get("part_type"),
             "materialized_path": obj.get("materialized_path"),
-            "approval_state": obj.get("approval_state")
+            "approval_state": obj.get("approval_state"),
+            "origin": obj.get("origin")
         })
         return _obj
 
