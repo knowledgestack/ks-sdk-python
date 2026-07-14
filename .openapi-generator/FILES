@@ -81,7 +81,7 @@ docs/CreateThreadMessageRequest.md
 docs/CreateThreadRequest.md
 docs/CreateWorkflowDefinitionRequest.md
 docs/DataSourceCatalogResponse.md
-docs/DataSourceDescriptionResponse.md
+docs/DataSourceDescribeResponse.md
 docs/DataSourceDetailResponse.md
 docs/DataSourceEngine.md
 docs/DataSourceQueryRequest.md
@@ -90,6 +90,7 @@ docs/DataSourceResponse.md
 docs/DataSourceSchemaListItem.md
 docs/DataSourceSchemaListResponse.md
 docs/DataSourceSchemaResponse.md
+docs/DataSourceSyncResponse.md
 docs/DataSourceTableResponse.md
 docs/DataSourcesApi.md
 docs/DefaultApi.md
@@ -247,9 +248,13 @@ docs/ResolvedReferenceOutput.md
 docs/ResponseSendPwResetEmail.md
 docs/RevisionEdit.md
 docs/RootResponse.md
+docs/RunFolder.md
+docs/RunFolderRef.md
 docs/SSOInitiateResponse.md
 docs/ScoredChunkResponse.md
 docs/SearchSortOrder.md
+docs/SearchTablesRequest.md
+docs/SearchTablesResponse.md
 docs/SearchType.md
 docs/SearchablePartType.md
 docs/SeatQuotaStatus.md
@@ -278,7 +283,9 @@ docs/SubtreeChunkGroup.md
 docs/SubtreeChunksResponse.md
 docs/SupportedIdP.md
 docs/SupportedLanguage.md
+docs/SystemJobsApi.md
 docs/TableCellChange.md
+docs/TableSearchResult.md
 docs/TagOrder.md
 docs/TagResponse.md
 docs/TagsApi.md
@@ -295,6 +302,8 @@ docs/TenantUserOrder.md
 docs/TenantUserResponse.md
 docs/TenantUserRole.md
 docs/TenantsApi.md
+docs/TestConnectionRequest.md
+docs/TestConnectionResponse.md
 docs/TextDiff.md
 docs/TextPart.md
 docs/TextPartOrReasoningPartOrToolPartOrDocEditPart.md
@@ -305,6 +314,7 @@ docs/ThreadMessagesApi.md
 docs/ThreadOrder.md
 docs/ThreadResponse.md
 docs/ThreadsApi.md
+docs/ToolDisplayType.md
 docs/ToolPart.md
 docs/ToolStatus.md
 docs/TransferOwnerRequest.md
@@ -359,7 +369,6 @@ docs/WorkflowRunSnapshot.md
 docs/WorkflowRunSummaryResponse.md
 docs/WorkflowRunsApi.md
 docs/WorkflowSummaryResponse.md
-docs/WorkflowsApi.md
 docs/XlsxCellAnchorInput.md
 docs/XlsxCellAnchorInputOrDocxParagraphAnchorInput.md
 docs/XlsxCellAnchorOutput.md
@@ -390,6 +399,7 @@ ksapi/api/path_parts_api.py
 ksapi/api/public_api.py
 ksapi/api/sections_api.py
 ksapi/api/subscriptions_api.py
+ksapi/api/system_jobs_api.py
 ksapi/api/tags_api.py
 ksapi/api/tenant_groups_api.py
 ksapi/api/tenants_api.py
@@ -401,7 +411,6 @@ ksapi/api/users_api.py
 ksapi/api/workflow_definitions_api.py
 ksapi/api/workflow_memory_api.py
 ksapi/api/workflow_runs_api.py
-ksapi/api/workflows_api.py
 ksapi/api_client.py
 ksapi/api_response.py
 ksapi/configuration.py
@@ -476,7 +485,7 @@ ksapi/models/create_thread_message_request.py
 ksapi/models/create_thread_request.py
 ksapi/models/create_workflow_definition_request.py
 ksapi/models/data_source_catalog_response.py
-ksapi/models/data_source_description_response.py
+ksapi/models/data_source_describe_response.py
 ksapi/models/data_source_detail_response.py
 ksapi/models/data_source_engine.py
 ksapi/models/data_source_query_request.py
@@ -485,6 +494,7 @@ ksapi/models/data_source_response.py
 ksapi/models/data_source_schema_list_item.py
 ksapi/models/data_source_schema_list_response.py
 ksapi/models/data_source_schema_response.py
+ksapi/models/data_source_sync_response.py
 ksapi/models/data_source_table_response.py
 ksapi/models/diff_format.py
 ksapi/models/diff_row.py
@@ -629,8 +639,12 @@ ksapi/models/resolved_reference_output.py
 ksapi/models/response_send_pw_reset_email.py
 ksapi/models/revision_edit.py
 ksapi/models/root_response.py
+ksapi/models/run_folder.py
+ksapi/models/run_folder_ref.py
 ksapi/models/scored_chunk_response.py
 ksapi/models/search_sort_order.py
+ksapi/models/search_tables_request.py
+ksapi/models/search_tables_response.py
 ksapi/models/search_type.py
 ksapi/models/searchable_part_type.py
 ksapi/models/seat_quota_status.py
@@ -659,6 +673,7 @@ ksapi/models/subtree_chunks_response.py
 ksapi/models/supported_id_p.py
 ksapi/models/supported_language.py
 ksapi/models/table_cell_change.py
+ksapi/models/table_search_result.py
 ksapi/models/tag_order.py
 ksapi/models/tag_response.py
 ksapi/models/temporal_workflow_status_response.py
@@ -672,6 +687,8 @@ ksapi/models/tenant_user_edit_request.py
 ksapi/models/tenant_user_order.py
 ksapi/models/tenant_user_response.py
 ksapi/models/tenant_user_role.py
+ksapi/models/test_connection_request.py
+ksapi/models/test_connection_response.py
 ksapi/models/text_diff.py
 ksapi/models/text_part.py
 ksapi/models/text_part_or_reasoning_part_or_tool_part_or_doc_edit_part.py
@@ -680,6 +697,7 @@ ksapi/models/thread_message_details.py
 ksapi/models/thread_message_response.py
 ksapi/models/thread_order.py
 ksapi/models/thread_response.py
+ksapi/models/tool_display_type.py
 ksapi/models/tool_part.py
 ksapi/models/tool_status.py
 ksapi/models/transfer_owner_request.py
@@ -817,7 +835,7 @@ test/test_create_thread_message_request.py
 test/test_create_thread_request.py
 test/test_create_workflow_definition_request.py
 test/test_data_source_catalog_response.py
-test/test_data_source_description_response.py
+test/test_data_source_describe_response.py
 test/test_data_source_detail_response.py
 test/test_data_source_engine.py
 test/test_data_source_query_request.py
@@ -826,6 +844,7 @@ test/test_data_source_response.py
 test/test_data_source_schema_list_item.py
 test/test_data_source_schema_list_response.py
 test/test_data_source_schema_response.py
+test/test_data_source_sync_response.py
 test/test_data_source_table_response.py
 test/test_data_sources_api.py
 test/test_default_api.py
@@ -983,8 +1002,12 @@ test/test_resolved_reference_output.py
 test/test_response_send_pw_reset_email.py
 test/test_revision_edit.py
 test/test_root_response.py
+test/test_run_folder.py
+test/test_run_folder_ref.py
 test/test_scored_chunk_response.py
 test/test_search_sort_order.py
+test/test_search_tables_request.py
+test/test_search_tables_response.py
 test/test_search_type.py
 test/test_searchable_part_type.py
 test/test_seat_quota_status.py
@@ -1014,7 +1037,9 @@ test/test_subtree_chunk_group.py
 test/test_subtree_chunks_response.py
 test/test_supported_id_p.py
 test/test_supported_language.py
+test/test_system_jobs_api.py
 test/test_table_cell_change.py
+test/test_table_search_result.py
 test/test_tag_order.py
 test/test_tag_response.py
 test/test_tags_api.py
@@ -1031,6 +1056,8 @@ test/test_tenant_user_order.py
 test/test_tenant_user_response.py
 test/test_tenant_user_role.py
 test/test_tenants_api.py
+test/test_test_connection_request.py
+test/test_test_connection_response.py
 test/test_text_diff.py
 test/test_text_part.py
 test/test_text_part_or_reasoning_part_or_tool_part_or_doc_edit_part.py
@@ -1041,6 +1068,7 @@ test/test_thread_messages_api.py
 test/test_thread_order.py
 test/test_thread_response.py
 test/test_threads_api.py
+test/test_tool_display_type.py
 test/test_tool_part.py
 test/test_tool_status.py
 test/test_transfer_owner_request.py
@@ -1095,7 +1123,6 @@ test/test_workflow_run_snapshot.py
 test/test_workflow_run_summary_response.py
 test/test_workflow_runs_api.py
 test/test_workflow_summary_response.py
-test/test_workflows_api.py
 test/test_xlsx_cell_anchor_input.py
 test/test_xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 test/test_xlsx_cell_anchor_output.py

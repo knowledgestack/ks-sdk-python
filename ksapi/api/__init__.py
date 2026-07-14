@@ -29,11 +29,11 @@ from ksapi.api.path_parts_api import PathPartsApi
 from ksapi.api.public_api import PublicApi
 from ksapi.api.sections_api import SectionsApi
 from ksapi.api.subscriptions_api import SubscriptionsApi
+from ksapi.api.system_jobs_api import SystemJobsApi
 from ksapi.api.tags_api import TagsApi
 from ksapi.api.tenant_groups_api import TenantGroupsApi
 from ksapi.api.tenants_api import TenantsApi
 from ksapi.api.trash_api import TrashApi
 from ksapi.api.user_permissions_api import UserPermissionsApi
 from ksapi.api.users_api import UsersApi
-from ksapi.api.workflows_api import WorkflowsApi
 
