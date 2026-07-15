@@ -54,7 +54,10 @@ class TestWorkflowRunSnapshot(unittest.TestCase):
                         path_part_id = '', 
                         reason = 'NOT_FOUND', )
                     ],
-                user_message = ''
+                user_message = '',
+                selected_skill_ids = [
+                    ''
+                    ]
             )
         else:
             return WorkflowRunSnapshot(

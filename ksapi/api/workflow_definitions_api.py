@@ -334,6 +334,7 @@ class WorkflowDefinitionsApi:
         auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
         user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
         name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
+        selected_skill_ids: Annotated[Optional[StrictStr], Field(description="JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -365,6 +366,8 @@ class WorkflowDefinitionsApi:
         :type user_message: str
         :param name: Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.
         :type name: str
+        :param selected_skill_ids: JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.
+        :type selected_skill_ids: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -395,6 +398,7 @@ class WorkflowDefinitionsApi:
             auto_start=auto_start,
             user_message=user_message,
             name=name,
+            selected_skill_ids=selected_skill_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -426,6 +430,7 @@ class WorkflowDefinitionsApi:
         auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
         user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
         name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
+        selected_skill_ids: Annotated[Optional[StrictStr], Field(description="JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -457,6 +462,8 @@ class WorkflowDefinitionsApi:
         :type user_message: str
         :param name: Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.
         :type name: str
+        :param selected_skill_ids: JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.
+        :type selected_skill_ids: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -487,6 +494,7 @@ class WorkflowDefinitionsApi:
             auto_start=auto_start,
             user_message=user_message,
             name=name,
+            selected_skill_ids=selected_skill_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -518,6 +526,7 @@ class WorkflowDefinitionsApi:
         auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
         user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
         name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
+        selected_skill_ids: Annotated[Optional[StrictStr], Field(description="JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -549,6 +558,8 @@ class WorkflowDefinitionsApi:
         :type user_message: str
         :param name: Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.
         :type name: str
+        :param selected_skill_ids: JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.
+        :type selected_skill_ids: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -579,6 +590,7 @@ class WorkflowDefinitionsApi:
             auto_start=auto_start,
             user_message=user_message,
             name=name,
+            selected_skill_ids=selected_skill_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -605,6 +617,7 @@ class WorkflowDefinitionsApi:
         auto_start,
         user_message,
         name,
+        selected_skill_ids,
         _request_auth,
         _content_type,
         _headers,
@@ -644,6 +657,8 @@ class WorkflowDefinitionsApi:
             _form_params.append(('user_message', user_message))
         if name is not None:
             _form_params.append(('name', name))
+        if selected_skill_ids is not None:
+            _form_params.append(('selected_skill_ids', selected_skill_ids))
         # process the body parameter
 
 

@@ -7,6 +7,7 @@ README.md
 docs/AcceptDisclaimerRequest.md
 docs/AcceptInviteResponse.md
 docs/AccessCheckResponse.md
+docs/ActivateSkillVersionRequest.md
 docs/AddMemberRequest.md
 docs/AgentApi.md
 docs/AncestryResponse.md
@@ -76,6 +77,7 @@ docs/CreatePasswordUserRequest.md
 docs/CreatePermissionRequest.md
 docs/CreatePhonePasswordUserRequest.md
 docs/CreateSectionRequest.md
+docs/CreateSkillRequest.md
 docs/CreateTagRequest.md
 docs/CreateThreadMessageRequest.md
 docs/CreateThreadRequest.md
@@ -143,7 +145,7 @@ docs/FeedbackTargetType.md
 docs/FolderAction.md
 docs/FolderActionResponse.md
 docs/FolderResponse.md
-docs/FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse.md
+docs/FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR.md
 docs/FoldersApi.md
 docs/GroupMemberOrder.md
 docs/GroupPermissionOrder.md
@@ -190,7 +192,7 @@ docs/NetworkClass.md
 docs/NonFilesystemReferenceType.md
 docs/OnboardingCompanyRequest.md
 docs/OnboardingProfileRequest.md
-docs/PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator.md
+docs/PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat.md
 docs/PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator.md
 docs/PaginatedResponseDocumentResponse.md
 docs/PaginatedResponseDocumentVersionResponse.md
@@ -205,6 +207,7 @@ docs/PaginatedResponseMemoryChunkResponse.md
 docs/PaginatedResponsePathPartResponse.md
 docs/PaginatedResponsePendingMemoryChunkResponse.md
 docs/PaginatedResponsePermissionResponse.md
+docs/PaginatedResponseSkillResponse.md
 docs/PaginatedResponseTagResponse.md
 docs/PaginatedResponseTenantResponse.md
 docs/PaginatedResponseTenantUserResponse.md
@@ -252,6 +255,8 @@ docs/RunFolder.md
 docs/RunFolderRef.md
 docs/SSOInitiateResponse.md
 docs/ScoredChunkResponse.md
+docs/SearchSkillsRequest.md
+docs/SearchSkillsResponse.md
 docs/SearchSortOrder.md
 docs/SearchTablesRequest.md
 docs/SearchTablesResponse.md
@@ -268,6 +273,12 @@ docs/SetApprovalStateRequest.md
 docs/SetWorkflowRunApprovalRequest.md
 docs/SheetVisibilityChange.md
 docs/SignInRequest.md
+docs/SkillOrder.md
+docs/SkillResponse.md
+docs/SkillScriptFile.md
+docs/SkillSearchResult.md
+docs/SkillVersionResponse.md
+docs/SkillsApi.md
 docs/SortDirection.md
 docs/StartWorkflowRunRequest.md
 docs/Step.md
@@ -332,6 +343,7 @@ docs/UpdateGroupRequest.md
 docs/UpdateInviteRequest.md
 docs/UpdatePermissionRequest.md
 docs/UpdateSectionRequest.md
+docs/UpdateSkillRequest.md
 docs/UpdateTableRequest.md
 docs/UpdateTagRequest.md
 docs/UpdateTenantRequest.md
@@ -398,6 +410,7 @@ ksapi/api/path_part_approvals_api.py
 ksapi/api/path_parts_api.py
 ksapi/api/public_api.py
 ksapi/api/sections_api.py
+ksapi/api/skills_api.py
 ksapi/api/subscriptions_api.py
 ksapi/api/system_jobs_api.py
 ksapi/api/tags_api.py
@@ -419,6 +432,7 @@ ksapi/models/__init__.py
 ksapi/models/accept_disclaimer_request.py
 ksapi/models/accept_invite_response.py
 ksapi/models/access_check_response.py
+ksapi/models/activate_skill_version_request.py
 ksapi/models/add_member_request.py
 ksapi/models/ancestry_response.py
 ksapi/models/api_auth_config.py
@@ -480,6 +494,7 @@ ksapi/models/create_password_user_request.py
 ksapi/models/create_permission_request.py
 ksapi/models/create_phone_password_user_request.py
 ksapi/models/create_section_request.py
+ksapi/models/create_skill_request.py
 ksapi/models/create_tag_request.py
 ksapi/models/create_thread_message_request.py
 ksapi/models/create_thread_request.py
@@ -540,7 +555,7 @@ ksapi/models/feedback_target_type.py
 ksapi/models/folder_action.py
 ksapi/models/folder_action_response.py
 ksapi/models/folder_response.py
-ksapi/models/folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_schema_response_or_data_source_table_response_or_api_connection_response.py
+ksapi/models/folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_schema_r.py
 ksapi/models/group_member_order.py
 ksapi/models/group_permission_order.py
 ksapi/models/group_permission_response.py
@@ -584,7 +599,7 @@ ksapi/models/network_class.py
 ksapi/models/non_filesystem_reference_type.py
 ksapi/models/onboarding_company_request.py
 ksapi/models/onboarding_profile_request.py
-ksapi/models/paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_schema_response_data_source_table_response_api_connection_response_discriminator.py
+ksapi/models/paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 ksapi/models/paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
 ksapi/models/paginated_response_document_response.py
 ksapi/models/paginated_response_document_version_response.py
@@ -599,6 +614,7 @@ ksapi/models/paginated_response_memory_chunk_response.py
 ksapi/models/paginated_response_path_part_response.py
 ksapi/models/paginated_response_pending_memory_chunk_response.py
 ksapi/models/paginated_response_permission_response.py
+ksapi/models/paginated_response_skill_response.py
 ksapi/models/paginated_response_tag_response.py
 ksapi/models/paginated_response_tenant_response.py
 ksapi/models/paginated_response_tenant_user_response.py
@@ -642,6 +658,8 @@ ksapi/models/root_response.py
 ksapi/models/run_folder.py
 ksapi/models/run_folder_ref.py
 ksapi/models/scored_chunk_response.py
+ksapi/models/search_skills_request.py
+ksapi/models/search_skills_response.py
 ksapi/models/search_sort_order.py
 ksapi/models/search_tables_request.py
 ksapi/models/search_tables_response.py
@@ -657,6 +675,11 @@ ksapi/models/set_approval_state_request.py
 ksapi/models/set_workflow_run_approval_request.py
 ksapi/models/sheet_visibility_change.py
 ksapi/models/sign_in_request.py
+ksapi/models/skill_order.py
+ksapi/models/skill_response.py
+ksapi/models/skill_script_file.py
+ksapi/models/skill_search_result.py
+ksapi/models/skill_version_response.py
 ksapi/models/sort_direction.py
 ksapi/models/sso_initiate_response.py
 ksapi/models/start_workflow_run_request.py
@@ -714,6 +737,7 @@ ksapi/models/update_group_request.py
 ksapi/models/update_invite_request.py
 ksapi/models/update_permission_request.py
 ksapi/models/update_section_request.py
+ksapi/models/update_skill_request.py
 ksapi/models/update_table_request.py
 ksapi/models/update_tag_request.py
 ksapi/models/update_tenant_request.py
@@ -761,6 +785,7 @@ test/__init__.py
 test/test_accept_disclaimer_request.py
 test/test_accept_invite_response.py
 test/test_access_check_response.py
+test/test_activate_skill_version_request.py
 test/test_add_member_request.py
 test/test_agent_api.py
 test/test_ancestry_response.py
@@ -830,6 +855,7 @@ test/test_create_password_user_request.py
 test/test_create_permission_request.py
 test/test_create_phone_password_user_request.py
 test/test_create_section_request.py
+test/test_create_skill_request.py
 test/test_create_tag_request.py
 test/test_create_thread_message_request.py
 test/test_create_thread_request.py
@@ -897,7 +923,7 @@ test/test_feedback_target_type.py
 test/test_folder_action.py
 test/test_folder_action_response.py
 test/test_folder_response.py
-test/test_folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_schema_response_or_data_source_table_response_or_api_connection_response.py
+test/test_folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_schema_r.py
 test/test_folders_api.py
 test/test_group_member_order.py
 test/test_group_permission_order.py
@@ -944,7 +970,7 @@ test/test_network_class.py
 test/test_non_filesystem_reference_type.py
 test/test_onboarding_company_request.py
 test/test_onboarding_profile_request.py
-test/test_paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_schema_response_data_source_table_response_api_connection_response_discriminator.py
+test/test_paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 test/test_paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
 test/test_paginated_response_document_response.py
 test/test_paginated_response_document_version_response.py
@@ -959,6 +985,7 @@ test/test_paginated_response_memory_chunk_response.py
 test/test_paginated_response_path_part_response.py
 test/test_paginated_response_pending_memory_chunk_response.py
 test/test_paginated_response_permission_response.py
+test/test_paginated_response_skill_response.py
 test/test_paginated_response_tag_response.py
 test/test_paginated_response_tenant_response.py
 test/test_paginated_response_tenant_user_response.py
@@ -1005,6 +1032,8 @@ test/test_root_response.py
 test/test_run_folder.py
 test/test_run_folder_ref.py
 test/test_scored_chunk_response.py
+test/test_search_skills_request.py
+test/test_search_skills_response.py
 test/test_search_sort_order.py
 test/test_search_tables_request.py
 test/test_search_tables_response.py
@@ -1021,6 +1050,12 @@ test/test_set_approval_state_request.py
 test/test_set_workflow_run_approval_request.py
 test/test_sheet_visibility_change.py
 test/test_sign_in_request.py
+test/test_skill_order.py
+test/test_skill_response.py
+test/test_skill_script_file.py
+test/test_skill_search_result.py
+test/test_skill_version_response.py
+test/test_skills_api.py
 test/test_sort_direction.py
 test/test_sso_initiate_response.py
 test/test_start_workflow_run_request.py
@@ -1086,6 +1121,7 @@ test/test_update_group_request.py
 test/test_update_invite_request.py
 test/test_update_permission_request.py
 test/test_update_section_request.py
+test/test_update_skill_request.py
 test/test_update_table_request.py
 test/test_update_tag_request.py
 test/test_update_tenant_request.py

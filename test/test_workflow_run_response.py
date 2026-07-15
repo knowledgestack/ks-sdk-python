@@ -71,7 +71,10 @@ class TestWorkflowRunResponse(unittest.TestCase):
                             path_part_id = '', 
                             reason = 'NOT_FOUND', )
                         ], 
-                    user_message = '', ),
+                    user_message = '', 
+                    selected_skill_ids = [
+                        ''
+                        ], ),
                 error = '',
                 auto_start = True,
                 auto_start_user_message = '',
@@ -162,7 +165,10 @@ class TestWorkflowRunResponse(unittest.TestCase):
                             path_part_id = '', 
                             reason = 'NOT_FOUND', )
                         ], 
-                    user_message = '', ),
+                    user_message = '', 
+                    selected_skill_ids = [
+                        ''
+                        ], ),
                 error = '',
                 auto_start = True,
                 inputs = ksapi.models.run_folder.RunFolder(

@@ -39,6 +39,7 @@ class ReferenceType(str, Enum):
     DATA_SOURCE_SCHEMA = 'DATA_SOURCE_SCHEMA'
     DATA_SOURCE_TABLE = 'DATA_SOURCE_TABLE'
     API_CONNECTION = 'API_CONNECTION'
+    SKILL = 'SKILL'
     IMAGE = 'image'
     MEMORY = 'memory'
     TAG = 'tag'

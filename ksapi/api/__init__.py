@@ -4,6 +4,7 @@
 from ksapi.api.agent_api import AgentApi
 from ksapi.api.feedback_api import FeedbackApi
 from ksapi.api.memory_api import MemoryApi
+from ksapi.api.skills_api import SkillsApi
 from ksapi.api.thread_messages_api import ThreadMessagesApi
 from ksapi.api.threads_api import ThreadsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi

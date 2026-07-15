@@ -39,6 +39,7 @@ class PartType(str, Enum):
     DATA_SOURCE_SCHEMA = 'DATA_SOURCE_SCHEMA'
     DATA_SOURCE_TABLE = 'DATA_SOURCE_TABLE'
     API_CONNECTION = 'API_CONNECTION'
+    SKILL = 'SKILL'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

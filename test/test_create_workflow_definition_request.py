@@ -42,6 +42,9 @@ class TestCreateWorkflowDefinitionRequest(unittest.TestCase):
                 instruction_path_part_id = '',
                 approval_required = True,
                 is_template = True,
+                selected_skill_ids = [
+                    ''
+                    ],
                 common_file_path_part_ids = [
                     ''
                     ]

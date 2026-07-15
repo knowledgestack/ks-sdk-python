@@ -23,17 +23,18 @@ from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse
 from ksapi.models.document_response import DocumentResponse
 from ksapi.models.folder_response import FolderResponse
+from ksapi.models.skill_response import SkillResponse
 from ksapi.models.workflow_definition_response import WorkflowDefinitionResponse
 from ksapi.models.workflow_run_response import WorkflowRunResponse
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-FOLDERRESPONSEORDOCUMENTRESPONSEORWORKFLOWDEFINITIONRESPONSEORWORKFLOWRUNRESPONSEORDATASOURCERESPONSEORDATASOURCESCHEMARESPONSEORDATASOURCETABLERESPONSEORAPICONNECTIONRESPONSE_ONE_OF_SCHEMAS = ["ApiConnectionResponse", "DataSourceResponse", "DataSourceSchemaResponse", "DataSourceTableResponse", "DocumentResponse", "FolderResponse", "WorkflowDefinitionResponse", "WorkflowRunResponse"]
+FOLDERRESPONSEORDOCUMENTRESPONSEORWORKFLOWDEFINITIONRESPONSEORWORKFLOWRUNRESPONSEORDATASOURCERESPONSEORDATASOURCESCHEMAR_ONE_OF_SCHEMAS = ["ApiConnectionResponse", "DataSourceResponse", "DataSourceSchemaResponse", "DataSourceTableResponse", "DocumentResponse", "FolderResponse", "SkillResponse", "WorkflowDefinitionResponse", "WorkflowRunResponse"]
 
-class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse(BaseModel):
+class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR(BaseModel):
     """
-    FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse
+    FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR
     """
     # data type: FolderResponse
     oneof_schema_1_validator: Optional[FolderResponse] = None
@@ -51,8 +52,10 @@ class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunR
     oneof_schema_7_validator: Optional[DataSourceTableResponse] = None
     # data type: ApiConnectionResponse
     oneof_schema_8_validator: Optional[ApiConnectionResponse] = None
-    actual_instance: Optional[Union[ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, WorkflowDefinitionResponse, WorkflowRunResponse]] = None
-    one_of_schemas: Set[str] = { "ApiConnectionResponse", "DataSourceResponse", "DataSourceSchemaResponse", "DataSourceTableResponse", "DocumentResponse", "FolderResponse", "WorkflowDefinitionResponse", "WorkflowRunResponse" }
+    # data type: SkillResponse
+    oneof_schema_9_validator: Optional[SkillResponse] = None
+    actual_instance: Optional[Union[ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, SkillResponse, WorkflowDefinitionResponse, WorkflowRunResponse]] = None
+    one_of_schemas: Set[str] = { "ApiConnectionResponse", "DataSourceResponse", "DataSourceSchemaResponse", "DataSourceTableResponse", "DocumentResponse", "FolderResponse", "SkillResponse", "WorkflowDefinitionResponse", "WorkflowRunResponse" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -75,7 +78,7 @@ class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunR
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse.model_construct()
+        instance = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR.model_construct()
         error_messages = []
         match = 0
         # validate data type: FolderResponse
@@ -118,12 +121,17 @@ class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunR
             error_messages.append(f"Error! Input type `{type(v)}` is not `ApiConnectionResponse`")
         else:
             match += 1
+        # validate data type: SkillResponse
+        if not isinstance(v, SkillResponse):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `SkillResponse`")
+        else:
+            match += 1
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, SkillResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, SkillResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -186,13 +194,19 @@ class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunR
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
+        # deserialize data into SkillResponse
+        try:
+            instance.actual_instance = SkillResponse.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, SkillResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR with oneOf schemas: ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, SkillResponse, WorkflowDefinitionResponse, WorkflowRunResponse. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -206,7 +220,7 @@ class FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunR
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, WorkflowDefinitionResponse, WorkflowRunResponse]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], ApiConnectionResponse, DataSourceResponse, DataSourceSchemaResponse, DataSourceTableResponse, DocumentResponse, FolderResponse, SkillResponse, WorkflowDefinitionResponse, WorkflowRunResponse]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

@@ -36,8 +36,9 @@ class CreateWorkflowDefinitionRequest(BaseModel):
     instruction_path_part_id: Optional[UUID] = Field(default=None, description="DOCUMENT path_part of the instruction document. Omit (or pass null) to have the server auto-create an empty instruction.md.")
     approval_required: StrictBool
     is_template: Optional[StrictBool] = Field(default=False, description="Create a non-runnable template. Templates are excluded from the default list and cannot have runs; users instantiate them into their own runnable workflow. Immutable after creation.")
+    selected_skill_ids: Optional[Annotated[List[UUID], Field(max_length=20)]] = Field(default=None, description="Skill PDO ids force-loaded into every run of this workflow by default (prefill). Each run inherits these and may add more; the agent can still discover others via search. Each must be a SKILL the caller can read.")
     common_file_path_part_ids: Optional[Annotated[List[UUID], Field(max_length=20)]] = Field(default=None, description="Optional path_part ids of common files (DOCUMENT / FOLDER / DATA_SOURCE / API_CONNECTION) attached to every run of this workflow — e.g. an output template. Merged with each run's own inputs at Start. The caller must be able to read each one.")
-    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required", "is_template", "common_file_path_part_ids"]
+    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -107,6 +108,7 @@ class CreateWorkflowDefinitionRequest(BaseModel):
             "instruction_path_part_id": obj.get("instruction_path_part_id"),
             "approval_required": obj.get("approval_required"),
             "is_template": obj.get("is_template") if obj.get("is_template") is not None else False,
+            "selected_skill_ids": obj.get("selected_skill_ids"),
             "common_file_path_part_ids": obj.get("common_file_path_part_ids")
         })
         return _obj

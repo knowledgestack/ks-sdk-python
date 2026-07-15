@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from uuid import UUID
 from ksapi.models.excluded_common_file import ExcludedCommonFile
 from ksapi.models.input_snapshot import InputSnapshot
 from ksapi.models.instruction_snapshot import InstructionSnapshot
@@ -37,7 +38,8 @@ class WorkflowRunSnapshot(BaseModel):
     inputs: List[InputSnapshot]
     excluded_common_files: Optional[List[ExcludedCommonFile]] = Field(default=None, description="Definition common files left out of this run at Start (deleted or unreadable by the starter), each with its exclusion reason. Empty for the common happy path; pre-feature snapshots default to empty.")
     user_message: Optional[Annotated[str, Field(strict=True, max_length=4000)]] = Field(default=None, description="Optional free-text message the caller supplied at Start. Pinned here so the runner injects it into the agent's first user turn and it survives retry, redrive, and workflow-thread follow-ups (all of which re-assemble the prompt from this snapshot).")
-    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "excluded_common_files", "user_message"]
+    selected_skill_ids: Optional[List[UUID]] = Field(default=None, description="Skill PDO ids to force-load into the run at turn 0, merged with the definition's prefill. Definition selections are validated readable + SKILL at write time; every id is re-checked fail-closed when the run materializes (a skill deleted or revoked after selection is dropped, never bricking the run). The runner materializes each skill's ACTIVE published version into the agent's skills dir; the agent can still discover others via search. Empty for the common case; pre-feature snapshots default to empty.")
+    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "excluded_common_files", "user_message", "selected_skill_ids"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -117,7 +119,8 @@ class WorkflowRunSnapshot(BaseModel):
             "instruction": InstructionSnapshot.from_dict(obj["instruction"]) if obj.get("instruction") is not None else None,
             "inputs": [InputSnapshot.from_dict(_item) for _item in obj["inputs"]] if obj.get("inputs") is not None else None,
             "excluded_common_files": [ExcludedCommonFile.from_dict(_item) for _item in obj["excluded_common_files"]] if obj.get("excluded_common_files") is not None else None,
-            "user_message": obj.get("user_message")
+            "user_message": obj.get("user_message"),
+            "selected_skill_ids": obj.get("selected_skill_ids")
         })
         return _obj
 

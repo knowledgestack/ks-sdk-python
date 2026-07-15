@@ -14,13 +14,14 @@
 """  # noqa: E501
 
 
-__version__ = "1.135.1"
+__version__ = "1.136.0"
 
 # Define package exports
 __all__ = [
     "AgentApi",
     "FeedbackApi",
     "MemoryApi",
+    "SkillsApi",
     "ThreadMessagesApi",
     "ThreadsApi",
     "WorkflowDefinitionsApi",
@@ -65,6 +66,7 @@ __all__ = [
     "AcceptDisclaimerRequest",
     "AcceptInviteResponse",
     "AccessCheckResponse",
+    "ActivateSkillVersionRequest",
     "AddMemberRequest",
     "AncestryResponse",
     "ApiAuthConfig",
@@ -126,6 +128,7 @@ __all__ = [
     "CreatePermissionRequest",
     "CreatePhonePasswordUserRequest",
     "CreateSectionRequest",
+    "CreateSkillRequest",
     "CreateTagRequest",
     "CreateThreadMessageRequest",
     "CreateThreadRequest",
@@ -186,7 +189,7 @@ __all__ = [
     "FolderAction",
     "FolderActionResponse",
     "FolderResponse",
-    "FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse",
+    "FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR",
     "GroupMemberOrder",
     "GroupPermissionOrder",
     "GroupPermissionResponse",
@@ -230,7 +233,7 @@ __all__ = [
     "NonFilesystemReferenceType",
     "OnboardingCompanyRequest",
     "OnboardingProfileRequest",
-    "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator",
+    "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
     "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
     "PaginatedResponseDocumentResponse",
     "PaginatedResponseDocumentVersionResponse",
@@ -245,6 +248,7 @@ __all__ = [
     "PaginatedResponsePathPartResponse",
     "PaginatedResponsePendingMemoryChunkResponse",
     "PaginatedResponsePermissionResponse",
+    "PaginatedResponseSkillResponse",
     "PaginatedResponseTagResponse",
     "PaginatedResponseTenantResponse",
     "PaginatedResponseTenantUserResponse",
@@ -289,6 +293,8 @@ __all__ = [
     "RunFolderRef",
     "SSOInitiateResponse",
     "ScoredChunkResponse",
+    "SearchSkillsRequest",
+    "SearchSkillsResponse",
     "SearchSortOrder",
     "SearchTablesRequest",
     "SearchTablesResponse",
@@ -304,6 +310,11 @@ __all__ = [
     "SetWorkflowRunApprovalRequest",
     "SheetVisibilityChange",
     "SignInRequest",
+    "SkillOrder",
+    "SkillResponse",
+    "SkillScriptFile",
+    "SkillSearchResult",
+    "SkillVersionResponse",
     "SortDirection",
     "StartWorkflowRunRequest",
     "Step",
@@ -360,6 +371,7 @@ __all__ = [
     "UpdateInviteRequest",
     "UpdatePermissionRequest",
     "UpdateSectionRequest",
+    "UpdateSkillRequest",
     "UpdateTableRequest",
     "UpdateTagRequest",
     "UpdateTenantRequest",
@@ -402,6 +414,7 @@ __all__ = [
 from ksapi.api.agent_api import AgentApi as AgentApi
 from ksapi.api.feedback_api import FeedbackApi as FeedbackApi
 from ksapi.api.memory_api import MemoryApi as MemoryApi
+from ksapi.api.skills_api import SkillsApi as SkillsApi
 from ksapi.api.thread_messages_api import ThreadMessagesApi as ThreadMessagesApi
 from ksapi.api.threads_api import ThreadsApi as ThreadsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi as WorkflowDefinitionsApi
@@ -450,6 +463,7 @@ from ksapi.exceptions import ApiException as ApiException
 from ksapi.models.accept_disclaimer_request import AcceptDisclaimerRequest as AcceptDisclaimerRequest
 from ksapi.models.accept_invite_response import AcceptInviteResponse as AcceptInviteResponse
 from ksapi.models.access_check_response import AccessCheckResponse as AccessCheckResponse
+from ksapi.models.activate_skill_version_request import ActivateSkillVersionRequest as ActivateSkillVersionRequest
 from ksapi.models.add_member_request import AddMemberRequest as AddMemberRequest
 from ksapi.models.ancestry_response import AncestryResponse as AncestryResponse
 from ksapi.models.api_auth_config import ApiAuthConfig as ApiAuthConfig
@@ -511,6 +525,7 @@ from ksapi.models.create_password_user_request import CreatePasswordUserRequest 
 from ksapi.models.create_permission_request import CreatePermissionRequest as CreatePermissionRequest
 from ksapi.models.create_phone_password_user_request import CreatePhonePasswordUserRequest as CreatePhonePasswordUserRequest
 from ksapi.models.create_section_request import CreateSectionRequest as CreateSectionRequest
+from ksapi.models.create_skill_request import CreateSkillRequest as CreateSkillRequest
 from ksapi.models.create_tag_request import CreateTagRequest as CreateTagRequest
 from ksapi.models.create_thread_message_request import CreateThreadMessageRequest as CreateThreadMessageRequest
 from ksapi.models.create_thread_request import CreateThreadRequest as CreateThreadRequest
@@ -571,7 +586,7 @@ from ksapi.models.feedback_target_type import FeedbackTargetType as FeedbackTarg
 from ksapi.models.folder_action import FolderAction as FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse as FolderActionResponse
 from ksapi.models.folder_response import FolderResponse as FolderResponse
-from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_schema_response_or_data_source_table_response_or_api_connection_response import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse as FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaResponseOrDataSourceTableResponseOrApiConnectionResponse
+from ksapi.models.folder_response_or_document_response_or_workflow_definition_response_or_workflow_run_response_or_data_source_response_or_data_source_schema_r import FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR as FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR
 from ksapi.models.group_member_order import GroupMemberOrder as GroupMemberOrder
 from ksapi.models.group_permission_order import GroupPermissionOrder as GroupPermissionOrder
 from ksapi.models.group_permission_response import GroupPermissionResponse as GroupPermissionResponse
@@ -615,7 +630,7 @@ from ksapi.models.network_class import NetworkClass as NetworkClass
 from ksapi.models.non_filesystem_reference_type import NonFilesystemReferenceType as NonFilesystemReferenceType
 from ksapi.models.onboarding_company_request import OnboardingCompanyRequest as OnboardingCompanyRequest
 from ksapi.models.onboarding_profile_request import OnboardingProfileRequest as OnboardingProfileRequest
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_schema_response_data_source_table_response_api_connection_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator as PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator
+from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat as PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat
 from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator import PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator as PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator
 from ksapi.models.paginated_response_document_response import PaginatedResponseDocumentResponse as PaginatedResponseDocumentResponse
 from ksapi.models.paginated_response_document_version_response import PaginatedResponseDocumentVersionResponse as PaginatedResponseDocumentVersionResponse
@@ -630,6 +645,7 @@ from ksapi.models.paginated_response_memory_chunk_response import PaginatedRespo
 from ksapi.models.paginated_response_path_part_response import PaginatedResponsePathPartResponse as PaginatedResponsePathPartResponse
 from ksapi.models.paginated_response_pending_memory_chunk_response import PaginatedResponsePendingMemoryChunkResponse as PaginatedResponsePendingMemoryChunkResponse
 from ksapi.models.paginated_response_permission_response import PaginatedResponsePermissionResponse as PaginatedResponsePermissionResponse
+from ksapi.models.paginated_response_skill_response import PaginatedResponseSkillResponse as PaginatedResponseSkillResponse
 from ksapi.models.paginated_response_tag_response import PaginatedResponseTagResponse as PaginatedResponseTagResponse
 from ksapi.models.paginated_response_tenant_response import PaginatedResponseTenantResponse as PaginatedResponseTenantResponse
 from ksapi.models.paginated_response_tenant_user_response import PaginatedResponseTenantUserResponse as PaginatedResponseTenantUserResponse
@@ -674,6 +690,8 @@ from ksapi.models.run_folder import RunFolder as RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef as RunFolderRef
 from ksapi.models.sso_initiate_response import SSOInitiateResponse as SSOInitiateResponse
 from ksapi.models.scored_chunk_response import ScoredChunkResponse as ScoredChunkResponse
+from ksapi.models.search_skills_request import SearchSkillsRequest as SearchSkillsRequest
+from ksapi.models.search_skills_response import SearchSkillsResponse as SearchSkillsResponse
 from ksapi.models.search_sort_order import SearchSortOrder as SearchSortOrder
 from ksapi.models.search_tables_request import SearchTablesRequest as SearchTablesRequest
 from ksapi.models.search_tables_response import SearchTablesResponse as SearchTablesResponse
@@ -689,6 +707,11 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest as S
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest as SetWorkflowRunApprovalRequest
 from ksapi.models.sheet_visibility_change import SheetVisibilityChange as SheetVisibilityChange
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
+from ksapi.models.skill_order import SkillOrder as SkillOrder
+from ksapi.models.skill_response import SkillResponse as SkillResponse
+from ksapi.models.skill_script_file import SkillScriptFile as SkillScriptFile
+from ksapi.models.skill_search_result import SkillSearchResult as SkillSearchResult
+from ksapi.models.skill_version_response import SkillVersionResponse as SkillVersionResponse
 from ksapi.models.sort_direction import SortDirection as SortDirection
 from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest as StartWorkflowRunRequest
 from ksapi.models.step import Step as Step
@@ -745,6 +768,7 @@ from ksapi.models.update_group_request import UpdateGroupRequest as UpdateGroupR
 from ksapi.models.update_invite_request import UpdateInviteRequest as UpdateInviteRequest
 from ksapi.models.update_permission_request import UpdatePermissionRequest as UpdatePermissionRequest
 from ksapi.models.update_section_request import UpdateSectionRequest as UpdateSectionRequest
+from ksapi.models.update_skill_request import UpdateSkillRequest as UpdateSkillRequest
 from ksapi.models.update_table_request import UpdateTableRequest as UpdateTableRequest
 from ksapi.models.update_tag_request import UpdateTagRequest as UpdateTagRequest
 from ksapi.models.update_tenant_request import UpdateTenantRequest as UpdateTenantRequest

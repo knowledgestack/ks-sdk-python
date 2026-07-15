@@ -42,6 +42,9 @@ class TestUpdateWorkflowDefinitionRequest(unittest.TestCase):
                 parent_path_part_id = '',
                 is_active = True,
                 approval_required = True,
+                selected_skill_ids = [
+                    ''
+                    ],
                 common_file_path_part_ids = [
                     ''
                     ]

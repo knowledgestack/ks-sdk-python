@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_data_source_response_data_source_schema_response_data_source_table_response_api_connection_response_discriminator import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator
+from ksapi.models.paginated_response_skill_response import PaginatedResponseSkillResponse
 
-class TestPaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator(unittest.TestCase):
-    """PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator unit test stubs"""
+class TestPaginatedResponseSkillResponse(unittest.TestCase):
+    """PaginatedResponseSkillResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,27 +25,63 @@ class TestPaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowD
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator:
-        """Test PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator
+    def make_instance(self, include_optional) -> PaginatedResponseSkillResponse:
+        """Test PaginatedResponseSkillResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator`
+        # uncomment below to create an instance of `PaginatedResponseSkillResponse`
         """
-        model = PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator()
+        model = PaginatedResponseSkillResponse()
         if include_optional:
-            return PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator(
+            return PaginatedResponseSkillResponse(
                 items = [
-                    null
+                    ksapi.models.skill_response.SkillResponse(
+                        part_type = 'SKILL', 
+                        id = '', 
+                        path_part_id = '', 
+                        parent_path_part_id = '', 
+                        materialized_path = '', 
+                        tenant_id = '', 
+                        name = '', 
+                        description = '', 
+                        skill_md = '', 
+                        script_names = [
+                            ''
+                            ], 
+                        has_unpublished_changes = True, 
+                        approval_state = 'not_required', 
+                        owner = null, 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        permissions = null, )
                     ],
                 total = 0.0,
                 limit = 1.0,
                 offset = 0.0
             )
         else:
-            return PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator(
+            return PaginatedResponseSkillResponse(
                 items = [
-                    null
+                    ksapi.models.skill_response.SkillResponse(
+                        part_type = 'SKILL', 
+                        id = '', 
+                        path_part_id = '', 
+                        parent_path_part_id = '', 
+                        materialized_path = '', 
+                        tenant_id = '', 
+                        name = '', 
+                        description = '', 
+                        skill_md = '', 
+                        script_names = [
+                            ''
+                            ], 
+                        has_unpublished_changes = True, 
+                        approval_state = 'not_required', 
+                        owner = null, 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        permissions = null, )
                     ],
                 total = 0.0,
                 limit = 1.0,
@@ -53,8 +89,8 @@ class TestPaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowD
         )
         """
 
-    def testPaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator(self):
-        """Test PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDataSourceResponseDataSourceSchemaResponseDataSourceTableResponseApiConnectionResponseDiscriminator"""
+    def testPaginatedResponseSkillResponse(self):
+        """Test PaginatedResponseSkillResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 
