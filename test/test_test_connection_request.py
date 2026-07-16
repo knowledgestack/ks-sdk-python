@@ -42,7 +42,8 @@ class TestTestConnectionRequest(unittest.TestCase):
                     port = 56, 
                     database = '', 
                     username = '', 
-                    password = '', ),
+                    password = '', 
+                    ssl = True, ),
                 parent_path_part_id = ''
             )
         else:

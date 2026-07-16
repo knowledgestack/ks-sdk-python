@@ -43,7 +43,8 @@ class TestCreateDataSourceRequest(unittest.TestCase):
                     port = 56, 
                     database = '', 
                     username = '', 
-                    password = '', )
+                    password = '', 
+                    ssl = True, )
             )
         else:
             return CreateDataSourceRequest(
@@ -55,7 +56,8 @@ class TestCreateDataSourceRequest(unittest.TestCase):
                     port = 56, 
                     database = '', 
                     username = '', 
-                    password = '', ),
+                    password = '', 
+                    ssl = True, ),
         )
         """
 

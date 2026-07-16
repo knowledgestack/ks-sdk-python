@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,8 +32,9 @@ class ConnectionConfig(BaseModel):
     database: StrictStr
     username: StrictStr
     password: StrictStr
+    ssl: Optional[StrictBool] = Field(default=False, description="Encrypt the connection with TLS. Enable for managed cloud databases that require it (e.g. Alibaba/Tencent RDS); leave off for trusted private-network databases. Encryption only — the server certificate is not verified.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["host", "port", "database", "username", "password"]
+    __properties: ClassVar[List[str]] = ["host", "port", "database", "username", "password", "ssl"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -102,7 +103,8 @@ class ConnectionConfig(BaseModel):
             "port": obj.get("port"),
             "database": obj.get("database"),
             "username": obj.get("username"),
-            "password": obj.get("password")
+            "password": obj.get("password"),
+            "ssl": obj.get("ssl") if obj.get("ssl") is not None else False
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

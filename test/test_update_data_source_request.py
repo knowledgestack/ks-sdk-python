@@ -42,7 +42,8 @@ class TestUpdateDataSourceRequest(unittest.TestCase):
                     port = 56, 
                     database = '', 
                     username = '', 
-                    password = '', )
+                    password = '', 
+                    ssl = True, )
             )
         else:
             return UpdateDataSourceRequest(
