@@ -35,6 +35,7 @@ class DocumentType(str, Enum):
     PPTX = 'PPTX'
     JSON = 'JSON'
     YAML = 'YAML'
+    CODE = 'CODE'
     UNKNOWN = 'UNKNOWN'
 
     @classmethod
