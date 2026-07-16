@@ -349,7 +349,7 @@ class DocumentsApi:
     ) -> None:
         """Delete Document Handler
 
-        Move a document and all its contents to trash.
+        Move a document and all its contents to trash.  Requires an active document checkout held by the caller. Acquire one via ``POST /v1/documents/{id}/checkout`` first; otherwise this returns 409 Conflict (\"A document checkout is required to edit this document.\").
 
         :param document_id: (required)
         :type document_id: UUID
@@ -417,7 +417,7 @@ class DocumentsApi:
     ) -> ApiResponse[None]:
         """Delete Document Handler
 
-        Move a document and all its contents to trash.
+        Move a document and all its contents to trash.  Requires an active document checkout held by the caller. Acquire one via ``POST /v1/documents/{id}/checkout`` first; otherwise this returns 409 Conflict (\"A document checkout is required to edit this document.\").
 
         :param document_id: (required)
         :type document_id: UUID
@@ -485,7 +485,7 @@ class DocumentsApi:
     ) -> RESTResponseType:
         """Delete Document Handler
 
-        Move a document and all its contents to trash.
+        Move a document and all its contents to trash.  Requires an active document checkout held by the caller. Acquire one via ``POST /v1/documents/{id}/checkout`` first; otherwise this returns 409 Conflict (\"A document checkout is required to edit this document.\").
 
         :param document_id: (required)
         :type document_id: UUID
