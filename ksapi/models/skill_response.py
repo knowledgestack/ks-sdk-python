@@ -40,14 +40,14 @@ class SkillResponse(BaseModel):
     tenant_id: UUID
     name: StrictStr
     description: StrictStr = Field(description="One-line 'use when…' routing signal, from the SKILL.md frontmatter.")
-    skill_md: Optional[StrictStr] = Field(default=None, description="Full SKILL.md content; populated on detail reads, null on list.")
-    script_names: Optional[List[StrictStr]] = Field(default=None, description="Bundled script file names; populated on detail reads.")
+    skill_md: Optional[StrictStr] = Field(default=None, description="Full SKILL.md content; populated on the detail read and on mutation responses, null on list.")
+    script_names: Optional[List[StrictStr]] = Field(default=None, description="Bundled script file names; populated on the detail read and on mutation responses, empty on list.")
     has_unpublished_changes: Optional[StrictBool] = Field(default=False, description="Whether the working copy differs from the active published version. Always present (incl. list responses) so the UI can flag a skill with an unpublished draft.")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Creator, or null.")
     created_at: datetime
     updated_at: datetime
-    permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
+    permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; populated on the list, detail read, and mutation responses.")
     __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "skill_md", "script_names", "has_unpublished_changes", "approval_state", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
