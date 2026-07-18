@@ -23,6 +23,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.skill_script_file import SkillScriptFile
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
@@ -42,13 +43,14 @@ class SkillResponse(BaseModel):
     description: StrictStr = Field(description="One-line 'use when…' routing signal, from the SKILL.md frontmatter.")
     skill_md: Optional[StrictStr] = Field(default=None, description="Full SKILL.md content; populated on the detail read and on mutation responses, null on list.")
     script_names: Optional[List[StrictStr]] = Field(default=None, description="Bundled script file names; populated on the detail read and on mutation responses, empty on list.")
+    scripts: Optional[List[SkillScriptFile]] = Field(default=None, description="Bundled scripts with their contents; populated only on the detail read (GET /skills/{id}), null on list. Lets the editor read the current script set so a PATCH can safely resubmit the whole set.")
     has_unpublished_changes: Optional[StrictBool] = Field(default=False, description="Whether the working copy differs from the active published version. Always present (incl. list responses) so the UI can flag a skill with an unpublished draft.")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Creator, or null.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; populated on the list, detail read, and mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "skill_md", "script_names", "has_unpublished_changes", "approval_state", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "skill_md", "script_names", "scripts", "has_unpublished_changes", "approval_state", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -99,6 +101,13 @@ class SkillResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in scripts (list)
+        _items = []
+        if self.scripts:
+            for _item_scripts in self.scripts:
+                if _item_scripts:
+                    _items.append(_item_scripts.to_dict())
+            _dict['scripts'] = _items
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
@@ -114,6 +123,11 @@ class SkillResponse(BaseModel):
         # and model_fields_set contains the field
         if self.skill_md is None and "skill_md" in self.model_fields_set:
             _dict['skill_md'] = None
+
+        # set to None if scripts (nullable) is None
+        # and model_fields_set contains the field
+        if self.scripts is None and "scripts" in self.model_fields_set:
+            _dict['scripts'] = None
 
         # set to None if owner (nullable) is None
         # and model_fields_set contains the field
@@ -147,6 +161,7 @@ class SkillResponse(BaseModel):
             "description": obj.get("description"),
             "skill_md": obj.get("skill_md"),
             "script_names": obj.get("script_names"),
+            "scripts": [SkillScriptFile.from_dict(_item) for _item in obj["scripts"]] if obj.get("scripts") is not None else None,
             "has_unpublished_changes": obj.get("has_unpublished_changes") if obj.get("has_unpublished_changes") is not None else False,
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,

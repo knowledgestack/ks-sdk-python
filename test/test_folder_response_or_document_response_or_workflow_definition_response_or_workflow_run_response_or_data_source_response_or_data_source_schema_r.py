@@ -253,6 +253,11 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 script_names = [
                     ''
                     ],
+                scripts = [
+                    ksapi.models.skill_script_file.SkillScriptFile(
+                        name = '', 
+                        content = '', )
+                    ],
                 has_unpublished_changes = True
             )
         else:

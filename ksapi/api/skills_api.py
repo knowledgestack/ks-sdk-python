@@ -1978,7 +1978,7 @@ class SkillsApi:
     ) -> SkillResponse:
         """Get Skill Handler
 
-        Skill detail: SKILL.md, scripts, has_unpublished_changes, permissions.
+        Skill detail: SKILL.md, script contents, has_unpublished_changes, perms.
 
         :param skill_id: (required)
         :type skill_id: UUID
@@ -2046,7 +2046,7 @@ class SkillsApi:
     ) -> ApiResponse[SkillResponse]:
         """Get Skill Handler
 
-        Skill detail: SKILL.md, scripts, has_unpublished_changes, permissions.
+        Skill detail: SKILL.md, script contents, has_unpublished_changes, perms.
 
         :param skill_id: (required)
         :type skill_id: UUID
@@ -2114,7 +2114,7 @@ class SkillsApi:
     ) -> RESTResponseType:
         """Get Skill Handler
 
-        Skill detail: SKILL.md, scripts, has_unpublished_changes, permissions.
+        Skill detail: SKILL.md, script contents, has_unpublished_changes, perms.
 
         :param skill_id: (required)
         :type skill_id: UUID
