@@ -10,6 +10,8 @@ from ksapi.api.threads_api import ThreadsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi
+from ksapi.api.admin_kb_api import AdminKbApi
+from ksapi.api.admin_workflows_api import AdminWorkflowsApi
 from ksapi.api.api_connections_api import ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi

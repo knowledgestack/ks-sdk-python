@@ -9,6 +9,8 @@ docs/AcceptInviteResponse.md
 docs/AccessCheckResponse.md
 docs/ActivateSkillVersionRequest.md
 docs/AddMemberRequest.md
+docs/AdminKbApi.md
+docs/AdminWorkflowsApi.md
 docs/AgentApi.md
 docs/AncestryResponse.md
 docs/ApiAuthConfig.md
@@ -96,6 +98,7 @@ docs/DataSourceSyncResponse.md
 docs/DataSourceTableResponse.md
 docs/DataSourcesApi.md
 docs/DefaultApi.md
+docs/DefinitionOutputStat.md
 docs/DiffFormat.md
 docs/DiffRow.md
 docs/DiffRowType.md
@@ -153,6 +156,7 @@ docs/GroupPermissionResponse.md
 docs/GroupResponse.md
 docs/HTTPValidationError.md
 docs/HealthCheckResponse.md
+docs/HourHistogramResponse.md
 docs/HybridSearchProfile.md
 docs/IdpConfig.md
 docs/IdpType.md
@@ -173,6 +177,11 @@ docs/InviteStatus.md
 docs/InviteUserRequest.md
 docs/InvitesApi.md
 docs/ItemPermissions.md
+docs/KbMetric.md
+docs/KbSummaryResponse.md
+docs/KbTimeseriesResponse.md
+docs/LabeledSeries.md
+docs/LeaderboardEntry.md
 docs/LineageEdgeResponse.md
 docs/LineageGraphResponse.md
 docs/LineageNodeResponse.md
@@ -253,6 +262,7 @@ docs/RevisionEdit.md
 docs/RootResponse.md
 docs/RunFolder.md
 docs/RunFolderRef.md
+docs/RunTimeseriesResponse.md
 docs/SSOInitiateResponse.md
 docs/ScoredChunkResponse.md
 docs/SearchSkillsRequest.md
@@ -325,6 +335,8 @@ docs/ThreadMessagesApi.md
 docs/ThreadOrder.md
 docs/ThreadResponse.md
 docs/ThreadsApi.md
+docs/TimeBucket.md
+docs/TimeseriesPoint.md
 docs/ToolDisplayType.md
 docs/ToolPart.md
 docs/ToolStatus.md
@@ -372,7 +384,9 @@ docs/WorkflowDefinitionResponse.md
 docs/WorkflowDefinitionsApi.md
 docs/WorkflowDetailResponse.md
 docs/WorkflowExecutionState.md
+docs/WorkflowLeaderboardResponse.md
 docs/WorkflowMemoryApi.md
+docs/WorkflowOutputStatsResponse.md
 docs/WorkflowRunAsset.md
 docs/WorkflowRunCallbackRequest.md
 docs/WorkflowRunOrder.md
@@ -388,6 +402,8 @@ docs/XlsxCellAnchorOutputOrDocxParagraphAnchorOutput.md
 git_push.sh
 ksapi/__init__.py
 ksapi/api/__init__.py
+ksapi/api/admin_kb_api.py
+ksapi/api/admin_workflows_api.py
 ksapi/api/agent_api.py
 ksapi/api/api_connections_api.py
 ksapi/api/api_keys_api.py
@@ -511,6 +527,7 @@ ksapi/models/data_source_schema_list_response.py
 ksapi/models/data_source_schema_response.py
 ksapi/models/data_source_sync_response.py
 ksapi/models/data_source_table_response.py
+ksapi/models/definition_output_stat.py
 ksapi/models/diff_format.py
 ksapi/models/diff_row.py
 ksapi/models/diff_row_type.py
@@ -561,6 +578,7 @@ ksapi/models/group_permission_order.py
 ksapi/models/group_permission_response.py
 ksapi/models/group_response.py
 ksapi/models/health_check_response.py
+ksapi/models/hour_histogram_response.py
 ksapi/models/http_validation_error.py
 ksapi/models/hybrid_search_profile.py
 ksapi/models/idp_config.py
@@ -581,6 +599,11 @@ ksapi/models/invite_response.py
 ksapi/models/invite_status.py
 ksapi/models/invite_user_request.py
 ksapi/models/item_permissions.py
+ksapi/models/kb_metric.py
+ksapi/models/kb_summary_response.py
+ksapi/models/kb_timeseries_response.py
+ksapi/models/labeled_series.py
+ksapi/models/leaderboard_entry.py
 ksapi/models/lineage_edge_response.py
 ksapi/models/lineage_graph_response.py
 ksapi/models/lineage_node_response.py
@@ -657,6 +680,7 @@ ksapi/models/revision_edit.py
 ksapi/models/root_response.py
 ksapi/models/run_folder.py
 ksapi/models/run_folder_ref.py
+ksapi/models/run_timeseries_response.py
 ksapi/models/scored_chunk_response.py
 ksapi/models/search_skills_request.py
 ksapi/models/search_skills_response.py
@@ -720,6 +744,8 @@ ksapi/models/thread_message_details.py
 ksapi/models/thread_message_response.py
 ksapi/models/thread_order.py
 ksapi/models/thread_response.py
+ksapi/models/time_bucket.py
+ksapi/models/timeseries_point.py
 ksapi/models/tool_display_type.py
 ksapi/models/tool_part.py
 ksapi/models/tool_status.py
@@ -763,6 +789,8 @@ ksapi/models/workflow_definition_order.py
 ksapi/models/workflow_definition_response.py
 ksapi/models/workflow_detail_response.py
 ksapi/models/workflow_execution_state.py
+ksapi/models/workflow_leaderboard_response.py
+ksapi/models/workflow_output_stats_response.py
 ksapi/models/workflow_run_asset.py
 ksapi/models/workflow_run_callback_request.py
 ksapi/models/workflow_run_order.py
@@ -787,6 +815,8 @@ test/test_accept_invite_response.py
 test/test_access_check_response.py
 test/test_activate_skill_version_request.py
 test/test_add_member_request.py
+test/test_admin_kb_api.py
+test/test_admin_workflows_api.py
 test/test_agent_api.py
 test/test_ancestry_response.py
 test/test_api_auth_config.py
@@ -874,6 +904,7 @@ test/test_data_source_sync_response.py
 test/test_data_source_table_response.py
 test/test_data_sources_api.py
 test/test_default_api.py
+test/test_definition_output_stat.py
 test/test_diff_format.py
 test/test_diff_row.py
 test/test_diff_row_type.py
@@ -930,6 +961,7 @@ test/test_group_permission_order.py
 test/test_group_permission_response.py
 test/test_group_response.py
 test/test_health_check_response.py
+test/test_hour_histogram_response.py
 test/test_http_validation_error.py
 test/test_hybrid_search_profile.py
 test/test_idp_config.py
@@ -951,6 +983,11 @@ test/test_invite_status.py
 test/test_invite_user_request.py
 test/test_invites_api.py
 test/test_item_permissions.py
+test/test_kb_metric.py
+test/test_kb_summary_response.py
+test/test_kb_timeseries_response.py
+test/test_labeled_series.py
+test/test_leaderboard_entry.py
 test/test_lineage_edge_response.py
 test/test_lineage_graph_response.py
 test/test_lineage_node_response.py
@@ -1031,6 +1068,7 @@ test/test_revision_edit.py
 test/test_root_response.py
 test/test_run_folder.py
 test/test_run_folder_ref.py
+test/test_run_timeseries_response.py
 test/test_scored_chunk_response.py
 test/test_search_skills_request.py
 test/test_search_skills_response.py
@@ -1103,6 +1141,8 @@ test/test_thread_messages_api.py
 test/test_thread_order.py
 test/test_thread_response.py
 test/test_threads_api.py
+test/test_time_bucket.py
+test/test_timeseries_point.py
 test/test_tool_display_type.py
 test/test_tool_part.py
 test/test_tool_status.py
@@ -1150,7 +1190,9 @@ test/test_workflow_definition_response.py
 test/test_workflow_definitions_api.py
 test/test_workflow_detail_response.py
 test/test_workflow_execution_state.py
+test/test_workflow_leaderboard_response.py
 test/test_workflow_memory_api.py
+test/test_workflow_output_stats_response.py
 test/test_workflow_run_asset.py
 test/test_workflow_run_callback_request.py
 test/test_workflow_run_order.py

@@ -95,6 +95,7 @@ from ksapi.models.data_source_schema_list_response import DataSourceSchemaListRe
 from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 from ksapi.models.data_source_sync_response import DataSourceSyncResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse
+from ksapi.models.definition_output_stat import DefinitionOutputStat
 from ksapi.models.diff_format import DiffFormat
 from ksapi.models.diff_row import DiffRow
 from ksapi.models.diff_row_type import DiffRowType
@@ -146,6 +147,7 @@ from ksapi.models.group_permission_response import GroupPermissionResponse
 from ksapi.models.group_response import GroupResponse
 from ksapi.models.http_validation_error import HTTPValidationError
 from ksapi.models.health_check_response import HealthCheckResponse
+from ksapi.models.hour_histogram_response import HourHistogramResponse
 from ksapi.models.hybrid_search_profile import HybridSearchProfile
 from ksapi.models.idp_config import IdpConfig
 from ksapi.models.idp_type import IdpType
@@ -165,6 +167,11 @@ from ksapi.models.invite_response import InviteResponse
 from ksapi.models.invite_status import InviteStatus
 from ksapi.models.invite_user_request import InviteUserRequest
 from ksapi.models.item_permissions import ItemPermissions
+from ksapi.models.kb_metric import KbMetric
+from ksapi.models.kb_summary_response import KbSummaryResponse
+from ksapi.models.kb_timeseries_response import KbTimeseriesResponse
+from ksapi.models.labeled_series import LabeledSeries
+from ksapi.models.leaderboard_entry import LeaderboardEntry
 from ksapi.models.lineage_edge_response import LineageEdgeResponse
 from ksapi.models.lineage_graph_response import LineageGraphResponse
 from ksapi.models.lineage_node_response import LineageNodeResponse
@@ -241,6 +248,7 @@ from ksapi.models.revision_edit import RevisionEdit
 from ksapi.models.root_response import RootResponse
 from ksapi.models.run_folder import RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef
+from ksapi.models.run_timeseries_response import RunTimeseriesResponse
 from ksapi.models.sso_initiate_response import SSOInitiateResponse
 from ksapi.models.scored_chunk_response import ScoredChunkResponse
 from ksapi.models.search_skills_request import SearchSkillsRequest
@@ -304,6 +312,8 @@ from ksapi.models.thread_message_details import ThreadMessageDetails
 from ksapi.models.thread_message_response import ThreadMessageResponse
 from ksapi.models.thread_order import ThreadOrder
 from ksapi.models.thread_response import ThreadResponse
+from ksapi.models.time_bucket import TimeBucket
+from ksapi.models.timeseries_point import TimeseriesPoint
 from ksapi.models.tool_display_type import ToolDisplayType
 from ksapi.models.tool_part import ToolPart
 from ksapi.models.tool_status import ToolStatus
@@ -347,6 +357,8 @@ from ksapi.models.workflow_definition_order import WorkflowDefinitionOrder
 from ksapi.models.workflow_definition_response import WorkflowDefinitionResponse
 from ksapi.models.workflow_detail_response import WorkflowDetailResponse
 from ksapi.models.workflow_execution_state import WorkflowExecutionState
+from ksapi.models.workflow_leaderboard_response import WorkflowLeaderboardResponse
+from ksapi.models.workflow_output_stats_response import WorkflowOutputStatsResponse
 from ksapi.models.workflow_run_asset import WorkflowRunAsset
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest
 from ksapi.models.workflow_run_order import WorkflowRunOrder

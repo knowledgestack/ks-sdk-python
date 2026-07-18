@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.139.1"
+__version__ = "1.140.0"
 
 # Define package exports
 __all__ = [
@@ -27,6 +27,8 @@ __all__ = [
     "WorkflowDefinitionsApi",
     "WorkflowMemoryApi",
     "WorkflowRunsApi",
+    "AdminKbApi",
+    "AdminWorkflowsApi",
     "ApiConnectionsApi",
     "ApiKeysApi",
     "AuditEventsApi",
@@ -145,6 +147,7 @@ __all__ = [
     "DataSourceSchemaResponse",
     "DataSourceSyncResponse",
     "DataSourceTableResponse",
+    "DefinitionOutputStat",
     "DiffFormat",
     "DiffRow",
     "DiffRowType",
@@ -196,6 +199,7 @@ __all__ = [
     "GroupResponse",
     "HTTPValidationError",
     "HealthCheckResponse",
+    "HourHistogramResponse",
     "HybridSearchProfile",
     "IdpConfig",
     "IdpType",
@@ -215,6 +219,11 @@ __all__ = [
     "InviteStatus",
     "InviteUserRequest",
     "ItemPermissions",
+    "KbMetric",
+    "KbSummaryResponse",
+    "KbTimeseriesResponse",
+    "LabeledSeries",
+    "LeaderboardEntry",
     "LineageEdgeResponse",
     "LineageGraphResponse",
     "LineageNodeResponse",
@@ -291,6 +300,7 @@ __all__ = [
     "RootResponse",
     "RunFolder",
     "RunFolderRef",
+    "RunTimeseriesResponse",
     "SSOInitiateResponse",
     "ScoredChunkResponse",
     "SearchSkillsRequest",
@@ -354,6 +364,8 @@ __all__ = [
     "ThreadMessageResponse",
     "ThreadOrder",
     "ThreadResponse",
+    "TimeBucket",
+    "TimeseriesPoint",
     "ToolDisplayType",
     "ToolPart",
     "ToolStatus",
@@ -397,6 +409,8 @@ __all__ = [
     "WorkflowDefinitionResponse",
     "WorkflowDetailResponse",
     "WorkflowExecutionState",
+    "WorkflowLeaderboardResponse",
+    "WorkflowOutputStatsResponse",
     "WorkflowRunAsset",
     "WorkflowRunCallbackRequest",
     "WorkflowRunOrder",
@@ -420,6 +434,8 @@ from ksapi.api.threads_api import ThreadsApi as ThreadsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi as WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi as WorkflowMemoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi as WorkflowRunsApi
+from ksapi.api.admin_kb_api import AdminKbApi as AdminKbApi
+from ksapi.api.admin_workflows_api import AdminWorkflowsApi as AdminWorkflowsApi
 from ksapi.api.api_connections_api import ApiConnectionsApi as ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi as ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi as AuditEventsApi
@@ -542,6 +558,7 @@ from ksapi.models.data_source_schema_list_response import DataSourceSchemaListRe
 from ksapi.models.data_source_schema_response import DataSourceSchemaResponse as DataSourceSchemaResponse
 from ksapi.models.data_source_sync_response import DataSourceSyncResponse as DataSourceSyncResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse as DataSourceTableResponse
+from ksapi.models.definition_output_stat import DefinitionOutputStat as DefinitionOutputStat
 from ksapi.models.diff_format import DiffFormat as DiffFormat
 from ksapi.models.diff_row import DiffRow as DiffRow
 from ksapi.models.diff_row_type import DiffRowType as DiffRowType
@@ -593,6 +610,7 @@ from ksapi.models.group_permission_response import GroupPermissionResponse as Gr
 from ksapi.models.group_response import GroupResponse as GroupResponse
 from ksapi.models.http_validation_error import HTTPValidationError as HTTPValidationError
 from ksapi.models.health_check_response import HealthCheckResponse as HealthCheckResponse
+from ksapi.models.hour_histogram_response import HourHistogramResponse as HourHistogramResponse
 from ksapi.models.hybrid_search_profile import HybridSearchProfile as HybridSearchProfile
 from ksapi.models.idp_config import IdpConfig as IdpConfig
 from ksapi.models.idp_type import IdpType as IdpType
@@ -612,6 +630,11 @@ from ksapi.models.invite_response import InviteResponse as InviteResponse
 from ksapi.models.invite_status import InviteStatus as InviteStatus
 from ksapi.models.invite_user_request import InviteUserRequest as InviteUserRequest
 from ksapi.models.item_permissions import ItemPermissions as ItemPermissions
+from ksapi.models.kb_metric import KbMetric as KbMetric
+from ksapi.models.kb_summary_response import KbSummaryResponse as KbSummaryResponse
+from ksapi.models.kb_timeseries_response import KbTimeseriesResponse as KbTimeseriesResponse
+from ksapi.models.labeled_series import LabeledSeries as LabeledSeries
+from ksapi.models.leaderboard_entry import LeaderboardEntry as LeaderboardEntry
 from ksapi.models.lineage_edge_response import LineageEdgeResponse as LineageEdgeResponse
 from ksapi.models.lineage_graph_response import LineageGraphResponse as LineageGraphResponse
 from ksapi.models.lineage_node_response import LineageNodeResponse as LineageNodeResponse
@@ -688,6 +711,7 @@ from ksapi.models.revision_edit import RevisionEdit as RevisionEdit
 from ksapi.models.root_response import RootResponse as RootResponse
 from ksapi.models.run_folder import RunFolder as RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef as RunFolderRef
+from ksapi.models.run_timeseries_response import RunTimeseriesResponse as RunTimeseriesResponse
 from ksapi.models.sso_initiate_response import SSOInitiateResponse as SSOInitiateResponse
 from ksapi.models.scored_chunk_response import ScoredChunkResponse as ScoredChunkResponse
 from ksapi.models.search_skills_request import SearchSkillsRequest as SearchSkillsRequest
@@ -751,6 +775,8 @@ from ksapi.models.thread_message_details import ThreadMessageDetails as ThreadMe
 from ksapi.models.thread_message_response import ThreadMessageResponse as ThreadMessageResponse
 from ksapi.models.thread_order import ThreadOrder as ThreadOrder
 from ksapi.models.thread_response import ThreadResponse as ThreadResponse
+from ksapi.models.time_bucket import TimeBucket as TimeBucket
+from ksapi.models.timeseries_point import TimeseriesPoint as TimeseriesPoint
 from ksapi.models.tool_display_type import ToolDisplayType as ToolDisplayType
 from ksapi.models.tool_part import ToolPart as ToolPart
 from ksapi.models.tool_status import ToolStatus as ToolStatus
@@ -794,6 +820,8 @@ from ksapi.models.workflow_definition_order import WorkflowDefinitionOrder as Wo
 from ksapi.models.workflow_definition_response import WorkflowDefinitionResponse as WorkflowDefinitionResponse
 from ksapi.models.workflow_detail_response import WorkflowDetailResponse as WorkflowDetailResponse
 from ksapi.models.workflow_execution_state import WorkflowExecutionState as WorkflowExecutionState
+from ksapi.models.workflow_leaderboard_response import WorkflowLeaderboardResponse as WorkflowLeaderboardResponse
+from ksapi.models.workflow_output_stats_response import WorkflowOutputStatsResponse as WorkflowOutputStatsResponse
 from ksapi.models.workflow_run_asset import WorkflowRunAsset as WorkflowRunAsset
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest as WorkflowRunCallbackRequest
 from ksapi.models.workflow_run_order import WorkflowRunOrder as WorkflowRunOrder
