@@ -61,6 +61,13 @@ class TestWorkflowRunsApi(unittest.TestCase):
         """
         pass
 
+    def test_resume_workflow_run(self) -> None:
+        """Test case for resume_workflow_run
+
+        Resume Workflow Run Handler
+        """
+        pass
+
     def test_retry_workflow_run(self) -> None:
         """Test case for retry_workflow_run
 

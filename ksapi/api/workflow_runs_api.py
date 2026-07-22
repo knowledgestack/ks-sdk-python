@@ -1751,6 +1751,271 @@ class WorkflowRunsApi:
 
 
     @validate_call
+    def resume_workflow_run(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Resume Workflow Run Handler
+
+        Continue a FAILED run in place instead of restarting it.  Unlike ``retry`` (which restarts the agent cold), ``resume`` loads the run's surviving thread history — the checkpoint summary and any persisted partial reply — and re-hydrates ``/work/``, so a run that timed out or was stopped near the end finishes from where it left off rather than redoing the work. Same guards as retry: 409 if the run is not FAILED or was never started; triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._resume_workflow_run_serialize(
+            run_id=run_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def resume_workflow_run_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Resume Workflow Run Handler
+
+        Continue a FAILED run in place instead of restarting it.  Unlike ``retry`` (which restarts the agent cold), ``resume`` loads the run's surviving thread history — the checkpoint summary and any persisted partial reply — and re-hydrates ``/work/``, so a run that timed out or was stopped near the end finishes from where it left off rather than redoing the work. Same guards as retry: 409 if the run is not FAILED or was never started; triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._resume_workflow_run_serialize(
+            run_id=run_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def resume_workflow_run_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Resume Workflow Run Handler
+
+        Continue a FAILED run in place instead of restarting it.  Unlike ``retry`` (which restarts the agent cold), ``resume`` loads the run's surviving thread history — the checkpoint summary and any persisted partial reply — and re-hydrates ``/work/``, so a run that timed out or was stopped near the end finishes from where it left off rather than redoing the work. Same guards as retry: 409 if the run is not FAILED or was never started; triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
+
+        :param run_id: (required)
+        :type run_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._resume_workflow_run_serialize(
+            run_id=run_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "WorkflowRunResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _resume_workflow_run_serialize(
+        self,
+        run_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if run_id is not None:
+            _path_params['run_id'] = run_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/workflow-runs/{run_id}/resume',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def retry_workflow_run(
         self,
         run_id: UUID,
@@ -1769,7 +2034,7 @@ class WorkflowRunsApi:
     ) -> WorkflowRunResponse:
         """Retry Workflow Run Handler
 
-        Re-run a FAILED run (including a user-stopped one) in place.  Flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches the agent. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
+        Re-run a FAILED run (including a user-stopped one) from scratch.  Restarts the agent cold: flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches with empty history. Use ``resume`` to continue from surviving history instead. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
 
         :param run_id: (required)
         :type run_id: UUID
@@ -1837,7 +2102,7 @@ class WorkflowRunsApi:
     ) -> ApiResponse[WorkflowRunResponse]:
         """Retry Workflow Run Handler
 
-        Re-run a FAILED run (including a user-stopped one) in place.  Flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches the agent. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
+        Re-run a FAILED run (including a user-stopped one) from scratch.  Restarts the agent cold: flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches with empty history. Use ``resume`` to continue from surviving history instead. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
 
         :param run_id: (required)
         :type run_id: UUID
@@ -1905,7 +2170,7 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """Retry Workflow Run Handler
 
-        Re-run a FAILED run (including a user-stopped one) in place.  Flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches the agent. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
+        Re-run a FAILED run (including a user-stopped one) from scratch.  Restarts the agent cold: flips ``FAILED -> IN_PROGRESS`` against the run's existing snapshot and re-dispatches with empty history. Use ``resume`` to continue from surviving history instead. 409 if the run is not FAILED (NOT_STARTED/PENDING use Start; COMPLETED is cloned) or was never started. Triggerer or OWNER/ADMIN only.  Runs in the background — poll ``GET /v1/workflow-runs/{run_id}`` (also given in the ``Location`` header) until ``execution_state`` is COMPLETED or FAILED.
 
         :param run_id: (required)
         :type run_id: UUID
