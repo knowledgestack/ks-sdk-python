@@ -85,6 +85,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     asset_s3_url = '', 
+                    cited_asset_s3_url = '', 
                     fast_plaintext_url = '', 
                     page_screenshot_urls = [
                         ''
@@ -93,6 +94,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         source_s3 = '', 
                         cleaned_source_s3 = '', 
                         preconversion_source_s3 = '', 
+                        cited_source_s3 = '', 
                         fast_plaintext_s3 = '', 
                         hash = '', 
                         pipeline_state = null, 
@@ -298,6 +300,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     asset_s3_url = '', 
+                    cited_asset_s3_url = '', 
                     fast_plaintext_url = '', 
                     page_screenshot_urls = [
                         ''
@@ -306,6 +309,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         source_s3 = '', 
                         cleaned_source_s3 = '', 
                         preconversion_source_s3 = '', 
+                        cited_source_s3 = '', 
                         fast_plaintext_s3 = '', 
                         hash = '', 
                         pipeline_state = null, 

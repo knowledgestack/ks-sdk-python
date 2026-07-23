@@ -26,6 +26,13 @@ class TestDocumentVersionsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_attach_cited_asset(self) -> None:
+        """Test case for attach_cited_asset
+
+        Attach Cited Asset Handler
+        """
+        pass
+
     def test_clear_document_version_contents(self) -> None:
         """Test case for clear_document_version_contents
 
