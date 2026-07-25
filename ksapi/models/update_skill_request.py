@@ -20,7 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from ksapi.models.skill_script_file import SkillScriptFile
+from ksapi.models.skill_file import SkillFile
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -30,8 +30,8 @@ class UpdateSkillRequest(BaseModel):
     Edit working-copy files in place (does NOT cut a version).
     """ # noqa: E501
     skill_md: Optional[StrictStr] = Field(default=None, description="Replacement SKILL.md, written to the working copy in place; null leaves it unchanged. Publish a version to snapshot; the active version is unchanged until then.")
-    scripts: Optional[Annotated[List[SkillScriptFile], Field(max_length=50)]] = Field(default=None, description="Replace the working-copy scripts set (add/overwrite/remove to match); null leaves scripts unchanged, [] removes them all.")
-    __properties: ClassVar[List[str]] = ["skill_md", "scripts"]
+    files: Optional[Annotated[List[SkillFile], Field(max_length=2000)]] = Field(default=None, description="Replace the whole bundle below SKILL.md (add/overwrite/remove to match); null leaves the tree unchanged, [] removes every file.")
+    __properties: ClassVar[List[str]] = ["skill_md", "files"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -72,22 +72,22 @@ class UpdateSkillRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in scripts (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
-        if self.scripts:
-            for _item_scripts in self.scripts:
-                if _item_scripts:
-                    _items.append(_item_scripts.to_dict())
-            _dict['scripts'] = _items
+        if self.files:
+            for _item_files in self.files:
+                if _item_files:
+                    _items.append(_item_files.to_dict())
+            _dict['files'] = _items
         # set to None if skill_md (nullable) is None
         # and model_fields_set contains the field
         if self.skill_md is None and "skill_md" in self.model_fields_set:
             _dict['skill_md'] = None
 
-        # set to None if scripts (nullable) is None
+        # set to None if files (nullable) is None
         # and model_fields_set contains the field
-        if self.scripts is None and "scripts" in self.model_fields_set:
-            _dict['scripts'] = None
+        if self.files is None and "files" in self.model_fields_set:
+            _dict['files'] = None
 
         return _dict
 
@@ -102,7 +102,7 @@ class UpdateSkillRequest(BaseModel):
 
         _obj = cls.model_validate({
             "skill_md": obj.get("skill_md"),
-            "scripts": [SkillScriptFile.from_dict(_item) for _item in obj["scripts"]] if obj.get("scripts") is not None else None
+            "files": [SkillFile.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None
         })
         return _obj
 

@@ -17,20 +17,31 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class SkillScriptFile(BaseModel):
+class SkillFile(BaseModel):
     """
-    A single script bundled under a skill's ``scripts/`` folder.
+    One file in a skill bundle, at a path relative to the skill root.  Skills carry arbitrary trees (``scripts/office/validate.py``, ``references/guide.md``, ``assets/logo.png``), so binary files are carried base64-encoded rather than excluded.
     """ # noqa: E501
-    name: Annotated[str, Field(strict=True, max_length=255)] = Field(description="Script file name, e.g. inspect.py")
-    content: StrictStr = Field(description="Script file contents (UTF-8 text).")
-    __properties: ClassVar[List[str]] = ["name", "content"]
+    path: Annotated[str, Field(strict=True, max_length=1024)] = Field(description="Path relative to the skill root, e.g. scripts/office/run.py")
+    content: StrictStr = Field(description="UTF-8 text, or base64-encoded bytes when encoding=base64.")
+    encoding: Optional[StrictStr] = Field(default='utf-8', description="How `content` is encoded.")
+    __properties: ClassVar[List[str]] = ["path", "content", "encoding"]
+
+    @field_validator('encoding')
+    def encoding_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['utf-8', 'base64']):
+            raise ValueError("must be one of enum values ('utf-8', 'base64')")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -50,7 +61,7 @@ class SkillScriptFile(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of SkillScriptFile from a JSON string"""
+        """Create an instance of SkillFile from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +86,7 @@ class SkillScriptFile(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of SkillScriptFile from a dict"""
+        """Create an instance of SkillFile from a dict"""
         if obj is None:
             return None
 
@@ -83,8 +94,9 @@ class SkillScriptFile(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "content": obj.get("content")
+            "path": obj.get("path"),
+            "content": obj.get("content"),
+            "encoding": obj.get("encoding") if obj.get("encoding") is not None else 'utf-8'
         })
         return _obj
 

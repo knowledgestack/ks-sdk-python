@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.144.0"
+__version__ = "1.145.0"
 
 # Define package exports
 __all__ = [
@@ -322,9 +322,9 @@ __all__ = [
     "SetWorkflowRunApprovalRequest",
     "SheetVisibilityChange",
     "SignInRequest",
+    "SkillFile",
     "SkillOrder",
     "SkillResponse",
-    "SkillScriptFile",
     "SkillSearchResult",
     "SkillVersionResponse",
     "SortDirection",
@@ -735,9 +735,9 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest as S
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest as SetWorkflowRunApprovalRequest
 from ksapi.models.sheet_visibility_change import SheetVisibilityChange as SheetVisibilityChange
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
+from ksapi.models.skill_file import SkillFile as SkillFile
 from ksapi.models.skill_order import SkillOrder as SkillOrder
 from ksapi.models.skill_response import SkillResponse as SkillResponse
-from ksapi.models.skill_script_file import SkillScriptFile as SkillScriptFile
 from ksapi.models.skill_search_result import SkillSearchResult as SkillSearchResult
 from ksapi.models.skill_version_response import SkillVersionResponse as SkillVersionResponse
 from ksapi.models.sort_direction import SortDirection as SortDirection

@@ -46,13 +46,14 @@ class TestPaginatedResponseSkillResponse(unittest.TestCase):
                         name = '', 
                         description = '', 
                         skill_md = '', 
-                        script_names = [
+                        file_paths = [
                             ''
                             ], 
-                        scripts = [
-                            ksapi.models.skill_script_file.SkillScriptFile(
-                                name = '', 
-                                content = '', )
+                        files = [
+                            ksapi.models.skill_file.SkillFile(
+                                path = '', 
+                                content = '', 
+                                encoding = 'utf-8', )
                             ], 
                         has_unpublished_changes = True, 
                         approval_state = 'not_required', 
@@ -78,13 +79,14 @@ class TestPaginatedResponseSkillResponse(unittest.TestCase):
                         name = '', 
                         description = '', 
                         skill_md = '', 
-                        script_names = [
+                        file_paths = [
                             ''
                             ], 
-                        scripts = [
-                            ksapi.models.skill_script_file.SkillScriptFile(
-                                name = '', 
-                                content = '', )
+                        files = [
+                            ksapi.models.skill_file.SkillFile(
+                                path = '', 
+                                content = '', 
+                                encoding = 'utf-8', )
                             ], 
                         has_unpublished_changes = True, 
                         approval_state = 'not_required', 

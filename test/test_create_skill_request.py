@@ -37,10 +37,11 @@ class TestCreateSkillRequest(unittest.TestCase):
             return CreateSkillRequest(
                 name = '',
                 skill_md = '',
-                scripts = [
-                    ksapi.models.skill_script_file.SkillScriptFile(
-                        name = '', 
-                        content = '', )
+                files = [
+                    ksapi.models.skill_file.SkillFile(
+                        path = '', 
+                        content = '', 
+                        encoding = 'utf-8', )
                     ]
             )
         else:

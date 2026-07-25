@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBytes, StrictStr
+from pydantic import Field, StrictBool, StrictBytes, StrictStr
 from typing import Any, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
@@ -1963,6 +1963,7 @@ class SkillsApi:
     def get_skill(
         self,
         skill_id: UUID,
+        include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1978,10 +1979,12 @@ class SkillsApi:
     ) -> SkillResponse:
         """Get Skill Handler
 
-        Skill detail: SKILL.md, script contents, has_unpublished_changes, perms.
+        Skill detail: SKILL.md, file paths (+ contents on request), perms.
 
         :param skill_id: (required)
         :type skill_id: UUID
+        :param include_file_contents: Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.
+        :type include_file_contents: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2006,6 +2009,7 @@ class SkillsApi:
 
         _param = self._get_skill_serialize(
             skill_id=skill_id,
+            include_file_contents=include_file_contents,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2031,6 +2035,7 @@ class SkillsApi:
     def get_skill_with_http_info(
         self,
         skill_id: UUID,
+        include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2046,10 +2051,12 @@ class SkillsApi:
     ) -> ApiResponse[SkillResponse]:
         """Get Skill Handler
 
-        Skill detail: SKILL.md, script contents, has_unpublished_changes, perms.
+        Skill detail: SKILL.md, file paths (+ contents on request), perms.
 
         :param skill_id: (required)
         :type skill_id: UUID
+        :param include_file_contents: Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.
+        :type include_file_contents: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2074,6 +2081,7 @@ class SkillsApi:
 
         _param = self._get_skill_serialize(
             skill_id=skill_id,
+            include_file_contents=include_file_contents,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2099,6 +2107,7 @@ class SkillsApi:
     def get_skill_without_preload_content(
         self,
         skill_id: UUID,
+        include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2114,10 +2123,12 @@ class SkillsApi:
     ) -> RESTResponseType:
         """Get Skill Handler
 
-        Skill detail: SKILL.md, script contents, has_unpublished_changes, perms.
+        Skill detail: SKILL.md, file paths (+ contents on request), perms.
 
         :param skill_id: (required)
         :type skill_id: UUID
+        :param include_file_contents: Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.
+        :type include_file_contents: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2142,6 +2153,7 @@ class SkillsApi:
 
         _param = self._get_skill_serialize(
             skill_id=skill_id,
+            include_file_contents=include_file_contents,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2162,6 +2174,7 @@ class SkillsApi:
     def _get_skill_serialize(
         self,
         skill_id,
+        include_file_contents,
         _request_auth,
         _content_type,
         _headers,
@@ -2186,6 +2199,10 @@ class SkillsApi:
         if skill_id is not None:
             _path_params['skill_id'] = skill_id
         # process the query parameters
+        if include_file_contents is not None:
+            
+            _query_params.append(('include_file_contents', include_file_contents))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2243,7 +2260,7 @@ class SkillsApi:
     ) -> SkillResponse:
         """Import Skill Handler
 
-        Create a skill by importing a redistributable ZIP (works across tenants).
+        Create a skill from an uploaded ZIP or tarball (works across tenants).
 
         :param file: (required)
         :type file: bytes
@@ -2311,7 +2328,7 @@ class SkillsApi:
     ) -> ApiResponse[SkillResponse]:
         """Import Skill Handler
 
-        Create a skill by importing a redistributable ZIP (works across tenants).
+        Create a skill from an uploaded ZIP or tarball (works across tenants).
 
         :param file: (required)
         :type file: bytes
@@ -2379,7 +2396,7 @@ class SkillsApi:
     ) -> RESTResponseType:
         """Import Skill Handler
 
-        Create a skill by importing a redistributable ZIP (works across tenants).
+        Create a skill from an uploaded ZIP or tarball (works across tenants).
 
         :param file: (required)
         :type file: bytes

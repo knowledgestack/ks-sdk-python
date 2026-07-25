@@ -285,9 +285,9 @@ docs/SetApprovalStateRequest.md
 docs/SetWorkflowRunApprovalRequest.md
 docs/SheetVisibilityChange.md
 docs/SignInRequest.md
+docs/SkillFile.md
 docs/SkillOrder.md
 docs/SkillResponse.md
-docs/SkillScriptFile.md
 docs/SkillSearchResult.md
 docs/SkillVersionResponse.md
 docs/SkillsApi.md
@@ -703,9 +703,9 @@ ksapi/models/set_approval_state_request.py
 ksapi/models/set_workflow_run_approval_request.py
 ksapi/models/sheet_visibility_change.py
 ksapi/models/sign_in_request.py
+ksapi/models/skill_file.py
 ksapi/models/skill_order.py
 ksapi/models/skill_response.py
-ksapi/models/skill_script_file.py
 ksapi/models/skill_search_result.py
 ksapi/models/skill_version_response.py
 ksapi/models/sort_direction.py
@@ -1094,9 +1094,9 @@ test/test_set_approval_state_request.py
 test/test_set_workflow_run_approval_request.py
 test/test_sheet_visibility_change.py
 test/test_sign_in_request.py
+test/test_skill_file.py
 test/test_skill_order.py
 test/test_skill_response.py
-test/test_skill_script_file.py
 test/test_skill_search_result.py
 test/test_skill_version_response.py
 test/test_skills_api.py

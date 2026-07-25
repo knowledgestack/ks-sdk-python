@@ -270,9 +270,9 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest
 from ksapi.models.sheet_visibility_change import SheetVisibilityChange
 from ksapi.models.sign_in_request import SignInRequest
+from ksapi.models.skill_file import SkillFile
 from ksapi.models.skill_order import SkillOrder
 from ksapi.models.skill_response import SkillResponse
-from ksapi.models.skill_script_file import SkillScriptFile
 from ksapi.models.skill_search_result import SkillSearchResult
 from ksapi.models.skill_version_response import SkillVersionResponse
 from ksapi.models.sort_direction import SortDirection

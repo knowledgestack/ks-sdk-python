@@ -36,10 +36,11 @@ class TestUpdateSkillRequest(unittest.TestCase):
         if include_optional:
             return UpdateSkillRequest(
                 skill_md = '',
-                scripts = [
-                    ksapi.models.skill_script_file.SkillScriptFile(
-                        name = '', 
-                        content = '', )
+                files = [
+                    ksapi.models.skill_file.SkillFile(
+                        path = '', 
+                        content = '', 
+                        encoding = 'utf-8', )
                     ]
             )
         else:

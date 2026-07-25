@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.skill_script_file import SkillScriptFile
+from ksapi.models.skill_file import SkillFile
 
-class TestSkillScriptFile(unittest.TestCase):
-    """SkillScriptFile unit test stubs"""
+class TestSkillFile(unittest.TestCase):
+    """SkillFile unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,28 +25,29 @@ class TestSkillScriptFile(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> SkillScriptFile:
-        """Test SkillScriptFile
+    def make_instance(self, include_optional) -> SkillFile:
+        """Test SkillFile
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `SkillScriptFile`
+        # uncomment below to create an instance of `SkillFile`
         """
-        model = SkillScriptFile()
+        model = SkillFile()
         if include_optional:
-            return SkillScriptFile(
-                name = '',
-                content = ''
+            return SkillFile(
+                path = '',
+                content = '',
+                encoding = 'utf-8'
             )
         else:
-            return SkillScriptFile(
-                name = '',
+            return SkillFile(
+                path = '',
                 content = '',
         )
         """
 
-    def testSkillScriptFile(self):
-        """Test SkillScriptFile"""
+    def testSkillFile(self):
+        """Test SkillFile"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

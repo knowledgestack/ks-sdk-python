@@ -20,7 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from ksapi.models.skill_script_file import SkillScriptFile
+from ksapi.models.skill_file import SkillFile
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -31,8 +31,8 @@ class CreateSkillRequest(BaseModel):
     """ # noqa: E501
     name: Annotated[str, Field(strict=True, max_length=255)] = Field(description="Skill machine name (its folder name); unique within the tenant.")
     skill_md: StrictStr = Field(description="Full SKILL.md content: YAML frontmatter with name + description, then the markdown instruction body.")
-    scripts: Optional[Annotated[List[SkillScriptFile], Field(max_length=50)]] = Field(default=None, description="Optional scripts bundled under the skill's scripts/ folder.")
-    __properties: ClassVar[List[str]] = ["name", "skill_md", "scripts"]
+    files: Optional[Annotated[List[SkillFile], Field(max_length=2000)]] = Field(default=None, description="Optional bundle files at paths relative to the skill root (scripts/, references/, assets/, …). SKILL.md is supplied separately and must not be repeated here.")
+    __properties: ClassVar[List[str]] = ["name", "skill_md", "files"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -73,13 +73,13 @@ class CreateSkillRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in scripts (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
-        if self.scripts:
-            for _item_scripts in self.scripts:
-                if _item_scripts:
-                    _items.append(_item_scripts.to_dict())
-            _dict['scripts'] = _items
+        if self.files:
+            for _item_files in self.files:
+                if _item_files:
+                    _items.append(_item_files.to_dict())
+            _dict['files'] = _items
         return _dict
 
     @classmethod
@@ -94,7 +94,7 @@ class CreateSkillRequest(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "skill_md": obj.get("skill_md"),
-            "scripts": [SkillScriptFile.from_dict(_item) for _item in obj["scripts"]] if obj.get("scripts") is not None else None
+            "files": [SkillFile.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None
         })
         return _obj
 

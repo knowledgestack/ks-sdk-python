@@ -252,13 +252,14 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 disclaimer_accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 disclaimer_accepted_by = '',
                 skill_md = '',
-                script_names = [
+                file_paths = [
                     ''
                     ],
-                scripts = [
-                    ksapi.models.skill_script_file.SkillScriptFile(
-                        name = '', 
-                        content = '', )
+                files = [
+                    ksapi.models.skill_file.SkillFile(
+                        path = '', 
+                        content = '', 
+                        encoding = 'utf-8', )
                     ],
                 has_unpublished_changes = True
             )
