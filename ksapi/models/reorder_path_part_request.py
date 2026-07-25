@@ -17,33 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
-from ksapi.models.resolved_ref import ResolvedRef
-from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class EventResponse(BaseModel):
+class ReorderPathPartRequest(BaseModel):
     """
-    One event row, anchored to a path_part subject.  ``kind`` is namespaced ``domain.action`` (e.g. ``workflow.approval``, ``document.created``). ``payload`` is the domain-specific structured JSON associated with the event, stored verbatim and never rewritten — the human-readable resolution lives alongside it in ``references``.
+    Reorder a path part within its sibling list.
     """ # noqa: E501
-    id: UUID
-    subject_path_part_id: UUID
-    kind: StrictStr
-    ts: datetime
-    actor_user_id: Optional[UUID]
-    payload: Dict[str, Any]
-    actor: Optional[UserInfo] = None
-    subject_name: Optional[StrictStr] = None
-    subject_path: Optional[StrictStr] = None
-    subject_object_id: Optional[UUID] = None
-    subject_part_type: Optional[StrictStr] = None
-    references: Optional[Dict[str, ResolvedRef]] = None
-    __properties: ClassVar[List[str]] = ["id", "subject_path_part_id", "kind", "ts", "actor_user_id", "payload", "actor", "subject_name", "subject_path", "subject_object_id", "subject_part_type", "references"]
+    prev_sibling_path_id: Optional[UUID] = Field(default=None, description="Place this node immediately after the given sibling PathPart id (must share the same parent). Pass the current tail's id to move to the end. Requires move_to_head=false.")
+    move_to_head: Optional[StrictBool] = Field(default=False, description="Move this node to the head of its sibling list.")
+    __properties: ClassVar[List[str]] = ["prev_sibling_path_id", "move_to_head"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -63,7 +50,7 @@ class EventResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of EventResponse from a JSON string"""
+        """Create an instance of ReorderPathPartRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,51 +71,16 @@ class EventResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of actor
-        if self.actor:
-            _dict['actor'] = self.actor.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each value in references (dict)
-        _field_dict = {}
-        if self.references:
-            for _key_references in self.references:
-                if self.references[_key_references]:
-                    _field_dict[_key_references] = self.references[_key_references].to_dict()
-            _dict['references'] = _field_dict
-        # set to None if actor_user_id (nullable) is None
+        # set to None if prev_sibling_path_id (nullable) is None
         # and model_fields_set contains the field
-        if self.actor_user_id is None and "actor_user_id" in self.model_fields_set:
-            _dict['actor_user_id'] = None
-
-        # set to None if actor (nullable) is None
-        # and model_fields_set contains the field
-        if self.actor is None and "actor" in self.model_fields_set:
-            _dict['actor'] = None
-
-        # set to None if subject_name (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_name is None and "subject_name" in self.model_fields_set:
-            _dict['subject_name'] = None
-
-        # set to None if subject_path (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_path is None and "subject_path" in self.model_fields_set:
-            _dict['subject_path'] = None
-
-        # set to None if subject_object_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_object_id is None and "subject_object_id" in self.model_fields_set:
-            _dict['subject_object_id'] = None
-
-        # set to None if subject_part_type (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_part_type is None and "subject_part_type" in self.model_fields_set:
-            _dict['subject_part_type'] = None
+        if self.prev_sibling_path_id is None and "prev_sibling_path_id" in self.model_fields_set:
+            _dict['prev_sibling_path_id'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of EventResponse from a dict"""
+        """Create an instance of ReorderPathPartRequest from a dict"""
         if obj is None:
             return None
 
@@ -136,23 +88,8 @@ class EventResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "subject_path_part_id": obj.get("subject_path_part_id"),
-            "kind": obj.get("kind"),
-            "ts": obj.get("ts"),
-            "actor_user_id": obj.get("actor_user_id"),
-            "payload": obj.get("payload"),
-            "actor": UserInfo.from_dict(obj["actor"]) if obj.get("actor") is not None else None,
-            "subject_name": obj.get("subject_name"),
-            "subject_path": obj.get("subject_path"),
-            "subject_object_id": obj.get("subject_object_id"),
-            "subject_part_type": obj.get("subject_part_type"),
-            "references": dict(
-                (_k, ResolvedRef.from_dict(_v))
-                for _k, _v in obj["references"].items()
-            )
-            if obj.get("references") is not None
-            else None
+            "prev_sibling_path_id": obj.get("prev_sibling_path_id"),
+            "move_to_head": obj.get("move_to_head") if obj.get("move_to_head") is not None else False
         })
         return _obj
 

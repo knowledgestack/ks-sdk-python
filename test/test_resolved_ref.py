@@ -14,102 +14,43 @@
 
 import unittest
 
-from ksapi.api.path_parts_api import PathPartsApi
+from ksapi.models.resolved_ref import ResolvedRef
 
+class TestResolvedRef(unittest.TestCase):
+    """ResolvedRef unit test stubs"""
 
-class TestPathPartsApi(unittest.TestCase):
-    """PathPartsApi unit test stubs"""
-
-    def setUp(self) -> None:
-        self.api = PathPartsApi()
-
-    def tearDown(self) -> None:
+    def setUp(self):
         pass
 
-    def test_append_path_part_event(self) -> None:
-        """Test case for append_path_part_event
+    def tearDown(self):
+        pass
 
-        Append Path Part Event Handler
+    def make_instance(self, include_optional) -> ResolvedRef:
+        """Test ResolvedRef
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `ResolvedRef`
         """
-        pass
-
-    def test_bulk_remove_path_part_tags(self) -> None:
-        """Test case for bulk_remove_path_part_tags
-
-        Bulk Remove Path Part Tags Handler
+        model = ResolvedRef()
+        if include_optional:
+            return ResolvedRef(
+                entity_type = 'path_part',
+                object_id = '',
+                display_name = '',
+                part_type = ''
+            )
+        else:
+            return ResolvedRef(
+                entity_type = 'path_part',
+                object_id = '',
+        )
         """
-        pass
 
-    def test_check_path_part_access(self) -> None:
-        """Test case for check_path_part_access
-
-        Check Path Part Access Handler
-        """
-        pass
-
-    def test_get_path_part(self) -> None:
-        """Test case for get_path_part
-
-        Get Path Part Handler
-        """
-        pass
-
-    def test_get_path_part_ancestry(self) -> None:
-        """Test case for get_path_part_ancestry
-
-        Get Path Part Ancestry Handler
-        """
-        pass
-
-    def test_get_path_part_subtree_chunks(self) -> None:
-        """Test case for get_path_part_subtree_chunks
-
-        Get Path Part Subtree Chunks Handler
-        """
-        pass
-
-    def test_get_path_part_tags(self) -> None:
-        """Test case for get_path_part_tags
-
-        Get Path Part Tags Handler
-        """
-        pass
-
-    def test_list_path_part_events(self) -> None:
-        """Test case for list_path_part_events
-
-        List Path Part Events Handler
-        """
-        pass
-
-    def test_list_path_parts(self) -> None:
-        """Test case for list_path_parts
-
-        List Path Parts Handler
-        """
-        pass
-
-    def test_reorder_path_part(self) -> None:
-        """Test case for reorder_path_part
-
-        Reorder Path Part Handler
-        """
-        pass
-
-    def test_set_path_part_tags(self) -> None:
-        """Test case for set_path_part_tags
-
-        Set Path Part Tags Handler
-        """
-        pass
-
-    def test_transfer_path_part_owner(self) -> None:
-        """Test case for transfer_path_part_owner
-
-        Transfer Path Part Owner Handler
-        """
-        pass
-
+    def testResolvedRef(self):
+        """Test ResolvedRef"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

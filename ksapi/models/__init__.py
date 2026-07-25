@@ -240,7 +240,9 @@ from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest
 from ksapi.models.proposed_memory_chunk_response import ProposedMemoryChunkResponse
 from ksapi.models.reasoning_part import ReasoningPart
 from ksapi.models.reference_type import ReferenceType
+from ksapi.models.reorder_path_part_request import ReorderPathPartRequest
 from ksapi.models.request_phone_change_request import RequestPhoneChangeRequest
+from ksapi.models.resolved_ref import ResolvedRef
 from ksapi.models.resolved_reference_input import ResolvedReferenceInput
 from ksapi.models.resolved_reference_output import ResolvedReferenceOutput
 from ksapi.models.response_send_pw_reset_email import ResponseSendPwResetEmail

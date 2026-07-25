@@ -254,7 +254,9 @@ docs/ProposedMemoryChunkResponse.md
 docs/PublicApi.md
 docs/ReasoningPart.md
 docs/ReferenceType.md
+docs/ReorderPathPartRequest.md
 docs/RequestPhoneChangeRequest.md
+docs/ResolvedRef.md
 docs/ResolvedReferenceInput.md
 docs/ResolvedReferenceOutput.md
 docs/ResponseSendPwResetEmail.md
@@ -672,7 +674,9 @@ ksapi/models/propose_memory_chunk_request.py
 ksapi/models/proposed_memory_chunk_response.py
 ksapi/models/reasoning_part.py
 ksapi/models/reference_type.py
+ksapi/models/reorder_path_part_request.py
 ksapi/models/request_phone_change_request.py
+ksapi/models/resolved_ref.py
 ksapi/models/resolved_reference_input.py
 ksapi/models/resolved_reference_output.py
 ksapi/models/response_send_pw_reset_email.py
@@ -1060,7 +1064,9 @@ test/test_proposed_memory_chunk_response.py
 test/test_public_api.py
 test/test_reasoning_part.py
 test/test_reference_type.py
+test/test_reorder_path_part_request.py
 test/test_request_phone_change_request.py
+test/test_resolved_ref.py
 test/test_resolved_reference_input.py
 test/test_resolved_reference_output.py
 test/test_response_send_pw_reset_email.py

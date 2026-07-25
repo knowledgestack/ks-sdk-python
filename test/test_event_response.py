@@ -44,7 +44,18 @@ class TestEventResponse(unittest.TestCase):
                 actor = ksapi.models.user_info.UserInfo(
                     user_id = '', 
                     first_name = '', 
-                    last_name = '', )
+                    last_name = '', ),
+                subject_name = '',
+                subject_path = '',
+                subject_object_id = '',
+                subject_part_type = '',
+                references = {
+                    'key' : ksapi.models.resolved_ref.ResolvedRef(
+                        entity_type = 'path_part', 
+                        object_id = '', 
+                        display_name = '', 
+                        part_type = '', )
+                    }
             )
         else:
             return EventResponse(

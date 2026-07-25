@@ -43,7 +43,18 @@ class TestPaginatedResponseEventResponse(unittest.TestCase):
                         ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         actor_user_id = '', 
                         payload = { }, 
-                        actor = null, )
+                        actor = null, 
+                        subject_name = '', 
+                        subject_path = '', 
+                        subject_object_id = '', 
+                        subject_part_type = '', 
+                        references = {
+                            'key' : ksapi.models.resolved_ref.ResolvedRef(
+                                entity_type = 'path_part', 
+                                object_id = '', 
+                                display_name = '', 
+                                part_type = '', )
+                            }, )
                     ],
                 total = 0.0,
                 limit = 1.0,
@@ -59,7 +70,18 @@ class TestPaginatedResponseEventResponse(unittest.TestCase):
                         ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         actor_user_id = '', 
                         payload = { }, 
-                        actor = null, )
+                        actor = null, 
+                        subject_name = '', 
+                        subject_path = '', 
+                        subject_object_id = '', 
+                        subject_part_type = '', 
+                        references = {
+                            'key' : ksapi.models.resolved_ref.ResolvedRef(
+                                entity_type = 'path_part', 
+                                object_id = '', 
+                                display_name = '', 
+                                part_type = '', )
+                            }, )
                     ],
                 total = 0.0,
                 limit = 1.0,

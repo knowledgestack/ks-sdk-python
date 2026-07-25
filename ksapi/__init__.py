@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.143.0"
+__version__ = "1.144.0"
 
 # Define package exports
 __all__ = [
@@ -292,7 +292,9 @@ __all__ = [
     "ProposedMemoryChunkResponse",
     "ReasoningPart",
     "ReferenceType",
+    "ReorderPathPartRequest",
     "RequestPhoneChangeRequest",
+    "ResolvedRef",
     "ResolvedReferenceInput",
     "ResolvedReferenceOutput",
     "ResponseSendPwResetEmail",
@@ -703,7 +705,9 @@ from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest 
 from ksapi.models.proposed_memory_chunk_response import ProposedMemoryChunkResponse as ProposedMemoryChunkResponse
 from ksapi.models.reasoning_part import ReasoningPart as ReasoningPart
 from ksapi.models.reference_type import ReferenceType as ReferenceType
+from ksapi.models.reorder_path_part_request import ReorderPathPartRequest as ReorderPathPartRequest
 from ksapi.models.request_phone_change_request import RequestPhoneChangeRequest as RequestPhoneChangeRequest
+from ksapi.models.resolved_ref import ResolvedRef as ResolvedRef
 from ksapi.models.resolved_reference_input import ResolvedReferenceInput as ResolvedReferenceInput
 from ksapi.models.resolved_reference_output import ResolvedReferenceOutput as ResolvedReferenceOutput
 from ksapi.models.response_send_pw_reset_email import ResponseSendPwResetEmail as ResponseSendPwResetEmail
