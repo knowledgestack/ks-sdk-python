@@ -41,6 +41,8 @@ class TestSectionContentItemOrChunkContentItem(unittest.TestCase):
                 parent_path_id = '',
                 metadata_obj_id = '',
                 depth = 56,
+                chunk_start_index = 56,
+                chunk_end_index = 56,
                 page_number = 56,
                 materialized_path = '',
                 system_managed = True,

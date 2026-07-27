@@ -38,6 +38,7 @@ class ChunkContentItem(BaseModel):
     parent_path_id: UUID = Field(description="Parent PathPart ID")
     metadata_obj_id: UUID = Field(description="Chunk ID")
     depth: StrictInt = Field(description="Depth relative to document version root")
+    chunk_start_index: Optional[StrictInt] = Field(default=None, description="0-based ordinal of this chunk, counting CHUNK rows in DFS order from the traversal root. Usable directly as a read start/end coordinate. Null on endpoints that do not compute traversal ordinals.")
     content: Optional[StrictStr] = Field(default=None, description="Chunk content")
     chunk_type: Optional[ChunkType] = None
     chunk_metadata: Optional[ChunkMetadata] = Field(default=None, description="Chunk metadata")
@@ -46,7 +47,7 @@ class ChunkContentItem(BaseModel):
     approval_state: PathPartApprovalState
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "content", "chunk_type", "chunk_metadata", "materialized_path", "system_managed", "approval_state", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "chunk_start_index", "content", "chunk_type", "chunk_metadata", "materialized_path", "system_managed", "approval_state", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -97,6 +98,11 @@ class ChunkContentItem(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of chunk_metadata
         if self.chunk_metadata:
             _dict['chunk_metadata'] = self.chunk_metadata.to_dict()
+        # set to None if chunk_start_index (nullable) is None
+        # and model_fields_set contains the field
+        if self.chunk_start_index is None and "chunk_start_index" in self.model_fields_set:
+            _dict['chunk_start_index'] = None
+
         # set to None if content (nullable) is None
         # and model_fields_set contains the field
         if self.content is None and "content" in self.model_fields_set:
@@ -125,6 +131,7 @@ class ChunkContentItem(BaseModel):
             "parent_path_id": obj.get("parent_path_id"),
             "metadata_obj_id": obj.get("metadata_obj_id"),
             "depth": obj.get("depth"),
+            "chunk_start_index": obj.get("chunk_start_index"),
             "content": obj.get("content"),
             "chunk_type": obj.get("chunk_type"),
             "chunk_metadata": ChunkMetadata.from_dict(obj["chunk_metadata"]) if obj.get("chunk_metadata") is not None else None,

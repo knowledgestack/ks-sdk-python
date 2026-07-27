@@ -36,13 +36,15 @@ class SectionContentItem(BaseModel):
     parent_path_id: UUID = Field(description="Parent PathPart ID")
     metadata_obj_id: UUID = Field(description="Section ID")
     depth: StrictInt = Field(description="Depth relative to document version root")
+    chunk_start_index: Optional[StrictInt] = Field(default=None, description="0-based ordinal of the first chunk in this section's subtree, counting CHUNK rows in DFS order from the traversal root. Null when the section has no chunk anywhere below it, and on endpoints that do not compute traversal ordinals.")
+    chunk_end_index: Optional[StrictInt] = Field(default=None, description="0-based ordinal of the last chunk in this section's subtree, inclusive. Chunks outside the section — a later sibling, or a chunk attached to an ancestor — are excluded, so the span covers only this section's own content. Null under the same conditions as chunk_start_index.")
     page_number: Optional[StrictInt] = Field(default=None, description="Section page number")
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     system_managed: StrictBool = Field(description="Whether this item is system-managed")
     approval_state: PathPartApprovalState
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
-    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "page_number", "materialized_path", "system_managed", "approval_state", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "path_part_id", "name", "parent_path_id", "metadata_obj_id", "depth", "chunk_start_index", "chunk_end_index", "page_number", "materialized_path", "system_managed", "approval_state", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -90,6 +92,16 @@ class SectionContentItem(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if chunk_start_index (nullable) is None
+        # and model_fields_set contains the field
+        if self.chunk_start_index is None and "chunk_start_index" in self.model_fields_set:
+            _dict['chunk_start_index'] = None
+
+        # set to None if chunk_end_index (nullable) is None
+        # and model_fields_set contains the field
+        if self.chunk_end_index is None and "chunk_end_index" in self.model_fields_set:
+            _dict['chunk_end_index'] = None
+
         # set to None if page_number (nullable) is None
         # and model_fields_set contains the field
         if self.page_number is None and "page_number" in self.model_fields_set:
@@ -113,6 +125,8 @@ class SectionContentItem(BaseModel):
             "parent_path_id": obj.get("parent_path_id"),
             "metadata_obj_id": obj.get("metadata_obj_id"),
             "depth": obj.get("depth"),
+            "chunk_start_index": obj.get("chunk_start_index"),
+            "chunk_end_index": obj.get("chunk_end_index"),
             "page_number": obj.get("page_number"),
             "materialized_path": obj.get("materialized_path"),
             "system_managed": obj.get("system_managed"),

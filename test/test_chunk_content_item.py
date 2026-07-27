@@ -41,6 +41,7 @@ class TestChunkContentItem(unittest.TestCase):
                 parent_path_id = '',
                 metadata_obj_id = '',
                 depth = 56,
+                chunk_start_index = 56,
                 content = '',
                 chunk_type = 'TEXT',
                 chunk_metadata = ksapi.models.chunk_metadata.ChunkMetadata(
