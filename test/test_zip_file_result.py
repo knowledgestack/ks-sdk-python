@@ -14,81 +14,44 @@
 
 import unittest
 
-from ksapi.api.documents_api import DocumentsApi
+from ksapi.models.zip_file_result import ZipFileResult
 
+class TestZipFileResult(unittest.TestCase):
+    """ZipFileResult unit test stubs"""
 
-class TestDocumentsApi(unittest.TestCase):
-    """DocumentsApi unit test stubs"""
-
-    def setUp(self) -> None:
-        self.api = DocumentsApi()
-
-    def tearDown(self) -> None:
+    def setUp(self):
         pass
 
-    def test_create_document(self) -> None:
-        """Test case for create_document
+    def tearDown(self):
+        pass
 
-        Create Document Handler
+    def make_instance(self, include_optional) -> ZipFileResult:
+        """Test ZipFileResult
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `ZipFileResult`
         """
-        pass
-
-    def test_delete_document(self) -> None:
-        """Test case for delete_document
-
-        Delete Document Handler
+        model = ZipFileResult()
+        if include_optional:
+            return ZipFileResult(
+                zip_path = '',
+                document_id = '',
+                document_version_id = '',
+                workflow_id = '',
+                skipped = True,
+                error = ''
+            )
+        else:
+            return ZipFileResult(
+                zip_path = '',
+        )
         """
-        pass
 
-    def test_download_document(self) -> None:
-        """Test case for download_document
-
-        Download Document Handler
-        """
-        pass
-
-    def test_get_document(self) -> None:
-        """Test case for get_document
-
-        Get Document Handler
-        """
-        pass
-
-    def test_ingest_document(self) -> None:
-        """Test case for ingest_document
-
-        Ingest Document Handler
-        """
-        pass
-
-    def test_ingest_document_version(self) -> None:
-        """Test case for ingest_document_version
-
-        Ingest Document Version Handler
-        """
-        pass
-
-    def test_ingest_zip(self) -> None:
-        """Test case for ingest_zip
-
-        Ingest Zip Handler
-        """
-        pass
-
-    def test_list_documents(self) -> None:
-        """Test case for list_documents
-
-        List Documents Handler
-        """
-        pass
-
-    def test_update_document(self) -> None:
-        """Test case for update_document
-
-        Update Document Handler
-        """
-        pass
-
+    def testZipFileResult(self):
+        """Test ZipFileResult"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

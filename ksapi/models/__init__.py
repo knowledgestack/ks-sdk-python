@@ -154,6 +154,7 @@ from ksapi.models.idp_type import IdpType
 from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.information_statistics import InformationStatistics
 from ksapi.models.ingest_document_response import IngestDocumentResponse
+from ksapi.models.ingest_zip_response import IngestZipResponse
 from ksapi.models.ingestion_mode import IngestionMode
 from ksapi.models.input import Input
 from ksapi.models.input_origin import InputOrigin
@@ -372,4 +373,5 @@ from ksapi.models.xlsx_cell_anchor_input import XlsxCellAnchorInput
 from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput
 from ksapi.models.xlsx_cell_anchor_output import XlsxCellAnchorOutput
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
+from ksapi.models.zip_file_result import ZipFileResult
 

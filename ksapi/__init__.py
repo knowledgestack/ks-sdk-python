@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.146.0"
+__version__ = "1.147.0"
 
 # Define package exports
 __all__ = [
@@ -206,6 +206,7 @@ __all__ = [
     "ImageTaxonomy",
     "InformationStatistics",
     "IngestDocumentResponse",
+    "IngestZipResponse",
     "IngestionMode",
     "Input",
     "InputOrigin",
@@ -424,6 +425,7 @@ __all__ = [
     "XlsxCellAnchorInputOrDocxParagraphAnchorInput",
     "XlsxCellAnchorOutput",
     "XlsxCellAnchorOutputOrDocxParagraphAnchorOutput",
+    "ZipFileResult",
 ]
 
 # import apis into sdk package
@@ -619,6 +621,7 @@ from ksapi.models.idp_type import IdpType as IdpType
 from ksapi.models.image_taxonomy import ImageTaxonomy as ImageTaxonomy
 from ksapi.models.information_statistics import InformationStatistics as InformationStatistics
 from ksapi.models.ingest_document_response import IngestDocumentResponse as IngestDocumentResponse
+from ksapi.models.ingest_zip_response import IngestZipResponse as IngestZipResponse
 from ksapi.models.ingestion_mode import IngestionMode as IngestionMode
 from ksapi.models.input import Input as Input
 from ksapi.models.input_origin import InputOrigin as InputOrigin
@@ -837,4 +840,5 @@ from ksapi.models.xlsx_cell_anchor_input import XlsxCellAnchorInput as XlsxCellA
 from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput as XlsxCellAnchorInputOrDocxParagraphAnchorInput
 from ksapi.models.xlsx_cell_anchor_output import XlsxCellAnchorOutput as XlsxCellAnchorOutput
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput as XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
+from ksapi.models.zip_file_result import ZipFileResult as ZipFileResult
 
