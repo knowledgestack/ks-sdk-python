@@ -342,6 +342,8 @@ from ksapi.models.update_thread_request import UpdateThreadRequest
 from ksapi.models.update_user_request import UpdateUserRequest
 from ksapi.models.update_workflow_definition_request import UpdateWorkflowDefinitionRequest
 from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest
+from ksapi.models.upload_constraints import UploadConstraints
+from ksapi.models.upload_format import UploadFormat
 from ksapi.models.usage_metric import UsageMetric
 from ksapi.models.user_info import UserInfo
 from ksapi.models.user_message_request import UserMessageRequest

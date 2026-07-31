@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict
 from ksapi.models.supported_language import SupportedLanguage
+from ksapi.models.upload_constraints import UploadConstraints
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -33,7 +34,8 @@ class FeaturesResponse(BaseModel):
     github_login_enabled: StrictBool
     sms_login_enabled: StrictBool
     default_frontend_language: SupportedLanguage
-    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "default_frontend_language"]
+    upload: UploadConstraints
+    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "default_frontend_language", "upload"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -74,6 +76,9 @@ class FeaturesResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of upload
+        if self.upload:
+            _dict['upload'] = self.upload.to_dict()
         return _dict
 
     @classmethod
@@ -90,7 +95,8 @@ class FeaturesResponse(BaseModel):
             "microsoft_login_enabled": obj.get("microsoft_login_enabled"),
             "github_login_enabled": obj.get("github_login_enabled"),
             "sms_login_enabled": obj.get("sms_login_enabled"),
-            "default_frontend_language": obj.get("default_frontend_language")
+            "default_frontend_language": obj.get("default_frontend_language"),
+            "upload": UploadConstraints.from_dict(obj["upload"]) if obj.get("upload") is not None else None
         })
         return _obj
 

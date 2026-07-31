@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.features_response import FeaturesResponse
+from ksapi.models.upload_format import UploadFormat
 
-class TestFeaturesResponse(unittest.TestCase):
-    """FeaturesResponse unit test stubs"""
+class TestUploadFormat(unittest.TestCase):
+    """UploadFormat unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,50 +25,28 @@ class TestFeaturesResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> FeaturesResponse:
-        """Test FeaturesResponse
+    def make_instance(self, include_optional) -> UploadFormat:
+        """Test UploadFormat
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `FeaturesResponse`
+        # uncomment below to create an instance of `UploadFormat`
         """
-        model = FeaturesResponse()
+        model = UploadFormat()
         if include_optional:
-            return FeaturesResponse(
-                google_login_enabled = True,
-                microsoft_login_enabled = True,
-                github_login_enabled = True,
-                sms_login_enabled = True,
-                default_frontend_language = 'en',
-                upload = ksapi.models.upload_constraints.UploadConstraints(
-                    formats = [
-                        ksapi.models.upload_format.UploadFormat(
-                            extension = '', 
-                            content_type = '', )
-                        ], 
-                    max_bytes = 56, 
-                    max_image_bytes = 56, )
+            return UploadFormat(
+                extension = '',
+                content_type = ''
             )
         else:
-            return FeaturesResponse(
-                google_login_enabled = True,
-                microsoft_login_enabled = True,
-                github_login_enabled = True,
-                sms_login_enabled = True,
-                default_frontend_language = 'en',
-                upload = ksapi.models.upload_constraints.UploadConstraints(
-                    formats = [
-                        ksapi.models.upload_format.UploadFormat(
-                            extension = '', 
-                            content_type = '', )
-                        ], 
-                    max_bytes = 56, 
-                    max_image_bytes = 56, ),
+            return UploadFormat(
+                extension = '',
+                content_type = '',
         )
         """
 
-    def testFeaturesResponse(self):
-        """Test FeaturesResponse"""
+    def testUploadFormat(self):
+        """Test UploadFormat"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

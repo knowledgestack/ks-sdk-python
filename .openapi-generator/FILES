@@ -366,6 +366,8 @@ docs/UpdateThreadRequest.md
 docs/UpdateUserRequest.md
 docs/UpdateWorkflowDefinitionRequest.md
 docs/UpdateWorkflowRunRequest.md
+docs/UploadConstraints.md
+docs/UploadFormat.md
 docs/UsageMetric.md
 docs/UserInfo.md
 docs/UserMessageRequest.md
@@ -778,6 +780,8 @@ ksapi/models/update_thread_request.py
 ksapi/models/update_user_request.py
 ksapi/models/update_workflow_definition_request.py
 ksapi/models/update_workflow_run_request.py
+ksapi/models/upload_constraints.py
+ksapi/models/upload_format.py
 ksapi/models/usage_metric.py
 ksapi/models/user_info.py
 ksapi/models/user_message_request.py
@@ -1180,6 +1184,8 @@ test/test_update_thread_request.py
 test/test_update_user_request.py
 test/test_update_workflow_definition_request.py
 test/test_update_workflow_run_request.py
+test/test_upload_constraints.py
+test/test_upload_format.py
 test/test_usage_metric.py
 test/test_user_info.py
 test/test_user_message_request.py

@@ -17,24 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
-from ksapi.models.kb_metric import KbMetric
-from ksapi.models.labeled_series import LabeledSeries
-from ksapi.models.time_bucket import TimeBucket
+from pydantic import BaseModel, ConfigDict, StrictInt
+from typing import Any, ClassVar, Dict, List
+from ksapi.models.upload_format import UploadFormat
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class KbTimeseriesResponse(BaseModel):
+class UploadConstraints(BaseModel):
     """
-    A knowledge-base metric bucketed over time.  ``series`` carries one entry per split — two (SOURCE / GENERATED) for ``document_uploads``, one for the ingestion, message, and search metrics.
+    UploadConstraints
     """ # noqa: E501
-    metric: KbMetric
-    timezone: StrictStr
-    bucket: TimeBucket
-    series: Optional[List[LabeledSeries]] = None
-    __properties: ClassVar[List[str]] = ["metric", "timezone", "bucket", "series"]
+    formats: List[UploadFormat]
+    max_bytes: StrictInt
+    max_image_bytes: StrictInt
+    __properties: ClassVar[List[str]] = ["formats", "max_bytes", "max_image_bytes"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -54,7 +51,7 @@ class KbTimeseriesResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of KbTimeseriesResponse from a JSON string"""
+        """Create an instance of UploadConstraints from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,18 +72,18 @@ class KbTimeseriesResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in series (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in formats (list)
         _items = []
-        if self.series:
-            for _item_series in self.series:
-                if _item_series:
-                    _items.append(_item_series.to_dict())
-            _dict['series'] = _items
+        if self.formats:
+            for _item_formats in self.formats:
+                if _item_formats:
+                    _items.append(_item_formats.to_dict())
+            _dict['formats'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of KbTimeseriesResponse from a dict"""
+        """Create an instance of UploadConstraints from a dict"""
         if obj is None:
             return None
 
@@ -94,10 +91,9 @@ class KbTimeseriesResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "metric": obj.get("metric"),
-            "timezone": obj.get("timezone"),
-            "bucket": obj.get("bucket"),
-            "series": [LabeledSeries.from_dict(_item) for _item in obj["series"]] if obj.get("series") is not None else None
+            "formats": [UploadFormat.from_dict(_item) for _item in obj["formats"]] if obj.get("formats") is not None else None,
+            "max_bytes": obj.get("max_bytes"),
+            "max_image_bytes": obj.get("max_image_bytes")
         })
         return _obj
 

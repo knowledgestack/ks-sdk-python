@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.148.0"
+__version__ = "1.149.0"
 
 # Define package exports
 __all__ = [
@@ -394,6 +394,8 @@ __all__ = [
     "UpdateUserRequest",
     "UpdateWorkflowDefinitionRequest",
     "UpdateWorkflowRunRequest",
+    "UploadConstraints",
+    "UploadFormat",
     "UsageMetric",
     "UserInfo",
     "UserMessageRequest",
@@ -809,6 +811,8 @@ from ksapi.models.update_thread_request import UpdateThreadRequest as UpdateThre
 from ksapi.models.update_user_request import UpdateUserRequest as UpdateUserRequest
 from ksapi.models.update_workflow_definition_request import UpdateWorkflowDefinitionRequest as UpdateWorkflowDefinitionRequest
 from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest as UpdateWorkflowRunRequest
+from ksapi.models.upload_constraints import UploadConstraints as UploadConstraints
+from ksapi.models.upload_format import UploadFormat as UploadFormat
 from ksapi.models.usage_metric import UsageMetric as UsageMetric
 from ksapi.models.user_info import UserInfo as UserInfo
 from ksapi.models.user_message_request import UserMessageRequest as UserMessageRequest

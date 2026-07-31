@@ -29,6 +29,8 @@ class KbMetric(str, Enum):
     DOCUMENT_UPLOADS = 'document_uploads'
     INGESTION_COMPLETED = 'ingestion_completed'
     INGESTION_FAILED = 'ingestion_failed'
+    MESSAGE = 'message'
+    SEARCH = 'search'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
