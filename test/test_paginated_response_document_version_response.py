@@ -83,7 +83,8 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             quota_charged = True, 
                             quota_page_count = 56, 
                             quota_idempotency_key = 'UNSET', 
-                            file_md5 = 'UNSET', ), )
+                            file_md5 = 'UNSET', 
+                            idempotency_key = '', ), )
                     ],
                 total = 0.0,
                 limit = 1.0,
@@ -139,7 +140,8 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             quota_charged = True, 
                             quota_page_count = 56, 
                             quota_idempotency_key = 'UNSET', 
-                            file_md5 = 'UNSET', ), )
+                            file_md5 = 'UNSET', 
+                            idempotency_key = '', ), )
                     ],
                 total = 0.0,
                 limit = 1.0,

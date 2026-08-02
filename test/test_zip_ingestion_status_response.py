@@ -14,60 +14,59 @@
 
 import unittest
 
-from ksapi.api.system_jobs_api import SystemJobsApi
+from ksapi.models.zip_ingestion_status_response import ZipIngestionStatusResponse
 
+class TestZipIngestionStatusResponse(unittest.TestCase):
+    """ZipIngestionStatusResponse unit test stubs"""
 
-class TestSystemJobsApi(unittest.TestCase):
-    """SystemJobsApi unit test stubs"""
-
-    def setUp(self) -> None:
-        self.api = SystemJobsApi()
-
-    def tearDown(self) -> None:
+    def setUp(self):
         pass
 
-    def test_cancel_temporal_workflow(self) -> None:
-        """Test case for cancel_temporal_workflow
+    def tearDown(self):
+        pass
 
-        Cancel Temporal Workflow Handler
+    def make_instance(self, include_optional) -> ZipIngestionStatusResponse:
+        """Test ZipIngestionStatusResponse
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `ZipIngestionStatusResponse`
         """
-        pass
-
-    def test_dv_workflow_rerun(self) -> None:
-        """Test case for dv_workflow_rerun
-
-        Dv Workflow Rerun Handler
+        model = ZipIngestionStatusResponse()
+        if include_optional:
+            return ZipIngestionStatusResponse(
+                workflow_id = '',
+                temporal_status = '',
+                files = [
+                    ksapi.models.zip_member_status_response.ZipMemberStatusResponse(
+                        zip_path = '', 
+                        document_id = '', 
+                        document_version_id = '', 
+                        workflow_id = '', 
+                        error = '', 
+                        skipped = True, )
+                    ]
+            )
+        else:
+            return ZipIngestionStatusResponse(
+                workflow_id = '',
+                temporal_status = '',
+                files = [
+                    ksapi.models.zip_member_status_response.ZipMemberStatusResponse(
+                        zip_path = '', 
+                        document_id = '', 
+                        document_version_id = '', 
+                        workflow_id = '', 
+                        error = '', 
+                        skipped = True, )
+                    ],
+        )
         """
-        pass
 
-    def test_get_dv_workflow(self) -> None:
-        """Test case for get_dv_workflow
-
-        Get Dv Workflow Handler
-        """
-        pass
-
-    def test_get_temporal_workflow_status(self) -> None:
-        """Test case for get_temporal_workflow_status
-
-        Get Temporal Workflow Status Handler
-        """
-        pass
-
-    def test_get_zip_ingestion_status(self) -> None:
-        """Test case for get_zip_ingestion_status
-
-        Get Zip Ingestion Status Handler
-        """
-        pass
-
-    def test_list_dv_workflows(self) -> None:
-        """Test case for list_dv_workflows
-
-        List Dv Workflows Handler
-        """
-        pass
-
+    def testZipIngestionStatusResponse(self):
+        """Test ZipIngestionStatusResponse"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

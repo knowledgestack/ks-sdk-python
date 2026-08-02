@@ -76,7 +76,8 @@ class TestDocumentVersionMetadata(unittest.TestCase):
                 quota_charged = True,
                 quota_page_count = 56,
                 quota_idempotency_key = 'UNSET',
-                file_md5 = 'UNSET'
+                file_md5 = 'UNSET',
+                idempotency_key = ''
             )
         else:
             return DocumentVersionMetadata(

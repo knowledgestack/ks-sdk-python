@@ -50,8 +50,9 @@ class DocumentVersionMetadata(BaseModel):
     quota_page_count: Optional[StrictInt] = Field(default=0, description="Page quantity charged at conversion start; 0 if not yet charged")
     quota_idempotency_key: Optional[StrictStr] = Field(default='UNSET', description="Stable consume key (matches workflow_id); 'UNSET' for pre-Phase-2 docs so refund logic short-circuits")
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
+    idempotency_key: Optional[StrictStr] = Field(default=None, description="Opt-in create key. A repeat ingest with the same key at the same (parent, name) replays this document instead of colliding — makes a ZIP fan-out member retry idempotent.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5", "idempotency_key"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -192,6 +193,11 @@ class DocumentVersionMetadata(BaseModel):
         if self.information_statistics is None and "information_statistics" in self.model_fields_set:
             _dict['information_statistics'] = None
 
+        # set to None if idempotency_key (nullable) is None
+        # and model_fields_set contains the field
+        if self.idempotency_key is None and "idempotency_key" in self.model_fields_set:
+            _dict['idempotency_key'] = None
+
         return _dict
 
     @classmethod
@@ -223,7 +229,8 @@ class DocumentVersionMetadata(BaseModel):
             "quota_charged": obj.get("quota_charged") if obj.get("quota_charged") is not None else False,
             "quota_page_count": obj.get("quota_page_count") if obj.get("quota_page_count") is not None else 0,
             "quota_idempotency_key": obj.get("quota_idempotency_key") if obj.get("quota_idempotency_key") is not None else 'UNSET',
-            "file_md5": obj.get("file_md5") if obj.get("file_md5") is not None else 'UNSET'
+            "file_md5": obj.get("file_md5") if obj.get("file_md5") is not None else 'UNSET',
+            "idempotency_key": obj.get("idempotency_key")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

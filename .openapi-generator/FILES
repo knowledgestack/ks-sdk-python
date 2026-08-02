@@ -405,6 +405,8 @@ docs/XlsxCellAnchorInputOrDocxParagraphAnchorInput.md
 docs/XlsxCellAnchorOutput.md
 docs/XlsxCellAnchorOutputOrDocxParagraphAnchorOutput.md
 docs/ZipFileResult.md
+docs/ZipIngestionStatusResponse.md
+docs/ZipMemberStatusResponse.md
 git_push.sh
 ksapi/__init__.py
 ksapi/api/__init__.py
@@ -814,6 +816,8 @@ ksapi/models/xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 ksapi/models/xlsx_cell_anchor_output.py
 ksapi/models/xlsx_cell_anchor_output_or_docx_paragraph_anchor_output.py
 ksapi/models/zip_file_result.py
+ksapi/models/zip_ingestion_status_response.py
+ksapi/models/zip_member_status_response.py
 ksapi/py.typed
 ksapi/rest.py
 pyproject.toml
@@ -1223,4 +1227,6 @@ test/test_xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 test/test_xlsx_cell_anchor_output.py
 test/test_xlsx_cell_anchor_output_or_docx_paragraph_anchor_output.py
 test/test_zip_file_result.py
+test/test_zip_ingestion_status_response.py
+test/test_zip_member_status_response.py
 tox.ini

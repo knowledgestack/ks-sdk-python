@@ -35,7 +35,8 @@ class TestIngestZipResponse(unittest.TestCase):
         model = IngestZipResponse()
         if include_optional:
             return IngestZipResponse(
-                files = [
+                workflow_id = '',
+                skipped = [
                     ksapi.models.zip_file_result.ZipFileResult(
                         zip_path = '', 
                         document_id = '', 
@@ -43,15 +44,12 @@ class TestIngestZipResponse(unittest.TestCase):
                         workflow_id = '', 
                         skipped = True, 
                         error = '', )
-                    ],
-                total_found = 56,
-                succeeded = 56,
-                skipped = 56,
-                failed = 56
+                    ]
             )
         else:
             return IngestZipResponse(
-                files = [
+                workflow_id = '',
+                skipped = [
                     ksapi.models.zip_file_result.ZipFileResult(
                         zip_path = '', 
                         document_id = '', 
@@ -60,10 +58,6 @@ class TestIngestZipResponse(unittest.TestCase):
                         skipped = True, 
                         error = '', )
                     ],
-                total_found = 56,
-                succeeded = 56,
-                skipped = 56,
-                failed = 56,
         )
         """
 

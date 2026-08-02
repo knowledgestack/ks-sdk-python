@@ -18,19 +18,20 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
-from ksapi.models.zip_file_result import ZipFileResult
+from typing import Any, ClassVar, Dict, List
+from ksapi.models.zip_member_status_response import ZipMemberStatusResponse
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class IngestZipResponse(BaseModel):
+class ZipIngestionStatusResponse(BaseModel):
     """
-    Response from dispatching a ZIP archive to async ingestion.  ``workflow_id`` is the fan-out workflow to poll at ``GET /v1/system-jobs/zip-ingestions/{workflow_id}`` for per-member outcomes; it is None when the archive held no ingestible members. ``skipped`` are the artifact/error entries resolved synchronously during classification.
+    Status of a ZIP fan-out: live Temporal state + per-member outcomes.  ``files`` reflects progress so far — members that have been dispatched (``workflow_id`` set), failed to dispatch (``error`` set), or were skipped as artifacts. Poll until ``temporal_status`` is terminal (e.g. ``COMPLETED``).
     """ # noqa: E501
-    workflow_id: Optional[StrictStr]
-    skipped: List[ZipFileResult]
-    __properties: ClassVar[List[str]] = ["workflow_id", "skipped"]
+    workflow_id: StrictStr
+    temporal_status: StrictStr
+    files: List[ZipMemberStatusResponse]
+    __properties: ClassVar[List[str]] = ["workflow_id", "temporal_status", "files"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -50,7 +51,7 @@ class IngestZipResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of IngestZipResponse from a JSON string"""
+        """Create an instance of ZipIngestionStatusResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,23 +72,18 @@ class IngestZipResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in skipped (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
-        if self.skipped:
-            for _item_skipped in self.skipped:
-                if _item_skipped:
-                    _items.append(_item_skipped.to_dict())
-            _dict['skipped'] = _items
-        # set to None if workflow_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.workflow_id is None and "workflow_id" in self.model_fields_set:
-            _dict['workflow_id'] = None
-
+        if self.files:
+            for _item_files in self.files:
+                if _item_files:
+                    _items.append(_item_files.to_dict())
+            _dict['files'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of IngestZipResponse from a dict"""
+        """Create an instance of ZipIngestionStatusResponse from a dict"""
         if obj is None:
             return None
 
@@ -96,7 +92,8 @@ class IngestZipResponse(BaseModel):
 
         _obj = cls.model_validate({
             "workflow_id": obj.get("workflow_id"),
-            "skipped": [ZipFileResult.from_dict(_item) for _item in obj["skipped"]] if obj.get("skipped") is not None else None
+            "temporal_status": obj.get("temporal_status"),
+            "files": [ZipMemberStatusResponse.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None
         })
         return _obj
 

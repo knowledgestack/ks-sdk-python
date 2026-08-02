@@ -17,7 +17,7 @@ from typing_extensions import Annotated
 
 from datetime import datetime
 from pydantic import Field, StrictBool, StrictBytes, StrictStr
-from typing import Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.chunk_type import ChunkType
@@ -1168,6 +1168,8 @@ class DocumentsApi:
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
         page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
         workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
         _request_timeout: Union[
             None,
@@ -1202,6 +1204,10 @@ class DocumentsApi:
         :type page_dpi: int
         :param workflow_run_id: Workflow run context for assumed agent uploads.
         :type workflow_run_id: UUID
+        :param tag_ids: Tag IDs applied to the created document.
+        :type tag_ids: List[UUID]
+        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
+        :type idempotency_key: str
         :param workflow_definition_id: Workflow definition context for assumed agent uploads.
         :type workflow_definition_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -1235,6 +1241,8 @@ class DocumentsApi:
             secondary_taxonomy=secondary_taxonomy,
             page_dpi=page_dpi,
             workflow_run_id=workflow_run_id,
+            tag_ids=tag_ids,
+            idempotency_key=idempotency_key,
             workflow_definition_id=workflow_definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1268,6 +1276,8 @@ class DocumentsApi:
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
         page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
         workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
         _request_timeout: Union[
             None,
@@ -1302,6 +1312,10 @@ class DocumentsApi:
         :type page_dpi: int
         :param workflow_run_id: Workflow run context for assumed agent uploads.
         :type workflow_run_id: UUID
+        :param tag_ids: Tag IDs applied to the created document.
+        :type tag_ids: List[UUID]
+        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
+        :type idempotency_key: str
         :param workflow_definition_id: Workflow definition context for assumed agent uploads.
         :type workflow_definition_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -1335,6 +1349,8 @@ class DocumentsApi:
             secondary_taxonomy=secondary_taxonomy,
             page_dpi=page_dpi,
             workflow_run_id=workflow_run_id,
+            tag_ids=tag_ids,
+            idempotency_key=idempotency_key,
             workflow_definition_id=workflow_definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1368,6 +1384,8 @@ class DocumentsApi:
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
         page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
         workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
         _request_timeout: Union[
             None,
@@ -1402,6 +1420,10 @@ class DocumentsApi:
         :type page_dpi: int
         :param workflow_run_id: Workflow run context for assumed agent uploads.
         :type workflow_run_id: UUID
+        :param tag_ids: Tag IDs applied to the created document.
+        :type tag_ids: List[UUID]
+        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
+        :type idempotency_key: str
         :param workflow_definition_id: Workflow definition context for assumed agent uploads.
         :type workflow_definition_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -1435,6 +1457,8 @@ class DocumentsApi:
             secondary_taxonomy=secondary_taxonomy,
             page_dpi=page_dpi,
             workflow_run_id=workflow_run_id,
+            tag_ids=tag_ids,
+            idempotency_key=idempotency_key,
             workflow_definition_id=workflow_definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1463,6 +1487,8 @@ class DocumentsApi:
         secondary_taxonomy,
         page_dpi,
         workflow_run_id,
+        tag_ids,
+        idempotency_key,
         workflow_definition_id,
         _request_auth,
         _content_type,
@@ -1473,6 +1499,7 @@ class DocumentsApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'tag_ids': 'csv',
         }
 
         _path_params: Dict[str, str] = {}
@@ -1504,6 +1531,10 @@ class DocumentsApi:
             _form_params.append(('page_dpi', page_dpi))
         if workflow_run_id is not None:
             _form_params.append(('workflow_run_id', workflow_run_id))
+        if tag_ids is not None:
+            _form_params.append(('tag_ids', tag_ids))
+        if idempotency_key is not None:
+            _form_params.append(('idempotency_key', idempotency_key))
         if workflow_definition_id is not None:
             _form_params.append(('workflow_definition_id', workflow_definition_id))
         # process the body parameter
@@ -1944,6 +1975,7 @@ class DocumentsApi:
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
         ingestion_mode: Optional[IngestionMode] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to every ingested member document.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1959,7 +1991,7 @@ class DocumentsApi:
     ) -> IngestZipResponse:
         """Ingest Zip Handler
 
-        Upload a ZIP archive and ingest each member file individually.  Directory structure inside the ZIP is preserved as FOLDER PathParts under the target folder. Returns 202 with per-file outcomes — each file that ingests successfully has its own Temporal workflow ID to poll for status.  Whole-archive failures (not a ZIP, zip-bomb, >500 files) return 400 before any DB writes. Per-file failures (unsupported type, oversized) are included in the response with ``error`` set; other files continue processing.
+        Upload a ZIP archive; ingest each member asynchronously via a fan-out.  The whole archive nests under a single FOLDER named after the ZIP file (``report.zip`` -> ``report/``), with the ZIP's directory structure mirrored beneath it as FOLDER PathParts — all created synchronously. Returns 202 with the fan-out ``workflow_id`` (poll ``GET /v1/system-jobs/zip-ingestions/{workflow_id}`` for per-member outcomes) plus the artifacts ``skipped`` during classification.  Whole-archive failures (not a ZIP, zip-bomb, >500 files) return 400 before any DB writes; a re-upload whose ZIP-named folder already exists returns 409. Per-member failures (unsupported type, oversized) surface in the polled workflow results, not in this response. Each member reuses the single-file ingest path, so run-enrollment and completion events fire per member there.
 
         :param file: (required)
         :type file: bytes
@@ -1967,6 +1999,8 @@ class DocumentsApi:
         :type path_part_id: UUID
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
+        :param tag_ids: Tag IDs applied to every ingested member document.
+        :type tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1993,6 +2027,7 @@ class DocumentsApi:
             file=file,
             path_part_id=path_part_id,
             ingestion_mode=ingestion_mode,
+            tag_ids=tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2020,6 +2055,7 @@ class DocumentsApi:
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
         ingestion_mode: Optional[IngestionMode] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to every ingested member document.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2035,7 +2071,7 @@ class DocumentsApi:
     ) -> ApiResponse[IngestZipResponse]:
         """Ingest Zip Handler
 
-        Upload a ZIP archive and ingest each member file individually.  Directory structure inside the ZIP is preserved as FOLDER PathParts under the target folder. Returns 202 with per-file outcomes — each file that ingests successfully has its own Temporal workflow ID to poll for status.  Whole-archive failures (not a ZIP, zip-bomb, >500 files) return 400 before any DB writes. Per-file failures (unsupported type, oversized) are included in the response with ``error`` set; other files continue processing.
+        Upload a ZIP archive; ingest each member asynchronously via a fan-out.  The whole archive nests under a single FOLDER named after the ZIP file (``report.zip`` -> ``report/``), with the ZIP's directory structure mirrored beneath it as FOLDER PathParts — all created synchronously. Returns 202 with the fan-out ``workflow_id`` (poll ``GET /v1/system-jobs/zip-ingestions/{workflow_id}`` for per-member outcomes) plus the artifacts ``skipped`` during classification.  Whole-archive failures (not a ZIP, zip-bomb, >500 files) return 400 before any DB writes; a re-upload whose ZIP-named folder already exists returns 409. Per-member failures (unsupported type, oversized) surface in the polled workflow results, not in this response. Each member reuses the single-file ingest path, so run-enrollment and completion events fire per member there.
 
         :param file: (required)
         :type file: bytes
@@ -2043,6 +2079,8 @@ class DocumentsApi:
         :type path_part_id: UUID
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
+        :param tag_ids: Tag IDs applied to every ingested member document.
+        :type tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2069,6 +2107,7 @@ class DocumentsApi:
             file=file,
             path_part_id=path_part_id,
             ingestion_mode=ingestion_mode,
+            tag_ids=tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2096,6 +2135,7 @@ class DocumentsApi:
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
         ingestion_mode: Optional[IngestionMode] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to every ingested member document.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2111,7 +2151,7 @@ class DocumentsApi:
     ) -> RESTResponseType:
         """Ingest Zip Handler
 
-        Upload a ZIP archive and ingest each member file individually.  Directory structure inside the ZIP is preserved as FOLDER PathParts under the target folder. Returns 202 with per-file outcomes — each file that ingests successfully has its own Temporal workflow ID to poll for status.  Whole-archive failures (not a ZIP, zip-bomb, >500 files) return 400 before any DB writes. Per-file failures (unsupported type, oversized) are included in the response with ``error`` set; other files continue processing.
+        Upload a ZIP archive; ingest each member asynchronously via a fan-out.  The whole archive nests under a single FOLDER named after the ZIP file (``report.zip`` -> ``report/``), with the ZIP's directory structure mirrored beneath it as FOLDER PathParts — all created synchronously. Returns 202 with the fan-out ``workflow_id`` (poll ``GET /v1/system-jobs/zip-ingestions/{workflow_id}`` for per-member outcomes) plus the artifacts ``skipped`` during classification.  Whole-archive failures (not a ZIP, zip-bomb, >500 files) return 400 before any DB writes; a re-upload whose ZIP-named folder already exists returns 409. Per-member failures (unsupported type, oversized) surface in the polled workflow results, not in this response. Each member reuses the single-file ingest path, so run-enrollment and completion events fire per member there.
 
         :param file: (required)
         :type file: bytes
@@ -2119,6 +2159,8 @@ class DocumentsApi:
         :type path_part_id: UUID
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
+        :param tag_ids: Tag IDs applied to every ingested member document.
+        :type tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2145,6 +2187,7 @@ class DocumentsApi:
             file=file,
             path_part_id=path_part_id,
             ingestion_mode=ingestion_mode,
+            tag_ids=tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2167,6 +2210,7 @@ class DocumentsApi:
         file,
         path_part_id,
         ingestion_mode,
+        tag_ids,
         _request_auth,
         _content_type,
         _headers,
@@ -2176,6 +2220,7 @@ class DocumentsApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'tag_ids': 'csv',
         }
 
         _path_params: Dict[str, str] = {}
@@ -2197,6 +2242,8 @@ class DocumentsApi:
             _form_params.append(('path_part_id', path_part_id))
         if ingestion_mode is not None:
             _form_params.append(('ingestion_mode', ingestion_mode))
+        if tag_ids is not None:
+            _form_params.append(('tag_ids', tag_ids))
         # process the body parameter
 
 

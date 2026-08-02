@@ -17,20 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
-from ksapi.models.zip_file_result import ZipFileResult
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, Optional
+from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class IngestZipResponse(BaseModel):
+class ZipMemberStatusResponse(BaseModel):
     """
-    Response from dispatching a ZIP archive to async ingestion.  ``workflow_id`` is the fan-out workflow to poll at ``GET /v1/system-jobs/zip-ingestions/{workflow_id}`` for per-member outcomes; it is None when the archive held no ingestible members. ``skipped`` are the artifact/error entries resolved synchronously during classification.
+    One member's outcome within a ZIP fan-out (from the workflow query).
     """ # noqa: E501
-    workflow_id: Optional[StrictStr]
-    skipped: List[ZipFileResult]
-    __properties: ClassVar[List[str]] = ["workflow_id", "skipped"]
+    zip_path: StrictStr
+    document_id: Optional[UUID] = None
+    document_version_id: Optional[UUID] = None
+    workflow_id: Optional[StrictStr] = None
+    error: Optional[StrictStr] = None
+    skipped: Optional[StrictBool] = False
+    __properties: ClassVar[List[str]] = ["zip_path", "document_id", "document_version_id", "workflow_id", "error", "skipped"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -50,7 +54,7 @@ class IngestZipResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of IngestZipResponse from a JSON string"""
+        """Create an instance of ZipMemberStatusResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,23 +75,31 @@ class IngestZipResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in skipped (list)
-        _items = []
-        if self.skipped:
-            for _item_skipped in self.skipped:
-                if _item_skipped:
-                    _items.append(_item_skipped.to_dict())
-            _dict['skipped'] = _items
+        # set to None if document_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_id is None and "document_id" in self.model_fields_set:
+            _dict['document_id'] = None
+
+        # set to None if document_version_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_version_id is None and "document_version_id" in self.model_fields_set:
+            _dict['document_version_id'] = None
+
         # set to None if workflow_id (nullable) is None
         # and model_fields_set contains the field
         if self.workflow_id is None and "workflow_id" in self.model_fields_set:
             _dict['workflow_id'] = None
 
+        # set to None if error (nullable) is None
+        # and model_fields_set contains the field
+        if self.error is None and "error" in self.model_fields_set:
+            _dict['error'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of IngestZipResponse from a dict"""
+        """Create an instance of ZipMemberStatusResponse from a dict"""
         if obj is None:
             return None
 
@@ -95,8 +107,12 @@ class IngestZipResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "zip_path": obj.get("zip_path"),
+            "document_id": obj.get("document_id"),
+            "document_version_id": obj.get("document_version_id"),
             "workflow_id": obj.get("workflow_id"),
-            "skipped": [ZipFileResult.from_dict(_item) for _item in obj["skipped"]] if obj.get("skipped") is not None else None
+            "error": obj.get("error"),
+            "skipped": obj.get("skipped") if obj.get("skipped") is not None else False
         })
         return _obj
 
