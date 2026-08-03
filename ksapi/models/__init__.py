@@ -238,7 +238,6 @@ from ksapi.models.pixel_region import PixelRegion
 from ksapi.models.polygon import Polygon
 from ksapi.models.polygon_reference import PolygonReference
 from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest
-from ksapi.models.proposed_memory_chunk_response import ProposedMemoryChunkResponse
 from ksapi.models.reasoning_part import ReasoningPart
 from ksapi.models.reference_type import ReferenceType
 from ksapi.models.reorder_path_part_request import ReorderPathPartRequest

@@ -23,8 +23,8 @@ from ksapi.models.memory_body_response import MemoryBodyResponse
 from ksapi.models.memory_chunk_response import MemoryChunkResponse
 from ksapi.models.memory_scope import MemoryScope
 from ksapi.models.paginated_response_pending_memory_chunk_response import PaginatedResponsePendingMemoryChunkResponse
+from ksapi.models.pending_memory_chunk_response import PendingMemoryChunkResponse
 from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest
-from ksapi.models.proposed_memory_chunk_response import ProposedMemoryChunkResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -884,7 +884,7 @@ class MemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProposedMemoryChunkResponse:
+    ) -> PendingMemoryChunkResponse:
         """Propose Memory Chunk Handler
 
 
@@ -921,7 +921,7 @@ class MemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProposedMemoryChunkResponse",
+            '201': "PendingMemoryChunkResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -951,7 +951,7 @@ class MemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProposedMemoryChunkResponse]:
+    ) -> ApiResponse[PendingMemoryChunkResponse]:
         """Propose Memory Chunk Handler
 
 
@@ -988,7 +988,7 @@ class MemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProposedMemoryChunkResponse",
+            '201': "PendingMemoryChunkResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1055,7 +1055,7 @@ class MemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProposedMemoryChunkResponse",
+            '201': "PendingMemoryChunkResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

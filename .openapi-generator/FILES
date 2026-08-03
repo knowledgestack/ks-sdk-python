@@ -251,7 +251,6 @@ docs/PixelRegion.md
 docs/Polygon.md
 docs/PolygonReference.md
 docs/ProposeMemoryChunkRequest.md
-docs/ProposedMemoryChunkResponse.md
 docs/PublicApi.md
 docs/ReasoningPart.md
 docs/ReferenceType.md
@@ -678,7 +677,6 @@ ksapi/models/pixel_region.py
 ksapi/models/polygon.py
 ksapi/models/polygon_reference.py
 ksapi/models/propose_memory_chunk_request.py
-ksapi/models/proposed_memory_chunk_response.py
 ksapi/models/reasoning_part.py
 ksapi/models/reference_type.py
 ksapi/models/reorder_path_part_request.py
@@ -1073,7 +1071,6 @@ test/test_pixel_region.py
 test/test_polygon.py
 test/test_polygon_reference.py
 test/test_propose_memory_chunk_request.py
-test/test_proposed_memory_chunk_response.py
 test/test_public_api.py
 test/test_reasoning_part.py
 test/test_reference_type.py

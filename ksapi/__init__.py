@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.150.0"
+__version__ = "1.151.0"
 
 # Define package exports
 __all__ = [
@@ -290,7 +290,6 @@ __all__ = [
     "Polygon",
     "PolygonReference",
     "ProposeMemoryChunkRequest",
-    "ProposedMemoryChunkResponse",
     "ReasoningPart",
     "ReferenceType",
     "ReorderPathPartRequest",
@@ -709,7 +708,6 @@ from ksapi.models.pixel_region import PixelRegion as PixelRegion
 from ksapi.models.polygon import Polygon as Polygon
 from ksapi.models.polygon_reference import PolygonReference as PolygonReference
 from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest as ProposeMemoryChunkRequest
-from ksapi.models.proposed_memory_chunk_response import ProposedMemoryChunkResponse as ProposedMemoryChunkResponse
 from ksapi.models.reasoning_part import ReasoningPart as ReasoningPart
 from ksapi.models.reference_type import ReferenceType as ReferenceType
 from ksapi.models.reorder_path_part_request import ReorderPathPartRequest as ReorderPathPartRequest
