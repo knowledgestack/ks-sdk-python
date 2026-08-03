@@ -29,6 +29,7 @@ class UsageMetric(str, Enum):
     PAGE = 'PAGE'
     SEARCH = 'SEARCH'
     MESSAGE = 'MESSAGE'
+    MEDIA_MINUTE = 'MEDIA_MINUTE'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

@@ -38,7 +38,9 @@ class TestCitation(unittest.TestCase):
                 chunk_id = '',
                 quote = '',
                 start_char = 0.0,
-                length = 56
+                length = 56,
+                start_ms = 56,
+                end_ms = 56
             )
         else:
             return Citation(

@@ -62,6 +62,7 @@ from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest
 from ksapi.models.column_config import ColumnConfig
 from ksapi.models.column_reference import ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason
+from ksapi.models.complete_upload_request import CompleteUploadRequest
 from ksapi.models.connection_config import ConnectionConfig
 from ksapi.models.contents_sort_order import ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest
@@ -82,6 +83,8 @@ from ksapi.models.create_skill_request import CreateSkillRequest
 from ksapi.models.create_tag_request import CreateTagRequest
 from ksapi.models.create_thread_message_request import CreateThreadMessageRequest
 from ksapi.models.create_thread_request import CreateThreadRequest
+from ksapi.models.create_upload_request import CreateUploadRequest
+from ksapi.models.create_upload_response import CreateUploadResponse
 from ksapi.models.create_workflow_definition_request import CreateWorkflowDefinitionRequest
 from ksapi.models.data_source_catalog_response import DataSourceCatalogResponse
 from ksapi.models.data_source_describe_response import DataSourceDescribeResponse
@@ -343,6 +346,8 @@ from ksapi.models.update_workflow_definition_request import UpdateWorkflowDefini
 from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest
 from ksapi.models.upload_constraints import UploadConstraints
 from ksapi.models.upload_format import UploadFormat
+from ksapi.models.upload_part_response import UploadPartResponse
+from ksapi.models.upload_status_response import UploadStatusResponse
 from ksapi.models.usage_metric import UsageMetric
 from ksapi.models.user_info import UserInfo
 from ksapi.models.user_message_request import UserMessageRequest

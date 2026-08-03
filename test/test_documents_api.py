@@ -26,10 +26,31 @@ class TestDocumentsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_abort_document_upload(self) -> None:
+        """Test case for abort_document_upload
+
+        Abort Document Upload Handler
+        """
+        pass
+
+    def test_complete_document_upload(self) -> None:
+        """Test case for complete_document_upload
+
+        Complete Document Upload Handler
+        """
+        pass
+
     def test_create_document(self) -> None:
         """Test case for create_document
 
         Create Document Handler
+        """
+        pass
+
+    def test_create_document_upload(self) -> None:
+        """Test case for create_document_upload
+
+        Create Document Upload Handler
         """
         pass
 
@@ -51,6 +72,13 @@ class TestDocumentsApi(unittest.TestCase):
         """Test case for get_document
 
         Get Document Handler
+        """
+        pass
+
+    def test_get_document_upload_status(self) -> None:
+        """Test case for get_document_upload_status
+
+        Get Document Upload Status Handler
         """
         pass
 
@@ -86,6 +114,13 @@ class TestDocumentsApi(unittest.TestCase):
         """Test case for update_document
 
         Update Document Handler
+        """
+        pass
+
+    def test_upload_document_part(self) -> None:
+        """Test case for upload_document_part
+
+        Upload Document Part Handler
         """
         pass
 

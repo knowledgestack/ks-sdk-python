@@ -63,6 +63,7 @@ docs/CloneWorkflowRunRequest.md
 docs/ColumnConfig.md
 docs/ColumnReference.md
 docs/CommonFileExclusionReason.md
+docs/CompleteUploadRequest.md
 docs/ConnectionConfig.md
 docs/ContentsSortOrder.md
 docs/CreateApiConnectionRequest.md
@@ -83,6 +84,8 @@ docs/CreateSkillRequest.md
 docs/CreateTagRequest.md
 docs/CreateThreadMessageRequest.md
 docs/CreateThreadRequest.md
+docs/CreateUploadRequest.md
+docs/CreateUploadResponse.md
 docs/CreateWorkflowDefinitionRequest.md
 docs/DataSourceCatalogResponse.md
 docs/DataSourceDescribeResponse.md
@@ -367,6 +370,8 @@ docs/UpdateWorkflowDefinitionRequest.md
 docs/UpdateWorkflowRunRequest.md
 docs/UploadConstraints.md
 docs/UploadFormat.md
+docs/UploadPartResponse.md
+docs/UploadStatusResponse.md
 docs/UsageMetric.md
 docs/UserInfo.md
 docs/UserMessageRequest.md
@@ -501,6 +506,7 @@ ksapi/models/clone_workflow_run_request.py
 ksapi/models/column_config.py
 ksapi/models/column_reference.py
 ksapi/models/common_file_exclusion_reason.py
+ksapi/models/complete_upload_request.py
 ksapi/models/connection_config.py
 ksapi/models/contents_sort_order.py
 ksapi/models/create_api_connection_request.py
@@ -521,6 +527,8 @@ ksapi/models/create_skill_request.py
 ksapi/models/create_tag_request.py
 ksapi/models/create_thread_message_request.py
 ksapi/models/create_thread_request.py
+ksapi/models/create_upload_request.py
+ksapi/models/create_upload_response.py
 ksapi/models/create_workflow_definition_request.py
 ksapi/models/data_source_catalog_response.py
 ksapi/models/data_source_describe_response.py
@@ -782,6 +790,8 @@ ksapi/models/update_workflow_definition_request.py
 ksapi/models/update_workflow_run_request.py
 ksapi/models/upload_constraints.py
 ksapi/models/upload_format.py
+ksapi/models/upload_part_response.py
+ksapi/models/upload_status_response.py
 ksapi/models/usage_metric.py
 ksapi/models/user_info.py
 ksapi/models/user_message_request.py
@@ -883,6 +893,7 @@ test/test_clone_workflow_run_request.py
 test/test_column_config.py
 test/test_column_reference.py
 test/test_common_file_exclusion_reason.py
+test/test_complete_upload_request.py
 test/test_connection_config.py
 test/test_contents_sort_order.py
 test/test_create_api_connection_request.py
@@ -903,6 +914,8 @@ test/test_create_skill_request.py
 test/test_create_tag_request.py
 test/test_create_thread_message_request.py
 test/test_create_thread_request.py
+test/test_create_upload_request.py
+test/test_create_upload_response.py
 test/test_create_workflow_definition_request.py
 test/test_data_source_catalog_response.py
 test/test_data_source_describe_response.py
@@ -1187,6 +1200,8 @@ test/test_update_workflow_definition_request.py
 test/test_update_workflow_run_request.py
 test/test_upload_constraints.py
 test/test_upload_format.py
+test/test_upload_part_response.py
+test/test_upload_status_response.py
 test/test_usage_metric.py
 test/test_user_info.py
 test/test_user_message_request.py

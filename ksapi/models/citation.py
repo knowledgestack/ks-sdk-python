@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from typing import Optional, Set
@@ -33,7 +33,9 @@ class Citation(BaseModel):
     quote: StrictStr = Field(description="The quote from the chunk")
     start_char: Annotated[int, Field(strict=True, ge=0)] = Field(description="The 0-based start character of the quote in the chunk")
     length: StrictInt = Field(description="The length of the quote")
-    __properties: ClassVar[List[str]] = ["chunk_id", "quote", "start_char", "length"]
+    start_ms: Optional[StrictInt] = Field(default=None, description="Start time (ms) of the cited chunk in the source media, for AUDIO/VIDEO — lets the client deep-link playback to the moment. None for non-media chunks.")
+    end_ms: Optional[StrictInt] = Field(default=None, description="End time (ms) of the cited chunk in the source media (AUDIO/VIDEO); None for non-media chunks.")
+    __properties: ClassVar[List[str]] = ["chunk_id", "quote", "start_char", "length", "start_ms", "end_ms"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -74,6 +76,16 @@ class Citation(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if start_ms (nullable) is None
+        # and model_fields_set contains the field
+        if self.start_ms is None and "start_ms" in self.model_fields_set:
+            _dict['start_ms'] = None
+
+        # set to None if end_ms (nullable) is None
+        # and model_fields_set contains the field
+        if self.end_ms is None and "end_ms" in self.model_fields_set:
+            _dict['end_ms'] = None
+
         return _dict
 
     @classmethod
@@ -89,7 +101,9 @@ class Citation(BaseModel):
             "chunk_id": obj.get("chunk_id"),
             "quote": obj.get("quote"),
             "start_char": obj.get("start_char"),
-            "length": obj.get("length")
+            "length": obj.get("length"),
+            "start_ms": obj.get("start_ms"),
+            "end_ms": obj.get("end_ms")
         })
         return _obj
 

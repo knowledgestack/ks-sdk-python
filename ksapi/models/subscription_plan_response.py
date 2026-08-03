@@ -34,11 +34,12 @@ class SubscriptionPlanResponse(BaseModel):
     ingested_pages: StrictInt = Field(description="Per-period cap on ingested pages (PAGE).")
     messages: StrictInt = Field(description="Per-period cap on agent messages (MESSAGE).")
     searches: StrictInt = Field(description="Per-period cap on searches (SEARCH).")
+    media_minutes: StrictInt = Field(description="Per-period cap on transcribed media minutes (MEDIA_MINUTE).")
     max_seats: StrictInt = Field(description="Upper bound on num_seats accepted by the upgrade endpoint. Admin PATCH may set tenant.seats above this value.")
     public: StrictBool = Field(description="Whether this plan appears in the public listing. Private plans (custom enterprise tiers) are excluded from ``GET /public/subscriptions`` but their tenant members can still read them via ``GET /v1/tenants/{tenant_id}/subscriptions``.")
     created_at: datetime = Field(description="Plan creation timestamp.")
     updated_at: datetime = Field(description="Last-update timestamp.")
-    __properties: ClassVar[List[str]] = ["id", "name", "ingested_pages", "messages", "searches", "max_seats", "public", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "name", "ingested_pages", "messages", "searches", "media_minutes", "max_seats", "public", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -96,6 +97,7 @@ class SubscriptionPlanResponse(BaseModel):
             "ingested_pages": obj.get("ingested_pages"),
             "messages": obj.get("messages"),
             "searches": obj.get("searches"),
+            "media_minutes": obj.get("media_minutes"),
             "max_seats": obj.get("max_seats"),
             "public": obj.get("public"),
             "created_at": obj.get("created_at"),

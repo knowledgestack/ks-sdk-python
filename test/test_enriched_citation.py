@@ -39,6 +39,8 @@ class TestEnrichedCitation(unittest.TestCase):
                 quote = '',
                 start_char = 0.0,
                 length = 56,
+                start_ms = 56,
+                end_ms = 56,
                 document_id = '',
                 document_version_id = '',
                 document_name = '',

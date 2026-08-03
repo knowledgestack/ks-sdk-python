@@ -52,6 +52,8 @@ class TestUpdateChunkMetadataRequest(unittest.TestCase):
                     summarize_for_embedding = True, 
                     extracted_text_s3_uri = '', 
                     secondary_taxonomy = 'picture', 
+                    start_ms = 56, 
+                    end_ms = 56, 
                     sheet_name = '', 
                     block_type = '', 
                     source_uri = '', 

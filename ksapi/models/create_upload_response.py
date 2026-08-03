@@ -18,30 +18,21 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, Optional
-from typing_extensions import Annotated
+from typing import Any, ClassVar, Dict
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class EnrichedCitation(BaseModel):
+class CreateUploadResponse(BaseModel):
     """
-    Citation with optional document context, populated at read time.
+    Handles for a started resumable upload.
     """ # noqa: E501
-    chunk_id: UUID
-    quote: StrictStr = Field(description="The quote from the chunk")
-    start_char: Annotated[int, Field(strict=True, ge=0)] = Field(description="The 0-based start character of the quote in the chunk")
-    length: StrictInt = Field(description="The length of the quote")
-    start_ms: Optional[StrictInt] = Field(default=None, description="Start time (ms) of the cited chunk in the source media, for AUDIO/VIDEO — lets the client deep-link playback to the moment. None for non-media chunks.")
-    end_ms: Optional[StrictInt] = Field(default=None, description="End time (ms) of the cited chunk in the source media (AUDIO/VIDEO); None for non-media chunks.")
-    document_id: Optional[UUID] = None
-    document_version_id: Optional[UUID] = None
-    document_name: Optional[StrictStr] = None
-    version_number: Optional[StrictInt] = None
-    path_part_id: Optional[UUID] = None
-    materialized_path: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["chunk_id", "quote", "start_char", "length", "start_ms", "end_ms", "document_id", "document_version_id", "document_name", "version_number", "path_part_id", "materialized_path"]
+    document_id: UUID
+    document_version_id: UUID
+    upload_token: StrictStr = Field(description="Opaque token; return it on every part/status/complete/abort")
+    part_size: StrictInt = Field(description="Recommended part size in bytes; every part except the last must be at least 5 MiB")
+    __properties: ClassVar[List[str]] = ["document_id", "document_version_id", "upload_token", "part_size"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -61,7 +52,7 @@ class EnrichedCitation(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of EnrichedCitation from a JSON string"""
+        """Create an instance of CreateUploadResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -82,51 +73,11 @@ class EnrichedCitation(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if start_ms (nullable) is None
-        # and model_fields_set contains the field
-        if self.start_ms is None and "start_ms" in self.model_fields_set:
-            _dict['start_ms'] = None
-
-        # set to None if end_ms (nullable) is None
-        # and model_fields_set contains the field
-        if self.end_ms is None and "end_ms" in self.model_fields_set:
-            _dict['end_ms'] = None
-
-        # set to None if document_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_id is None and "document_id" in self.model_fields_set:
-            _dict['document_id'] = None
-
-        # set to None if document_version_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_version_id is None and "document_version_id" in self.model_fields_set:
-            _dict['document_version_id'] = None
-
-        # set to None if document_name (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_name is None and "document_name" in self.model_fields_set:
-            _dict['document_name'] = None
-
-        # set to None if version_number (nullable) is None
-        # and model_fields_set contains the field
-        if self.version_number is None and "version_number" in self.model_fields_set:
-            _dict['version_number'] = None
-
-        # set to None if path_part_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.path_part_id is None and "path_part_id" in self.model_fields_set:
-            _dict['path_part_id'] = None
-
-        # set to None if materialized_path (nullable) is None
-        # and model_fields_set contains the field
-        if self.materialized_path is None and "materialized_path" in self.model_fields_set:
-            _dict['materialized_path'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of EnrichedCitation from a dict"""
+        """Create an instance of CreateUploadResponse from a dict"""
         if obj is None:
             return None
 
@@ -134,18 +85,10 @@ class EnrichedCitation(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "chunk_id": obj.get("chunk_id"),
-            "quote": obj.get("quote"),
-            "start_char": obj.get("start_char"),
-            "length": obj.get("length"),
-            "start_ms": obj.get("start_ms"),
-            "end_ms": obj.get("end_ms"),
             "document_id": obj.get("document_id"),
             "document_version_id": obj.get("document_version_id"),
-            "document_name": obj.get("document_name"),
-            "version_number": obj.get("version_number"),
-            "path_part_id": obj.get("path_part_id"),
-            "materialized_path": obj.get("materialized_path")
+            "upload_token": obj.get("upload_token"),
+            "part_size": obj.get("part_size")
         })
         return _obj
 

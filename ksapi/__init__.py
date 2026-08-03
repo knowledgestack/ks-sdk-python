@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.152.0"
+__version__ = "1.153.0"
 
 # Define package exports
 __all__ = [
@@ -114,6 +114,7 @@ __all__ = [
     "ColumnConfig",
     "ColumnReference",
     "CommonFileExclusionReason",
+    "CompleteUploadRequest",
     "ConnectionConfig",
     "ContentsSortOrder",
     "CreateApiConnectionRequest",
@@ -134,6 +135,8 @@ __all__ = [
     "CreateTagRequest",
     "CreateThreadMessageRequest",
     "CreateThreadRequest",
+    "CreateUploadRequest",
+    "CreateUploadResponse",
     "CreateWorkflowDefinitionRequest",
     "DataSourceCatalogResponse",
     "DataSourceDescribeResponse",
@@ -395,6 +398,8 @@ __all__ = [
     "UpdateWorkflowRunRequest",
     "UploadConstraints",
     "UploadFormat",
+    "UploadPartResponse",
+    "UploadStatusResponse",
     "UsageMetric",
     "UserInfo",
     "UserMessageRequest",
@@ -532,6 +537,7 @@ from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest as C
 from ksapi.models.column_config import ColumnConfig as ColumnConfig
 from ksapi.models.column_reference import ColumnReference as ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason as CommonFileExclusionReason
+from ksapi.models.complete_upload_request import CompleteUploadRequest as CompleteUploadRequest
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
 from ksapi.models.contents_sort_order import ContentsSortOrder as ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
@@ -552,6 +558,8 @@ from ksapi.models.create_skill_request import CreateSkillRequest as CreateSkillR
 from ksapi.models.create_tag_request import CreateTagRequest as CreateTagRequest
 from ksapi.models.create_thread_message_request import CreateThreadMessageRequest as CreateThreadMessageRequest
 from ksapi.models.create_thread_request import CreateThreadRequest as CreateThreadRequest
+from ksapi.models.create_upload_request import CreateUploadRequest as CreateUploadRequest
+from ksapi.models.create_upload_response import CreateUploadResponse as CreateUploadResponse
 from ksapi.models.create_workflow_definition_request import CreateWorkflowDefinitionRequest as CreateWorkflowDefinitionRequest
 from ksapi.models.data_source_catalog_response import DataSourceCatalogResponse as DataSourceCatalogResponse
 from ksapi.models.data_source_describe_response import DataSourceDescribeResponse as DataSourceDescribeResponse
@@ -813,6 +821,8 @@ from ksapi.models.update_workflow_definition_request import UpdateWorkflowDefini
 from ksapi.models.update_workflow_run_request import UpdateWorkflowRunRequest as UpdateWorkflowRunRequest
 from ksapi.models.upload_constraints import UploadConstraints as UploadConstraints
 from ksapi.models.upload_format import UploadFormat as UploadFormat
+from ksapi.models.upload_part_response import UploadPartResponse as UploadPartResponse
+from ksapi.models.upload_status_response import UploadStatusResponse as UploadStatusResponse
 from ksapi.models.usage_metric import UsageMetric as UsageMetric
 from ksapi.models.user_info import UserInfo as UserInfo
 from ksapi.models.user_message_request import UserMessageRequest as UserMessageRequest

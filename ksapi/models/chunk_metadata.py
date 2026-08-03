@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.polygon_reference import PolygonReference
@@ -35,6 +35,8 @@ class ChunkMetadata(BaseModel):
     summarize_for_embedding: Optional[StrictBool] = Field(default=False, description="When True, this chunk's dense embedding is built from its LLM-generated summary (see summary) instead of its raw content. Set for parsed JSON/YAML single chunks so noisy structured text does not dominate the vector; the raw content is still kept for display and sparse (keyword) retrieval. Enrichment generates the summary when this is set and summary is empty.")
     extracted_text_s3_uri: Optional[StrictStr] = Field(default=None, description="S3 URI to extracted PDF text used for LLM grounding during enrichment")
     secondary_taxonomy: Optional[ImageTaxonomy] = None
+    start_ms: Optional[StrictInt] = Field(default=None, description="Start time of this chunk in the source media (ms from start).")
+    end_ms: Optional[StrictInt] = Field(default=None, description="End time of this chunk in the source media (ms from start).")
     sheet_name: Optional[StrictStr] = Field(default=None, description="Worksheet name this chunk was extracted from (XLSX only)")
     block_type: Optional[StrictStr] = Field(default=None, description="XLSXParser block type (e.g. table, calculation_block, chart_anchor)")
     source_uri: Optional[StrictStr] = Field(default=None, description="Cell range URI reference in the source workbook (XLSX only)")
@@ -45,7 +47,7 @@ class ChunkMetadata(BaseModel):
     key_cells: Optional[List[StrictStr]] = Field(default=None, description="Notable output/header cells as A1 refs, e.g. 'Sheet1!A1' (XLSX only)")
     named_ranges: Optional[List[StrictStr]] = Field(default=None, description="Names of named ranges overlapping this chunk (XLSX only)")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
+    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "start_ms", "end_ms", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -110,6 +112,16 @@ class ChunkMetadata(BaseModel):
         if self.extracted_text_s3_uri is None and "extracted_text_s3_uri" in self.model_fields_set:
             _dict['extracted_text_s3_uri'] = None
 
+        # set to None if start_ms (nullable) is None
+        # and model_fields_set contains the field
+        if self.start_ms is None and "start_ms" in self.model_fields_set:
+            _dict['start_ms'] = None
+
+        # set to None if end_ms (nullable) is None
+        # and model_fields_set contains the field
+        if self.end_ms is None and "end_ms" in self.model_fields_set:
+            _dict['end_ms'] = None
+
         # set to None if sheet_name (nullable) is None
         # and model_fields_set contains the field
         if self.sheet_name is None and "sheet_name" in self.model_fields_set:
@@ -173,6 +185,8 @@ class ChunkMetadata(BaseModel):
             "summarize_for_embedding": obj.get("summarize_for_embedding") if obj.get("summarize_for_embedding") is not None else False,
             "extracted_text_s3_uri": obj.get("extracted_text_s3_uri"),
             "secondary_taxonomy": obj.get("secondary_taxonomy"),
+            "start_ms": obj.get("start_ms"),
+            "end_ms": obj.get("end_ms"),
             "sheet_name": obj.get("sheet_name"),
             "block_type": obj.get("block_type"),
             "source_uri": obj.get("source_uri"),

@@ -36,6 +36,8 @@ class DocumentType(str, Enum):
     JSON = 'JSON'
     YAML = 'YAML'
     CODE = 'CODE'
+    AUDIO = 'AUDIO'
+    VIDEO = 'VIDEO'
     UNKNOWN = 'UNKNOWN'
 
     @classmethod

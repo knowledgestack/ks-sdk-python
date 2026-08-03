@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.text_part_or_reasoning_part_or_tool_part_or_doc_edit_part import TextPartOrReasoningPartOrToolPartOrDocEditPart
+from ksapi.models.upload_status_response import UploadStatusResponse
 
-class TestTextPartOrReasoningPartOrToolPartOrDocEditPart(unittest.TestCase):
-    """TextPartOrReasoningPartOrToolPartOrDocEditPart unit test stubs"""
+class TestUploadStatusResponse(unittest.TestCase):
+    """UploadStatusResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,62 +25,38 @@ class TestTextPartOrReasoningPartOrToolPartOrDocEditPart(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> TextPartOrReasoningPartOrToolPartOrDocEditPart:
-        """Test TextPartOrReasoningPartOrToolPartOrDocEditPart
+    def make_instance(self, include_optional) -> UploadStatusResponse:
+        """Test UploadStatusResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `TextPartOrReasoningPartOrToolPartOrDocEditPart`
+        # uncomment below to create an instance of `UploadStatusResponse`
         """
-        model = TextPartOrReasoningPartOrToolPartOrDocEditPart()
+        model = UploadStatusResponse()
         if include_optional:
-            return TextPartOrReasoningPartOrToolPartOrDocEditPart(
-                id = '',
-                seq = 0.0,
-                start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                end_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                kind = 'doc_edit',
-                text = '',
-                citations = [
-                    ksapi.models.citation.Citation(
-                        chunk_id = '', 
-                        quote = '', 
-                        start_char = 0.0, 
-                        length = 56, 
-                        start_ms = 56, 
-                        end_ms = 56, )
+            return UploadStatusResponse(
+                parts = [
+                    ksapi.models.upload_part_response.UploadPartResponse(
+                        part_number = 56, 
+                        etag = '', 
+                        size = 56, )
                     ],
-                tool_call_id = '',
-                tool_name = '',
-                input = None,
-                status = 'running',
-                result = ksapi.models.result.Result(),
-                is_error = True,
-                duration_ms = 56,
-                extras = { },
-                display_type = 'generic',
-                document_id = '',
-                base_version_id = '',
-                new_version_id = '',
-                doc_format = 'docx',
-                approval_id = ''
+                uploaded_bytes = 56
             )
         else:
-            return TextPartOrReasoningPartOrToolPartOrDocEditPart(
-                id = '',
-                seq = 0.0,
-                start_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                text = '',
-                tool_call_id = '',
-                tool_name = '',
-                document_id = '',
-                new_version_id = '',
-                doc_format = 'docx',
+            return UploadStatusResponse(
+                parts = [
+                    ksapi.models.upload_part_response.UploadPartResponse(
+                        part_number = 56, 
+                        etag = '', 
+                        size = 56, )
+                    ],
+                uploaded_bytes = 56,
         )
         """
 
-    def testTextPartOrReasoningPartOrToolPartOrDocEditPart(self):
-        """Test TextPartOrReasoningPartOrToolPartOrDocEditPart"""
+    def testUploadStatusResponse(self):
+        """Test UploadStatusResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

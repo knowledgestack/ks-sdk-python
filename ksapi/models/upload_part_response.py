@@ -12,64 +12,81 @@
 """  # noqa: E501
 
 
-import unittest
+from __future__ import annotations
+import pprint
+import re  # noqa: F401
+import json
 
-from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageContent
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict
+from typing import Optional, Set
+from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
-class TestEnrichedThreadMessageContent(unittest.TestCase):
-    """EnrichedThreadMessageContent unit test stubs"""
+class UploadPartResponse(BaseModel):
+    """
+    Acknowledgement of one stored part.
+    """ # noqa: E501
+    part_number: StrictInt
+    etag: StrictStr
+    size: StrictInt
+    __properties: ClassVar[List[str]] = ["part_number", "etag", "size"]
 
-    def setUp(self):
-        pass
+    model_config = ConfigDict(
+        validate_by_name=True,
+        validate_by_alias=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
-    def tearDown(self):
-        pass
 
-    def make_instance(self, include_optional) -> EnrichedThreadMessageContent:
-        """Test EnrichedThreadMessageContent
-            include_optional is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # uncomment below to create an instance of `EnrichedThreadMessageContent`
+    def to_str(self) -> str:
+        """Returns the string representation of the model using alias"""
+        return pprint.pformat(self.model_dump(by_alias=True))
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the model using alias"""
+        return json.dumps(to_jsonable_python(self.to_dict()))
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of UploadPartResponse from a JSON string"""
+        return cls.from_dict(json.loads(json_str))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
         """
-        model = EnrichedThreadMessageContent()
-        if include_optional:
-            return EnrichedThreadMessageContent(
-                text = '',
-                is_error = True,
-                citations = [
-                    ksapi.models.enriched_citation.EnrichedCitation(
-                        chunk_id = '', 
-                        quote = '', 
-                        start_char = 0.0, 
-                        length = 56, 
-                        start_ms = 56, 
-                        end_ms = 56, 
-                        document_id = '', 
-                        document_version_id = '', 
-                        document_name = '', 
-                        version_number = 56, 
-                        path_part_id = '', 
-                        materialized_path = '', )
-                    ],
-                references = [
-                    ksapi.models.resolved_reference.ResolvedReference(
-                        ref_type = '', 
-                        entity_id = '', 
-                        display_name = '', 
-                        materialized_path = '', )
-                    ]
-            )
-        else:
-            return EnrichedThreadMessageContent(
-                text = '',
+        excluded_fields: Set[str] = set([
+        ])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
         )
-        """
+        return _dict
 
-    def testEnrichedThreadMessageContent(self):
-        """Test EnrichedThreadMessageContent"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of UploadPartResponse from a dict"""
+        if obj is None:
+            return None
 
-if __name__ == '__main__':
-    unittest.main()
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+
+        _obj = cls.model_validate({
+            "part_number": obj.get("part_number"),
+            "etag": obj.get("etag"),
+            "size": obj.get("size")
+        })
+        return _obj
+
+

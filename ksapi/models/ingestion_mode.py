@@ -29,6 +29,7 @@ class IngestionMode(str, Enum):
     HIGH_ACCURACY = 'high_accuracy'
     STANDARD = 'standard'
     SINGLE_CHUNK = 'single_chunk'
+    MEDIA = 'media'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
