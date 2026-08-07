@@ -2254,13 +2254,13 @@ class DocumentsApi:
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
         name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         ingestion_mode: Optional[IngestionMode] = None,
         chunk_type: Optional[ChunkType] = None,
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
         page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
         workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
-        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
-        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
         _request_timeout: Union[
             None,
@@ -2285,6 +2285,10 @@ class DocumentsApi:
         :type path_part_id: UUID
         :param name: Document name (defaults to filename)
         :type name: str
+        :param tag_ids: Tag IDs applied to the created document.
+        :type tag_ids: List[UUID]
+        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
+        :type idempotency_key: str
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
         :param chunk_type:
@@ -2295,10 +2299,6 @@ class DocumentsApi:
         :type page_dpi: int
         :param workflow_run_id: Workflow run context for assumed agent uploads.
         :type workflow_run_id: UUID
-        :param tag_ids: Tag IDs applied to the created document.
-        :type tag_ids: List[UUID]
-        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
-        :type idempotency_key: str
         :param workflow_definition_id: Workflow definition context for assumed agent uploads.
         :type workflow_definition_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -2327,13 +2327,13 @@ class DocumentsApi:
             file=file,
             path_part_id=path_part_id,
             name=name,
+            tag_ids=tag_ids,
+            idempotency_key=idempotency_key,
             ingestion_mode=ingestion_mode,
             chunk_type=chunk_type,
             secondary_taxonomy=secondary_taxonomy,
             page_dpi=page_dpi,
             workflow_run_id=workflow_run_id,
-            tag_ids=tag_ids,
-            idempotency_key=idempotency_key,
             workflow_definition_id=workflow_definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2362,13 +2362,13 @@ class DocumentsApi:
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
         name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         ingestion_mode: Optional[IngestionMode] = None,
         chunk_type: Optional[ChunkType] = None,
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
         page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
         workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
-        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
-        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
         _request_timeout: Union[
             None,
@@ -2393,6 +2393,10 @@ class DocumentsApi:
         :type path_part_id: UUID
         :param name: Document name (defaults to filename)
         :type name: str
+        :param tag_ids: Tag IDs applied to the created document.
+        :type tag_ids: List[UUID]
+        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
+        :type idempotency_key: str
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
         :param chunk_type:
@@ -2403,10 +2407,6 @@ class DocumentsApi:
         :type page_dpi: int
         :param workflow_run_id: Workflow run context for assumed agent uploads.
         :type workflow_run_id: UUID
-        :param tag_ids: Tag IDs applied to the created document.
-        :type tag_ids: List[UUID]
-        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
-        :type idempotency_key: str
         :param workflow_definition_id: Workflow definition context for assumed agent uploads.
         :type workflow_definition_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -2435,13 +2435,13 @@ class DocumentsApi:
             file=file,
             path_part_id=path_part_id,
             name=name,
+            tag_ids=tag_ids,
+            idempotency_key=idempotency_key,
             ingestion_mode=ingestion_mode,
             chunk_type=chunk_type,
             secondary_taxonomy=secondary_taxonomy,
             page_dpi=page_dpi,
             workflow_run_id=workflow_run_id,
-            tag_ids=tag_ids,
-            idempotency_key=idempotency_key,
             workflow_definition_id=workflow_definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2470,13 +2470,13 @@ class DocumentsApi:
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
         name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         ingestion_mode: Optional[IngestionMode] = None,
         chunk_type: Optional[ChunkType] = None,
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
         page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
         workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
-        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
-        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
         workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
         _request_timeout: Union[
             None,
@@ -2501,6 +2501,10 @@ class DocumentsApi:
         :type path_part_id: UUID
         :param name: Document name (defaults to filename)
         :type name: str
+        :param tag_ids: Tag IDs applied to the created document.
+        :type tag_ids: List[UUID]
+        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
+        :type idempotency_key: str
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
         :param chunk_type:
@@ -2511,10 +2515,6 @@ class DocumentsApi:
         :type page_dpi: int
         :param workflow_run_id: Workflow run context for assumed agent uploads.
         :type workflow_run_id: UUID
-        :param tag_ids: Tag IDs applied to the created document.
-        :type tag_ids: List[UUID]
-        :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
-        :type idempotency_key: str
         :param workflow_definition_id: Workflow definition context for assumed agent uploads.
         :type workflow_definition_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -2543,13 +2543,13 @@ class DocumentsApi:
             file=file,
             path_part_id=path_part_id,
             name=name,
+            tag_ids=tag_ids,
+            idempotency_key=idempotency_key,
             ingestion_mode=ingestion_mode,
             chunk_type=chunk_type,
             secondary_taxonomy=secondary_taxonomy,
             page_dpi=page_dpi,
             workflow_run_id=workflow_run_id,
-            tag_ids=tag_ids,
-            idempotency_key=idempotency_key,
             workflow_definition_id=workflow_definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2573,13 +2573,13 @@ class DocumentsApi:
         file,
         path_part_id,
         name,
+        tag_ids,
+        idempotency_key,
         ingestion_mode,
         chunk_type,
         secondary_taxonomy,
         page_dpi,
         workflow_run_id,
-        tag_ids,
-        idempotency_key,
         workflow_definition_id,
         _request_auth,
         _content_type,
@@ -2612,6 +2612,10 @@ class DocumentsApi:
             _form_params.append(('path_part_id', path_part_id))
         if name is not None:
             _form_params.append(('name', name))
+        if tag_ids is not None:
+            _form_params.append(('tag_ids', tag_ids))
+        if idempotency_key is not None:
+            _form_params.append(('idempotency_key', idempotency_key))
         if ingestion_mode is not None:
             _form_params.append(('ingestion_mode', ingestion_mode))
         if chunk_type is not None:
@@ -2622,10 +2626,6 @@ class DocumentsApi:
             _form_params.append(('page_dpi', page_dpi))
         if workflow_run_id is not None:
             _form_params.append(('workflow_run_id', workflow_run_id))
-        if tag_ids is not None:
-            _form_params.append(('tag_ids', tag_ids))
-        if idempotency_key is not None:
-            _form_params.append(('idempotency_key', idempotency_key))
         if workflow_definition_id is not None:
             _form_params.append(('workflow_definition_id', workflow_definition_id))
         # process the body parameter
