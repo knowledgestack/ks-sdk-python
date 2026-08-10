@@ -40,6 +40,9 @@ class DocumentVersionMetadata(BaseModel):
     total_pages: Optional[StrictInt] = Field(default=None, description="Total number of pages in the document")
     total_sections: Optional[StrictInt] = Field(default=None, description="Total number of sections created")
     total_chunks: Optional[StrictInt] = Field(default=None, description="Total number of chunks created")
+    duration_ms: Optional[StrictInt] = Field(default=None, description="Media (audio/video) duration in milliseconds; null for non-media")
+    language: Optional[StrictStr] = Field(default=None, description="ASR-detected language of the media transcript, as returned by the ASR provider; null for non-media or when the provider omits it")
+    segment_count: Optional[StrictInt] = Field(default=None, description="Number of transcript segments produced by ASR; null for non-media")
     total_formulas: Optional[StrictInt] = Field(default=None, description="Total formula cells in the workbook (XLSX only)")
     xlsx_parse_result_s3: Optional[StrictStr] = Field(default=None, description="S3 URI to the full XLSX parse result JSON containing dependency graph, named ranges, and KPI catalog")
     xlsx_named_ranges: Optional[List[Dict[str, Any]]] = Field(default=None, description="Named ranges defined in the workbook (name, ref_string, scope)")
@@ -52,7 +55,7 @@ class DocumentVersionMetadata(BaseModel):
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     idempotency_key: Optional[StrictStr] = Field(default=None, description="Opt-in create key. A repeat ingest with the same key at the same (parent, name) replays this document instead of colliding — makes a ZIP fan-out member retry idempotent.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5", "idempotency_key"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5", "idempotency_key"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -163,6 +166,21 @@ class DocumentVersionMetadata(BaseModel):
         if self.total_chunks is None and "total_chunks" in self.model_fields_set:
             _dict['total_chunks'] = None
 
+        # set to None if duration_ms (nullable) is None
+        # and model_fields_set contains the field
+        if self.duration_ms is None and "duration_ms" in self.model_fields_set:
+            _dict['duration_ms'] = None
+
+        # set to None if language (nullable) is None
+        # and model_fields_set contains the field
+        if self.language is None and "language" in self.model_fields_set:
+            _dict['language'] = None
+
+        # set to None if segment_count (nullable) is None
+        # and model_fields_set contains the field
+        if self.segment_count is None and "segment_count" in self.model_fields_set:
+            _dict['segment_count'] = None
+
         # set to None if total_formulas (nullable) is None
         # and model_fields_set contains the field
         if self.total_formulas is None and "total_formulas" in self.model_fields_set:
@@ -220,6 +238,9 @@ class DocumentVersionMetadata(BaseModel):
             "total_pages": obj.get("total_pages"),
             "total_sections": obj.get("total_sections"),
             "total_chunks": obj.get("total_chunks"),
+            "duration_ms": obj.get("duration_ms"),
+            "language": obj.get("language"),
+            "segment_count": obj.get("segment_count"),
             "total_formulas": obj.get("total_formulas"),
             "xlsx_parse_result_s3": obj.get("xlsx_parse_result_s3"),
             "xlsx_named_ranges": obj.get("xlsx_named_ranges"),

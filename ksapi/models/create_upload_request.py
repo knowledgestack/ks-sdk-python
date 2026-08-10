@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,7 +32,8 @@ class CreateUploadRequest(BaseModel):
     name: StrictStr = Field(description="Document name")
     filename: StrictStr = Field(description="Original filename; its extension selects the type + size cap")
     size_bytes: StrictInt = Field(description="Declared total size; fast-rejected against the type cap")
-    __properties: ClassVar[List[str]] = ["parent_path_id", "name", "filename", "size_bytes"]
+    tag_ids: Optional[List[UUID]] = Field(default=None, description="Tags applied to the document on completion (mirrors the buffered ingest endpoints so a mixed submit tags recordings too)")
+    __properties: ClassVar[List[str]] = ["parent_path_id", "name", "filename", "size_bytes", "tag_ids"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -88,7 +89,8 @@ class CreateUploadRequest(BaseModel):
             "parent_path_id": obj.get("parent_path_id"),
             "name": obj.get("name"),
             "filename": obj.get("filename"),
-            "size_bytes": obj.get("size_bytes")
+            "size_bytes": obj.get("size_bytes"),
+            "tag_ids": obj.get("tag_ids")
         })
         return _obj
 

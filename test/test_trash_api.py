@@ -26,6 +26,20 @@ class TestTrashApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_bulk_permanently_delete_trash(self) -> None:
+        """Test case for bulk_permanently_delete_trash
+
+        Bulk Permanently Delete Trash Handler
+        """
+        pass
+
+    def test_bulk_restore_trash(self) -> None:
+        """Test case for bulk_restore_trash
+
+        Bulk Restore Trash Handler
+        """
+        pass
+
     def test_list_trash(self) -> None:
         """Test case for list_trash
 

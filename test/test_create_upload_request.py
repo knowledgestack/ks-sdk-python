@@ -38,7 +38,10 @@ class TestCreateUploadRequest(unittest.TestCase):
                 parent_path_id = '',
                 name = '',
                 filename = '',
-                size_bytes = 56
+                size_bytes = 56,
+                tag_ids = [
+                    ''
+                    ]
             )
         else:
             return CreateUploadRequest(

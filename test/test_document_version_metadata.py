@@ -55,6 +55,9 @@ class TestDocumentVersionMetadata(unittest.TestCase):
                 total_pages = 56,
                 total_sections = 56,
                 total_chunks = 56,
+                duration_ms = 56,
+                language = '',
+                segment_count = 56,
                 total_formulas = 56,
                 xlsx_parse_result_s3 = '',
                 xlsx_named_ranges = [

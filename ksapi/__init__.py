@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.154.1"
+__version__ = "1.155.0"
 
 # Define package exports
 __all__ = [
@@ -33,7 +33,9 @@ __all__ = [
     "ApiKeysApi",
     "AuditEventsApi",
     "AuthApi",
+    "BulkDeleteApi",
     "BulkDownloadApi",
+    "BulkMoveApi",
     "ChunkLineagesApi",
     "ChunksApi",
     "DataSourcesApi",
@@ -84,10 +86,22 @@ __all__ = [
     "BlockChangeType",
     "BlockKind",
     "BrandingLogoType",
+    "BulkDeleteRequest",
     "BulkDownloadRequest",
+    "BulkFailureReason",
+    "BulkGrantItem",
+    "BulkGrantItemFailure",
+    "BulkGrantRequest",
+    "BulkGrantResponse",
+    "BulkGrantSuccess",
+    "BulkItemFailure",
     "BulkModelTablesRequest",
     "BulkModelTablesResponse",
+    "BulkMoveRequest",
+    "BulkOperationResponse",
+    "BulkRevokeRequest",
     "BulkTagRequest",
+    "BulkTrashRequest",
     "CatalogColumnResponse",
     "CatalogTableResponse",
     "CellChange",
@@ -452,7 +466,9 @@ from ksapi.api.api_connections_api import ApiConnectionsApi as ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi as ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi as AuditEventsApi
 from ksapi.api.auth_api import AuthApi as AuthApi
+from ksapi.api.bulk_delete_api import BulkDeleteApi as BulkDeleteApi
 from ksapi.api.bulk_download_api import BulkDownloadApi as BulkDownloadApi
+from ksapi.api.bulk_move_api import BulkMoveApi as BulkMoveApi
 from ksapi.api.chunk_lineages_api import ChunkLineagesApi as ChunkLineagesApi
 from ksapi.api.chunks_api import ChunksApi as ChunksApi
 from ksapi.api.data_sources_api import DataSourcesApi as DataSourcesApi
@@ -507,10 +523,22 @@ from ksapi.models.ask_response import AskResponse as AskResponse
 from ksapi.models.block_change_type import BlockChangeType as BlockChangeType
 from ksapi.models.block_kind import BlockKind as BlockKind
 from ksapi.models.branding_logo_type import BrandingLogoType as BrandingLogoType
+from ksapi.models.bulk_delete_request import BulkDeleteRequest as BulkDeleteRequest
 from ksapi.models.bulk_download_request import BulkDownloadRequest as BulkDownloadRequest
+from ksapi.models.bulk_failure_reason import BulkFailureReason as BulkFailureReason
+from ksapi.models.bulk_grant_item import BulkGrantItem as BulkGrantItem
+from ksapi.models.bulk_grant_item_failure import BulkGrantItemFailure as BulkGrantItemFailure
+from ksapi.models.bulk_grant_request import BulkGrantRequest as BulkGrantRequest
+from ksapi.models.bulk_grant_response import BulkGrantResponse as BulkGrantResponse
+from ksapi.models.bulk_grant_success import BulkGrantSuccess as BulkGrantSuccess
+from ksapi.models.bulk_item_failure import BulkItemFailure as BulkItemFailure
 from ksapi.models.bulk_model_tables_request import BulkModelTablesRequest as BulkModelTablesRequest
 from ksapi.models.bulk_model_tables_response import BulkModelTablesResponse as BulkModelTablesResponse
+from ksapi.models.bulk_move_request import BulkMoveRequest as BulkMoveRequest
+from ksapi.models.bulk_operation_response import BulkOperationResponse as BulkOperationResponse
+from ksapi.models.bulk_revoke_request import BulkRevokeRequest as BulkRevokeRequest
 from ksapi.models.bulk_tag_request import BulkTagRequest as BulkTagRequest
+from ksapi.models.bulk_trash_request import BulkTrashRequest as BulkTrashRequest
 from ksapi.models.catalog_column_response import CatalogColumnResponse as CatalogColumnResponse
 from ksapi.models.catalog_table_response import CatalogTableResponse as CatalogTableResponse
 from ksapi.models.cell_change import CellChange as CellChange

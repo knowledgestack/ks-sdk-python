@@ -26,6 +26,20 @@ class TestUserPermissionsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_bulk_grant_user_permissions(self) -> None:
+        """Test case for bulk_grant_user_permissions
+
+        Bulk Grant User Permissions Handler
+        """
+        pass
+
+    def test_bulk_revoke_user_permissions(self) -> None:
+        """Test case for bulk_revoke_user_permissions
+
+        Bulk Revoke User Permissions Handler
+        """
+        pass
+
     def test_create_user_permission(self) -> None:
         """Test case for create_user_permission
 
