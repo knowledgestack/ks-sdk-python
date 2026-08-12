@@ -45,9 +45,10 @@ class DocumentVersionResponse(BaseModel):
     asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL to download the source document (6-hour validity)")
     cited_asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL (6-hour validity) to the agent's cited copy of the source, with KS Citation comments intact; null unless one was stored. For the agent edit round-trip only — human downloads and the FE viewer use asset_s3_url (clean) and render citations from citation_anchors.")
     fast_plaintext_url: Optional[StrictStr] = Field(default=None, description="Presigned URL to download the fast plaintext export (6-hour validity)")
+    transcript_url: Optional[StrictStr] = Field(default=None, description="Presigned URL (6-hour validity) to the ASR transcript JSON with per-segment start_ms/end_ms/text; null for non-media. Chunks pack many segments into one, so this is what a client reads to follow a recording line by line.")
     page_screenshot_urls: Optional[List[StrictStr]] = Field(default=None, description="Presigned URLs (6-hour validity) to per-page WEBP screenshots in page order: index 0 is page 1, index N-1 is page N. Populated only when the request includes include_page_screenshots=true; null otherwise.")
     system_metadata: Optional[DocumentVersionMetadata] = None
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "version", "name", "parent_path_id", "materialized_path", "system_managed", "tenant_id", "uploader", "created_at", "updated_at", "asset_s3_url", "cited_asset_s3_url", "fast_plaintext_url", "page_screenshot_urls", "system_metadata"]
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "version", "name", "parent_path_id", "materialized_path", "system_managed", "tenant_id", "uploader", "created_at", "updated_at", "asset_s3_url", "cited_asset_s3_url", "fast_plaintext_url", "transcript_url", "page_screenshot_urls", "system_metadata"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -114,6 +115,11 @@ class DocumentVersionResponse(BaseModel):
         if self.fast_plaintext_url is None and "fast_plaintext_url" in self.model_fields_set:
             _dict['fast_plaintext_url'] = None
 
+        # set to None if transcript_url (nullable) is None
+        # and model_fields_set contains the field
+        if self.transcript_url is None and "transcript_url" in self.model_fields_set:
+            _dict['transcript_url'] = None
+
         # set to None if page_screenshot_urls (nullable) is None
         # and model_fields_set contains the field
         if self.page_screenshot_urls is None and "page_screenshot_urls" in self.model_fields_set:
@@ -145,6 +151,7 @@ class DocumentVersionResponse(BaseModel):
             "asset_s3_url": obj.get("asset_s3_url"),
             "cited_asset_s3_url": obj.get("cited_asset_s3_url"),
             "fast_plaintext_url": obj.get("fast_plaintext_url"),
+            "transcript_url": obj.get("transcript_url"),
             "page_screenshot_urls": obj.get("page_screenshot_urls"),
             "system_metadata": DocumentVersionMetadata.from_dict(obj["system_metadata"]) if obj.get("system_metadata") is not None else None
         })

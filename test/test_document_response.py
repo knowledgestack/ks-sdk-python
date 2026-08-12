@@ -61,6 +61,7 @@ class TestDocumentResponse(unittest.TestCase):
                     asset_s3_url = '', 
                     cited_asset_s3_url = '', 
                     fast_plaintext_url = '', 
+                    transcript_url = '', 
                     page_screenshot_urls = [
                         ''
                         ], 
@@ -70,6 +71,7 @@ class TestDocumentResponse(unittest.TestCase):
                         preconversion_source_s3 = '', 
                         cited_source_s3 = '', 
                         fast_plaintext_s3 = '', 
+                        transcript_s3 = '', 
                         hash = '', 
                         pipeline_state = null, 
                         total_pages = 56, 
@@ -158,6 +160,7 @@ class TestDocumentResponse(unittest.TestCase):
                     asset_s3_url = '', 
                     cited_asset_s3_url = '', 
                     fast_plaintext_url = '', 
+                    transcript_url = '', 
                     page_screenshot_urls = [
                         ''
                         ], 
@@ -167,6 +170,7 @@ class TestDocumentResponse(unittest.TestCase):
                         preconversion_source_s3 = '', 
                         cited_source_s3 = '', 
                         fast_plaintext_s3 = '', 
+                        transcript_s3 = '', 
                         hash = '', 
                         pipeline_state = null, 
                         total_pages = 56, 

@@ -36,6 +36,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
     cited_source_s3: Optional[StrictStr] = None
     standard_pipeline_json_s3: Optional[StrictStr] = None
     fast_plaintext_s3: Optional[StrictStr] = None
+    transcript_s3: Optional[StrictStr] = None
     high_accuracy_content_list_s3: Optional[StrictStr] = None
     high_accuracy_middle_s3: Optional[StrictStr] = None
     hash: Optional[StrictStr] = None
@@ -56,7 +57,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
     quota_page_count: Optional[StrictInt] = None
     quota_idempotency_key: Optional[StrictStr] = None
     file_md5: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -139,6 +140,11 @@ class DocumentVersionMetadataUpdate(BaseModel):
         # and model_fields_set contains the field
         if self.fast_plaintext_s3 is None and "fast_plaintext_s3" in self.model_fields_set:
             _dict['fast_plaintext_s3'] = None
+
+        # set to None if transcript_s3 (nullable) is None
+        # and model_fields_set contains the field
+        if self.transcript_s3 is None and "transcript_s3" in self.model_fields_set:
+            _dict['transcript_s3'] = None
 
         # set to None if high_accuracy_content_list_s3 (nullable) is None
         # and model_fields_set contains the field
@@ -258,6 +264,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
             "cited_source_s3": obj.get("cited_source_s3"),
             "standard_pipeline_json_s3": obj.get("standard_pipeline_json_s3"),
             "fast_plaintext_s3": obj.get("fast_plaintext_s3"),
+            "transcript_s3": obj.get("transcript_s3"),
             "high_accuracy_content_list_s3": obj.get("high_accuracy_content_list_s3"),
             "high_accuracy_middle_s3": obj.get("high_accuracy_middle_s3"),
             "hash": obj.get("hash"),

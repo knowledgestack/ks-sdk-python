@@ -40,6 +40,7 @@ class TestDocumentVersionMetadata(unittest.TestCase):
                 preconversion_source_s3 = '',
                 cited_source_s3 = '',
                 fast_plaintext_s3 = '',
+                transcript_s3 = '',
                 hash = '',
                 pipeline_state = ksapi.models.pipeline_state.PipelineState(
                     status = 'pending', 

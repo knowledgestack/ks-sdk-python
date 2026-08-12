@@ -35,6 +35,7 @@ class DocumentVersionMetadata(BaseModel):
     preconversion_source_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the original pre-conversion legacy Office file; null unless this version was converted from a legacy binary format. After conversion source_s3 points at the modern OOXML file and this field preserves the original for traceability.")
     cited_source_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the agent's cited copy of the source (KS Citation comments intact); null unless the agent uploaded a file carrying citations. Read only for the agent edit round-trip so a follow-up chat re-extracts citation anchors instead of losing them; source_s3 stays the clean artifact served to chunking, the FE viewer, and downloads.")
     fast_plaintext_s3: Optional[StrictStr] = Field(default=None, description="S3 URL to the fast plaintext export of the document")
+    transcript_s3: Optional[StrictStr] = Field(default=None, description="S3 URI of the ASR transcript JSON (per-segment start_ms/end_ms/text); null for non-media. Chunks carry timings too, but at merged-chunk granularity, so this is the only per-segment source.")
     hash: Optional[StrictStr] = Field(default=None, description="Base64-encoded SHA256 hash of the uploaded source file")
     pipeline_state: Optional[PipelineState] = Field(default=None, description="Current state of the ingestion pipeline workflow")
     total_pages: Optional[StrictInt] = Field(default=None, description="Total number of pages in the document")
@@ -55,7 +56,7 @@ class DocumentVersionMetadata(BaseModel):
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     idempotency_key: Optional[StrictStr] = Field(default=None, description="Opt-in create key. A repeat ingest with the same key at the same (parent, name) replays this document instead of colliding — makes a ZIP fan-out member retry idempotent.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5", "idempotency_key"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "transcript_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5", "idempotency_key"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -140,6 +141,11 @@ class DocumentVersionMetadata(BaseModel):
         # and model_fields_set contains the field
         if self.fast_plaintext_s3 is None and "fast_plaintext_s3" in self.model_fields_set:
             _dict['fast_plaintext_s3'] = None
+
+        # set to None if transcript_s3 (nullable) is None
+        # and model_fields_set contains the field
+        if self.transcript_s3 is None and "transcript_s3" in self.model_fields_set:
+            _dict['transcript_s3'] = None
 
         # set to None if hash (nullable) is None
         # and model_fields_set contains the field
@@ -233,6 +239,7 @@ class DocumentVersionMetadata(BaseModel):
             "preconversion_source_s3": obj.get("preconversion_source_s3"),
             "cited_source_s3": obj.get("cited_source_s3"),
             "fast_plaintext_s3": obj.get("fast_plaintext_s3"),
+            "transcript_s3": obj.get("transcript_s3"),
             "hash": obj.get("hash"),
             "pipeline_state": PipelineState.from_dict(obj["pipeline_state"]) if obj.get("pipeline_state") is not None else None,
             "total_pages": obj.get("total_pages"),

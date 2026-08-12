@@ -41,6 +41,7 @@ class TestDocumentVersionMetadataUpdate(unittest.TestCase):
                 cited_source_s3 = '',
                 standard_pipeline_json_s3 = '',
                 fast_plaintext_s3 = '',
+                transcript_s3 = '',
                 high_accuracy_content_list_s3 = '',
                 high_accuracy_middle_s3 = '',
                 hash = '',
