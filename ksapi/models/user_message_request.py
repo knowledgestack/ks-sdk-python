@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,7 +28,8 @@ class UserMessageRequest(BaseModel):
     UserMessageRequest
     """ # noqa: E501
     input_text: Optional[StrictStr] = Field(default='', description="User input text. Mock agent dev controls may be embedded here (e.g. /mock duration=5 wps=3 scenario=tool_call_once).")
-    __properties: ClassVar[List[str]] = ["input_text"]
+    fast_mode: Optional[StrictBool] = Field(default=False, description="Answer with the faster, lower-cost chat profile. Ignored when the tenant pins a chat profile and on workflow-run threads.")
+    __properties: ClassVar[List[str]] = ["input_text", "fast_mode"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -81,7 +82,8 @@ class UserMessageRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "input_text": obj.get("input_text") if obj.get("input_text") is not None else ''
+            "input_text": obj.get("input_text") if obj.get("input_text") is not None else '',
+            "fast_mode": obj.get("fast_mode") if obj.get("fast_mode") is not None else False
         })
         return _obj
 

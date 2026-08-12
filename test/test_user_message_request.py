@@ -35,7 +35,8 @@ class TestUserMessageRequest(unittest.TestCase):
         model = UserMessageRequest()
         if include_optional:
             return UserMessageRequest(
-                input_text = ''
+                input_text = '',
+                fast_mode = True
             )
         else:
             return UserMessageRequest(
