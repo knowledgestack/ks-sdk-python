@@ -87,6 +87,7 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             information_statistics = null, 
                             quota_charged = True, 
                             quota_page_count = 56, 
+                            quota_media_minutes = 56, 
                             quota_idempotency_key = 'UNSET', 
                             file_md5 = 'UNSET', 
                             idempotency_key = '', ), )
@@ -149,6 +150,7 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             information_statistics = null, 
                             quota_charged = True, 
                             quota_page_count = 56, 
+                            quota_media_minutes = 56, 
                             quota_idempotency_key = 'UNSET', 
                             file_md5 = 'UNSET', 
                             idempotency_key = '', ), )

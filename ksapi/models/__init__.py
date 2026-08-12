@@ -280,6 +280,7 @@ from ksapi.models.section_content_item import SectionContentItem
 from ksapi.models.section_content_item_or_chunk_content_item import SectionContentItemOrChunkContentItem
 from ksapi.models.section_response import SectionResponse
 from ksapi.models.section_system_metadata import SectionSystemMetadata
+from ksapi.models.segment_span import SegmentSpan
 from ksapi.models.send_password_reset_request import SendPasswordResetRequest
 from ksapi.models.set_approval_state_request import SetApprovalStateRequest
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest

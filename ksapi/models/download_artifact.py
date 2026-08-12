@@ -28,6 +28,7 @@ class DownloadArtifact(str, Enum):
     """
     SOURCE = 'source'
     FAST_PLAINTEXT = 'fast_plaintext'
+    TRANSCRIPT = 'transcript'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

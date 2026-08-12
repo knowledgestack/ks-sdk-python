@@ -70,6 +70,12 @@ class TestSectionContentItemOrChunkContentItem(unittest.TestCase):
                     secondary_taxonomy = 'picture', 
                     start_ms = 56, 
                     end_ms = 56, 
+                    segments = [
+                        ksapi.models.segment_span.SegmentSpan(
+                            s = 56, 
+                            e = 56, 
+                            c = 56, )
+                        ], 
                     sheet_name = '', 
                     block_type = '', 
                     source_uri = '', 

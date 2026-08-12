@@ -41,7 +41,9 @@ class TestUploadConstraints(unittest.TestCase):
                         content_type = '', )
                     ],
                 max_bytes = 56,
-                max_image_bytes = 56
+                max_image_bytes = 56,
+                max_media_bytes = 56,
+                max_video_bytes = 56
             )
         else:
             return UploadConstraints(
@@ -52,6 +54,8 @@ class TestUploadConstraints(unittest.TestCase):
                     ],
                 max_bytes = 56,
                 max_image_bytes = 56,
+                max_media_bytes = 56,
+                max_video_bytes = 56,
         )
         """
 

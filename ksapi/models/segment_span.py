@@ -17,23 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List
-from ksapi.models.upload_format import UploadFormat
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class UploadConstraints(BaseModel):
+class SegmentSpan(BaseModel):
     """
-    UploadConstraints
+    One ASR segment's span inside a media chunk (media chunks only).  Field names are deliberately compact — a media document stores hundreds of chunks x up to ~15 spans each in ``chunk_metadata`` JSONB.
     """ # noqa: E501
-    formats: List[UploadFormat]
-    max_bytes: StrictInt
-    max_image_bytes: StrictInt
-    max_media_bytes: StrictInt
-    max_video_bytes: StrictInt
-    __properties: ClassVar[List[str]] = ["formats", "max_bytes", "max_image_bytes", "max_media_bytes", "max_video_bytes"]
+    s: StrictInt = Field(description="Segment start in the media, ms from start.")
+    e: StrictInt = Field(description="Segment end in the media, ms from start.")
+    c: StrictInt = Field(description="Character offset of this segment's text within the chunk's joined content — maps a position in the chunk text back to a moment in the recording.")
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["s", "e", "c"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -53,7 +51,7 @@ class UploadConstraints(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UploadConstraints from a JSON string"""
+        """Create an instance of SegmentSpan from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -65,8 +63,10 @@ class UploadConstraints(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -74,18 +74,16 @@ class UploadConstraints(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in formats (list)
-        _items = []
-        if self.formats:
-            for _item_formats in self.formats:
-                if _item_formats:
-                    _items.append(_item_formats.to_dict())
-            _dict['formats'] = _items
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UploadConstraints from a dict"""
+        """Create an instance of SegmentSpan from a dict"""
         if obj is None:
             return None
 
@@ -93,12 +91,15 @@ class UploadConstraints(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "formats": [UploadFormat.from_dict(_item) for _item in obj["formats"]] if obj.get("formats") is not None else None,
-            "max_bytes": obj.get("max_bytes"),
-            "max_image_bytes": obj.get("max_image_bytes"),
-            "max_media_bytes": obj.get("max_media_bytes"),
-            "max_video_bytes": obj.get("max_video_bytes")
+            "s": obj.get("s"),
+            "e": obj.get("e"),
+            "c": obj.get("c")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

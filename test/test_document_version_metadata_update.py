@@ -82,6 +82,7 @@ class TestDocumentVersionMetadataUpdate(unittest.TestCase):
                     children_depth = 56, ),
                 quota_charged = True,
                 quota_page_count = 56,
+                quota_media_minutes = 56,
                 quota_idempotency_key = '',
                 file_md5 = ''
             )

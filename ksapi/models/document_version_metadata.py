@@ -52,11 +52,12 @@ class DocumentVersionMetadata(BaseModel):
     information_statistics: Optional[InformationStatistics] = Field(default=None, description="Aggregate statistics for the document version (tokens, chunk counts, depth)")
     quota_charged: Optional[StrictBool] = Field(default=False, description="True once the conversion activity successfully consumed PAGE quota")
     quota_page_count: Optional[StrictInt] = Field(default=0, description="Page quantity charged at conversion start; 0 if not yet charged")
+    quota_media_minutes: Optional[StrictInt] = Field(default=0, description="MEDIA_MINUTE quantity charged at media preparation; 0 if not yet charged")
     quota_idempotency_key: Optional[StrictStr] = Field(default='UNSET', description="Stable consume key (matches workflow_id); 'UNSET' for pre-Phase-2 docs so refund logic short-circuits")
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     idempotency_key: Optional[StrictStr] = Field(default=None, description="Opt-in create key. A repeat ingest with the same key at the same (parent, name) replays this document instead of colliding — makes a ZIP fan-out member retry idempotent.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "transcript_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5", "idempotency_key"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "transcript_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_minutes", "quota_idempotency_key", "file_md5", "idempotency_key"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -256,6 +257,7 @@ class DocumentVersionMetadata(BaseModel):
             "information_statistics": InformationStatistics.from_dict(obj["information_statistics"]) if obj.get("information_statistics") is not None else None,
             "quota_charged": obj.get("quota_charged") if obj.get("quota_charged") is not None else False,
             "quota_page_count": obj.get("quota_page_count") if obj.get("quota_page_count") is not None else 0,
+            "quota_media_minutes": obj.get("quota_media_minutes") if obj.get("quota_media_minutes") is not None else 0,
             "quota_idempotency_key": obj.get("quota_idempotency_key") if obj.get("quota_idempotency_key") is not None else 'UNSET',
             "file_md5": obj.get("file_md5") if obj.get("file_md5") is not None else 'UNSET',
             "idempotency_key": obj.get("idempotency_key")

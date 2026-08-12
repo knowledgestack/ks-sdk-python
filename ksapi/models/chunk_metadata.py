@@ -21,6 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.polygon_reference import PolygonReference
+from ksapi.models.segment_span import SegmentSpan
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -37,6 +38,7 @@ class ChunkMetadata(BaseModel):
     secondary_taxonomy: Optional[ImageTaxonomy] = None
     start_ms: Optional[StrictInt] = Field(default=None, description="Start time of this chunk in the source media (ms from start).")
     end_ms: Optional[StrictInt] = Field(default=None, description="End time of this chunk in the source media (ms from start).")
+    segments: Optional[List[SegmentSpan]] = Field(default=None, description="Per-ASR-segment spans inside this media chunk, in order, each carrying its char offset in the chunk content. Lets citation resolution narrow a chunk-level timeframe to the enclosing segment. None for non-media chunks and media ingested before this field existed.")
     sheet_name: Optional[StrictStr] = Field(default=None, description="Worksheet name this chunk was extracted from (XLSX only)")
     block_type: Optional[StrictStr] = Field(default=None, description="XLSXParser block type (e.g. table, calculation_block, chart_anchor)")
     source_uri: Optional[StrictStr] = Field(default=None, description="Cell range URI reference in the source workbook (XLSX only)")
@@ -47,7 +49,7 @@ class ChunkMetadata(BaseModel):
     key_cells: Optional[List[StrictStr]] = Field(default=None, description="Notable output/header cells as A1 refs, e.g. 'Sheet1!A1' (XLSX only)")
     named_ranges: Optional[List[StrictStr]] = Field(default=None, description="Names of named ranges overlapping this chunk (XLSX only)")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "start_ms", "end_ms", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
+    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "start_ms", "end_ms", "segments", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -97,6 +99,13 @@ class ChunkMetadata(BaseModel):
                 if _item_polygons:
                     _items.append(_item_polygons.to_dict())
             _dict['polygons'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in segments (list)
+        _items = []
+        if self.segments:
+            for _item_segments in self.segments:
+                if _item_segments:
+                    _items.append(_item_segments.to_dict())
+            _dict['segments'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -121,6 +130,11 @@ class ChunkMetadata(BaseModel):
         # and model_fields_set contains the field
         if self.end_ms is None and "end_ms" in self.model_fields_set:
             _dict['end_ms'] = None
+
+        # set to None if segments (nullable) is None
+        # and model_fields_set contains the field
+        if self.segments is None and "segments" in self.model_fields_set:
+            _dict['segments'] = None
 
         # set to None if sheet_name (nullable) is None
         # and model_fields_set contains the field
@@ -187,6 +201,7 @@ class ChunkMetadata(BaseModel):
             "secondary_taxonomy": obj.get("secondary_taxonomy"),
             "start_ms": obj.get("start_ms"),
             "end_ms": obj.get("end_ms"),
+            "segments": [SegmentSpan.from_dict(_item) for _item in obj["segments"]] if obj.get("segments") is not None else None,
             "sheet_name": obj.get("sheet_name"),
             "block_type": obj.get("block_type"),
             "source_uri": obj.get("source_uri"),

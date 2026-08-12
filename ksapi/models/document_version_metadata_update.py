@@ -55,9 +55,10 @@ class DocumentVersionMetadataUpdate(BaseModel):
     information_statistics: Optional[InformationStatistics] = None
     quota_charged: Optional[StrictBool] = None
     quota_page_count: Optional[StrictInt] = None
+    quota_media_minutes: Optional[StrictInt] = None
     quota_idempotency_key: Optional[StrictStr] = None
     file_md5: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_idempotency_key", "file_md5"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_minutes", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -236,6 +237,11 @@ class DocumentVersionMetadataUpdate(BaseModel):
         if self.quota_page_count is None and "quota_page_count" in self.model_fields_set:
             _dict['quota_page_count'] = None
 
+        # set to None if quota_media_minutes (nullable) is None
+        # and model_fields_set contains the field
+        if self.quota_media_minutes is None and "quota_media_minutes" in self.model_fields_set:
+            _dict['quota_media_minutes'] = None
+
         # set to None if quota_idempotency_key (nullable) is None
         # and model_fields_set contains the field
         if self.quota_idempotency_key is None and "quota_idempotency_key" in self.model_fields_set:
@@ -283,6 +289,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
             "information_statistics": InformationStatistics.from_dict(obj["information_statistics"]) if obj.get("information_statistics") is not None else None,
             "quota_charged": obj.get("quota_charged"),
             "quota_page_count": obj.get("quota_page_count"),
+            "quota_media_minutes": obj.get("quota_media_minutes"),
             "quota_idempotency_key": obj.get("quota_idempotency_key"),
             "file_md5": obj.get("file_md5")
         })

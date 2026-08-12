@@ -1426,7 +1426,7 @@ class DocumentVersionsApi:
     def download_document_version(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
-        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source or fast_plaintext")] = None,
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1446,7 +1446,7 @@ class DocumentVersionsApi:
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
-        :param artifact: Artifact to download: source or fast_plaintext
+        :param artifact: Artifact to download: source, fast_plaintext, or transcript (media only)
         :type artifact: DownloadArtifact
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1498,7 +1498,7 @@ class DocumentVersionsApi:
     def download_document_version_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
-        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source or fast_plaintext")] = None,
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1518,7 +1518,7 @@ class DocumentVersionsApi:
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
-        :param artifact: Artifact to download: source or fast_plaintext
+        :param artifact: Artifact to download: source, fast_plaintext, or transcript (media only)
         :type artifact: DownloadArtifact
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1570,7 +1570,7 @@ class DocumentVersionsApi:
     def download_document_version_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
-        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source or fast_plaintext")] = None,
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1590,7 +1590,7 @@ class DocumentVersionsApi:
 
         :param version_id: DocumentVersion ID (required)
         :type version_id: UUID
-        :param artifact: Artifact to download: source or fast_plaintext
+        :param artifact: Artifact to download: source, fast_plaintext, or transcript (media only)
         :type artifact: DownloadArtifact
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.chunk_metadata import ChunkMetadata
+from ksapi.models.segment_span import SegmentSpan
 
-class TestChunkMetadata(unittest.TestCase):
-    """ChunkMetadata unit test stubs"""
+class TestSegmentSpan(unittest.TestCase):
+    """SegmentSpan unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,65 +25,30 @@ class TestChunkMetadata(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> ChunkMetadata:
-        """Test ChunkMetadata
+    def make_instance(self, include_optional) -> SegmentSpan:
+        """Test SegmentSpan
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `ChunkMetadata`
+        # uncomment below to create an instance of `SegmentSpan`
         """
-        model = ChunkMetadata()
+        model = SegmentSpan()
         if include_optional:
-            return ChunkMetadata(
-                polygons = [
-                    ksapi.models.polygon_reference.PolygonReference(
-                        page = 56, 
-                        polygon = ksapi.models.polygon.Polygon(
-                            x = 56, 
-                            y = 56, 
-                            width = 56, 
-                            height = 56, ), )
-                    ],
-                s3_urls = [
-                    ''
-                    ],
-                summary = '',
-                summarize_for_embedding = True,
-                extracted_text_s3_uri = '',
-                secondary_taxonomy = 'picture',
-                start_ms = 56,
-                end_ms = 56,
-                segments = [
-                    ksapi.models.segment_span.SegmentSpan(
-                        s = 56, 
-                        e = 56, 
-                        c = 56, )
-                    ],
-                sheet_name = '',
-                block_type = '',
-                source_uri = '',
-                enriched_html = '',
-                cell_range = '',
-                dependency_summary = { },
-                formulas = [
-                    {
-                        'key' : ''
-                        }
-                    ],
-                key_cells = [
-                    ''
-                    ],
-                named_ranges = [
-                    ''
-                    ]
+            return SegmentSpan(
+                s = 56,
+                e = 56,
+                c = 56
             )
         else:
-            return ChunkMetadata(
+            return SegmentSpan(
+                s = 56,
+                e = 56,
+                c = 56,
         )
         """
 
-    def testChunkMetadata(self):
-        """Test ChunkMetadata"""
+    def testSegmentSpan(self):
+        """Test SegmentSpan"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

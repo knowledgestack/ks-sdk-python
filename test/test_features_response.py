@@ -47,7 +47,9 @@ class TestFeaturesResponse(unittest.TestCase):
                             content_type = '', )
                         ], 
                     max_bytes = 56, 
-                    max_image_bytes = 56, )
+                    max_image_bytes = 56, 
+                    max_media_bytes = 56, 
+                    max_video_bytes = 56, )
             )
         else:
             return FeaturesResponse(
@@ -63,7 +65,9 @@ class TestFeaturesResponse(unittest.TestCase):
                             content_type = '', )
                         ], 
                     max_bytes = 56, 
-                    max_image_bytes = 56, ),
+                    max_image_bytes = 56, 
+                    max_media_bytes = 56, 
+                    max_video_bytes = 56, ),
         )
         """
 

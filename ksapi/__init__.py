@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.156.1"
+__version__ = "1.157.0"
 
 # Define package exports
 __all__ = [
@@ -334,6 +334,7 @@ __all__ = [
     "SectionContentItemOrChunkContentItem",
     "SectionResponse",
     "SectionSystemMetadata",
+    "SegmentSpan",
     "SendPasswordResetRequest",
     "SetApprovalStateRequest",
     "SetWorkflowRunApprovalRequest",
@@ -771,6 +772,7 @@ from ksapi.models.section_content_item import SectionContentItem as SectionConte
 from ksapi.models.section_content_item_or_chunk_content_item import SectionContentItemOrChunkContentItem as SectionContentItemOrChunkContentItem
 from ksapi.models.section_response import SectionResponse as SectionResponse
 from ksapi.models.section_system_metadata import SectionSystemMetadata as SectionSystemMetadata
+from ksapi.models.segment_span import SegmentSpan as SegmentSpan
 from ksapi.models.send_password_reset_request import SendPasswordResetRequest as SendPasswordResetRequest
 from ksapi.models.set_approval_state_request import SetApprovalStateRequest as SetApprovalStateRequest
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest as SetWorkflowRunApprovalRequest
