@@ -28,7 +28,7 @@ class UserMessageRequest(BaseModel):
     UserMessageRequest
     """ # noqa: E501
     input_text: Optional[StrictStr] = Field(default='', description="User input text. Mock agent dev controls may be embedded here (e.g. /mock duration=5 wps=3 scenario=tool_call_once).")
-    fast_mode: Optional[StrictBool] = Field(default=False, description="Answer with the faster, lower-cost chat profile. Ignored when the tenant pins a chat profile and on workflow-run threads.")
+    fast_mode: Optional[StrictBool] = Field(default=None, description="Answer with the faster, lower-cost chat profile. Omit to use the tenant's default_fast_mode; true/false overrides it for this message. Ignored when the tenant pins a chat profile and on workflow-run threads.")
     __properties: ClassVar[List[str]] = ["input_text", "fast_mode"]
 
     model_config = ConfigDict(
@@ -70,6 +70,11 @@ class UserMessageRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if fast_mode (nullable) is None
+        # and model_fields_set contains the field
+        if self.fast_mode is None and "fast_mode" in self.model_fields_set:
+            _dict['fast_mode'] = None
+
         return _dict
 
     @classmethod
@@ -83,7 +88,7 @@ class UserMessageRequest(BaseModel):
 
         _obj = cls.model_validate({
             "input_text": obj.get("input_text") if obj.get("input_text") is not None else '',
-            "fast_mode": obj.get("fast_mode") if obj.get("fast_mode") is not None else False
+            "fast_mode": obj.get("fast_mode")
         })
         return _obj
 
