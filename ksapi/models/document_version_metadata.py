@@ -50,10 +50,10 @@ class DocumentVersionMetadata(BaseModel):
     xlsx_kpi_catalog: Optional[List[Dict[str, Any]]] = Field(default=None, description="KPI (Key Performance Indicator) cells detected by the XLSX parser. Each entry contains a label, computed value, cell address, and driver cell references. Applicable to financial models and operational spreadsheets; not populated for template spreadsheets that lack computed KPI cells.")
     citation_anchors: Optional[List[XlsxCellAnchorOutputOrDocxParagraphAnchorOutput]] = Field(default=None, description="In-file citation anchors for agent-generated .xlsx/.docx deliverables. Each anchor binds an in-file location (cell or paragraph) to the chunk IDs cited there. Populated by ks_upload_from_sandbox during upload; ``null`` for versions ingested before this field shipped or for files re-uploaded outside the agent flow. FE enriches chunks via /v1/chunks/bulk.")
     information_statistics: Optional[InformationStatistics] = Field(default=None, description="Aggregate statistics for the document version (tokens, chunk counts, depth)")
-    quota_charged: Optional[StrictBool] = Field(default=False, description="True once the conversion activity successfully consumed PAGE quota")
+    quota_charged: Optional[StrictBool] = Field(default=False, description="Diagnostics only — nothing reads it and nothing refunds. Kept for pre-existing rows that carry it.")
     quota_page_count: Optional[StrictInt] = Field(default=0, description="Page quantity charged at conversion start; 0 if not yet charged")
     quota_media_minutes: Optional[StrictInt] = Field(default=0, description="MEDIA_MINUTE quantity charged at media preparation; 0 if not yet charged")
-    quota_idempotency_key: Optional[StrictStr] = Field(default='UNSET', description="Stable consume key (matches workflow_id); 'UNSET' for pre-Phase-2 docs so refund logic short-circuits")
+    quota_idempotency_key: Optional[StrictStr] = Field(default='UNSET', description="Stable consume key (matches workflow_id) written for diagnostics/audit; 'UNSET' when no consume was committed")
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     idempotency_key: Optional[StrictStr] = Field(default=None, description="Opt-in create key. A repeat ingest with the same key at the same (parent, name) replays this document instead of colliding — makes a ZIP fan-out member retry idempotent.")
     additional_properties: Dict[str, Any] = {}
