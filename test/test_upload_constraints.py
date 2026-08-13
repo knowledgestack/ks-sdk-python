@@ -43,7 +43,6 @@ class TestUploadConstraints(unittest.TestCase):
                 max_bytes = 56,
                 max_image_bytes = 56,
                 max_media_bytes = 56,
-                max_video_bytes = 56,
                 max_media_duration_ms = 56,
                 resumable_part_size = 56
             )
@@ -57,7 +56,6 @@ class TestUploadConstraints(unittest.TestCase):
                 max_bytes = 56,
                 max_image_bytes = 56,
                 max_media_bytes = 56,
-                max_video_bytes = 56,
                 max_media_duration_ms = 56,
                 resumable_part_size = 56,
         )
