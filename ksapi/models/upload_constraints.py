@@ -33,7 +33,9 @@ class UploadConstraints(BaseModel):
     max_image_bytes: StrictInt
     max_media_bytes: StrictInt
     max_video_bytes: StrictInt
-    __properties: ClassVar[List[str]] = ["formats", "max_bytes", "max_image_bytes", "max_media_bytes", "max_video_bytes"]
+    max_media_duration_ms: StrictInt
+    resumable_part_size: StrictInt
+    __properties: ClassVar[List[str]] = ["formats", "max_bytes", "max_image_bytes", "max_media_bytes", "max_video_bytes", "max_media_duration_ms", "resumable_part_size"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -97,7 +99,9 @@ class UploadConstraints(BaseModel):
             "max_bytes": obj.get("max_bytes"),
             "max_image_bytes": obj.get("max_image_bytes"),
             "max_media_bytes": obj.get("max_media_bytes"),
-            "max_video_bytes": obj.get("max_video_bytes")
+            "max_video_bytes": obj.get("max_video_bytes"),
+            "max_media_duration_ms": obj.get("max_media_duration_ms"),
+            "resumable_part_size": obj.get("resumable_part_size")
         })
         return _obj
 
