@@ -56,6 +56,15 @@ class TestWorkflowDefinitionResponse(unittest.TestCase):
                     ],
                 created_from_id = '',
                 copy_count = 56,
+                last_run = ksapi.models.last_run_summary.LastRunSummary(
+                    id = '', 
+                    execution_state = 'PENDING', 
+                    approval_state = 'not_required', 
+                    created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    started_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    error = '', ),
+                pending_approval_count = 56,
                 approval_state = 'not_required',
                 owner = ksapi.models.user_info.UserInfo(
                     user_id = '', 

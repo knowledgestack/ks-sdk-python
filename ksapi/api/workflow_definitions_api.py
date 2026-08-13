@@ -1526,6 +1526,7 @@ class WorkflowDefinitionsApi:
     def list_workflow_definitions(
         self,
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
@@ -1535,6 +1536,8 @@ class WorkflowDefinitionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1553,6 +1556,8 @@ class WorkflowDefinitionsApi:
 
         :param mine: Only definitions the caller created (owner).
         :type mine: bool
+        :param search: Case-insensitive substring over name and description.
+        :type search: str
         :param sort_by: Field to sort definitions by (default: CREATED_AT)
         :type sort_by: WorkflowDefinitionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
@@ -1571,6 +1576,10 @@ class WorkflowDefinitionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1595,6 +1604,7 @@ class WorkflowDefinitionsApi:
 
         _param = self._list_workflow_definitions_serialize(
             mine=mine,
+            search=search,
             sort_by=sort_by,
             sort_dir=sort_dir,
             is_template=is_template,
@@ -1604,6 +1614,8 @@ class WorkflowDefinitionsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1629,6 +1641,7 @@ class WorkflowDefinitionsApi:
     def list_workflow_definitions_with_http_info(
         self,
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
@@ -1638,6 +1651,8 @@ class WorkflowDefinitionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1656,6 +1671,8 @@ class WorkflowDefinitionsApi:
 
         :param mine: Only definitions the caller created (owner).
         :type mine: bool
+        :param search: Case-insensitive substring over name and description.
+        :type search: str
         :param sort_by: Field to sort definitions by (default: CREATED_AT)
         :type sort_by: WorkflowDefinitionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
@@ -1674,6 +1691,10 @@ class WorkflowDefinitionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1698,6 +1719,7 @@ class WorkflowDefinitionsApi:
 
         _param = self._list_workflow_definitions_serialize(
             mine=mine,
+            search=search,
             sort_by=sort_by,
             sort_dir=sort_dir,
             is_template=is_template,
@@ -1707,6 +1729,8 @@ class WorkflowDefinitionsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1732,6 +1756,7 @@ class WorkflowDefinitionsApi:
     def list_workflow_definitions_without_preload_content(
         self,
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
@@ -1741,6 +1766,8 @@ class WorkflowDefinitionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1759,6 +1786,8 @@ class WorkflowDefinitionsApi:
 
         :param mine: Only definitions the caller created (owner).
         :type mine: bool
+        :param search: Case-insensitive substring over name and description.
+        :type search: str
         :param sort_by: Field to sort definitions by (default: CREATED_AT)
         :type sort_by: WorkflowDefinitionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
@@ -1777,6 +1806,10 @@ class WorkflowDefinitionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1801,6 +1834,7 @@ class WorkflowDefinitionsApi:
 
         _param = self._list_workflow_definitions_serialize(
             mine=mine,
+            search=search,
             sort_by=sort_by,
             sort_dir=sort_dir,
             is_template=is_template,
@@ -1810,6 +1844,8 @@ class WorkflowDefinitionsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1830,6 +1866,7 @@ class WorkflowDefinitionsApi:
     def _list_workflow_definitions_serialize(
         self,
         mine,
+        search,
         sort_by,
         sort_dir,
         is_template,
@@ -1839,6 +1876,8 @@ class WorkflowDefinitionsApi:
         created_before,
         updated_after,
         updated_before,
+        include_tag_ids,
+        exclude_tag_ids,
         _request_auth,
         _content_type,
         _headers,
@@ -1848,6 +1887,8 @@ class WorkflowDefinitionsApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'include_tag_ids': 'multi',
+            'exclude_tag_ids': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -1864,6 +1905,10 @@ class WorkflowDefinitionsApi:
         if mine is not None:
             
             _query_params.append(('mine', mine))
+            
+        if search is not None:
+            
+            _query_params.append(('search', search))
             
         if sort_by is not None:
             
@@ -1936,6 +1981,14 @@ class WorkflowDefinitionsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if include_tag_ids is not None:
+            
+            _query_params.append(('include_tag_ids', include_tag_ids))
+            
+        if exclude_tag_ids is not None:
+            
+            _query_params.append(('exclude_tag_ids', exclude_tag_ids))
             
         # process the header parameters
         # process the form parameters

@@ -199,6 +199,7 @@ docs/KbMetric.md
 docs/KbSummaryResponse.md
 docs/KbTimeseriesResponse.md
 docs/LabeledSeries.md
+docs/LastRunSummary.md
 docs/LeaderboardEntry.md
 docs/LineageEdgeResponse.md
 docs/LineageGraphResponse.md
@@ -648,6 +649,7 @@ ksapi/models/kb_metric.py
 ksapi/models/kb_summary_response.py
 ksapi/models/kb_timeseries_response.py
 ksapi/models/labeled_series.py
+ksapi/models/last_run_summary.py
 ksapi/models/leaderboard_entry.py
 ksapi/models/lineage_edge_response.py
 ksapi/models/lineage_graph_response.py
@@ -1059,6 +1061,7 @@ test/test_kb_metric.py
 test/test_kb_summary_response.py
 test/test_kb_timeseries_response.py
 test/test_labeled_series.py
+test/test_last_run_summary.py
 test/test_leaderboard_entry.py
 test/test_lineage_edge_response.py
 test/test_lineage_graph_response.py

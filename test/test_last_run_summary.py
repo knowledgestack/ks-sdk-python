@@ -12,27 +12,50 @@
 """  # noqa: E501
 
 
-from __future__ import annotations
-import json
-from enum import Enum
-from typing_extensions import Self
+import unittest
 
+from ksapi.models.last_run_summary import LastRunSummary
 
-class WorkflowDefinitionOrder(str, Enum):
-    """
-    Sortable fields for workflow-definition listings.
-    """
+class TestLastRunSummary(unittest.TestCase):
+    """LastRunSummary unit test stubs"""
 
-    """
-    allowed enum values
-    """
-    CREATED_AT = 'CREATED_AT'
-    UPDATED_AT = 'UPDATED_AT'
-    NAME = 'NAME'
+    def setUp(self):
+        pass
 
-    @classmethod
-    def from_json(cls, json_str: str) -> Self:
-        """Create an instance of WorkflowDefinitionOrder from a JSON string"""
-        return cls(json.loads(json_str))
+    def tearDown(self):
+        pass
 
+    def make_instance(self, include_optional) -> LastRunSummary:
+        """Test LastRunSummary
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `LastRunSummary`
+        """
+        model = LastRunSummary()
+        if include_optional:
+            return LastRunSummary(
+                id = '',
+                execution_state = 'PENDING',
+                approval_state = 'not_required',
+                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                started_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                error = ''
+            )
+        else:
+            return LastRunSummary(
+                id = '',
+                execution_state = 'PENDING',
+                approval_state = 'not_required',
+                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+        )
+        """
 
+    def testLastRunSummary(self):
+        """Test LastRunSummary"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+
+if __name__ == '__main__':
+    unittest.main()

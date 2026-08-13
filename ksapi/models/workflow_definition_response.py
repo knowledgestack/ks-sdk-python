@@ -22,6 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
+from ksapi.models.last_run_summary import LastRunSummary
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
@@ -49,12 +50,14 @@ class WorkflowDefinitionResponse(BaseModel):
     common_file_path_part_ids: Optional[List[UUID]] = Field(default=None, description="Common files attached to every run (path_part ids). The FE renders these as 'attached to every run' on the workflow page.")
     created_from_id: Optional[UUID] = Field(description="Source definition this workflow was copied from (a template or any other workflow); null if hand-authored.")
     copy_count: Optional[StrictInt] = Field(default=0, description="Number of workflows copied from this definition.")
+    last_run: Optional[LastRunSummary] = Field(default=None, description="The definition's most recent run, or null if never run.")
+    pending_approval_count: Optional[StrictInt] = Field(default=0, description="Number of this definition's runs awaiting approval.")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the workflow, or null if unowned.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids", "created_from_id", "copy_count", "approval_state", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids", "created_from_id", "copy_count", "last_run", "pending_approval_count", "approval_state", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -105,6 +108,9 @@ class WorkflowDefinitionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of last_run
+        if self.last_run:
+            _dict['last_run'] = self.last_run.to_dict()
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
@@ -125,6 +131,11 @@ class WorkflowDefinitionResponse(BaseModel):
         # and model_fields_set contains the field
         if self.created_from_id is None and "created_from_id" in self.model_fields_set:
             _dict['created_from_id'] = None
+
+        # set to None if last_run (nullable) is None
+        # and model_fields_set contains the field
+        if self.last_run is None and "last_run" in self.model_fields_set:
+            _dict['last_run'] = None
 
         # set to None if owner (nullable) is None
         # and model_fields_set contains the field
@@ -165,6 +176,8 @@ class WorkflowDefinitionResponse(BaseModel):
             "common_file_path_part_ids": obj.get("common_file_path_part_ids"),
             "created_from_id": obj.get("created_from_id"),
             "copy_count": obj.get("copy_count") if obj.get("copy_count") is not None else 0,
+            "last_run": LastRunSummary.from_dict(obj["last_run"]) if obj.get("last_run") is not None else None,
+            "pending_approval_count": obj.get("pending_approval_count") if obj.get("pending_approval_count") is not None else 0,
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "created_at": obj.get("created_at"),

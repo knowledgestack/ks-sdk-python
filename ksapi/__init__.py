@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.159.1"
+__version__ = "1.160.0"
 
 # Define package exports
 __all__ = [
@@ -241,6 +241,7 @@ __all__ = [
     "KbSummaryResponse",
     "KbTimeseriesResponse",
     "LabeledSeries",
+    "LastRunSummary",
     "LeaderboardEntry",
     "LineageEdgeResponse",
     "LineageGraphResponse",
@@ -679,6 +680,7 @@ from ksapi.models.kb_metric import KbMetric as KbMetric
 from ksapi.models.kb_summary_response import KbSummaryResponse as KbSummaryResponse
 from ksapi.models.kb_timeseries_response import KbTimeseriesResponse as KbTimeseriesResponse
 from ksapi.models.labeled_series import LabeledSeries as LabeledSeries
+from ksapi.models.last_run_summary import LastRunSummary as LastRunSummary
 from ksapi.models.leaderboard_entry import LeaderboardEntry as LeaderboardEntry
 from ksapi.models.lineage_edge_response import LineageEdgeResponse as LineageEdgeResponse
 from ksapi.models.lineage_graph_response import LineageGraphResponse as LineageGraphResponse

@@ -187,6 +187,7 @@ from ksapi.models.kb_metric import KbMetric
 from ksapi.models.kb_summary_response import KbSummaryResponse
 from ksapi.models.kb_timeseries_response import KbTimeseriesResponse
 from ksapi.models.labeled_series import LabeledSeries
+from ksapi.models.last_run_summary import LastRunSummary
 from ksapi.models.leaderboard_entry import LeaderboardEntry
 from ksapi.models.lineage_edge_response import LineageEdgeResponse
 from ksapi.models.lineage_graph_response import LineageGraphResponse
