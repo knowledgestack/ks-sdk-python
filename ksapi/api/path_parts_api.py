@@ -2025,6 +2025,7 @@ class PathPartsApi:
         since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
         until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2042,7 +2043,7 @@ class PathPartsApi:
     ) -> PaginatedResponseEventResponse:
         """List Path Part Events Handler
 
-        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".
+        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".  By default the feed collapses intra-document churn to match the tenant-wide admin view; pass ``include_churn=True`` for the complete forensic feed (the agent's ``list_events`` tool does this).
 
         :param path_part_id: (required)
         :type path_part_id: UUID
@@ -2054,6 +2055,8 @@ class PathPartsApi:
         :type until: datetime
         :param recursive: Include events from descendant path_parts as well as the subject itself
         :type recursive: bool
+        :param include_churn: Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.
+        :type include_churn: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2086,6 +2089,7 @@ class PathPartsApi:
             since=since,
             until=until,
             recursive=recursive,
+            include_churn=include_churn,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2117,6 +2121,7 @@ class PathPartsApi:
         since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
         until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2134,7 +2139,7 @@ class PathPartsApi:
     ) -> ApiResponse[PaginatedResponseEventResponse]:
         """List Path Part Events Handler
 
-        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".
+        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".  By default the feed collapses intra-document churn to match the tenant-wide admin view; pass ``include_churn=True`` for the complete forensic feed (the agent's ``list_events`` tool does this).
 
         :param path_part_id: (required)
         :type path_part_id: UUID
@@ -2146,6 +2151,8 @@ class PathPartsApi:
         :type until: datetime
         :param recursive: Include events from descendant path_parts as well as the subject itself
         :type recursive: bool
+        :param include_churn: Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.
+        :type include_churn: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2178,6 +2185,7 @@ class PathPartsApi:
             since=since,
             until=until,
             recursive=recursive,
+            include_churn=include_churn,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2209,6 +2217,7 @@ class PathPartsApi:
         since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
         until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2226,7 +2235,7 @@ class PathPartsApi:
     ) -> RESTResponseType:
         """List Path Part Events Handler
 
-        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".
+        List events anchored to a specific path_part subject.  Subject permission is enforced via the existing ``PathPermissionService`` — caller must have ``can_read`` on the subject's materialized_path (OWNER/ADMIN bypass). Events are ordered newest-first by ``ts`` and paginated.  When ``recursive=True``, events on any descendant of the subject are included — useful for \"all events under this folder\" or \"all events under this workflow definition\".  By default the feed collapses intra-document churn to match the tenant-wide admin view; pass ``include_churn=True`` for the complete forensic feed (the agent's ``list_events`` tool does this).
 
         :param path_part_id: (required)
         :type path_part_id: UUID
@@ -2238,6 +2247,8 @@ class PathPartsApi:
         :type until: datetime
         :param recursive: Include events from descendant path_parts as well as the subject itself
         :type recursive: bool
+        :param include_churn: Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.
+        :type include_churn: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2270,6 +2281,7 @@ class PathPartsApi:
             since=since,
             until=until,
             recursive=recursive,
+            include_churn=include_churn,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2296,6 +2308,7 @@ class PathPartsApi:
         since,
         until,
         recursive,
+        include_churn,
         limit,
         offset,
         _request_auth,
@@ -2355,6 +2368,10 @@ class PathPartsApi:
         if recursive is not None:
             
             _query_params.append(('recursive', recursive))
+            
+        if include_churn is not None:
+            
+            _query_params.append(('include_churn', include_churn))
             
         if limit is not None:
             
