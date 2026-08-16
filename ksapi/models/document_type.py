@@ -38,6 +38,7 @@ class DocumentType(str, Enum):
     CODE = 'CODE'
     AUDIO = 'AUDIO'
     VIDEO = 'VIDEO'
+    EMAIL = 'EMAIL'
     UNKNOWN = 'UNKNOWN'
 
     @classmethod
