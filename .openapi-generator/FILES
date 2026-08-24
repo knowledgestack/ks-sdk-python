@@ -27,6 +27,10 @@ docs/AskRequest.md
 docs/AskResponse.md
 docs/AuditEventsApi.md
 docs/AuthApi.md
+docs/BillingApi.md
+docs/BillingInterval.md
+docs/BillingPaymentResponse.md
+docs/BillingSystem.md
 docs/BlockChangeType.md
 docs/BlockKind.md
 docs/BrandingLogoType.md
@@ -57,6 +61,8 @@ docs/CellDiff.md
 docs/ChangeClass.md
 docs/ChangePhoneNumberRequest.md
 docs/ChangeSubscriptionRequest.md
+docs/CheckoutAction.md
+docs/CheckoutResponse.md
 docs/CheckpointDetails.md
 docs/ChunkBulkResponse.md
 docs/ChunkContentItem.md
@@ -222,6 +228,7 @@ docs/OnboardingCompanyRequest.md
 docs/OnboardingProfileRequest.md
 docs/PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat.md
 docs/PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator.md
+docs/PaginatedResponseBillingPaymentResponse.md
 docs/PaginatedResponseDocumentResponse.md
 docs/PaginatedResponseDocumentVersionResponse.md
 docs/PaginatedResponseEventResponse.md
@@ -284,6 +291,7 @@ docs/RunFolder.md
 docs/RunFolderRef.md
 docs/RunTimeseriesResponse.md
 docs/SSOInitiateResponse.md
+docs/ScheduleCadence.md
 docs/ScoredChunkResponse.md
 docs/SearchSkillsRequest.md
 docs/SearchSkillsResponse.md
@@ -318,7 +326,6 @@ docs/StructuredChange.md
 docs/StructuredChangeType.md
 docs/StructuredDiff.md
 docs/SubmitFeedbackRequest.md
-docs/SubmitSubscriptionResponse.md
 docs/SubscriptionPlanResponse.md
 docs/SubscriptionsApi.md
 docs/SubtreeChunkGroup.md
@@ -339,6 +346,7 @@ docs/TenantQuotaStateResponse.md
 docs/TenantResponse.md
 docs/TenantSettingsResponse.md
 docs/TenantSettingsUpdate.md
+docs/TenantSubscriptionResponse.md
 docs/TenantUserEditRequest.md
 docs/TenantUserOrder.md
 docs/TenantUserResponse.md
@@ -364,6 +372,7 @@ docs/ToolStatus.md
 docs/TransferOwnerRequest.md
 docs/TransferOwnerResponse.md
 docs/TrashApi.md
+docs/TrashItemDetailResponse.md
 docs/TrashItemResponse.md
 docs/UpdateApiConnectionRequest.md
 docs/UpdateChunkContentRequest.md
@@ -437,6 +446,7 @@ ksapi/api/api_connections_api.py
 ksapi/api/api_keys_api.py
 ksapi/api/audit_events_api.py
 ksapi/api/auth_api.py
+ksapi/api/billing_api.py
 ksapi/api/bulk_delete_api.py
 ksapi/api/bulk_download_api.py
 ksapi/api/bulk_move_api.py
@@ -491,6 +501,9 @@ ksapi/models/append_memory_chunk_request.py
 ksapi/models/args.py
 ksapi/models/ask_request.py
 ksapi/models/ask_response.py
+ksapi/models/billing_interval.py
+ksapi/models/billing_payment_response.py
+ksapi/models/billing_system.py
 ksapi/models/block_change_type.py
 ksapi/models/block_kind.py
 ksapi/models/branding_logo_type.py
@@ -518,6 +531,8 @@ ksapi/models/cell_diff.py
 ksapi/models/change_class.py
 ksapi/models/change_phone_number_request.py
 ksapi/models/change_subscription_request.py
+ksapi/models/checkout_action.py
+ksapi/models/checkout_response.py
 ksapi/models/checkpoint_details.py
 ksapi/models/chunk_bulk_response.py
 ksapi/models/chunk_content_item.py
@@ -671,6 +686,7 @@ ksapi/models/onboarding_company_request.py
 ksapi/models/onboarding_profile_request.py
 ksapi/models/paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 ksapi/models/paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
+ksapi/models/paginated_response_billing_payment_response.py
 ksapi/models/paginated_response_document_response.py
 ksapi/models/paginated_response_document_version_response.py
 ksapi/models/paginated_response_event_response.py
@@ -729,6 +745,7 @@ ksapi/models/root_response.py
 ksapi/models/run_folder.py
 ksapi/models/run_folder_ref.py
 ksapi/models/run_timeseries_response.py
+ksapi/models/schedule_cadence.py
 ksapi/models/scored_chunk_response.py
 ksapi/models/search_skills_request.py
 ksapi/models/search_skills_response.py
@@ -762,7 +779,6 @@ ksapi/models/structured_change.py
 ksapi/models/structured_change_type.py
 ksapi/models/structured_diff.py
 ksapi/models/submit_feedback_request.py
-ksapi/models/submit_subscription_response.py
 ksapi/models/subscription_plan_response.py
 ksapi/models/subtree_chunk_group.py
 ksapi/models/subtree_chunks_response.py
@@ -779,6 +795,7 @@ ksapi/models/tenant_quota_state_response.py
 ksapi/models/tenant_response.py
 ksapi/models/tenant_settings_response.py
 ksapi/models/tenant_settings_update.py
+ksapi/models/tenant_subscription_response.py
 ksapi/models/tenant_user_edit_request.py
 ksapi/models/tenant_user_order.py
 ksapi/models/tenant_user_response.py
@@ -800,6 +817,7 @@ ksapi/models/tool_part.py
 ksapi/models/tool_status.py
 ksapi/models/transfer_owner_request.py
 ksapi/models/transfer_owner_response.py
+ksapi/models/trash_item_detail_response.py
 ksapi/models/trash_item_response.py
 ksapi/models/update_api_connection_request.py
 ksapi/models/update_chunk_content_request.py
@@ -889,6 +907,10 @@ test/test_ask_request.py
 test/test_ask_response.py
 test/test_audit_events_api.py
 test/test_auth_api.py
+test/test_billing_api.py
+test/test_billing_interval.py
+test/test_billing_payment_response.py
+test/test_billing_system.py
 test/test_block_change_type.py
 test/test_block_kind.py
 test/test_branding_logo_type.py
@@ -919,6 +941,8 @@ test/test_cell_diff.py
 test/test_change_class.py
 test/test_change_phone_number_request.py
 test/test_change_subscription_request.py
+test/test_checkout_action.py
+test/test_checkout_response.py
 test/test_checkpoint_details.py
 test/test_chunk_bulk_response.py
 test/test_chunk_content_item.py
@@ -1084,6 +1108,7 @@ test/test_onboarding_company_request.py
 test/test_onboarding_profile_request.py
 test/test_paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 test/test_paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
+test/test_paginated_response_billing_payment_response.py
 test/test_paginated_response_document_response.py
 test/test_paginated_response_document_version_response.py
 test/test_paginated_response_event_response.py
@@ -1145,6 +1170,7 @@ test/test_root_response.py
 test/test_run_folder.py
 test/test_run_folder_ref.py
 test/test_run_timeseries_response.py
+test/test_schedule_cadence.py
 test/test_scored_chunk_response.py
 test/test_search_skills_request.py
 test/test_search_skills_response.py
@@ -1180,7 +1206,6 @@ test/test_structured_change.py
 test/test_structured_change_type.py
 test/test_structured_diff.py
 test/test_submit_feedback_request.py
-test/test_submit_subscription_response.py
 test/test_subscription_plan_response.py
 test/test_subscriptions_api.py
 test/test_subtree_chunk_group.py
@@ -1201,6 +1226,7 @@ test/test_tenant_quota_state_response.py
 test/test_tenant_response.py
 test/test_tenant_settings_response.py
 test/test_tenant_settings_update.py
+test/test_tenant_subscription_response.py
 test/test_tenant_user_edit_request.py
 test/test_tenant_user_order.py
 test/test_tenant_user_response.py
@@ -1226,6 +1252,7 @@ test/test_tool_status.py
 test/test_transfer_owner_request.py
 test/test_transfer_owner_response.py
 test/test_trash_api.py
+test/test_trash_item_detail_response.py
 test/test_trash_item_response.py
 test/test_update_api_connection_request.py
 test/test_update_chunk_content_request.py

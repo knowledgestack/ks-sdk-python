@@ -14,43 +14,25 @@
 
 import unittest
 
-from ksapi.models.submit_subscription_response import SubmitSubscriptionResponse
+from ksapi.api.billing_api import BillingApi
 
-class TestSubmitSubscriptionResponse(unittest.TestCase):
-    """SubmitSubscriptionResponse unit test stubs"""
 
-    def setUp(self):
+class TestBillingApi(unittest.TestCase):
+    """BillingApi unit test stubs"""
+
+    def setUp(self) -> None:
+        self.api = BillingApi()
+
+    def tearDown(self) -> None:
         pass
 
-    def tearDown(self):
+    def test_list_billing_payments(self) -> None:
+        """Test case for list_billing_payments
+
+        List Billing Payments Handler
+        """
         pass
 
-    def make_instance(self, include_optional) -> SubmitSubscriptionResponse:
-        """Test SubmitSubscriptionResponse
-            include_optional is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # uncomment below to create an instance of `SubmitSubscriptionResponse`
-        """
-        model = SubmitSubscriptionResponse()
-        if include_optional:
-            return SubmitSubscriptionResponse(
-                submitted = True,
-                noop = True,
-                idempotency_key = ''
-            )
-        else:
-            return SubmitSubscriptionResponse(
-                submitted = True,
-                noop = True,
-                idempotency_key = '',
-        )
-        """
-
-    def testSubmitSubscriptionResponse(self):
-        """Test SubmitSubscriptionResponse"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,20 +17,33 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
-from typing import Any, ClassVar, Dict
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, Optional
+from uuid import UUID
+from ksapi.models.document_type import DocumentType
+from ksapi.models.part_type import PartType
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class SubmitSubscriptionResponse(BaseModel):
+class TrashItemDetailResponse(BaseModel):
     """
-    Result envelope for the subscription-change submit endpoint.  The endpoint returns immediately after the (mock-)Stripe charge is submitted; the actual plan/seat write happens later in the Stripe subscription webhook. ``submitted=True`` always when the route succeeds (errors raise via the global handler).  ``noop=True`` indicates the tenant is already at the requested ``(plan, num_seats)`` — no Stripe call was issued, no webhook will arrive, and the user's account is unchanged. Symmetric with ``StripeWebhookAck.replayed`` so client UIs can render \"already on this plan\" rather than spinning a \"waiting for webhook\" indicator forever.  ``idempotency_key`` echoes the value forwarded to Stripe — clients can store it to correlate the eventual webhook receipt with the original request, and re-send it verbatim on retries.
+    A single trash item plus a preview link for DOCUMENT items.
     """ # noqa: E501
-    submitted: StrictBool = Field(description="Always True when the submit returns 202.")
-    noop: StrictBool = Field(description="True when the tenant was already at the target ``(plan, num_seats)`` — no Stripe call was made and no webhook will arrive.")
-    idempotency_key: StrictStr = Field(description="Idempotency key forwarded to Stripe — sourced from the ``Idempotency-Key`` request header or a server-generated uuid4 when absent.")
-    __properties: ClassVar[List[str]] = ["submitted", "noop", "idempotency_key"]
+    path_part_id: UUID = Field(description="PathPart ID")
+    metadata_obj_id: UUID = Field(description="Underlying PDO ID")
+    part_type: PartType
+    name: StrictStr = Field(description="Display name")
+    parent_path_part_id: Optional[UUID] = Field(description="Parent PathPart ID")
+    materialized_path: StrictStr = Field(description="Original materialized path")
+    deleted_at: datetime = Field(description="When the item was moved to trash")
+    deleted_by: Optional[UUID] = Field(description="User that moved it to trash")
+    document_type: Optional[DocumentType] = None
+    owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the item, or null if unowned.")
+    asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL (6-hour validity) to the document's source blob for preview; null for folders and other non-document items.")
+    __properties: ClassVar[List[str]] = ["path_part_id", "metadata_obj_id", "part_type", "name", "parent_path_part_id", "materialized_path", "deleted_at", "deleted_by", "document_type", "owner", "asset_s3_url"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -50,7 +63,7 @@ class SubmitSubscriptionResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of SubmitSubscriptionResponse from a JSON string"""
+        """Create an instance of TrashItemDetailResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,11 +84,34 @@ class SubmitSubscriptionResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
+        # set to None if parent_path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
+            _dict['parent_path_part_id'] = None
+
+        # set to None if deleted_by (nullable) is None
+        # and model_fields_set contains the field
+        if self.deleted_by is None and "deleted_by" in self.model_fields_set:
+            _dict['deleted_by'] = None
+
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
+
+        # set to None if asset_s3_url (nullable) is None
+        # and model_fields_set contains the field
+        if self.asset_s3_url is None and "asset_s3_url" in self.model_fields_set:
+            _dict['asset_s3_url'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of SubmitSubscriptionResponse from a dict"""
+        """Create an instance of TrashItemDetailResponse from a dict"""
         if obj is None:
             return None
 
@@ -83,9 +119,17 @@ class SubmitSubscriptionResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "submitted": obj.get("submitted"),
-            "noop": obj.get("noop"),
-            "idempotency_key": obj.get("idempotency_key")
+            "path_part_id": obj.get("path_part_id"),
+            "metadata_obj_id": obj.get("metadata_obj_id"),
+            "part_type": obj.get("part_type"),
+            "name": obj.get("name"),
+            "parent_path_part_id": obj.get("parent_path_part_id"),
+            "materialized_path": obj.get("materialized_path"),
+            "deleted_at": obj.get("deleted_at"),
+            "deleted_by": obj.get("deleted_by"),
+            "document_type": obj.get("document_type"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
+            "asset_s3_url": obj.get("asset_s3_url")
         })
         return _obj
 

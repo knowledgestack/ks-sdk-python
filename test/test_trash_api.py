@@ -40,6 +40,13 @@ class TestTrashApi(unittest.TestCase):
         """
         pass
 
+    def test_get_trash_item(self) -> None:
+        """Test case for get_trash_item
+
+        Get Trash Item Handler
+        """
+        pass
+
     def test_list_trash(self) -> None:
         """Test case for list_trash
 

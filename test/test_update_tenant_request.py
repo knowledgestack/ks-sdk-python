@@ -38,7 +38,8 @@ class TestUpdateTenantRequest(unittest.TestCase):
                 name = '',
                 idp_config = ksapi.models.idp_config.IdpConfig(
                     provider = 'OAUTH2', 
-                    configuration = { }, ),
+                    configuration = { }, 
+                    sync_crontab = '012345678', ),
                 settings = ksapi.models.tenant_settings_update.TenantSettingsUpdate(
                     language = 'en', 
                     description = '', 

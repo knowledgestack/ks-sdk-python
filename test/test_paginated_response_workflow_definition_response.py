@@ -62,6 +62,9 @@ class TestPaginatedResponseWorkflowDefinitionResponse(unittest.TestCase):
                         pending_approval_count = 56, 
                         approval_state = 'not_required', 
                         owner = null, 
+                        schedule_cadence = 'DAILY', 
+                        schedule_start_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        schedule_timezone = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         permissions = null, )
@@ -99,6 +102,9 @@ class TestPaginatedResponseWorkflowDefinitionResponse(unittest.TestCase):
                         pending_approval_count = 56, 
                         approval_state = 'not_required', 
                         owner = null, 
+                        schedule_cadence = 'DAILY', 
+                        schedule_start_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        schedule_timezone = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         permissions = null, )

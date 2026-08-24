@@ -35,6 +35,9 @@ class TestCreateWorkflowDefinitionRequest(unittest.TestCase):
         model = CreateWorkflowDefinitionRequest()
         if include_optional:
             return CreateWorkflowDefinitionRequest(
+                schedule_cadence = 'DAILY',
+                schedule_start_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                schedule_timezone = '',
                 name = '',
                 description = '',
                 max_run_duration_seconds = 60.0,

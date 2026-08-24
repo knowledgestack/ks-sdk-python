@@ -29,6 +29,9 @@ from ksapi.models.append_memory_chunk_request import AppendMemoryChunkRequest
 from ksapi.models.args import Args
 from ksapi.models.ask_request import AskRequest
 from ksapi.models.ask_response import AskResponse
+from ksapi.models.billing_interval import BillingInterval
+from ksapi.models.billing_payment_response import BillingPaymentResponse
+from ksapi.models.billing_system import BillingSystem
 from ksapi.models.block_change_type import BlockChangeType
 from ksapi.models.block_kind import BlockKind
 from ksapi.models.branding_logo_type import BrandingLogoType
@@ -56,6 +59,8 @@ from ksapi.models.cell_diff import CellDiff
 from ksapi.models.change_class import ChangeClass
 from ksapi.models.change_phone_number_request import ChangePhoneNumberRequest
 from ksapi.models.change_subscription_request import ChangeSubscriptionRequest
+from ksapi.models.checkout_action import CheckoutAction
+from ksapi.models.checkout_response import CheckoutResponse
 from ksapi.models.checkpoint_details import CheckpointDetails
 from ksapi.models.chunk_bulk_response import ChunkBulkResponse
 from ksapi.models.chunk_content_item import ChunkContentItem
@@ -209,6 +214,7 @@ from ksapi.models.onboarding_company_request import OnboardingCompanyRequest
 from ksapi.models.onboarding_profile_request import OnboardingProfileRequest
 from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat
 from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator import PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator
+from ksapi.models.paginated_response_billing_payment_response import PaginatedResponseBillingPaymentResponse
 from ksapi.models.paginated_response_document_response import PaginatedResponseDocumentResponse
 from ksapi.models.paginated_response_document_version_response import PaginatedResponseDocumentVersionResponse
 from ksapi.models.paginated_response_event_response import PaginatedResponseEventResponse
@@ -268,6 +274,7 @@ from ksapi.models.run_folder import RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef
 from ksapi.models.run_timeseries_response import RunTimeseriesResponse
 from ksapi.models.sso_initiate_response import SSOInitiateResponse
+from ksapi.models.schedule_cadence import ScheduleCadence
 from ksapi.models.scored_chunk_response import ScoredChunkResponse
 from ksapi.models.search_skills_request import SearchSkillsRequest
 from ksapi.models.search_skills_response import SearchSkillsResponse
@@ -300,7 +307,6 @@ from ksapi.models.structured_change import StructuredChange
 from ksapi.models.structured_change_type import StructuredChangeType
 from ksapi.models.structured_diff import StructuredDiff
 from ksapi.models.submit_feedback_request import SubmitFeedbackRequest
-from ksapi.models.submit_subscription_response import SubmitSubscriptionResponse
 from ksapi.models.subscription_plan_response import SubscriptionPlanResponse
 from ksapi.models.subtree_chunk_group import SubtreeChunkGroup
 from ksapi.models.subtree_chunks_response import SubtreeChunksResponse
@@ -317,6 +323,7 @@ from ksapi.models.tenant_quota_state_response import TenantQuotaStateResponse
 from ksapi.models.tenant_response import TenantResponse
 from ksapi.models.tenant_settings_response import TenantSettingsResponse
 from ksapi.models.tenant_settings_update import TenantSettingsUpdate
+from ksapi.models.tenant_subscription_response import TenantSubscriptionResponse
 from ksapi.models.tenant_user_edit_request import TenantUserEditRequest
 from ksapi.models.tenant_user_order import TenantUserOrder
 from ksapi.models.tenant_user_response import TenantUserResponse
@@ -338,6 +345,7 @@ from ksapi.models.tool_part import ToolPart
 from ksapi.models.tool_status import ToolStatus
 from ksapi.models.transfer_owner_request import TransferOwnerRequest
 from ksapi.models.transfer_owner_response import TransferOwnerResponse
+from ksapi.models.trash_item_detail_response import TrashItemDetailResponse
 from ksapi.models.trash_item_response import TrashItemResponse
 from ksapi.models.update_api_connection_request import UpdateApiConnectionRequest
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest

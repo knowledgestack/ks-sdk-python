@@ -24,6 +24,7 @@ from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.last_run_summary import LastRunSummary
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.schedule_cadence import ScheduleCadence
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
@@ -54,10 +55,13 @@ class WorkflowDefinitionResponse(BaseModel):
     pending_approval_count: Optional[StrictInt] = Field(default=0, description="Number of this definition's runs awaiting approval.")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the workflow, or null if unowned.")
+    schedule_cadence: Optional[ScheduleCadence] = None
+    schedule_start_at: Optional[datetime] = Field(default=None, description="First occurrence, read in ``schedule_timezone``.")
+    schedule_timezone: Optional[StrictStr] = Field(default=None, description="IANA zone the schedule fires in, e.g. ``Asia/Shanghai``. Resolved at arm time: the tenant timezone unless the caller overrode it. Null only when unscheduled.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids", "created_from_id", "copy_count", "last_run", "pending_approval_count", "approval_state", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "max_run_duration_seconds", "instruction_path_part_id", "is_active", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids", "created_from_id", "copy_count", "last_run", "pending_approval_count", "approval_state", "owner", "schedule_cadence", "schedule_start_at", "schedule_timezone", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -142,6 +146,16 @@ class WorkflowDefinitionResponse(BaseModel):
         if self.owner is None and "owner" in self.model_fields_set:
             _dict['owner'] = None
 
+        # set to None if schedule_start_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.schedule_start_at is None and "schedule_start_at" in self.model_fields_set:
+            _dict['schedule_start_at'] = None
+
+        # set to None if schedule_timezone (nullable) is None
+        # and model_fields_set contains the field
+        if self.schedule_timezone is None and "schedule_timezone" in self.model_fields_set:
+            _dict['schedule_timezone'] = None
+
         # set to None if permissions (nullable) is None
         # and model_fields_set contains the field
         if self.permissions is None and "permissions" in self.model_fields_set:
@@ -180,6 +194,9 @@ class WorkflowDefinitionResponse(BaseModel):
             "pending_approval_count": obj.get("pending_approval_count") if obj.get("pending_approval_count") is not None else 0,
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
+            "schedule_cadence": obj.get("schedule_cadence"),
+            "schedule_start_at": obj.get("schedule_start_at"),
+            "schedule_timezone": obj.get("schedule_timezone"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None

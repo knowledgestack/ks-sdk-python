@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.document_type import DocumentType
 from ksapi.models.part_type import PartType
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
@@ -39,8 +40,9 @@ class TrashItemResponse(BaseModel):
     materialized_path: StrictStr = Field(description="Original materialized path")
     deleted_at: datetime = Field(description="When the item was moved to trash")
     deleted_by: Optional[UUID] = Field(description="User that moved it to trash")
+    document_type: Optional[DocumentType] = None
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the item, or null if unowned.")
-    __properties: ClassVar[List[str]] = ["path_part_id", "metadata_obj_id", "part_type", "name", "parent_path_part_id", "materialized_path", "deleted_at", "deleted_by", "owner"]
+    __properties: ClassVar[List[str]] = ["path_part_id", "metadata_obj_id", "part_type", "name", "parent_path_part_id", "materialized_path", "deleted_at", "deleted_by", "document_type", "owner"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -119,6 +121,7 @@ class TrashItemResponse(BaseModel):
             "materialized_path": obj.get("materialized_path"),
             "deleted_at": obj.get("deleted_at"),
             "deleted_by": obj.get("deleted_by"),
+            "document_type": obj.get("document_type"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None
         })
         return _obj

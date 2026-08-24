@@ -36,7 +36,8 @@ class TestIdpConfig(unittest.TestCase):
         if include_optional:
             return IdpConfig(
                 provider = 'OAUTH2',
-                configuration = { }
+                configuration = { },
+                sync_crontab = '012345678'
             )
         else:
             return IdpConfig(

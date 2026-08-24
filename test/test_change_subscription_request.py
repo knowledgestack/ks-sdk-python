@@ -36,7 +36,11 @@ class TestChangeSubscriptionRequest(unittest.TestCase):
         if include_optional:
             return ChangeSubscriptionRequest(
                 subscription_id = '',
-                num_seats = 1.0
+                num_seats = 1.0,
+                interval = 'MONTHLY',
+                billing_system = 'STRIPE',
+                channel = '',
+                channel_extra = { }
             )
         else:
             return ChangeSubscriptionRequest(

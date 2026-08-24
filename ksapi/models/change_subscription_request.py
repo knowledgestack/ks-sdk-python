@@ -17,21 +17,27 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
+from ksapi.models.billing_interval import BillingInterval
+from ksapi.models.billing_system import BillingSystem
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class ChangeSubscriptionRequest(BaseModel):
     """
-    Body for ``POST /v1/tenants/{tenant_id}/subscriptions``.
+    Body for ``POST /v1/tenants/{tenant_id}/subscriptions``.  For a priced plan, ``interval`` and ``billing_system`` are required (``channel`` too for Ping++); the response carries the provider checkout to complete. For the free plan they are ignored — the downgrade is applied immediately (unbilled tenants) or scheduled for period end (billed tenants).
     """ # noqa: E501
     subscription_id: UUID = Field(description="Target plan to switch to.")
     num_seats: Annotated[int, Field(strict=True, ge=1)] = Field(description="Desired seat cap. Must be <= plan.max_seats and >= the count of active TenantUser rows.")
-    __properties: ClassVar[List[str]] = ["subscription_id", "num_seats"]
+    interval: Optional[BillingInterval] = None
+    billing_system: Optional[BillingSystem] = None
+    channel: Optional[StrictStr] = Field(default=None, description="Ping++ payment channel chosen in the UI (e.g. 'alipay_pc_direct', 'wx_pub_qr'). Required when billing_system=PING_PP.")
+    channel_extra: Optional[Dict[str, Any]] = Field(default=None, description="Channel-specific Ping++ charge `extra` parameters (success_url, product ids, ... — see the Ping++ charge API for the chosen channel). Passed through verbatim; amounts are always resolved server-side.")
+    __properties: ClassVar[List[str]] = ["subscription_id", "num_seats", "interval", "billing_system", "channel", "channel_extra"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -72,6 +78,16 @@ class ChangeSubscriptionRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if channel (nullable) is None
+        # and model_fields_set contains the field
+        if self.channel is None and "channel" in self.model_fields_set:
+            _dict['channel'] = None
+
+        # set to None if channel_extra (nullable) is None
+        # and model_fields_set contains the field
+        if self.channel_extra is None and "channel_extra" in self.model_fields_set:
+            _dict['channel_extra'] = None
+
         return _dict
 
     @classmethod
@@ -85,7 +101,11 @@ class ChangeSubscriptionRequest(BaseModel):
 
         _obj = cls.model_validate({
             "subscription_id": obj.get("subscription_id"),
-            "num_seats": obj.get("num_seats")
+            "num_seats": obj.get("num_seats"),
+            "interval": obj.get("interval"),
+            "billing_system": obj.get("billing_system"),
+            "channel": obj.get("channel"),
+            "channel_extra": obj.get("channel_extra")
         })
         return _obj
 

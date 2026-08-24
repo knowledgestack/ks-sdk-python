@@ -2703,7 +2703,7 @@ class DocumentsApi:
     ) -> IngestDocumentResponse:
         """Ingest Document Version Handler
 
-        Upload a new file for an existing document, creating a new version and triggering ingestion.  Creates a new document version (incrementing the highest version number), uploads the file to S3, and starts the ingestion workflow. Upon successful ingestion, the new version is automatically activated (set as the document's active_version) and the old version's Qdrant points are deactivated.  Returns 201 immediately with the Temporal ``workflow_id``. Ingestion runs in the background — poll ``GET /v1/system-jobs/document_versions/{workflow_id}`` (also given in the ``Location`` header) until ``status`` is terminal.
+        Upload a new file for an existing document, creating a new version and triggering ingestion.  Requires an active document checkout held by the caller. Acquire one via ``POST /v1/documents/{id}/checkout`` first and release it after; otherwise this returns 409 Conflict (\"A document checkout is required to edit this document.\").  Creates a new document version (incrementing the highest version number), uploads the file to S3, and starts the ingestion workflow. Upon successful ingestion, the new version is automatically activated (set as the document's active_version) and the old version's Qdrant points are deactivated.  Returns 201 immediately with the Temporal ``workflow_id``. Ingestion runs in the background — poll ``GET /v1/system-jobs/document_versions/{workflow_id}`` (also given in the ``Location`` header) until ``status`` is terminal.
 
         :param document_id: Document ID (required)
         :type document_id: UUID
@@ -2799,7 +2799,7 @@ class DocumentsApi:
     ) -> ApiResponse[IngestDocumentResponse]:
         """Ingest Document Version Handler
 
-        Upload a new file for an existing document, creating a new version and triggering ingestion.  Creates a new document version (incrementing the highest version number), uploads the file to S3, and starts the ingestion workflow. Upon successful ingestion, the new version is automatically activated (set as the document's active_version) and the old version's Qdrant points are deactivated.  Returns 201 immediately with the Temporal ``workflow_id``. Ingestion runs in the background — poll ``GET /v1/system-jobs/document_versions/{workflow_id}`` (also given in the ``Location`` header) until ``status`` is terminal.
+        Upload a new file for an existing document, creating a new version and triggering ingestion.  Requires an active document checkout held by the caller. Acquire one via ``POST /v1/documents/{id}/checkout`` first and release it after; otherwise this returns 409 Conflict (\"A document checkout is required to edit this document.\").  Creates a new document version (incrementing the highest version number), uploads the file to S3, and starts the ingestion workflow. Upon successful ingestion, the new version is automatically activated (set as the document's active_version) and the old version's Qdrant points are deactivated.  Returns 201 immediately with the Temporal ``workflow_id``. Ingestion runs in the background — poll ``GET /v1/system-jobs/document_versions/{workflow_id}`` (also given in the ``Location`` header) until ``status`` is terminal.
 
         :param document_id: Document ID (required)
         :type document_id: UUID
@@ -2895,7 +2895,7 @@ class DocumentsApi:
     ) -> RESTResponseType:
         """Ingest Document Version Handler
 
-        Upload a new file for an existing document, creating a new version and triggering ingestion.  Creates a new document version (incrementing the highest version number), uploads the file to S3, and starts the ingestion workflow. Upon successful ingestion, the new version is automatically activated (set as the document's active_version) and the old version's Qdrant points are deactivated.  Returns 201 immediately with the Temporal ``workflow_id``. Ingestion runs in the background — poll ``GET /v1/system-jobs/document_versions/{workflow_id}`` (also given in the ``Location`` header) until ``status`` is terminal.
+        Upload a new file for an existing document, creating a new version and triggering ingestion.  Requires an active document checkout held by the caller. Acquire one via ``POST /v1/documents/{id}/checkout`` first and release it after; otherwise this returns 409 Conflict (\"A document checkout is required to edit this document.\").  Creates a new document version (incrementing the highest version number), uploads the file to S3, and starts the ingestion workflow. Upon successful ingestion, the new version is automatically activated (set as the document's active_version) and the old version's Qdrant points are deactivated.  Returns 201 immediately with the Temporal ``workflow_id``. Ingestion runs in the background — poll ``GET /v1/system-jobs/document_versions/{workflow_id}`` (also given in the ``Location`` header) until ``status`` is terminal.
 
         :param document_id: Document ID (required)
         :type document_id: UUID

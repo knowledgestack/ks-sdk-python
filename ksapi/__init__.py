@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.163.0"
+__version__ = "2.4.2"
 
 # Define package exports
 __all__ = [
@@ -33,6 +33,7 @@ __all__ = [
     "ApiKeysApi",
     "AuditEventsApi",
     "AuthApi",
+    "BillingApi",
     "BulkDeleteApi",
     "BulkDownloadApi",
     "BulkMoveApi",
@@ -83,6 +84,9 @@ __all__ = [
     "Args",
     "AskRequest",
     "AskResponse",
+    "BillingInterval",
+    "BillingPaymentResponse",
+    "BillingSystem",
     "BlockChangeType",
     "BlockKind",
     "BrandingLogoType",
@@ -110,6 +114,8 @@ __all__ = [
     "ChangeClass",
     "ChangePhoneNumberRequest",
     "ChangeSubscriptionRequest",
+    "CheckoutAction",
+    "CheckoutResponse",
     "CheckpointDetails",
     "ChunkBulkResponse",
     "ChunkContentItem",
@@ -263,6 +269,7 @@ __all__ = [
     "OnboardingProfileRequest",
     "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
     "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
+    "PaginatedResponseBillingPaymentResponse",
     "PaginatedResponseDocumentResponse",
     "PaginatedResponseDocumentVersionResponse",
     "PaginatedResponseEventResponse",
@@ -322,6 +329,7 @@ __all__ = [
     "RunFolderRef",
     "RunTimeseriesResponse",
     "SSOInitiateResponse",
+    "ScheduleCadence",
     "ScoredChunkResponse",
     "SearchSkillsRequest",
     "SearchSkillsResponse",
@@ -354,7 +362,6 @@ __all__ = [
     "StructuredChangeType",
     "StructuredDiff",
     "SubmitFeedbackRequest",
-    "SubmitSubscriptionResponse",
     "SubscriptionPlanResponse",
     "SubtreeChunkGroup",
     "SubtreeChunksResponse",
@@ -371,6 +378,7 @@ __all__ = [
     "TenantResponse",
     "TenantSettingsResponse",
     "TenantSettingsUpdate",
+    "TenantSubscriptionResponse",
     "TenantUserEditRequest",
     "TenantUserOrder",
     "TenantUserResponse",
@@ -392,6 +400,7 @@ __all__ = [
     "ToolStatus",
     "TransferOwnerRequest",
     "TransferOwnerResponse",
+    "TrashItemDetailResponse",
     "TrashItemResponse",
     "UpdateApiConnectionRequest",
     "UpdateChunkContentRequest",
@@ -468,6 +477,7 @@ from ksapi.api.api_connections_api import ApiConnectionsApi as ApiConnectionsApi
 from ksapi.api.api_keys_api import ApiKeysApi as ApiKeysApi
 from ksapi.api.audit_events_api import AuditEventsApi as AuditEventsApi
 from ksapi.api.auth_api import AuthApi as AuthApi
+from ksapi.api.billing_api import BillingApi as BillingApi
 from ksapi.api.bulk_delete_api import BulkDeleteApi as BulkDeleteApi
 from ksapi.api.bulk_download_api import BulkDownloadApi as BulkDownloadApi
 from ksapi.api.bulk_move_api import BulkMoveApi as BulkMoveApi
@@ -522,6 +532,9 @@ from ksapi.models.append_memory_chunk_request import AppendMemoryChunkRequest as
 from ksapi.models.args import Args as Args
 from ksapi.models.ask_request import AskRequest as AskRequest
 from ksapi.models.ask_response import AskResponse as AskResponse
+from ksapi.models.billing_interval import BillingInterval as BillingInterval
+from ksapi.models.billing_payment_response import BillingPaymentResponse as BillingPaymentResponse
+from ksapi.models.billing_system import BillingSystem as BillingSystem
 from ksapi.models.block_change_type import BlockChangeType as BlockChangeType
 from ksapi.models.block_kind import BlockKind as BlockKind
 from ksapi.models.branding_logo_type import BrandingLogoType as BrandingLogoType
@@ -549,6 +562,8 @@ from ksapi.models.cell_diff import CellDiff as CellDiff
 from ksapi.models.change_class import ChangeClass as ChangeClass
 from ksapi.models.change_phone_number_request import ChangePhoneNumberRequest as ChangePhoneNumberRequest
 from ksapi.models.change_subscription_request import ChangeSubscriptionRequest as ChangeSubscriptionRequest
+from ksapi.models.checkout_action import CheckoutAction as CheckoutAction
+from ksapi.models.checkout_response import CheckoutResponse as CheckoutResponse
 from ksapi.models.checkpoint_details import CheckpointDetails as CheckpointDetails
 from ksapi.models.chunk_bulk_response import ChunkBulkResponse as ChunkBulkResponse
 from ksapi.models.chunk_content_item import ChunkContentItem as ChunkContentItem
@@ -702,6 +717,7 @@ from ksapi.models.onboarding_company_request import OnboardingCompanyRequest as 
 from ksapi.models.onboarding_profile_request import OnboardingProfileRequest as OnboardingProfileRequest
 from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat as PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat
 from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator import PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator as PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator
+from ksapi.models.paginated_response_billing_payment_response import PaginatedResponseBillingPaymentResponse as PaginatedResponseBillingPaymentResponse
 from ksapi.models.paginated_response_document_response import PaginatedResponseDocumentResponse as PaginatedResponseDocumentResponse
 from ksapi.models.paginated_response_document_version_response import PaginatedResponseDocumentVersionResponse as PaginatedResponseDocumentVersionResponse
 from ksapi.models.paginated_response_event_response import PaginatedResponseEventResponse as PaginatedResponseEventResponse
@@ -761,6 +777,7 @@ from ksapi.models.run_folder import RunFolder as RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef as RunFolderRef
 from ksapi.models.run_timeseries_response import RunTimeseriesResponse as RunTimeseriesResponse
 from ksapi.models.sso_initiate_response import SSOInitiateResponse as SSOInitiateResponse
+from ksapi.models.schedule_cadence import ScheduleCadence as ScheduleCadence
 from ksapi.models.scored_chunk_response import ScoredChunkResponse as ScoredChunkResponse
 from ksapi.models.search_skills_request import SearchSkillsRequest as SearchSkillsRequest
 from ksapi.models.search_skills_response import SearchSkillsResponse as SearchSkillsResponse
@@ -793,7 +810,6 @@ from ksapi.models.structured_change import StructuredChange as StructuredChange
 from ksapi.models.structured_change_type import StructuredChangeType as StructuredChangeType
 from ksapi.models.structured_diff import StructuredDiff as StructuredDiff
 from ksapi.models.submit_feedback_request import SubmitFeedbackRequest as SubmitFeedbackRequest
-from ksapi.models.submit_subscription_response import SubmitSubscriptionResponse as SubmitSubscriptionResponse
 from ksapi.models.subscription_plan_response import SubscriptionPlanResponse as SubscriptionPlanResponse
 from ksapi.models.subtree_chunk_group import SubtreeChunkGroup as SubtreeChunkGroup
 from ksapi.models.subtree_chunks_response import SubtreeChunksResponse as SubtreeChunksResponse
@@ -810,6 +826,7 @@ from ksapi.models.tenant_quota_state_response import TenantQuotaStateResponse as
 from ksapi.models.tenant_response import TenantResponse as TenantResponse
 from ksapi.models.tenant_settings_response import TenantSettingsResponse as TenantSettingsResponse
 from ksapi.models.tenant_settings_update import TenantSettingsUpdate as TenantSettingsUpdate
+from ksapi.models.tenant_subscription_response import TenantSubscriptionResponse as TenantSubscriptionResponse
 from ksapi.models.tenant_user_edit_request import TenantUserEditRequest as TenantUserEditRequest
 from ksapi.models.tenant_user_order import TenantUserOrder as TenantUserOrder
 from ksapi.models.tenant_user_response import TenantUserResponse as TenantUserResponse
@@ -831,6 +848,7 @@ from ksapi.models.tool_part import ToolPart as ToolPart
 from ksapi.models.tool_status import ToolStatus as ToolStatus
 from ksapi.models.transfer_owner_request import TransferOwnerRequest as TransferOwnerRequest
 from ksapi.models.transfer_owner_response import TransferOwnerResponse as TransferOwnerResponse
+from ksapi.models.trash_item_detail_response import TrashItemDetailResponse as TrashItemDetailResponse
 from ksapi.models.trash_item_response import TrashItemResponse as TrashItemResponse
 from ksapi.models.update_api_connection_request import UpdateApiConnectionRequest as UpdateApiConnectionRequest
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest as UpdateChunkContentRequest

@@ -70,6 +70,9 @@ class TestWorkflowDefinitionResponse(unittest.TestCase):
                     user_id = '', 
                     first_name = '', 
                     last_name = '', ),
+                schedule_cadence = 'DAILY',
+                schedule_start_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                schedule_timezone = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 permissions = ksapi.models.item_permissions.ItemPermissions(

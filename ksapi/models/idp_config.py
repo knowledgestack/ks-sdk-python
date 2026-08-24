@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from ksapi.models.supported_id_p import SupportedIdP
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,8 +31,9 @@ class IdpConfig(BaseModel):
     """ # noqa: E501
     provider: SupportedIdP
     configuration: Dict[str, Any] = Field(description="Provider-specific configuration")
+    sync_crontab: Optional[Annotated[str, Field(min_length=9, strict=True)]] = Field(default=None, description="Crontab string for directory sync")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["provider", "configuration"]
+    __properties: ClassVar[List[str]] = ["provider", "configuration", "sync_crontab"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,6 +81,11 @@ class IdpConfig(BaseModel):
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
+        # set to None if sync_crontab (nullable) is None
+        # and model_fields_set contains the field
+        if self.sync_crontab is None and "sync_crontab" in self.model_fields_set:
+            _dict['sync_crontab'] = None
+
         return _dict
 
     @classmethod
@@ -92,7 +99,8 @@ class IdpConfig(BaseModel):
 
         _obj = cls.model_validate({
             "provider": obj.get("provider"),
-            "configuration": obj.get("configuration")
+            "configuration": obj.get("configuration"),
+            "sync_crontab": obj.get("sync_crontab")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

@@ -3444,7 +3444,7 @@ class WorkflowRunsApi:
     ) -> WorkflowCallbackResponse:
         """Workflow Run Callback Handler
 
-        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.
+        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.  On the first terminal transition it emails the run's triggering user (``run.user_id``) a completion or failure notification. Only already-loaded columns are captured in-session; recipient/language lookups and the send run post-commit and best-effort, so a rolled-back transaction never notifies and a notification failure never fails the callback.
 
         :param run_id: (required)
         :type run_id: UUID
@@ -3516,7 +3516,7 @@ class WorkflowRunsApi:
     ) -> ApiResponse[WorkflowCallbackResponse]:
         """Workflow Run Callback Handler
 
-        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.
+        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.  On the first terminal transition it emails the run's triggering user (``run.user_id``) a completion or failure notification. Only already-loaded columns are captured in-session; recipient/language lookups and the send run post-commit and best-effort, so a rolled-back transaction never notifies and a notification failure never fails the callback.
 
         :param run_id: (required)
         :type run_id: UUID
@@ -3588,7 +3588,7 @@ class WorkflowRunsApi:
     ) -> RESTResponseType:
         """Workflow Run Callback Handler
 
-        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.
+        Terminal-state write seam for the in-process agent runner.  The gating Temporal activities ``mark_run_completed_activity`` and ``mark_run_failed_activity`` authenticate as the triggering user (via ``assume_user``) and POST here. Only the user who triggered the run (or OWNER/ADMIN) may write its terminal state. The handler is idempotent: a callback against an already-terminal row returns ``already_terminal`` and the activity-level retry treats it as a no-op.  On the first terminal transition it emails the run's triggering user (``run.user_id``) a completion or failure notification. Only already-loaded columns are captured in-session; recipient/language lookups and the send run post-commit and best-effort, so a rolled-back transaction never notifies and a notification failure never fails the callback.
 
         :param run_id: (required)
         :type run_id: UUID

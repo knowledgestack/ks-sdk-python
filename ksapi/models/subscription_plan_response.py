@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -37,9 +37,13 @@ class SubscriptionPlanResponse(BaseModel):
     media_minutes: StrictInt = Field(description="Per-period cap on transcribed media minutes (MEDIA_MINUTE).")
     max_seats: StrictInt = Field(description="Upper bound on num_seats accepted by the upgrade endpoint. Admin PATCH may set tenant.seats above this value.")
     public: StrictBool = Field(description="Whether this plan appears in the public listing. Private plans (custom enterprise tiers) are excluded from ``GET /public/subscriptions`` but their tenant members can still read them via ``GET /v1/tenants/{tenant_id}/subscriptions``.")
+    price_monthly_usd_cents: Optional[StrictInt] = Field(default=None, description="Per-seat monthly price in USD cents (Stripe / NA). NULL = not self-serve purchasable in this currency/interval.")
+    price_annual_usd_cents: Optional[StrictInt] = Field(default=None, description="Per-seat annual price in USD cents (Stripe / NA).")
+    price_monthly_cny_fen: Optional[StrictInt] = Field(default=None, description="Per-seat monthly price in CNY fen (Ping++ / CN).")
+    price_annual_cny_fen: Optional[StrictInt] = Field(default=None, description="Per-seat annual price in CNY fen (Ping++ / CN).")
     created_at: datetime = Field(description="Plan creation timestamp.")
     updated_at: datetime = Field(description="Last-update timestamp.")
-    __properties: ClassVar[List[str]] = ["id", "name", "ingested_pages", "messages", "searches", "media_minutes", "max_seats", "public", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["id", "name", "ingested_pages", "messages", "searches", "media_minutes", "max_seats", "public", "price_monthly_usd_cents", "price_annual_usd_cents", "price_monthly_cny_fen", "price_annual_cny_fen", "created_at", "updated_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -80,6 +84,26 @@ class SubscriptionPlanResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if price_monthly_usd_cents (nullable) is None
+        # and model_fields_set contains the field
+        if self.price_monthly_usd_cents is None and "price_monthly_usd_cents" in self.model_fields_set:
+            _dict['price_monthly_usd_cents'] = None
+
+        # set to None if price_annual_usd_cents (nullable) is None
+        # and model_fields_set contains the field
+        if self.price_annual_usd_cents is None and "price_annual_usd_cents" in self.model_fields_set:
+            _dict['price_annual_usd_cents'] = None
+
+        # set to None if price_monthly_cny_fen (nullable) is None
+        # and model_fields_set contains the field
+        if self.price_monthly_cny_fen is None and "price_monthly_cny_fen" in self.model_fields_set:
+            _dict['price_monthly_cny_fen'] = None
+
+        # set to None if price_annual_cny_fen (nullable) is None
+        # and model_fields_set contains the field
+        if self.price_annual_cny_fen is None and "price_annual_cny_fen" in self.model_fields_set:
+            _dict['price_annual_cny_fen'] = None
+
         return _dict
 
     @classmethod
@@ -100,6 +124,10 @@ class SubscriptionPlanResponse(BaseModel):
             "media_minutes": obj.get("media_minutes"),
             "max_seats": obj.get("max_seats"),
             "public": obj.get("public"),
+            "price_monthly_usd_cents": obj.get("price_monthly_usd_cents"),
+            "price_annual_usd_cents": obj.get("price_annual_usd_cents"),
+            "price_monthly_cny_fen": obj.get("price_monthly_cny_fen"),
+            "price_annual_cny_fen": obj.get("price_annual_cny_fen"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at")
         })

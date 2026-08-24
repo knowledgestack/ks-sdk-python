@@ -17,10 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
+from ksapi.models.schedule_cadence import ScheduleCadence
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -29,6 +31,9 @@ class CreateWorkflowDefinitionRequest(BaseModel):
     """
     Create a new workflow definition.  Inputs are per-run (see ``POST /workflow-definitions/{id}/runs``) so only the instruction lives on the definition. ``instruction_path_part_id`` is a ``DOCUMENT`` path_part.
     """ # noqa: E501
+    schedule_cadence: Optional[ScheduleCadence] = None
+    schedule_start_at: Optional[datetime] = Field(default=None, description="First occurrence. Read in ``schedule_timezone``, so its local wall time, weekday and day of month drive the recurrence. A MONTHLY schedule must land on or before the 28th: Temporal silently skips months that are too short.")
+    schedule_timezone: Optional[Annotated[str, Field(strict=True, max_length=64)]] = Field(default=None, description="IANA zone the schedule fires in, e.g. ``Asia/Shanghai``. Optional: omit it to inherit the tenant timezone. Only set it to fire in a different zone than the tenant's. Must be an IANA name, not an ISO offset — an offset stops meaning the same wall clock across DST.")
     name: Annotated[str, Field(strict=True, max_length=255)]
     description: Optional[StrictStr] = None
     max_run_duration_seconds: Optional[Annotated[int, Field(le=7200, strict=True, ge=60)]] = 1800
@@ -38,7 +43,7 @@ class CreateWorkflowDefinitionRequest(BaseModel):
     is_template: Optional[StrictBool] = Field(default=False, description="Create a non-runnable template. Templates are excluded from the default list and cannot have runs; users instantiate them into their own runnable workflow. Immutable after creation.")
     selected_skill_ids: Optional[Annotated[List[UUID], Field(max_length=20)]] = Field(default=None, description="Skill PDO ids force-loaded into every run of this workflow by default (prefill). Each run inherits these and may add more; the agent can still discover others via search. Each must be a SKILL the caller can read.")
     common_file_path_part_ids: Optional[Annotated[List[UUID], Field(max_length=20)]] = Field(default=None, description="Optional path_part ids of common files (DOCUMENT / FOLDER / DATA_SOURCE / API_CONNECTION) attached to every run of this workflow — e.g. an output template. Merged with each run's own inputs at Start. The caller must be able to read each one.")
-    __properties: ClassVar[List[str]] = ["name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids"]
+    __properties: ClassVar[List[str]] = ["schedule_cadence", "schedule_start_at", "schedule_timezone", "name", "description", "max_run_duration_seconds", "parent_path_part_id", "instruction_path_part_id", "approval_required", "is_template", "selected_skill_ids", "common_file_path_part_ids"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,6 +84,16 @@ class CreateWorkflowDefinitionRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if schedule_start_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.schedule_start_at is None and "schedule_start_at" in self.model_fields_set:
+            _dict['schedule_start_at'] = None
+
+        # set to None if schedule_timezone (nullable) is None
+        # and model_fields_set contains the field
+        if self.schedule_timezone is None and "schedule_timezone" in self.model_fields_set:
+            _dict['schedule_timezone'] = None
+
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
         if self.description is None and "description" in self.model_fields_set:
@@ -101,6 +116,9 @@ class CreateWorkflowDefinitionRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "schedule_cadence": obj.get("schedule_cadence"),
+            "schedule_start_at": obj.get("schedule_start_at"),
+            "schedule_timezone": obj.get("schedule_timezone"),
             "name": obj.get("name"),
             "description": obj.get("description"),
             "max_run_duration_seconds": obj.get("max_run_duration_seconds") if obj.get("max_run_duration_seconds") is not None else 1800,

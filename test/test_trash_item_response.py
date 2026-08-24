@@ -43,6 +43,7 @@ class TestTrashItemResponse(unittest.TestCase):
                 materialized_path = '',
                 deleted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 deleted_by = '',
+                document_type = 'PDF',
                 owner = ksapi.models.user_info.UserInfo(
                     user_id = '', 
                     first_name = '', 

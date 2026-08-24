@@ -43,6 +43,10 @@ class TestSubscriptionPlanResponse(unittest.TestCase):
                 media_minutes = 56,
                 max_seats = 56,
                 public = True,
+                price_monthly_usd_cents = 56,
+                price_annual_usd_cents = 56,
+                price_monthly_cny_fen = 56,
+                price_annual_cny_fen = 56,
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )

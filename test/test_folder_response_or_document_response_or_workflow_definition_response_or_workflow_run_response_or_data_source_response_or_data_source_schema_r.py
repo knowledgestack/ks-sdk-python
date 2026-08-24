@@ -155,6 +155,9 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     error = '', ),
                 pending_approval_count = 56,
+                schedule_cadence = 'DAILY',
+                schedule_start_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                schedule_timezone = '',
                 workflow_definition_id = '',
                 triggered_by = ksapi.models.user_info.UserInfo(
                     user_id = '', 
