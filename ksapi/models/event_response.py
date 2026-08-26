@@ -36,7 +36,6 @@ class EventResponse(BaseModel):
     kind: StrictStr
     ts: datetime
     actor_user_id: Optional[UUID]
-    actor_on_behalf_of: Optional[UUID] = None
     payload: Dict[str, Any]
     actor: Optional[UserInfo] = None
     subject_name: Optional[StrictStr] = None
@@ -44,7 +43,7 @@ class EventResponse(BaseModel):
     subject_object_id: Optional[UUID] = None
     subject_part_type: Optional[StrictStr] = None
     references: Optional[Dict[str, ResolvedRef]] = None
-    __properties: ClassVar[List[str]] = ["id", "subject_path_part_id", "kind", "ts", "actor_user_id", "actor_on_behalf_of", "payload", "actor", "subject_name", "subject_path", "subject_object_id", "subject_part_type", "references"]
+    __properties: ClassVar[List[str]] = ["id", "subject_path_part_id", "kind", "ts", "actor_user_id", "payload", "actor", "subject_name", "subject_path", "subject_object_id", "subject_part_type", "references"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -100,11 +99,6 @@ class EventResponse(BaseModel):
         if self.actor_user_id is None and "actor_user_id" in self.model_fields_set:
             _dict['actor_user_id'] = None
 
-        # set to None if actor_on_behalf_of (nullable) is None
-        # and model_fields_set contains the field
-        if self.actor_on_behalf_of is None and "actor_on_behalf_of" in self.model_fields_set:
-            _dict['actor_on_behalf_of'] = None
-
         # set to None if actor (nullable) is None
         # and model_fields_set contains the field
         if self.actor is None and "actor" in self.model_fields_set:
@@ -147,7 +141,6 @@ class EventResponse(BaseModel):
             "kind": obj.get("kind"),
             "ts": obj.get("ts"),
             "actor_user_id": obj.get("actor_user_id"),
-            "actor_on_behalf_of": obj.get("actor_on_behalf_of"),
             "payload": obj.get("payload"),
             "actor": UserInfo.from_dict(obj["actor"]) if obj.get("actor") is not None else None,
             "subject_name": obj.get("subject_name"),

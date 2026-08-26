@@ -6,8 +6,6 @@
 README.md
 docs/AcceptDisclaimerRequest.md
 docs/AcceptInviteResponse.md
-docs/AcceptTenantInvitationRequest.md
-docs/AcceptTenantInvitationResponse.md
 docs/AccessCheckResponse.md
 docs/ActivateSkillVersionRequest.md
 docs/AddMemberRequest.md
@@ -346,7 +344,6 @@ docs/TemporalWorkflowStatusResponse.md
 docs/TenantBrandingResponse.md
 docs/TenantGroupOrder.md
 docs/TenantGroupsApi.md
-docs/TenantInvitationsApi.md
 docs/TenantQuotaStateResponse.md
 docs/TenantResponse.md
 docs/TenantSettingsResponse.md
@@ -476,7 +473,6 @@ ksapi/api/subscriptions_api.py
 ksapi/api/system_jobs_api.py
 ksapi/api/tags_api.py
 ksapi/api/tenant_groups_api.py
-ksapi/api/tenant_invitations_api.py
 ksapi/api/tenants_api.py
 ksapi/api/thread_messages_api.py
 ksapi/api/threads_api.py
@@ -493,8 +489,6 @@ ksapi/exceptions.py
 ksapi/models/__init__.py
 ksapi/models/accept_disclaimer_request.py
 ksapi/models/accept_invite_response.py
-ksapi/models/accept_tenant_invitation_request.py
-ksapi/models/accept_tenant_invitation_response.py
 ksapi/models/access_check_response.py
 ksapi/models/activate_skill_version_request.py
 ksapi/models/add_member_request.py
@@ -896,8 +890,6 @@ test-requirements.txt
 test/__init__.py
 test/test_accept_disclaimer_request.py
 test/test_accept_invite_response.py
-test/test_accept_tenant_invitation_request.py
-test/test_accept_tenant_invitation_response.py
 test/test_access_check_response.py
 test/test_activate_skill_version_request.py
 test/test_add_member_request.py
@@ -1236,7 +1228,6 @@ test/test_temporal_workflow_status_response.py
 test/test_tenant_branding_response.py
 test/test_tenant_group_order.py
 test/test_tenant_groups_api.py
-test/test_tenant_invitations_api.py
 test/test_tenant_quota_state_response.py
 test/test_tenant_response.py
 test/test_tenant_settings_response.py

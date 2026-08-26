@@ -15,8 +15,6 @@
 # import models into model package
 from ksapi.models.accept_disclaimer_request import AcceptDisclaimerRequest
 from ksapi.models.accept_invite_response import AcceptInviteResponse
-from ksapi.models.accept_tenant_invitation_request import AcceptTenantInvitationRequest
-from ksapi.models.accept_tenant_invitation_response import AcceptTenantInvitationResponse
 from ksapi.models.access_check_response import AccessCheckResponse
 from ksapi.models.activate_skill_version_request import ActivateSkillVersionRequest
 from ksapi.models.add_member_request import AddMemberRequest

@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "2.6.0"
+__version__ = "2.7.0"
 
 # Define package exports
 __all__ = [
@@ -55,7 +55,6 @@ __all__ = [
     "SystemJobsApi",
     "TagsApi",
     "TenantGroupsApi",
-    "TenantInvitationsApi",
     "TenantsApi",
     "TrashApi",
     "UserPermissionsApi",
@@ -71,8 +70,6 @@ __all__ = [
     "ApiException",
     "AcceptDisclaimerRequest",
     "AcceptInviteResponse",
-    "AcceptTenantInvitationRequest",
-    "AcceptTenantInvitationResponse",
     "AccessCheckResponse",
     "ActivateSkillVersionRequest",
     "AddMemberRequest",
@@ -504,7 +501,6 @@ from ksapi.api.subscriptions_api import SubscriptionsApi as SubscriptionsApi
 from ksapi.api.system_jobs_api import SystemJobsApi as SystemJobsApi
 from ksapi.api.tags_api import TagsApi as TagsApi
 from ksapi.api.tenant_groups_api import TenantGroupsApi as TenantGroupsApi
-from ksapi.api.tenant_invitations_api import TenantInvitationsApi as TenantInvitationsApi
 from ksapi.api.tenants_api import TenantsApi as TenantsApi
 from ksapi.api.trash_api import TrashApi as TrashApi
 from ksapi.api.user_permissions_api import UserPermissionsApi as UserPermissionsApi
@@ -524,8 +520,6 @@ from ksapi.exceptions import ApiException as ApiException
 # import models into sdk package
 from ksapi.models.accept_disclaimer_request import AcceptDisclaimerRequest as AcceptDisclaimerRequest
 from ksapi.models.accept_invite_response import AcceptInviteResponse as AcceptInviteResponse
-from ksapi.models.accept_tenant_invitation_request import AcceptTenantInvitationRequest as AcceptTenantInvitationRequest
-from ksapi.models.accept_tenant_invitation_response import AcceptTenantInvitationResponse as AcceptTenantInvitationResponse
 from ksapi.models.access_check_response import AccessCheckResponse as AccessCheckResponse
 from ksapi.models.activate_skill_version_request import ActivateSkillVersionRequest as ActivateSkillVersionRequest
 from ksapi.models.add_member_request import AddMemberRequest as AddMemberRequest

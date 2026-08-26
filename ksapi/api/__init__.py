@@ -38,7 +38,6 @@ from ksapi.api.subscriptions_api import SubscriptionsApi
 from ksapi.api.system_jobs_api import SystemJobsApi
 from ksapi.api.tags_api import TagsApi
 from ksapi.api.tenant_groups_api import TenantGroupsApi
-from ksapi.api.tenant_invitations_api import TenantInvitationsApi
 from ksapi.api.tenants_api import TenantsApi
 from ksapi.api.trash_api import TrashApi
 from ksapi.api.user_permissions_api import UserPermissionsApi

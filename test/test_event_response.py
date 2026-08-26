@@ -40,7 +40,6 @@ class TestEventResponse(unittest.TestCase):
                 kind = '',
                 ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 actor_user_id = '',
-                actor_on_behalf_of = '',
                 payload = { },
                 actor = ksapi.models.user_info.UserInfo(
                     user_id = '', 
