@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.create_upload_request import CreateUploadRequest
+from ksapi.models.email_metadata import EmailMetadata
 
-class TestCreateUploadRequest(unittest.TestCase):
-    """CreateUploadRequest unit test stubs"""
+class TestEmailMetadata(unittest.TestCase):
+    """EmailMetadata unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,38 +25,52 @@ class TestCreateUploadRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> CreateUploadRequest:
-        """Test CreateUploadRequest
+    def make_instance(self, include_optional) -> EmailMetadata:
+        """Test EmailMetadata
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `CreateUploadRequest`
+        # uncomment below to create an instance of `EmailMetadata`
         """
-        model = CreateUploadRequest()
+        model = EmailMetadata()
         if include_optional:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
-                tag_ids = [
+            return EmailMetadata(
+                subject = '',
+                sender = ksapi.models.email_party.EmailParty(
+                    name = '', 
+                    address = '', ),
+                to = [
+                    ksapi.models.email_party.EmailParty(
+                        name = '', 
+                        address = '', )
+                    ],
+                cc = [
+                    ksapi.models.email_party.EmailParty(
+                        name = '', 
+                        address = '', )
+                    ],
+                bcc = [
+                    ksapi.models.email_party.EmailParty(
+                        name = '', 
+                        address = '', )
+                    ],
+                sent_at = '',
+                message_id = '',
+                in_reply_to = '',
+                references = [
                     ''
                     ],
-                workflow_run_id = '',
-                workflow_definition_id = '',
-                idempotency_key = ''
+                conversation_topic = '',
+                thread_root_id = '',
+                raw_headers = ''
             )
         else:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
+            return EmailMetadata(
         )
         """
 
-    def testCreateUploadRequest(self):
-        """Test CreateUploadRequest"""
+    def testEmailMetadata(self):
+        """Test EmailMetadata"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

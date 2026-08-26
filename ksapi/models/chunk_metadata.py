@@ -38,6 +38,8 @@ class ChunkMetadata(BaseModel):
     secondary_taxonomy: Optional[ImageTaxonomy] = None
     start_ms: Optional[StrictInt] = Field(default=None, description="Start time of this chunk in the source media (ms from start).")
     end_ms: Optional[StrictInt] = Field(default=None, description="End time of this chunk in the source media (ms from start).")
+    speakers: Optional[List[StrictInt]] = Field(default=None, description="Every speaker label appearing in this chunk's segments, sorted. Lets a citation say which turn it came from. None when the provider does not diarize.")
+    languages: Optional[List[StrictStr]] = Field(default=None, description="Every language the ASR recognised across this chunk's segments, sorted. A meeting routinely code-switches, so a chunk can hold more than one; the document-level language is only the majority label and misreports a bilingual recording. None for non-media chunks and for media ingested before this field existed.")
     segments: Optional[List[SegmentSpan]] = Field(default=None, description="Per-ASR-segment spans inside this media chunk, in order, each carrying its char offset in the chunk content. Lets citation resolution narrow a chunk-level timeframe to the enclosing segment. None for non-media chunks and media ingested before this field existed.")
     sheet_name: Optional[StrictStr] = Field(default=None, description="Worksheet name this chunk was extracted from (XLSX only)")
     block_type: Optional[StrictStr] = Field(default=None, description="XLSXParser block type (e.g. table, calculation_block, chart_anchor)")
@@ -49,7 +51,7 @@ class ChunkMetadata(BaseModel):
     key_cells: Optional[List[StrictStr]] = Field(default=None, description="Notable output/header cells as A1 refs, e.g. 'Sheet1!A1' (XLSX only)")
     named_ranges: Optional[List[StrictStr]] = Field(default=None, description="Names of named ranges overlapping this chunk (XLSX only)")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "start_ms", "end_ms", "segments", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
+    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "start_ms", "end_ms", "speakers", "languages", "segments", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -131,6 +133,16 @@ class ChunkMetadata(BaseModel):
         if self.end_ms is None and "end_ms" in self.model_fields_set:
             _dict['end_ms'] = None
 
+        # set to None if speakers (nullable) is None
+        # and model_fields_set contains the field
+        if self.speakers is None and "speakers" in self.model_fields_set:
+            _dict['speakers'] = None
+
+        # set to None if languages (nullable) is None
+        # and model_fields_set contains the field
+        if self.languages is None and "languages" in self.model_fields_set:
+            _dict['languages'] = None
+
         # set to None if segments (nullable) is None
         # and model_fields_set contains the field
         if self.segments is None and "segments" in self.model_fields_set:
@@ -201,6 +213,8 @@ class ChunkMetadata(BaseModel):
             "secondary_taxonomy": obj.get("secondary_taxonomy"),
             "start_ms": obj.get("start_ms"),
             "end_ms": obj.get("end_ms"),
+            "speakers": obj.get("speakers"),
+            "languages": obj.get("languages"),
             "segments": [SegmentSpan.from_dict(_item) for _item in obj["segments"]] if obj.get("segments") is not None else None,
             "sheet_name": obj.get("sheet_name"),
             "block_type": obj.get("block_type"),

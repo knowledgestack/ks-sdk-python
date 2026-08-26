@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.create_upload_request import CreateUploadRequest
+from ksapi.models.accept_tenant_invitation_request import AcceptTenantInvitationRequest
 
-class TestCreateUploadRequest(unittest.TestCase):
-    """CreateUploadRequest unit test stubs"""
+class TestAcceptTenantInvitationRequest(unittest.TestCase):
+    """AcceptTenantInvitationRequest unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,38 +25,26 @@ class TestCreateUploadRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> CreateUploadRequest:
-        """Test CreateUploadRequest
+    def make_instance(self, include_optional) -> AcceptTenantInvitationRequest:
+        """Test AcceptTenantInvitationRequest
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `CreateUploadRequest`
+        # uncomment below to create an instance of `AcceptTenantInvitationRequest`
         """
-        model = CreateUploadRequest()
+        model = AcceptTenantInvitationRequest()
         if include_optional:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
-                tag_ids = [
-                    ''
-                    ],
-                workflow_run_id = '',
-                workflow_definition_id = '',
-                idempotency_key = ''
+            return AcceptTenantInvitationRequest(
+                password = '01234567',
+                first_name = ''
             )
         else:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
+            return AcceptTenantInvitationRequest(
         )
         """
 
-    def testCreateUploadRequest(self):
-        """Test CreateUploadRequest"""
+    def testAcceptTenantInvitationRequest(self):
+        """Test AcceptTenantInvitationRequest"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

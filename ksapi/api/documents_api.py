@@ -2256,6 +2256,7 @@ class DocumentsApi:
         name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
         tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
+        email_nesting_depth: Annotated[Optional[Annotated[int, Field(le=10, strict=True, ge=0)]], Field(description="Internal: set by the email member fan-out when a nested email re-enters this endpoint. Leave at 0 for direct uploads.")] = None,
         ingestion_mode: Optional[IngestionMode] = None,
         chunk_type: Optional[ChunkType] = None,
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
@@ -2289,6 +2290,8 @@ class DocumentsApi:
         :type tag_ids: List[UUID]
         :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
         :type idempotency_key: str
+        :param email_nesting_depth: Internal: set by the email member fan-out when a nested email re-enters this endpoint. Leave at 0 for direct uploads.
+        :type email_nesting_depth: int
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
         :param chunk_type:
@@ -2329,6 +2332,7 @@ class DocumentsApi:
             name=name,
             tag_ids=tag_ids,
             idempotency_key=idempotency_key,
+            email_nesting_depth=email_nesting_depth,
             ingestion_mode=ingestion_mode,
             chunk_type=chunk_type,
             secondary_taxonomy=secondary_taxonomy,
@@ -2364,6 +2368,7 @@ class DocumentsApi:
         name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
         tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
+        email_nesting_depth: Annotated[Optional[Annotated[int, Field(le=10, strict=True, ge=0)]], Field(description="Internal: set by the email member fan-out when a nested email re-enters this endpoint. Leave at 0 for direct uploads.")] = None,
         ingestion_mode: Optional[IngestionMode] = None,
         chunk_type: Optional[ChunkType] = None,
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
@@ -2397,6 +2402,8 @@ class DocumentsApi:
         :type tag_ids: List[UUID]
         :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
         :type idempotency_key: str
+        :param email_nesting_depth: Internal: set by the email member fan-out when a nested email re-enters this endpoint. Leave at 0 for direct uploads.
+        :type email_nesting_depth: int
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
         :param chunk_type:
@@ -2437,6 +2444,7 @@ class DocumentsApi:
             name=name,
             tag_ids=tag_ids,
             idempotency_key=idempotency_key,
+            email_nesting_depth=email_nesting_depth,
             ingestion_mode=ingestion_mode,
             chunk_type=chunk_type,
             secondary_taxonomy=secondary_taxonomy,
@@ -2472,6 +2480,7 @@ class DocumentsApi:
         name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
         tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
         idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
+        email_nesting_depth: Annotated[Optional[Annotated[int, Field(le=10, strict=True, ge=0)]], Field(description="Internal: set by the email member fan-out when a nested email re-enters this endpoint. Leave at 0 for direct uploads.")] = None,
         ingestion_mode: Optional[IngestionMode] = None,
         chunk_type: Optional[ChunkType] = None,
         secondary_taxonomy: Optional[ImageTaxonomy] = None,
@@ -2505,6 +2514,8 @@ class DocumentsApi:
         :type tag_ids: List[UUID]
         :param idempotency_key: Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.
         :type idempotency_key: str
+        :param email_nesting_depth: Internal: set by the email member fan-out when a nested email re-enters this endpoint. Leave at 0 for direct uploads.
+        :type email_nesting_depth: int
         :param ingestion_mode:
         :type ingestion_mode: IngestionMode
         :param chunk_type:
@@ -2545,6 +2556,7 @@ class DocumentsApi:
             name=name,
             tag_ids=tag_ids,
             idempotency_key=idempotency_key,
+            email_nesting_depth=email_nesting_depth,
             ingestion_mode=ingestion_mode,
             chunk_type=chunk_type,
             secondary_taxonomy=secondary_taxonomy,
@@ -2575,6 +2587,7 @@ class DocumentsApi:
         name,
         tag_ids,
         idempotency_key,
+        email_nesting_depth,
         ingestion_mode,
         chunk_type,
         secondary_taxonomy,
@@ -2616,6 +2629,8 @@ class DocumentsApi:
             _form_params.append(('tag_ids', tag_ids))
         if idempotency_key is not None:
             _form_params.append(('idempotency_key', idempotency_key))
+        if email_nesting_depth is not None:
+            _form_params.append(('email_nesting_depth', email_nesting_depth))
         if ingestion_mode is not None:
             _form_params.append(('ingestion_mode', ingestion_mode))
         if chunk_type is not None:
@@ -3392,6 +3407,8 @@ class DocumentsApi:
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
+        duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
+        duration_max_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at most this long.")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3426,6 +3443,10 @@ class DocumentsApi:
         :type owner_id: UUID
         :param document_type: Filter to documents of this type
         :type document_type: DocumentType
+        :param duration_min_ms: Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.
+        :type duration_min_ms: int
+        :param duration_max_ms: Only media whose active version is at most this long.
+        :type duration_max_ms: int
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
@@ -3468,6 +3489,8 @@ class DocumentsApi:
             sort_dir=sort_dir,
             owner_id=owner_id,
             document_type=document_type,
+            duration_min_ms=duration_min_ms,
+            duration_max_ms=duration_max_ms,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
@@ -3504,6 +3527,8 @@ class DocumentsApi:
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
+        duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
+        duration_max_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at most this long.")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3538,6 +3563,10 @@ class DocumentsApi:
         :type owner_id: UUID
         :param document_type: Filter to documents of this type
         :type document_type: DocumentType
+        :param duration_min_ms: Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.
+        :type duration_min_ms: int
+        :param duration_max_ms: Only media whose active version is at most this long.
+        :type duration_max_ms: int
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
@@ -3580,6 +3609,8 @@ class DocumentsApi:
             sort_dir=sort_dir,
             owner_id=owner_id,
             document_type=document_type,
+            duration_min_ms=duration_min_ms,
+            duration_max_ms=duration_max_ms,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
@@ -3616,6 +3647,8 @@ class DocumentsApi:
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
+        duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
+        duration_max_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at most this long.")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3650,6 +3683,10 @@ class DocumentsApi:
         :type owner_id: UUID
         :param document_type: Filter to documents of this type
         :type document_type: DocumentType
+        :param duration_min_ms: Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.
+        :type duration_min_ms: int
+        :param duration_max_ms: Only media whose active version is at most this long.
+        :type duration_max_ms: int
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param limit: Number of items per page
@@ -3692,6 +3729,8 @@ class DocumentsApi:
             sort_dir=sort_dir,
             owner_id=owner_id,
             document_type=document_type,
+            duration_min_ms=duration_min_ms,
+            duration_max_ms=duration_max_ms,
             with_tags=with_tags,
             limit=limit,
             offset=offset,
@@ -3723,6 +3762,8 @@ class DocumentsApi:
         sort_dir,
         owner_id,
         document_type,
+        duration_min_ms,
+        duration_max_ms,
         with_tags,
         limit,
         offset,
@@ -3771,6 +3812,14 @@ class DocumentsApi:
         if document_type is not None:
             
             _query_params.append(('document_type', document_type.value))
+            
+        if duration_min_ms is not None:
+            
+            _query_params.append(('duration_min_ms', duration_min_ms))
+            
+        if duration_max_ms is not None:
+            
+            _query_params.append(('duration_max_ms', duration_max_ms))
             
         if with_tags is not None:
             

@@ -15,6 +15,8 @@
 # import models into model package
 from ksapi.models.accept_disclaimer_request import AcceptDisclaimerRequest
 from ksapi.models.accept_invite_response import AcceptInviteResponse
+from ksapi.models.accept_tenant_invitation_request import AcceptTenantInvitationRequest
+from ksapi.models.accept_tenant_invitation_response import AcceptTenantInvitationResponse
 from ksapi.models.access_check_response import AccessCheckResponse
 from ksapi.models.activate_skill_version_request import ActivateSkillVersionRequest
 from ksapi.models.add_member_request import AddMemberRequest
@@ -142,6 +144,8 @@ from ksapi.models.docx_paragraph_anchor_input import DocxParagraphAnchorInput
 from ksapi.models.docx_paragraph_anchor_output import DocxParagraphAnchorOutput
 from ksapi.models.download_artifact import DownloadArtifact
 from ksapi.models.edit_memory_chunk_request import EditMemoryChunkRequest
+from ksapi.models.email_metadata import EmailMetadata
+from ksapi.models.email_party import EmailParty
 from ksapi.models.email_sent_response import EmailSentResponse
 from ksapi.models.email_verification_request import EmailVerificationRequest
 from ksapi.models.enriched_citation import EnrichedCitation

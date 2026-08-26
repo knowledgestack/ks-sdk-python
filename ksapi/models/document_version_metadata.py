@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from ksapi.models.email_metadata import EmailMetadata
 from ksapi.models.information_statistics import InformationStatistics
 from ksapi.models.pipeline_state import PipelineState
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
@@ -44,6 +45,7 @@ class DocumentVersionMetadata(BaseModel):
     duration_ms: Optional[StrictInt] = Field(default=None, description="Media (audio/video) duration in milliseconds; null for non-media")
     language: Optional[StrictStr] = Field(default=None, description="ASR-detected language of the media transcript, as returned by the ASR provider; null for non-media or when the provider omits it")
     segment_count: Optional[StrictInt] = Field(default=None, description="Number of transcript segments produced by ASR; null for non-media")
+    email: Optional[EmailMetadata] = Field(default=None, description="Structured email headers; null for non-email documents")
     total_formulas: Optional[StrictInt] = Field(default=None, description="Total formula cells in the workbook (XLSX only)")
     xlsx_parse_result_s3: Optional[StrictStr] = Field(default=None, description="S3 URI to the full XLSX parse result JSON containing dependency graph, named ranges, and KPI catalog")
     xlsx_named_ranges: Optional[List[Dict[str, Any]]] = Field(default=None, description="Named ranges defined in the workbook (name, ref_string, scope)")
@@ -57,7 +59,7 @@ class DocumentVersionMetadata(BaseModel):
     file_md5: Optional[StrictStr] = Field(default='UNSET', description="MD5 of source bytes; 'UNSET' for pre-Phase-2 docs, real hex digest after first prep run")
     idempotency_key: Optional[StrictStr] = Field(default=None, description="Opt-in create key. A repeat ingest with the same key at the same (parent, name) replays this document instead of colliding — makes a ZIP fan-out member retry idempotent.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "transcript_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_minutes", "quota_idempotency_key", "file_md5", "idempotency_key"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "fast_plaintext_s3", "transcript_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "email", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_minutes", "quota_idempotency_key", "file_md5", "idempotency_key"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -103,6 +105,9 @@ class DocumentVersionMetadata(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pipeline_state
         if self.pipeline_state:
             _dict['pipeline_state'] = self.pipeline_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of email
+        if self.email:
+            _dict['email'] = self.email.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in citation_anchors (list)
         _items = []
         if self.citation_anchors:
@@ -188,6 +193,11 @@ class DocumentVersionMetadata(BaseModel):
         if self.segment_count is None and "segment_count" in self.model_fields_set:
             _dict['segment_count'] = None
 
+        # set to None if email (nullable) is None
+        # and model_fields_set contains the field
+        if self.email is None and "email" in self.model_fields_set:
+            _dict['email'] = None
+
         # set to None if total_formulas (nullable) is None
         # and model_fields_set contains the field
         if self.total_formulas is None and "total_formulas" in self.model_fields_set:
@@ -249,6 +259,7 @@ class DocumentVersionMetadata(BaseModel):
             "duration_ms": obj.get("duration_ms"),
             "language": obj.get("language"),
             "segment_count": obj.get("segment_count"),
+            "email": EmailMetadata.from_dict(obj["email"]) if obj.get("email") is not None else None,
             "total_formulas": obj.get("total_formulas"),
             "xlsx_parse_result_s3": obj.get("xlsx_parse_result_s3"),
             "xlsx_named_ranges": obj.get("xlsx_named_ranges"),

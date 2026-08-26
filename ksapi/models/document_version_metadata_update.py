@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from ksapi.models.email_metadata import EmailMetadata
 from ksapi.models.information_statistics import InformationStatistics
 from ksapi.models.pipeline_state import PipelineState
 from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput
@@ -47,6 +48,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
     duration_ms: Optional[StrictInt] = None
     language: Optional[StrictStr] = None
     segment_count: Optional[StrictInt] = None
+    email: Optional[EmailMetadata] = None
     total_formulas: Optional[StrictInt] = None
     xlsx_parse_result_s3: Optional[StrictStr] = None
     xlsx_named_ranges: Optional[List[Dict[str, Any]]] = None
@@ -58,7 +60,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
     quota_media_minutes: Optional[StrictInt] = None
     quota_idempotency_key: Optional[StrictStr] = None
     file_md5: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_minutes", "quota_idempotency_key", "file_md5"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "email", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_minutes", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -102,6 +104,9 @@ class DocumentVersionMetadataUpdate(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of pipeline_state
         if self.pipeline_state:
             _dict['pipeline_state'] = self.pipeline_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of email
+        if self.email:
+            _dict['email'] = self.email.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in citation_anchors (list)
         _items = []
         if self.citation_anchors:
@@ -197,6 +202,11 @@ class DocumentVersionMetadataUpdate(BaseModel):
         if self.segment_count is None and "segment_count" in self.model_fields_set:
             _dict['segment_count'] = None
 
+        # set to None if email (nullable) is None
+        # and model_fields_set contains the field
+        if self.email is None and "email" in self.model_fields_set:
+            _dict['email'] = None
+
         # set to None if total_formulas (nullable) is None
         # and model_fields_set contains the field
         if self.total_formulas is None and "total_formulas" in self.model_fields_set:
@@ -281,6 +291,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
             "duration_ms": obj.get("duration_ms"),
             "language": obj.get("language"),
             "segment_count": obj.get("segment_count"),
+            "email": EmailMetadata.from_dict(obj["email"]) if obj.get("email") is not None else None,
             "total_formulas": obj.get("total_formulas"),
             "xlsx_parse_result_s3": obj.get("xlsx_parse_result_s3"),
             "xlsx_named_ranges": obj.get("xlsx_named_ranges"),

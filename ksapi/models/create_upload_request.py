@@ -33,7 +33,10 @@ class CreateUploadRequest(BaseModel):
     filename: StrictStr = Field(description="Original filename; its extension selects the type + size cap")
     size_bytes: StrictInt = Field(description="Declared total size; fast-rejected against the type cap")
     tag_ids: Optional[List[UUID]] = Field(default=None, description="Tags applied to the document on completion (mirrors the buffered ingest endpoints so a mixed submit tags recordings too)")
-    __properties: ClassVar[List[str]] = ["parent_path_id", "name", "filename", "size_bytes", "tag_ids"]
+    workflow_run_id: Optional[UUID] = Field(default=None, description="Workflow run this upload belongs to; attributes the resulting document to the run in the audit log. Must be sent together with workflow_definition_id, and only by an assumed identity.")
+    workflow_definition_id: Optional[UUID] = Field(default=None, description="Workflow definition for workflow_run_id.")
+    idempotency_key: Optional[StrictStr] = Field(default=None, description="Replay key for callers that retry (e.g. the ZIP fan-out); completing twice with the same key replays the existing document instead of creating a duplicate.")
+    __properties: ClassVar[List[str]] = ["parent_path_id", "name", "filename", "size_bytes", "tag_ids", "workflow_run_id", "workflow_definition_id", "idempotency_key"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -74,6 +77,21 @@ class CreateUploadRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if workflow_run_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.workflow_run_id is None and "workflow_run_id" in self.model_fields_set:
+            _dict['workflow_run_id'] = None
+
+        # set to None if workflow_definition_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.workflow_definition_id is None and "workflow_definition_id" in self.model_fields_set:
+            _dict['workflow_definition_id'] = None
+
+        # set to None if idempotency_key (nullable) is None
+        # and model_fields_set contains the field
+        if self.idempotency_key is None and "idempotency_key" in self.model_fields_set:
+            _dict['idempotency_key'] = None
+
         return _dict
 
     @classmethod
@@ -90,7 +108,10 @@ class CreateUploadRequest(BaseModel):
             "name": obj.get("name"),
             "filename": obj.get("filename"),
             "size_bytes": obj.get("size_bytes"),
-            "tag_ids": obj.get("tag_ids")
+            "tag_ids": obj.get("tag_ids"),
+            "workflow_run_id": obj.get("workflow_run_id"),
+            "workflow_definition_id": obj.get("workflow_definition_id"),
+            "idempotency_key": obj.get("idempotency_key")
         })
         return _obj
 

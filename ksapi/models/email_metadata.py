@@ -17,22 +17,31 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from ksapi.models.email_party import EmailParty
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class SegmentSpan(BaseModel):
+class EmailMetadata(BaseModel):
     """
-    One ASR segment's span inside a media chunk (media chunks only).  Field names are deliberately compact — a media document stores hundreds of chunks x tens of spans each in ``chunk_metadata`` JSONB. Measured worst case is a 4-hour Mandarin recording: 175 chunks x ~33 spans, ~190 KB total.
+    Structured headers of an ingested email (EMAIL document type only).  Populated by ``document_preparation_activity`` from the same parse that renders the message body, so the stored metadata and the rendered document cannot disagree. Null on a multi-message archive: its messages are ingested as their own documents, and each carries its own block.
     """ # noqa: E501
-    s: StrictInt = Field(description="Segment start in the media, ms from start.")
-    e: StrictInt = Field(description="Segment end in the media, ms from start.")
-    c: StrictInt = Field(description="Character offset of this segment's text within the chunk's joined content — maps a position in the chunk text back to a moment in the recording.")
-    k: Optional[StrictInt] = Field(default=None, description="Speaker label for this segment, 0-indexed within the recording. It identifies turns, not people — there is no voiceprint enrollment, so label 0 in one meeting is unrelated to label 0 in another. None when the ASR provider does not diarize.")
+    subject: Optional[StrictStr] = Field(default='', description="Message subject")
+    sender: Optional[EmailParty] = Field(default=None, description="Sender; null if unparseable")
+    to: Optional[List[EmailParty]] = Field(default=None, description="To recipients")
+    cc: Optional[List[EmailParty]] = Field(default=None, description="Cc recipients")
+    bcc: Optional[List[EmailParty]] = Field(default=None, description="Bcc recipients. Present only when the source file carries them — a sending MTA strips Bcc, so it survives in the sender's own copy (a .msg exported from Sent Items) but never in a received .eml.")
+    sent_at: Optional[StrictStr] = Field(default='', description="Date header, as written")
+    message_id: Optional[StrictStr] = Field(default='', description="RFC 5322 Message-ID")
+    in_reply_to: Optional[StrictStr] = Field(default='', description="Message-ID being replied to")
+    references: Optional[List[StrictStr]] = Field(default=None, description="Reply chain, oldest first")
+    conversation_topic: Optional[StrictStr] = Field(default='', description="Outlook PidTagConversationTopic (.msg only)")
+    thread_root_id: Optional[StrictStr] = Field(default='', description="Message-ID that started the thread — the first References entry, or this message's own id. Group by this to reconstruct a thread.")
+    raw_headers: Optional[StrictStr] = Field(default='', description="The verbatim header block, so a header this schema does not model stays recoverable without re-reading the source file.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["s", "e", "c", "k"]
+    __properties: ClassVar[List[str]] = ["subject", "sender", "to", "cc", "bcc", "sent_at", "message_id", "in_reply_to", "references", "conversation_topic", "thread_root_id", "raw_headers"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -52,7 +61,7 @@ class SegmentSpan(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of SegmentSpan from a JSON string"""
+        """Create an instance of EmailMetadata from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,21 +84,45 @@ class SegmentSpan(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of sender
+        if self.sender:
+            _dict['sender'] = self.sender.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in to (list)
+        _items = []
+        if self.to:
+            for _item_to in self.to:
+                if _item_to:
+                    _items.append(_item_to.to_dict())
+            _dict['to'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in cc (list)
+        _items = []
+        if self.cc:
+            for _item_cc in self.cc:
+                if _item_cc:
+                    _items.append(_item_cc.to_dict())
+            _dict['cc'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in bcc (list)
+        _items = []
+        if self.bcc:
+            for _item_bcc in self.bcc:
+                if _item_bcc:
+                    _items.append(_item_bcc.to_dict())
+            _dict['bcc'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
-        # set to None if k (nullable) is None
+        # set to None if sender (nullable) is None
         # and model_fields_set contains the field
-        if self.k is None and "k" in self.model_fields_set:
-            _dict['k'] = None
+        if self.sender is None and "sender" in self.model_fields_set:
+            _dict['sender'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of SegmentSpan from a dict"""
+        """Create an instance of EmailMetadata from a dict"""
         if obj is None:
             return None
 
@@ -97,10 +130,18 @@ class SegmentSpan(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "s": obj.get("s"),
-            "e": obj.get("e"),
-            "c": obj.get("c"),
-            "k": obj.get("k")
+            "subject": obj.get("subject") if obj.get("subject") is not None else '',
+            "sender": EmailParty.from_dict(obj["sender"]) if obj.get("sender") is not None else None,
+            "to": [EmailParty.from_dict(_item) for _item in obj["to"]] if obj.get("to") is not None else None,
+            "cc": [EmailParty.from_dict(_item) for _item in obj["cc"]] if obj.get("cc") is not None else None,
+            "bcc": [EmailParty.from_dict(_item) for _item in obj["bcc"]] if obj.get("bcc") is not None else None,
+            "sent_at": obj.get("sent_at") if obj.get("sent_at") is not None else '',
+            "message_id": obj.get("message_id") if obj.get("message_id") is not None else '',
+            "in_reply_to": obj.get("in_reply_to") if obj.get("in_reply_to") is not None else '',
+            "references": obj.get("references"),
+            "conversation_topic": obj.get("conversation_topic") if obj.get("conversation_topic") is not None else '',
+            "thread_root_id": obj.get("thread_root_id") if obj.get("thread_root_id") is not None else '',
+            "raw_headers": obj.get("raw_headers") if obj.get("raw_headers") is not None else ''
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

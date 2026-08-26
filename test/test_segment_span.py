@@ -37,7 +37,8 @@ class TestSegmentSpan(unittest.TestCase):
             return SegmentSpan(
                 s = 56,
                 e = 56,
-                c = 56
+                c = 56,
+                k = 56
             )
         else:
             return SegmentSpan(

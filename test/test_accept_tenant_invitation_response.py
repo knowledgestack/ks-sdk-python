@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.create_upload_request import CreateUploadRequest
+from ksapi.models.accept_tenant_invitation_response import AcceptTenantInvitationResponse
 
-class TestCreateUploadRequest(unittest.TestCase):
-    """CreateUploadRequest unit test stubs"""
+class TestAcceptTenantInvitationResponse(unittest.TestCase):
+    """AcceptTenantInvitationResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,38 +25,30 @@ class TestCreateUploadRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> CreateUploadRequest:
-        """Test CreateUploadRequest
+    def make_instance(self, include_optional) -> AcceptTenantInvitationResponse:
+        """Test AcceptTenantInvitationResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `CreateUploadRequest`
+        # uncomment below to create an instance of `AcceptTenantInvitationResponse`
         """
-        model = CreateUploadRequest()
+        model = AcceptTenantInvitationResponse()
         if include_optional:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
-                tag_ids = [
-                    ''
-                    ],
-                workflow_run_id = '',
-                workflow_definition_id = '',
-                idempotency_key = ''
+            return AcceptTenantInvitationResponse(
+                tenant_id = '',
+                tenant_name = '',
+                user_id = ''
             )
         else:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
+            return AcceptTenantInvitationResponse(
+                tenant_id = '',
+                tenant_name = '',
+                user_id = '',
         )
         """
 
-    def testCreateUploadRequest(self):
-        """Test CreateUploadRequest"""
+    def testAcceptTenantInvitationResponse(self):
+        """Test AcceptTenantInvitationResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

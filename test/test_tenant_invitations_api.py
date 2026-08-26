@@ -14,51 +14,25 @@
 
 import unittest
 
-from ksapi.models.create_upload_request import CreateUploadRequest
+from ksapi.api.tenant_invitations_api import TenantInvitationsApi
 
-class TestCreateUploadRequest(unittest.TestCase):
-    """CreateUploadRequest unit test stubs"""
 
-    def setUp(self):
+class TestTenantInvitationsApi(unittest.TestCase):
+    """TenantInvitationsApi unit test stubs"""
+
+    def setUp(self) -> None:
+        self.api = TenantInvitationsApi()
+
+    def tearDown(self) -> None:
         pass
 
-    def tearDown(self):
+    def test_accept_tenant_invitation(self) -> None:
+        """Test case for accept_tenant_invitation
+
+        Accept Tenant Invitation Handler
+        """
         pass
 
-    def make_instance(self, include_optional) -> CreateUploadRequest:
-        """Test CreateUploadRequest
-            include_optional is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # uncomment below to create an instance of `CreateUploadRequest`
-        """
-        model = CreateUploadRequest()
-        if include_optional:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
-                tag_ids = [
-                    ''
-                    ],
-                workflow_run_id = '',
-                workflow_definition_id = '',
-                idempotency_key = ''
-            )
-        else:
-            return CreateUploadRequest(
-                parent_path_id = '',
-                name = '',
-                filename = '',
-                size_bytes = 56,
-        )
-        """
-
-    def testCreateUploadRequest(self):
-        """Test CreateUploadRequest"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

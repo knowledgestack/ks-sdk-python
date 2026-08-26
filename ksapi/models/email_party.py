@@ -17,24 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, Optional
-from uuid import UUID
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class IngestDocumentResponse(BaseModel):
+class EmailParty(BaseModel):
     """
-    Response with workflow execution details.
+    One email participant.
     """ # noqa: E501
-    workflow_id: StrictStr = Field(description="Temporal workflow ID")
-    document_id: UUID
-    document_version_id: UUID
-    folder_id: Optional[UUID] = Field(default=None, description="Folder created to hold this upload and its members. Set for email uploads, which always nest inside their own folder; null for every other type, which ingest directly into path_part_id.")
-    attachment_count: Optional[StrictInt] = Field(default=None, description="Members found on an email upload, each becoming its own document beside the email: the attachments of a single message, or the messages of an .mbox archive (whose own attachments are then expanded one level deeper). Always 0 for non-email uploads. Null for a .pst, whose members are enumerated only by the worker fan-out — poll attachment_workflow_id for per-member outcomes.")
-    attachment_workflow_id: Optional[StrictStr] = Field(default=None, description="Fan-out workflow ingesting the members. Poll GET /v1/system-jobs/zip-ingestions/{id} for per-member outcomes. Null when the upload had no ingestible members.")
-    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_version_id", "folder_id", "attachment_count", "attachment_workflow_id"]
+    name: Optional[StrictStr] = Field(default='', description="Display name; empty if unnamed")
+    address: StrictStr = Field(description="Email address")
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["name", "address"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -54,7 +50,7 @@ class IngestDocumentResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of IngestDocumentResponse from a JSON string"""
+        """Create an instance of EmailParty from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -66,8 +62,10 @@ class IngestDocumentResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -75,26 +73,16 @@ class IngestDocumentResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if folder_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.folder_id is None and "folder_id" in self.model_fields_set:
-            _dict['folder_id'] = None
-
-        # set to None if attachment_count (nullable) is None
-        # and model_fields_set contains the field
-        if self.attachment_count is None and "attachment_count" in self.model_fields_set:
-            _dict['attachment_count'] = None
-
-        # set to None if attachment_workflow_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.attachment_workflow_id is None and "attachment_workflow_id" in self.model_fields_set:
-            _dict['attachment_workflow_id'] = None
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of IngestDocumentResponse from a dict"""
+        """Create an instance of EmailParty from a dict"""
         if obj is None:
             return None
 
@@ -102,13 +90,14 @@ class IngestDocumentResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "workflow_id": obj.get("workflow_id"),
-            "document_id": obj.get("document_id"),
-            "document_version_id": obj.get("document_version_id"),
-            "folder_id": obj.get("folder_id"),
-            "attachment_count": obj.get("attachment_count"),
-            "attachment_workflow_id": obj.get("attachment_workflow_id")
+            "name": obj.get("name") if obj.get("name") is not None else '',
+            "address": obj.get("address")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 
