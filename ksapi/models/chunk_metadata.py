@@ -35,6 +35,7 @@ class ChunkMetadata(BaseModel):
     summary: Optional[StrictStr] = Field(default=None, description="LLM-generated summary of the chunk content. Used for TABLE and HTML chunks to enrich embedding text, and for JSON/YAML chunks (with summarize_for_embedding) as the sole dense embedding text.")
     summarize_for_embedding: Optional[StrictBool] = Field(default=False, description="When True, this chunk's dense embedding is built from its LLM-generated summary (see summary) instead of its raw content. Set for parsed JSON/YAML single chunks so noisy structured text does not dominate the vector; the raw content is still kept for display and sparse (keyword) retrieval. Enrichment generates the summary when this is set and summary is empty.")
     extracted_text_s3_uri: Optional[StrictStr] = Field(default=None, description="S3 URI to extracted PDF text used for LLM grounding during enrichment")
+    caption: Optional[StrictStr] = Field(default=None, description="Caption and footnote lines MinerU extracted next to a visual, joined by newlines. IMAGE chunks only: their content is a generated description that enrichment overwrites, so the caption cannot live there — enrichment appends it to the description it writes. TABLE captions are appended to table_body directly, because a table's content is extracted text rather than generated.")
     secondary_taxonomy: Optional[ImageTaxonomy] = None
     start_ms: Optional[StrictInt] = Field(default=None, description="Start time of this chunk in the source media (ms from start).")
     end_ms: Optional[StrictInt] = Field(default=None, description="End time of this chunk in the source media (ms from start).")
@@ -51,7 +52,7 @@ class ChunkMetadata(BaseModel):
     key_cells: Optional[List[StrictStr]] = Field(default=None, description="Notable output/header cells as A1 refs, e.g. 'Sheet1!A1' (XLSX only)")
     named_ranges: Optional[List[StrictStr]] = Field(default=None, description="Names of named ranges overlapping this chunk (XLSX only)")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "secondary_taxonomy", "start_ms", "end_ms", "speakers", "languages", "segments", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
+    __properties: ClassVar[List[str]] = ["polygons", "s3_urls", "summary", "summarize_for_embedding", "extracted_text_s3_uri", "caption", "secondary_taxonomy", "start_ms", "end_ms", "speakers", "languages", "segments", "sheet_name", "block_type", "source_uri", "enriched_html", "cell_range", "dependency_summary", "formulas", "key_cells", "named_ranges"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -122,6 +123,11 @@ class ChunkMetadata(BaseModel):
         # and model_fields_set contains the field
         if self.extracted_text_s3_uri is None and "extracted_text_s3_uri" in self.model_fields_set:
             _dict['extracted_text_s3_uri'] = None
+
+        # set to None if caption (nullable) is None
+        # and model_fields_set contains the field
+        if self.caption is None and "caption" in self.model_fields_set:
+            _dict['caption'] = None
 
         # set to None if start_ms (nullable) is None
         # and model_fields_set contains the field
@@ -210,6 +216,7 @@ class ChunkMetadata(BaseModel):
             "summary": obj.get("summary"),
             "summarize_for_embedding": obj.get("summarize_for_embedding") if obj.get("summarize_for_embedding") is not None else False,
             "extracted_text_s3_uri": obj.get("extracted_text_s3_uri"),
+            "caption": obj.get("caption"),
             "secondary_taxonomy": obj.get("secondary_taxonomy"),
             "start_ms": obj.get("start_ms"),
             "end_ms": obj.get("end_ms"),
