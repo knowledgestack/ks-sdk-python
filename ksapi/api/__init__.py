@@ -7,6 +7,7 @@ from ksapi.api.memory_api import MemoryApi
 from ksapi.api.skills_api import SkillsApi
 from ksapi.api.thread_messages_api import ThreadMessagesApi
 from ksapi.api.threads_api import ThreadsApi
+from ksapi.api.transcriptions_api import TranscriptionsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi

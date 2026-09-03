@@ -17,28 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class ErrorResponse(BaseModel):
+class TranscriptionResponse(BaseModel):
     """
-    Standard error body returned for every non-2xx response.
+    A spoken clip rendered as text, ready to send as a chat message.
     """ # noqa: E501
-    detail: StrictStr = Field(description="Human-readable explanation of the error.")
-    code: StrictStr = Field(description="Stable, machine-readable error code from a closed set. Branch on this instead of parsing 'detail'. 'quota_exceeded'/'too_many_requests' carry a Retry-After header; 'service_unavailable' is retryable.")
-    request_id: Optional[StrictStr] = Field(default=None, description="Correlates to the x-request-id response header; quote it to support.")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["detail", "code", "request_id"]
-
-    @field_validator('code')
-    def code_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['error', 'bad_request', 'permission_limit', 'unauthorized', 'forbidden', 'not_found', 'conflict', 'run_busy', 'payload_too_large', 'unsupported_media_type', 'unprocessable_entity', 'too_many_requests', 'quota_exceeded', 'not_implemented', 'service_configuration_error', 'quota_period_missing', 'internal_error', 'service_unavailable']):
-            raise ValueError("must be one of enum values ('error', 'bad_request', 'permission_limit', 'unauthorized', 'forbidden', 'not_found', 'conflict', 'run_busy', 'payload_too_large', 'unsupported_media_type', 'unprocessable_entity', 'too_many_requests', 'quota_exceeded', 'not_implemented', 'service_configuration_error', 'quota_period_missing', 'internal_error', 'service_unavailable')")
-        return value
+    text: StrictStr = Field(description="The transcript. Empty when the clip contained no speech, which is a success, not an error.")
+    language: Optional[StrictStr] = Field(default=None, description="The language ASR detected, or the one the caller pinned. Null when the backend reports none; the text is still valid.")
+    __properties: ClassVar[List[str]] = ["text", "language"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -58,7 +49,7 @@ class ErrorResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ErrorResponse from a JSON string"""
+        """Create an instance of TranscriptionResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,10 +61,8 @@ class ErrorResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
-            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -81,16 +70,16 @@ class ErrorResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
+        # set to None if language (nullable) is None
+        # and model_fields_set contains the field
+        if self.language is None and "language" in self.model_fields_set:
+            _dict['language'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ErrorResponse from a dict"""
+        """Create an instance of TranscriptionResponse from a dict"""
         if obj is None:
             return None
 
@@ -98,15 +87,9 @@ class ErrorResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "detail": obj.get("detail"),
-            "code": obj.get("code"),
-            "request_id": obj.get("request_id")
+            "text": obj.get("text"),
+            "language": obj.get("language")
         })
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj
 
 

@@ -345,6 +345,7 @@ from ksapi.models.timeseries_point import TimeseriesPoint
 from ksapi.models.tool_display_type import ToolDisplayType
 from ksapi.models.tool_part import ToolPart
 from ksapi.models.tool_status import ToolStatus
+from ksapi.models.transcription_response import TranscriptionResponse
 from ksapi.models.transfer_owner_request import TransferOwnerRequest
 from ksapi.models.transfer_owner_response import TransferOwnerResponse
 from ksapi.models.trash_item_detail_response import TrashItemDetailResponse
