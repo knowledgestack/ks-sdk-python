@@ -12,28 +12,54 @@
 """  # noqa: E501
 
 
-from __future__ import annotations
-import json
-from enum import Enum
-from typing_extensions import Self
+import unittest
 
+from ksapi.models.search_items_response import SearchItemsResponse
 
-class SearchSortOrder(str, Enum):
-    """
-    Ordering for flat name search.  RELEVANCE ranks an exact name match first, then names starting with the query, then by how closely the name matches, then shorter names, then alphabetically.
-    """
+class TestSearchItemsResponse(unittest.TestCase):
+    """SearchItemsResponse unit test stubs"""
 
-    """
-    allowed enum values
-    """
-    RELEVANCE = 'RELEVANCE'
-    NAME = 'NAME'
-    UPDATED_AT = 'UPDATED_AT'
-    CREATED_AT = 'CREATED_AT'
+    def setUp(self):
+        pass
 
-    @classmethod
-    def from_json(cls, json_str: str) -> Self:
-        """Create an instance of SearchSortOrder from a JSON string"""
-        return cls(json.loads(json_str))
+    def tearDown(self):
+        pass
 
+    def make_instance(self, include_optional) -> SearchItemsResponse:
+        """Test SearchItemsResponse
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `SearchItemsResponse`
+        """
+        model = SearchItemsResponse()
+        if include_optional:
+            return SearchItemsResponse(
+                items = [
+                    null
+                    ],
+                total = 0.0,
+                limit = 1.0,
+                offset = 0.0,
+                counts_by_type = {
+                    'key' : 56
+                    }
+            )
+        else:
+            return SearchItemsResponse(
+                items = [
+                    null
+                    ],
+                total = 0.0,
+                limit = 1.0,
+                offset = 0.0,
+        )
+        """
 
+    def testSearchItemsResponse(self):
+        """Test SearchItemsResponse"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+
+if __name__ == '__main__':
+    unittest.main()

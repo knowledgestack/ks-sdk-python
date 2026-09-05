@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "2.12.0"
+__version__ = "2.12.1"
 
 # Define package exports
 __all__ = [
@@ -334,6 +334,7 @@ __all__ = [
     "SSOInitiateResponse",
     "ScheduleCadence",
     "ScoredChunkResponse",
+    "SearchItemsResponse",
     "SearchSkillsRequest",
     "SearchSkillsResponse",
     "SearchSortOrder",
@@ -786,6 +787,7 @@ from ksapi.models.run_timeseries_response import RunTimeseriesResponse as RunTim
 from ksapi.models.sso_initiate_response import SSOInitiateResponse as SSOInitiateResponse
 from ksapi.models.schedule_cadence import ScheduleCadence as ScheduleCadence
 from ksapi.models.scored_chunk_response import ScoredChunkResponse as ScoredChunkResponse
+from ksapi.models.search_items_response import SearchItemsResponse as SearchItemsResponse
 from ksapi.models.search_skills_request import SearchSkillsRequest as SearchSkillsRequest
 from ksapi.models.search_skills_response import SearchSkillsResponse as SearchSkillsResponse
 from ksapi.models.search_sort_order import SearchSortOrder as SearchSortOrder

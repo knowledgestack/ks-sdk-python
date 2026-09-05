@@ -295,6 +295,7 @@ docs/RunTimeseriesResponse.md
 docs/SSOInitiateResponse.md
 docs/ScheduleCadence.md
 docs/ScoredChunkResponse.md
+docs/SearchItemsResponse.md
 docs/SearchSkillsRequest.md
 docs/SearchSkillsResponse.md
 docs/SearchSortOrder.md
@@ -754,6 +755,7 @@ ksapi/models/run_folder_ref.py
 ksapi/models/run_timeseries_response.py
 ksapi/models/schedule_cadence.py
 ksapi/models/scored_chunk_response.py
+ksapi/models/search_items_response.py
 ksapi/models/search_skills_request.py
 ksapi/models/search_skills_response.py
 ksapi/models/search_sort_order.py
@@ -1182,6 +1184,7 @@ test/test_run_folder_ref.py
 test/test_run_timeseries_response.py
 test/test_schedule_cadence.py
 test/test_scored_chunk_response.py
+test/test_search_items_response.py
 test/test_search_skills_request.py
 test/test_search_skills_response.py
 test/test_search_sort_order.py

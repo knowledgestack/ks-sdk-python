@@ -29,6 +29,7 @@ from ksapi.models.paginated_response_annotated_union_folder_response_document_re
 from ksapi.models.paginated_response_folder_response import PaginatedResponseFolderResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.search_items_response import SearchItemsResponse
 from ksapi.models.search_sort_order import SearchSortOrder
 from ksapi.models.searchable_part_type import SearchablePartType
 from ksapi.models.sort_direction import SortDirection
@@ -2192,8 +2193,8 @@ class FoldersApi:
     def search_items(
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
-        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: NAME)")] = None,
-        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: all searchable types)")] = None,
+        part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
+        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: RELEVANCE)")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2210,17 +2211,17 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat:
+    ) -> SearchItemsResponse:
         """Search Items Handler
 
         Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
-        :param sort_order: Sort order for results (default: NAME)
+        :param part_type: Filter by item type; repeat the parameter to select several (default: all searchable types)
+        :type part_type: List[SearchablePartType]
+        :param sort_order: Sort order for results (default: RELEVANCE)
         :type sort_order: SearchSortOrder
-        :param part_type: Filter by item type (default: all searchable types)
-        :type part_type: SearchablePartType
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param parent_path_part_id: Scope search to descendants of this folder's path part
@@ -2253,8 +2254,8 @@ class FoldersApi:
 
         _param = self._search_items_serialize(
             name_like=name_like,
-            sort_order=sort_order,
             part_type=part_type,
+            sort_order=sort_order,
             with_tags=with_tags,
             parent_path_part_id=parent_path_part_id,
             limit=limit,
@@ -2266,7 +2267,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
+            '200': "SearchItemsResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2284,8 +2285,8 @@ class FoldersApi:
     def search_items_with_http_info(
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
-        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: NAME)")] = None,
-        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: all searchable types)")] = None,
+        part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
+        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: RELEVANCE)")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2302,17 +2303,17 @@ class FoldersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat]:
+    ) -> ApiResponse[SearchItemsResponse]:
         """Search Items Handler
 
         Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
-        :param sort_order: Sort order for results (default: NAME)
+        :param part_type: Filter by item type; repeat the parameter to select several (default: all searchable types)
+        :type part_type: List[SearchablePartType]
+        :param sort_order: Sort order for results (default: RELEVANCE)
         :type sort_order: SearchSortOrder
-        :param part_type: Filter by item type (default: all searchable types)
-        :type part_type: SearchablePartType
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param parent_path_part_id: Scope search to descendants of this folder's path part
@@ -2345,8 +2346,8 @@ class FoldersApi:
 
         _param = self._search_items_serialize(
             name_like=name_like,
-            sort_order=sort_order,
             part_type=part_type,
+            sort_order=sort_order,
             with_tags=with_tags,
             parent_path_part_id=parent_path_part_id,
             limit=limit,
@@ -2358,7 +2359,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
+            '200': "SearchItemsResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2376,8 +2377,8 @@ class FoldersApi:
     def search_items_without_preload_content(
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
-        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: NAME)")] = None,
-        part_type: Annotated[Optional[SearchablePartType], Field(description="Filter by item type (default: all searchable types)")] = None,
+        part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
+        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: RELEVANCE)")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2401,10 +2402,10 @@ class FoldersApi:
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
-        :param sort_order: Sort order for results (default: NAME)
+        :param part_type: Filter by item type; repeat the parameter to select several (default: all searchable types)
+        :type part_type: List[SearchablePartType]
+        :param sort_order: Sort order for results (default: RELEVANCE)
         :type sort_order: SearchSortOrder
-        :param part_type: Filter by item type (default: all searchable types)
-        :type part_type: SearchablePartType
         :param with_tags: Include tags in the response (default: false)
         :type with_tags: bool
         :param parent_path_part_id: Scope search to descendants of this folder's path part
@@ -2437,8 +2438,8 @@ class FoldersApi:
 
         _param = self._search_items_serialize(
             name_like=name_like,
-            sort_order=sort_order,
             part_type=part_type,
+            sort_order=sort_order,
             with_tags=with_tags,
             parent_path_part_id=parent_path_part_id,
             limit=limit,
@@ -2450,7 +2451,7 @@ class FoldersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
+            '200': "SearchItemsResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2463,8 +2464,8 @@ class FoldersApi:
     def _search_items_serialize(
         self,
         name_like,
-        sort_order,
         part_type,
+        sort_order,
         with_tags,
         parent_path_part_id,
         limit,
@@ -2478,6 +2479,7 @@ class FoldersApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'part_type': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -2495,13 +2497,13 @@ class FoldersApi:
             
             _query_params.append(('name_like', name_like))
             
+        if part_type is not None:
+            
+            _query_params.append(('part_type', part_type))
+            
         if sort_order is not None:
             
             _query_params.append(('sort_order', sort_order.value))
-            
-        if part_type is not None:
-            
-            _query_params.append(('part_type', part_type.value))
             
         if with_tags is not None:
             

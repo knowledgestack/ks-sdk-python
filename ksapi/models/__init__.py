@@ -278,6 +278,7 @@ from ksapi.models.run_timeseries_response import RunTimeseriesResponse
 from ksapi.models.sso_initiate_response import SSOInitiateResponse
 from ksapi.models.schedule_cadence import ScheduleCadence
 from ksapi.models.scored_chunk_response import ScoredChunkResponse
+from ksapi.models.search_items_response import SearchItemsResponse
 from ksapi.models.search_skills_request import SearchSkillsRequest
 from ksapi.models.search_skills_response import SearchSkillsResponse
 from ksapi.models.search_sort_order import SearchSortOrder
