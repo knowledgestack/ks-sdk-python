@@ -54,7 +54,8 @@ class TestCreateThreadMessageRequest(unittest.TestCase):
                             ref_type = 'FOLDER', 
                             entity_id = '', 
                             display_name = '', 
-                            materialized_path = '', )
+                            materialized_path = '', 
+                            document_type = 'PDF', )
                         ], ),
                 details = ksapi.models.thread_message_details.ThreadMessageDetails(
                     parts = [
@@ -94,7 +95,8 @@ class TestCreateThreadMessageRequest(unittest.TestCase):
                             ref_type = 'FOLDER', 
                             entity_id = '', 
                             display_name = '', 
-                            materialized_path = '', )
+                            materialized_path = '', 
+                            document_type = 'PDF', )
                         ], ),
         )
         """

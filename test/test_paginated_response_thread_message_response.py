@@ -64,7 +64,8 @@ class TestPaginatedResponseThreadMessageResponse(unittest.TestCase):
                                     ref_type = '', 
                                     entity_id = '', 
                                     display_name = '', 
-                                    materialized_path = '', )
+                                    materialized_path = '', 
+                                    document_type = 'PDF', )
                                 ], ), 
                         details = null, 
                         parent_path_id = '', 
@@ -109,7 +110,8 @@ class TestPaginatedResponseThreadMessageResponse(unittest.TestCase):
                                     ref_type = '', 
                                     entity_id = '', 
                                     display_name = '', 
-                                    materialized_path = '', )
+                                    materialized_path = '', 
+                                    document_type = 'PDF', )
                                 ], ), 
                         details = null, 
                         parent_path_id = '', 

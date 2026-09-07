@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.document_type import DocumentType
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -32,8 +33,9 @@ class ResolvedReferenceOutput(BaseModel):
     entity_id: UUID
     display_name: StrictStr = Field(description="Human-readable name for the entity")
     materialized_path: Optional[StrictStr] = Field(default=None, description="Full materialized path (None for entities without path parts, e.g. tags, users)")
+    document_type: Optional[DocumentType] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["ref_type", "entity_id", "display_name", "materialized_path"]
+    __properties: ClassVar[List[str]] = ["ref_type", "entity_id", "display_name", "materialized_path", "document_type"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -101,7 +103,8 @@ class ResolvedReferenceOutput(BaseModel):
             "ref_type": obj.get("ref_type"),
             "entity_id": obj.get("entity_id"),
             "display_name": obj.get("display_name"),
-            "materialized_path": obj.get("materialized_path")
+            "materialized_path": obj.get("materialized_path"),
+            "document_type": obj.get("document_type")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

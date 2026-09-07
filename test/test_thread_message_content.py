@@ -51,7 +51,8 @@ class TestThreadMessageContent(unittest.TestCase):
                         ref_type = 'FOLDER', 
                         entity_id = '', 
                         display_name = '', 
-                        materialized_path = '', )
+                        materialized_path = '', 
+                        document_type = 'PDF', )
                     ]
             )
         else:

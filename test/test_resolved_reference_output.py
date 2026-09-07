@@ -38,7 +38,8 @@ class TestResolvedReferenceOutput(unittest.TestCase):
                 ref_type = '',
                 entity_id = '',
                 display_name = '',
-                materialized_path = ''
+                materialized_path = '',
+                document_type = 'PDF'
             )
         else:
             return ResolvedReferenceOutput(

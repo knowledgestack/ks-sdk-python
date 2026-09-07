@@ -62,7 +62,8 @@ class TestThreadMessageResponse(unittest.TestCase):
                             ref_type = '', 
                             entity_id = '', 
                             display_name = '', 
-                            materialized_path = '', )
+                            materialized_path = '', 
+                            document_type = 'PDF', )
                         ], ),
                 details = ksapi.models.thread_message_details.ThreadMessageDetails(
                     parts = [
@@ -117,7 +118,8 @@ class TestThreadMessageResponse(unittest.TestCase):
                             ref_type = '', 
                             entity_id = '', 
                             display_name = '', 
-                            materialized_path = '', )
+                            materialized_path = '', 
+                            document_type = 'PDF', )
                         ], ),
                 parent_path_id = '',
                 materialized_path = '',
