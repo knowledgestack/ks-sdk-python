@@ -22,6 +22,7 @@ from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.contents_sort_order import ContentsSortOrder
 from ksapi.models.create_folder_request import CreateFolderRequest
+from ksapi.models.document_type import DocumentType
 from ksapi.models.folder_action import FolderAction
 from ksapi.models.folder_action_response import FolderActionResponse
 from ksapi.models.folder_response import FolderResponse
@@ -2199,6 +2200,14 @@ class FoldersApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        document_type: Annotated[Optional[List[DocumentType]], Field(description="Only documents of these types; repeat the parameter to select several (default: every type, every item kind)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only items owned by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2214,7 +2223,7 @@ class FoldersApi:
     ) -> SearchItemsResponse:
         """Search Items Handler
 
-        Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, connectors, workflows and skills.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -2230,6 +2239,22 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param document_type: Only documents of these types; repeat the parameter to select several (default: every type, every item kind)
+        :type document_type: List[DocumentType]
+        :param owner_id: Only items owned by this user
+        :type owner_id: UUID
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2260,6 +2285,14 @@ class FoldersApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
+            document_type=document_type,
+            owner_id=owner_id,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2291,6 +2324,14 @@ class FoldersApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        document_type: Annotated[Optional[List[DocumentType]], Field(description="Only documents of these types; repeat the parameter to select several (default: every type, every item kind)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only items owned by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2306,7 +2347,7 @@ class FoldersApi:
     ) -> ApiResponse[SearchItemsResponse]:
         """Search Items Handler
 
-        Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, connectors, workflows and skills.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -2322,6 +2363,22 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param document_type: Only documents of these types; repeat the parameter to select several (default: every type, every item kind)
+        :type document_type: List[DocumentType]
+        :param owner_id: Only items owned by this user
+        :type owner_id: UUID
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2352,6 +2409,14 @@ class FoldersApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
+            document_type=document_type,
+            owner_id=owner_id,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2383,6 +2448,14 @@ class FoldersApi:
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        document_type: Annotated[Optional[List[DocumentType]], Field(description="Only documents of these types; repeat the parameter to select several (default: every type, every item kind)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only items owned by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2398,7 +2471,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Search Items Handler
 
-        Search for folders, documents, and connectors by name.  Performs a case-insensitive partial name match using trigram indexing. Results are filtered by the current user's path permissions.  When parent_path_part_id is provided, only items under that folder are searched. Otherwise, all accessible items across the tenant are searched.
+        Search for folders, documents, connectors, workflows and skills.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -2414,6 +2487,22 @@ class FoldersApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param document_type: Only documents of these types; repeat the parameter to select several (default: every type, every item kind)
+        :type document_type: List[DocumentType]
+        :param owner_id: Only items owned by this user
+        :type owner_id: UUID
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param include_tag_ids: Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).
+        :type include_tag_ids: List[UUID]
+        :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
+        :type exclude_tag_ids: List[UUID]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2444,6 +2533,14 @@ class FoldersApi:
             parent_path_part_id=parent_path_part_id,
             limit=limit,
             offset=offset,
+            document_type=document_type,
+            owner_id=owner_id,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
+            include_tag_ids=include_tag_ids,
+            exclude_tag_ids=exclude_tag_ids,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2470,6 +2567,14 @@ class FoldersApi:
         parent_path_part_id,
         limit,
         offset,
+        document_type,
+        owner_id,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
+        include_tag_ids,
+        exclude_tag_ids,
         _request_auth,
         _content_type,
         _headers,
@@ -2480,6 +2585,9 @@ class FoldersApi:
 
         _collection_formats: Dict[str, str] = {
             'part_type': 'multi',
+            'document_type': 'multi',
+            'include_tag_ids': 'multi',
+            'exclude_tag_ids': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -2520,6 +2628,74 @@ class FoldersApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if document_type is not None:
+            
+            _query_params.append(('document_type', document_type))
+            
+        if owner_id is not None:
+            
+            _query_params.append(('owner_id', owner_id))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
+            
+        if include_tag_ids is not None:
+            
+            _query_params.append(('include_tag_ids', include_tag_ids))
+            
+        if exclude_tag_ids is not None:
+            
+            _query_params.append(('exclude_tag_ids', exclude_tag_ids))
             
         # process the header parameters
         # process the form parameters
