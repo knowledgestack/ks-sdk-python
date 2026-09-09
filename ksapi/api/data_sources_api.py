@@ -4222,7 +4222,7 @@ class DataSourcesApi:
     ) -> DataSourceResponse:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move). Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -4294,7 +4294,7 @@ class DataSourcesApi:
     ) -> ApiResponse[DataSourceResponse]:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move). Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -4366,7 +4366,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move). Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
 
         :param data_source_id: (required)
         :type data_source_id: UUID

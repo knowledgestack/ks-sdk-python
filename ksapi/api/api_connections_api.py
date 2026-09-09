@@ -631,7 +631,7 @@ class ApiConnectionsApi:
     ) -> None:
         """Delete Api Connection Handler
 
-        Move a connection to trash (Admin/Owner).  Soft-delete via the path_part subtree, mirroring create/update authz. A connection holds no Qdrant vectors, so there is no trash-sync workflow.
+        Move a connection to trash; requires ``can_delete``.
 
         :param connection_id: (required)
         :type connection_id: UUID
@@ -699,7 +699,7 @@ class ApiConnectionsApi:
     ) -> ApiResponse[None]:
         """Delete Api Connection Handler
 
-        Move a connection to trash (Admin/Owner).  Soft-delete via the path_part subtree, mirroring create/update authz. A connection holds no Qdrant vectors, so there is no trash-sync workflow.
+        Move a connection to trash; requires ``can_delete``.
 
         :param connection_id: (required)
         :type connection_id: UUID
@@ -767,7 +767,7 @@ class ApiConnectionsApi:
     ) -> RESTResponseType:
         """Delete Api Connection Handler
 
-        Move a connection to trash (Admin/Owner).  Soft-delete via the path_part subtree, mirroring create/update authz. A connection holds no Qdrant vectors, so there is no trash-sync workflow.
+        Move a connection to trash; requires ``can_delete``.
 
         :param connection_id: (required)
         :type connection_id: UUID
@@ -1455,7 +1455,7 @@ class ApiConnectionsApi:
     ) -> ApiConnectionResponse:
         """Update Api Connection Handler
 
-        Update a connection (Admin/Owner). A risk-up change re-arms the disclaimer.
+        Update a connection; changing its egress envelope needs Admin/Owner.
 
         :param connection_id: (required)
         :type connection_id: UUID
@@ -1527,7 +1527,7 @@ class ApiConnectionsApi:
     ) -> ApiResponse[ApiConnectionResponse]:
         """Update Api Connection Handler
 
-        Update a connection (Admin/Owner). A risk-up change re-arms the disclaimer.
+        Update a connection; changing its egress envelope needs Admin/Owner.
 
         :param connection_id: (required)
         :type connection_id: UUID
@@ -1599,7 +1599,7 @@ class ApiConnectionsApi:
     ) -> RESTResponseType:
         """Update Api Connection Handler
 
-        Update a connection (Admin/Owner). A risk-up change re-arms the disclaimer.
+        Update a connection; changing its egress envelope needs Admin/Owner.
 
         :param connection_id: (required)
         :type connection_id: UUID
