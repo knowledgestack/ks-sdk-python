@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "2.14.4"
+__version__ = "2.15.0"
 
 # Define package exports
 __all__ = [
@@ -207,6 +207,7 @@ __all__ = [
     "ErrorResponse",
     "EventResponse",
     "ExcludedCommonFile",
+    "ExportSkillsRequest",
     "ExtractRequest",
     "ExtractResponse",
     "FeaturesResponse",
@@ -660,6 +661,7 @@ from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageCo
 from ksapi.models.error_response import ErrorResponse as ErrorResponse
 from ksapi.models.event_response import EventResponse as EventResponse
 from ksapi.models.excluded_common_file import ExcludedCommonFile as ExcludedCommonFile
+from ksapi.models.export_skills_request import ExportSkillsRequest as ExportSkillsRequest
 from ksapi.models.extract_request import ExtractRequest as ExtractRequest
 from ksapi.models.extract_response import ExtractResponse as ExtractResponse
 from ksapi.models.features_response import FeaturesResponse as FeaturesResponse

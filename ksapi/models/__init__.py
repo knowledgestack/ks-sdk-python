@@ -151,6 +151,7 @@ from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageCo
 from ksapi.models.error_response import ErrorResponse
 from ksapi.models.event_response import EventResponse
 from ksapi.models.excluded_common_file import ExcludedCommonFile
+from ksapi.models.export_skills_request import ExportSkillsRequest
 from ksapi.models.extract_request import ExtractRequest
 from ksapi.models.extract_response import ExtractResponse
 from ksapi.models.features_response import FeaturesResponse

@@ -14,123 +14,43 @@
 
 import unittest
 
-from ksapi.api.skills_api import SkillsApi
+from ksapi.models.export_skills_request import ExportSkillsRequest
 
+class TestExportSkillsRequest(unittest.TestCase):
+    """ExportSkillsRequest unit test stubs"""
 
-class TestSkillsApi(unittest.TestCase):
-    """SkillsApi unit test stubs"""
-
-    def setUp(self) -> None:
-        self.api = SkillsApi()
-
-    def tearDown(self) -> None:
+    def setUp(self):
         pass
 
-    def test_activate_skill_version(self) -> None:
-        """Test case for activate_skill_version
+    def tearDown(self):
+        pass
 
-        Activate Skill Version Handler
+    def make_instance(self, include_optional) -> ExportSkillsRequest:
+        """Test ExportSkillsRequest
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `ExportSkillsRequest`
         """
-        pass
-
-    def test_checkin_skill(self) -> None:
-        """Test case for checkin_skill
-
-        Checkin Skill Handler
+        model = ExportSkillsRequest()
+        if include_optional:
+            return ExportSkillsRequest(
+                skill_ids = [
+                    ''
+                    ]
+            )
+        else:
+            return ExportSkillsRequest(
+                skill_ids = [
+                    ''
+                    ],
+        )
         """
-        pass
 
-    def test_checkout_skill(self) -> None:
-        """Test case for checkout_skill
-
-        Checkout Skill Handler
-        """
-        pass
-
-    def test_create_skill(self) -> None:
-        """Test case for create_skill
-
-        Create Skill Handler
-        """
-        pass
-
-    def test_delete_skill(self) -> None:
-        """Test case for delete_skill
-
-        Delete Skill Handler
-        """
-        pass
-
-    def test_discard_skill_draft(self) -> None:
-        """Test case for discard_skill_draft
-
-        Discard Skill Draft Handler
-        """
-        pass
-
-    def test_export_skill(self) -> None:
-        """Test case for export_skill
-
-        Export Skill Handler
-        """
-        pass
-
-    def test_export_skills(self) -> None:
-        """Test case for export_skills
-
-        Export Skills Handler
-        """
-        pass
-
-    def test_get_skill(self) -> None:
-        """Test case for get_skill
-
-        Get Skill Handler
-        """
-        pass
-
-    def test_import_skill(self) -> None:
-        """Test case for import_skill
-
-        Import Skill Handler
-        """
-        pass
-
-    def test_list_skill_versions(self) -> None:
-        """Test case for list_skill_versions
-
-        List Skill Versions Handler
-        """
-        pass
-
-    def test_list_skills(self) -> None:
-        """Test case for list_skills
-
-        List Skills Handler
-        """
-        pass
-
-    def test_publish_skill_version(self) -> None:
-        """Test case for publish_skill_version
-
-        Publish Skill Version Handler
-        """
-        pass
-
-    def test_search_skills(self) -> None:
-        """Test case for search_skills
-
-        Search Skills Handler
-        """
-        pass
-
-    def test_update_skill(self) -> None:
-        """Test case for update_skill
-
-        Update Skill Handler
-        """
-        pass
-
+    def testExportSkillsRequest(self):
+        """Test ExportSkillsRequest"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

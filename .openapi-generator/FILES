@@ -160,6 +160,7 @@ docs/EnrichedThreadMessageContent.md
 docs/ErrorResponse.md
 docs/EventResponse.md
 docs/ExcludedCommonFile.md
+docs/ExportSkillsRequest.md
 docs/ExtractRequest.md
 docs/ExtractResponse.md
 docs/FeaturesApi.md
@@ -629,6 +630,7 @@ ksapi/models/enriched_thread_message_content.py
 ksapi/models/error_response.py
 ksapi/models/event_response.py
 ksapi/models/excluded_common_file.py
+ksapi/models/export_skills_request.py
 ksapi/models/extract_request.py
 ksapi/models/extract_response.py
 ksapi/models/features_response.py
@@ -1050,6 +1052,7 @@ test/test_enriched_thread_message_content.py
 test/test_error_response.py
 test/test_event_response.py
 test/test_excluded_common_file.py
+test/test_export_skills_request.py
 test/test_extract_request.py
 test/test_extract_response.py
 test/test_features_api.py
