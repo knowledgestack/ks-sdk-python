@@ -2604,7 +2604,7 @@ class DocumentVersionsApi:
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        uploader_tenant_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -2634,8 +2634,8 @@ class DocumentVersionsApi:
         :type sort_by: DocumentVersionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param uploader_tenant_user_id: Filter to versions created by this user
-        :type uploader_tenant_user_id: UUID
+        :param uploader_user_id: Filter to versions created by this user
+        :type uploader_user_id: UUID
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2674,7 +2674,7 @@ class DocumentVersionsApi:
             document_id=document_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            uploader_tenant_user_id=uploader_tenant_user_id,
+            uploader_user_id=uploader_user_id,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -2708,7 +2708,7 @@ class DocumentVersionsApi:
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        uploader_tenant_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -2738,8 +2738,8 @@ class DocumentVersionsApi:
         :type sort_by: DocumentVersionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param uploader_tenant_user_id: Filter to versions created by this user
-        :type uploader_tenant_user_id: UUID
+        :param uploader_user_id: Filter to versions created by this user
+        :type uploader_user_id: UUID
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2778,7 +2778,7 @@ class DocumentVersionsApi:
             document_id=document_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            uploader_tenant_user_id=uploader_tenant_user_id,
+            uploader_user_id=uploader_user_id,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -2812,7 +2812,7 @@ class DocumentVersionsApi:
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        uploader_tenant_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -2842,8 +2842,8 @@ class DocumentVersionsApi:
         :type sort_by: DocumentVersionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param uploader_tenant_user_id: Filter to versions created by this user
-        :type uploader_tenant_user_id: UUID
+        :param uploader_user_id: Filter to versions created by this user
+        :type uploader_user_id: UUID
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2882,7 +2882,7 @@ class DocumentVersionsApi:
             document_id=document_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            uploader_tenant_user_id=uploader_tenant_user_id,
+            uploader_user_id=uploader_user_id,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -2911,7 +2911,7 @@ class DocumentVersionsApi:
         document_id,
         sort_by,
         sort_dir,
-        uploader_tenant_user_id,
+        uploader_user_id,
         limit,
         offset,
         created_after,
@@ -2952,9 +2952,9 @@ class DocumentVersionsApi:
             
             _query_params.append(('sort_dir', sort_dir.value))
             
-        if uploader_tenant_user_id is not None:
+        if uploader_user_id is not None:
             
-            _query_params.append(('uploader_tenant_user_id', uploader_tenant_user_id))
+            _query_params.append(('uploader_user_id', uploader_user_id))
             
         if limit is not None:
             
