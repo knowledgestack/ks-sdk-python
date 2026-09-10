@@ -293,10 +293,10 @@ class AdminKbApi:
     def get_admin_kb_timeseries(
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
-        since: Annotated[Optional[datetime], Field(description="Window start.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end.")] = None,
-        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -316,14 +316,14 @@ class AdminKbApi:
 
         :param metric: Which KB metric to bucket. (required)
         :type metric: KbMetric
-        :param since: Window start.
+        :param timezone: IANA tz override; defaults to tenant setting.
+        :type timezone: str
+        :param since: Window start (inclusive). Defaults to 7 days ago.
         :type since: datetime
-        :param until: Window end.
+        :param until: Window end (inclusive).
         :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
-        :param timezone: IANA tz override; defaults to tenant setting.
-        :type timezone: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -348,10 +348,10 @@ class AdminKbApi:
 
         _param = self._get_admin_kb_timeseries_serialize(
             metric=metric,
+            timezone=timezone,
             since=since,
             until=until,
             bucket=bucket,
-            timezone=timezone,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -377,10 +377,10 @@ class AdminKbApi:
     def get_admin_kb_timeseries_with_http_info(
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
-        since: Annotated[Optional[datetime], Field(description="Window start.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end.")] = None,
-        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -400,14 +400,14 @@ class AdminKbApi:
 
         :param metric: Which KB metric to bucket. (required)
         :type metric: KbMetric
-        :param since: Window start.
+        :param timezone: IANA tz override; defaults to tenant setting.
+        :type timezone: str
+        :param since: Window start (inclusive). Defaults to 7 days ago.
         :type since: datetime
-        :param until: Window end.
+        :param until: Window end (inclusive).
         :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
-        :param timezone: IANA tz override; defaults to tenant setting.
-        :type timezone: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -432,10 +432,10 @@ class AdminKbApi:
 
         _param = self._get_admin_kb_timeseries_serialize(
             metric=metric,
+            timezone=timezone,
             since=since,
             until=until,
             bucket=bucket,
-            timezone=timezone,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -461,10 +461,10 @@ class AdminKbApi:
     def get_admin_kb_timeseries_without_preload_content(
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
-        since: Annotated[Optional[datetime], Field(description="Window start.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end.")] = None,
-        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -484,14 +484,14 @@ class AdminKbApi:
 
         :param metric: Which KB metric to bucket. (required)
         :type metric: KbMetric
-        :param since: Window start.
+        :param timezone: IANA tz override; defaults to tenant setting.
+        :type timezone: str
+        :param since: Window start (inclusive). Defaults to 7 days ago.
         :type since: datetime
-        :param until: Window end.
+        :param until: Window end (inclusive).
         :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
-        :param timezone: IANA tz override; defaults to tenant setting.
-        :type timezone: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -516,10 +516,10 @@ class AdminKbApi:
 
         _param = self._get_admin_kb_timeseries_serialize(
             metric=metric,
+            timezone=timezone,
             since=since,
             until=until,
             bucket=bucket,
-            timezone=timezone,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -540,10 +540,10 @@ class AdminKbApi:
     def _get_admin_kb_timeseries_serialize(
         self,
         metric,
+        timezone,
         since,
         until,
         bucket,
-        timezone,
         _request_auth,
         _content_type,
         _headers,
@@ -569,6 +569,10 @@ class AdminKbApi:
         if metric is not None:
             
             _query_params.append(('metric', metric.value))
+            
+        if timezone is not None:
+            
+            _query_params.append(('timezone', timezone))
             
         if since is not None:
             if isinstance(since, datetime):
@@ -599,10 +603,6 @@ class AdminKbApi:
         if bucket is not None:
             
             _query_params.append(('bucket', bucket.value))
-            
-        if timezone is not None:
-            
-            _query_params.append(('timezone', timezone))
             
         # process the header parameters
         # process the form parameters
