@@ -35,6 +35,7 @@ class TestUpdateSkillRequest(unittest.TestCase):
         model = UpdateSkillRequest()
         if include_optional:
             return UpdateSkillRequest(
+                name = '',
                 skill_md = '',
                 files = [
                     ksapi.models.skill_file.SkillFile(
