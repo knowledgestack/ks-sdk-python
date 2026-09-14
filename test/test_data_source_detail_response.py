@@ -44,6 +44,9 @@ class TestDataSourceDetailResponse(unittest.TestCase):
                     tenant_id = '', 
                     name = '', 
                     engine = 'MYSQL', 
+                    source_type = 'DIRECT', 
+                    connection_summary = null, 
+                    source_config = null, 
                     approval_state = 'not_required', 
                     owner = null, 
                     permissions = ksapi.models.item_permissions.ItemPermissions(
@@ -110,6 +113,9 @@ class TestDataSourceDetailResponse(unittest.TestCase):
                     tenant_id = '', 
                     name = '', 
                     engine = 'MYSQL', 
+                    source_type = 'DIRECT', 
+                    connection_summary = null, 
+                    source_config = null, 
                     approval_state = 'not_required', 
                     owner = null, 
                     permissions = ksapi.models.item_permissions.ItemPermissions(

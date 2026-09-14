@@ -17,29 +17,25 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import date
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from uuid import UUID
-from ksapi.models.connection_config import ConnectionConfig
-from ksapi.models.data_source_engine import DataSourceEngine
-from ksapi.models.source_type import SourceType
-from ksapi.models.yiding_config import YidingConfig
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateDataSourceRequest(BaseModel):
+class SourceConfigSummary(BaseModel):
     """
-    Create a connector under a folder the caller can write to.
+    A YIDINGSYNC connector's stored config, with the password left out.
     """ # noqa: E501
-    name: Annotated[str, Field(strict=True, max_length=255)]
-    parent_path_part_id: UUID
-    source_type: Optional[SourceType] = None
-    engine: Optional[DataSourceEngine] = None
-    connection_config: Optional[ConnectionConfig] = None
-    source_config: Optional[YidingConfig] = None
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "source_type", "engine", "connection_config", "source_config"]
+    username: Annotated[str, Field(min_length=1, strict=True)] = Field(description="The account the crawler signs in to the panel as")
+    business_id: Annotated[str, Field(min_length=1, strict=True)] = Field(description="The panel's own id for the shop. Only the customer list is scoped by it — orders follow the logged-in account — but it answers a wrong one with a 500, so an empty value fails the crawl, not just that page.")
+    start_date: date = Field(description="First dining day to sync; earlier orders are not fetched")
+    cron: Annotated[str, Field(min_length=1, strict=True)] = Field(description="Crawl recurrence, in the tenant's timezone")
+    base_url: Optional[Annotated[str, Field(strict=True, max_length=2048)]] = Field(default='https://admin.zhidianfan.com/seller_resv_sys', description="Root of the YiDing admin panel the crawler signs in to")
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["username", "business_id", "start_date", "cron", "base_url"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -59,7 +55,7 @@ class CreateDataSourceRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateDataSourceRequest from a JSON string"""
+        """Create an instance of SourceConfigSummary from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,8 +67,10 @@ class CreateDataSourceRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -80,27 +78,16 @@ class CreateDataSourceRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of connection_config
-        if self.connection_config:
-            _dict['connection_config'] = self.connection_config.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of source_config
-        if self.source_config:
-            _dict['source_config'] = self.source_config.to_dict()
-        # set to None if connection_config (nullable) is None
-        # and model_fields_set contains the field
-        if self.connection_config is None and "connection_config" in self.model_fields_set:
-            _dict['connection_config'] = None
-
-        # set to None if source_config (nullable) is None
-        # and model_fields_set contains the field
-        if self.source_config is None and "source_config" in self.model_fields_set:
-            _dict['source_config'] = None
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateDataSourceRequest from a dict"""
+        """Create an instance of SourceConfigSummary from a dict"""
         if obj is None:
             return None
 
@@ -108,13 +95,17 @@ class CreateDataSourceRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "parent_path_part_id": obj.get("parent_path_part_id"),
-            "source_type": obj.get("source_type"),
-            "engine": obj.get("engine"),
-            "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None,
-            "source_config": YidingConfig.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None
+            "username": obj.get("username"),
+            "business_id": obj.get("business_id"),
+            "start_date": obj.get("start_date"),
+            "cron": obj.get("cron"),
+            "base_url": obj.get("base_url") if obj.get("base_url") is not None else 'https://admin.zhidianfan.com/seller_resv_sys'
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

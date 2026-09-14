@@ -17,29 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, Optional
-from typing_extensions import Annotated
-from uuid import UUID
-from ksapi.models.connection_config import ConnectionConfig
-from ksapi.models.data_source_engine import DataSourceEngine
-from ksapi.models.source_type import SourceType
-from ksapi.models.yiding_config import YidingConfig
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class CreateDataSourceRequest(BaseModel):
+class YidingCursor(BaseModel):
     """
-    Create a connector under a folder the caller can write to.
+    How far a crawl has read; a missing mark means \"never\", not \"day zero\".
     """ # noqa: E501
-    name: Annotated[str, Field(strict=True, max_length=255)]
-    parent_path_part_id: UUID
-    source_type: Optional[SourceType] = None
-    engine: Optional[DataSourceEngine] = None
-    connection_config: Optional[ConnectionConfig] = None
-    source_config: Optional[YidingConfig] = None
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "source_type", "engine", "connection_config", "source_config"]
+    last_synced_order_ts: Optional[datetime] = Field(default=None, description="Seating time of the last order read")
+    last_synced_user_ts: Optional[datetime] = Field(default=None, description="When the customer list was last refreshed")
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["last_synced_order_ts", "last_synced_user_ts"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -59,7 +51,7 @@ class CreateDataSourceRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CreateDataSourceRequest from a JSON string"""
+        """Create an instance of YidingCursor from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,8 +63,10 @@ class CreateDataSourceRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -80,27 +74,26 @@ class CreateDataSourceRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of connection_config
-        if self.connection_config:
-            _dict['connection_config'] = self.connection_config.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of source_config
-        if self.source_config:
-            _dict['source_config'] = self.source_config.to_dict()
-        # set to None if connection_config (nullable) is None
-        # and model_fields_set contains the field
-        if self.connection_config is None and "connection_config" in self.model_fields_set:
-            _dict['connection_config'] = None
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
 
-        # set to None if source_config (nullable) is None
+        # set to None if last_synced_order_ts (nullable) is None
         # and model_fields_set contains the field
-        if self.source_config is None and "source_config" in self.model_fields_set:
-            _dict['source_config'] = None
+        if self.last_synced_order_ts is None and "last_synced_order_ts" in self.model_fields_set:
+            _dict['last_synced_order_ts'] = None
+
+        # set to None if last_synced_user_ts (nullable) is None
+        # and model_fields_set contains the field
+        if self.last_synced_user_ts is None and "last_synced_user_ts" in self.model_fields_set:
+            _dict['last_synced_user_ts'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CreateDataSourceRequest from a dict"""
+        """Create an instance of YidingCursor from a dict"""
         if obj is None:
             return None
 
@@ -108,13 +101,14 @@ class CreateDataSourceRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "parent_path_part_id": obj.get("parent_path_part_id"),
-            "source_type": obj.get("source_type"),
-            "engine": obj.get("engine"),
-            "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None,
-            "source_config": YidingConfig.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None
+            "last_synced_order_ts": obj.get("last_synced_order_ts"),
+            "last_synced_user_ts": obj.get("last_synced_user_ts")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

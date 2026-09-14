@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.2.1"
+__version__ = "3.3.0"
 
 # Define package exports
 __all__ = [
@@ -137,6 +137,7 @@ __all__ = [
     "CommonFileExclusionReason",
     "CompleteUploadRequest",
     "ConnectionConfig",
+    "ConnectionSummary",
     "ContentsSortOrder",
     "CreateApiConnectionRequest",
     "CreateApiKeyRequest",
@@ -360,6 +361,8 @@ __all__ = [
     "SkillSearchResult",
     "SkillVersionResponse",
     "SortDirection",
+    "SourceConfigSummary",
+    "SourceType",
     "StartWorkflowRunRequest",
     "Step",
     "StepKind",
@@ -462,6 +465,8 @@ __all__ = [
     "XlsxCellAnchorInputOrDocxParagraphAnchorInput",
     "XlsxCellAnchorOutput",
     "XlsxCellAnchorOutputOrDocxParagraphAnchorOutput",
+    "YidingConfig",
+    "YidingCursor",
     "ZipFileResult",
     "ZipIngestionStatusResponse",
     "ZipMemberStatusResponse",
@@ -591,6 +596,7 @@ from ksapi.models.column_reference import ColumnReference as ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason as CommonFileExclusionReason
 from ksapi.models.complete_upload_request import CompleteUploadRequest as CompleteUploadRequest
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
+from ksapi.models.connection_summary import ConnectionSummary as ConnectionSummary
 from ksapi.models.contents_sort_order import ContentsSortOrder as ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest as CreateApiKeyRequest
@@ -814,6 +820,8 @@ from ksapi.models.skill_response import SkillResponse as SkillResponse
 from ksapi.models.skill_search_result import SkillSearchResult as SkillSearchResult
 from ksapi.models.skill_version_response import SkillVersionResponse as SkillVersionResponse
 from ksapi.models.sort_direction import SortDirection as SortDirection
+from ksapi.models.source_config_summary import SourceConfigSummary as SourceConfigSummary
+from ksapi.models.source_type import SourceType as SourceType
 from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest as StartWorkflowRunRequest
 from ksapi.models.step import Step as Step
 from ksapi.models.step_kind import StepKind as StepKind
@@ -916,6 +924,8 @@ from ksapi.models.xlsx_cell_anchor_input import XlsxCellAnchorInput as XlsxCellA
 from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput as XlsxCellAnchorInputOrDocxParagraphAnchorInput
 from ksapi.models.xlsx_cell_anchor_output import XlsxCellAnchorOutput as XlsxCellAnchorOutput
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput as XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
+from ksapi.models.yiding_config import YidingConfig as YidingConfig
+from ksapi.models.yiding_cursor import YidingCursor as YidingCursor
 from ksapi.models.zip_file_result import ZipFileResult as ZipFileResult
 from ksapi.models.zip_ingestion_status_response import ZipIngestionStatusResponse as ZipIngestionStatusResponse
 from ksapi.models.zip_member_status_response import ZipMemberStatusResponse as ZipMemberStatusResponse

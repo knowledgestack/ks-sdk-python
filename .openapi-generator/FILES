@@ -85,6 +85,7 @@ docs/ColumnReference.md
 docs/CommonFileExclusionReason.md
 docs/CompleteUploadRequest.md
 docs/ConnectionConfig.md
+docs/ConnectionSummary.md
 docs/ContentsSortOrder.md
 docs/CreateApiConnectionRequest.md
 docs/CreateApiKeyRequest.md
@@ -323,6 +324,8 @@ docs/SkillSearchResult.md
 docs/SkillVersionResponse.md
 docs/SkillsApi.md
 docs/SortDirection.md
+docs/SourceConfigSummary.md
+docs/SourceType.md
 docs/StartWorkflowRunRequest.md
 docs/Step.md
 docs/StepKind.md
@@ -439,6 +442,8 @@ docs/XlsxCellAnchorInput.md
 docs/XlsxCellAnchorInputOrDocxParagraphAnchorInput.md
 docs/XlsxCellAnchorOutput.md
 docs/XlsxCellAnchorOutputOrDocxParagraphAnchorOutput.md
+docs/YidingConfig.md
+docs/YidingCursor.md
 docs/ZipFileResult.md
 docs/ZipIngestionStatusResponse.md
 docs/ZipMemberStatusResponse.md
@@ -560,6 +565,7 @@ ksapi/models/column_reference.py
 ksapi/models/common_file_exclusion_reason.py
 ksapi/models/complete_upload_request.py
 ksapi/models/connection_config.py
+ksapi/models/connection_summary.py
 ksapi/models/contents_sort_order.py
 ksapi/models/create_api_connection_request.py
 ksapi/models/create_api_key_request.py
@@ -782,6 +788,8 @@ ksapi/models/skill_response.py
 ksapi/models/skill_search_result.py
 ksapi/models/skill_version_response.py
 ksapi/models/sort_direction.py
+ksapi/models/source_config_summary.py
+ksapi/models/source_type.py
 ksapi/models/sso_initiate_response.py
 ksapi/models/start_workflow_run_request.py
 ksapi/models/step.py
@@ -885,6 +893,8 @@ ksapi/models/xlsx_cell_anchor_input.py
 ksapi/models/xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 ksapi/models/xlsx_cell_anchor_output.py
 ksapi/models/xlsx_cell_anchor_output_or_docx_paragraph_anchor_output.py
+ksapi/models/yiding_config.py
+ksapi/models/yiding_cursor.py
 ksapi/models/zip_file_result.py
 ksapi/models/zip_ingestion_status_response.py
 ksapi/models/zip_member_status_response.py
@@ -977,6 +987,7 @@ test/test_column_reference.py
 test/test_common_file_exclusion_reason.py
 test/test_complete_upload_request.py
 test/test_connection_config.py
+test/test_connection_summary.py
 test/test_contents_sort_order.py
 test/test_create_api_connection_request.py
 test/test_create_api_key_request.py
@@ -1214,6 +1225,8 @@ test/test_skill_search_result.py
 test/test_skill_version_response.py
 test/test_skills_api.py
 test/test_sort_direction.py
+test/test_source_config_summary.py
+test/test_source_type.py
 test/test_sso_initiate_response.py
 test/test_start_workflow_run_request.py
 test/test_step.py
@@ -1331,6 +1344,8 @@ test/test_xlsx_cell_anchor_input.py
 test/test_xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 test/test_xlsx_cell_anchor_output.py
 test/test_xlsx_cell_anchor_output_or_docx_paragraph_anchor_output.py
+test/test_yiding_config.py
+test/test_yiding_cursor.py
 test/test_zip_file_result.py
 test/test_zip_ingestion_status_response.py
 test/test_zip_member_status_response.py

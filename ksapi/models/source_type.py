@@ -12,59 +12,26 @@
 """  # noqa: E501
 
 
-import unittest
+from __future__ import annotations
+import json
+from enum import Enum
+from typing_extensions import Self
 
-from ksapi.models.create_data_source_request import CreateDataSourceRequest
 
-class TestCreateDataSourceRequest(unittest.TestCase):
-    """CreateDataSourceRequest unit test stubs"""
+class SourceType(str, Enum):
+    """
+    Extra connector config for data sync model direct connect or automatic login/copy method.
+    """
 
-    def setUp(self):
-        pass
+    """
+    allowed enum values
+    """
+    DIRECT = 'DIRECT'
+    YIDINGSYNC = 'YIDINGSYNC'
 
-    def tearDown(self):
-        pass
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Create an instance of SourceType from a JSON string"""
+        return cls(json.loads(json_str))
 
-    def make_instance(self, include_optional) -> CreateDataSourceRequest:
-        """Test CreateDataSourceRequest
-            include_optional is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # uncomment below to create an instance of `CreateDataSourceRequest`
-        """
-        model = CreateDataSourceRequest()
-        if include_optional:
-            return CreateDataSourceRequest(
-                name = '',
-                parent_path_part_id = '',
-                source_type = 'DIRECT',
-                engine = 'MYSQL',
-                connection_config = ksapi.models.connection_config.ConnectionConfig(
-                    host = '', 
-                    port = 56, 
-                    database = '', 
-                    username = '', 
-                    password = '', 
-                    ssl = True, ),
-                source_config = ksapi.models.yiding_config.YidingConfig(
-                    username = '0', 
-                    business_id = '0', 
-                    start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    cron = '0', 
-                    base_url = 'https://admin.zhidianfan.com/seller_resv_sys', 
-                    password = '0', )
-            )
-        else:
-            return CreateDataSourceRequest(
-                name = '',
-                parent_path_part_id = '',
-        )
-        """
 
-    def testCreateDataSourceRequest(self):
-        """Test CreateDataSourceRequest"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
-
-if __name__ == '__main__':
-    unittest.main()

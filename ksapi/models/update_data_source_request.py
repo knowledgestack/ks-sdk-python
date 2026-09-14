@@ -22,6 +22,8 @@ from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.connection_config import ConnectionConfig
+from ksapi.models.yiding_config import YidingConfig
+from ksapi.models.yiding_cursor import YidingCursor
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -33,7 +35,9 @@ class UpdateDataSourceRequest(BaseModel):
     name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = None
     parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent FOLDER path_part to move the connector under.")
     connection_config: Optional[ConnectionConfig] = Field(default=None, description="Fresh, whole-object credentials to replace the stored ones.")
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "connection_config"]
+    source_config: Optional[YidingConfig] = Field(default=None, description="Fresh YIDINGSYNC crawler config to replace the stored one (login, shop, start date, recurrence); rejected on a DIRECT connector. Changing ``cron`` re-arms the schedule. connection_config stays server-managed for YIDINGSYNC.")
+    sync_state: Optional[YidingCursor] = Field(default=None, description="The crawl cursor, replaced whole. Written by the sync itself (the worker acts as the connector's owner) after each batch, so it records what has already been read. Moving it forward by hand makes the next run skip those days for good — the increment only re-scans what the cursor points at.")
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "connection_config", "source_config", "sync_state"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -77,6 +81,12 @@ class UpdateDataSourceRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of connection_config
         if self.connection_config:
             _dict['connection_config'] = self.connection_config.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of source_config
+        if self.source_config:
+            _dict['source_config'] = self.source_config.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of sync_state
+        if self.sync_state:
+            _dict['sync_state'] = self.sync_state.to_dict()
         # set to None if name (nullable) is None
         # and model_fields_set contains the field
         if self.name is None and "name" in self.model_fields_set:
@@ -92,6 +102,16 @@ class UpdateDataSourceRequest(BaseModel):
         if self.connection_config is None and "connection_config" in self.model_fields_set:
             _dict['connection_config'] = None
 
+        # set to None if source_config (nullable) is None
+        # and model_fields_set contains the field
+        if self.source_config is None and "source_config" in self.model_fields_set:
+            _dict['source_config'] = None
+
+        # set to None if sync_state (nullable) is None
+        # and model_fields_set contains the field
+        if self.sync_state is None and "sync_state" in self.model_fields_set:
+            _dict['sync_state'] = None
+
         return _dict
 
     @classmethod
@@ -106,7 +126,9 @@ class UpdateDataSourceRequest(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "parent_path_part_id": obj.get("parent_path_part_id"),
-            "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None
+            "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None,
+            "source_config": YidingConfig.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
+            "sync_state": YidingCursor.from_dict(obj["sync_state"]) if obj.get("sync_state") is not None else None
         })
         return _obj
 

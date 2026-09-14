@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.data_source_response import DataSourceResponse
+from ksapi.models.yiding_cursor import YidingCursor
 
-class TestDataSourceResponse(unittest.TestCase):
-    """DataSourceResponse unit test stubs"""
+class TestYidingCursor(unittest.TestCase):
+    """YidingCursor unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,72 +25,26 @@ class TestDataSourceResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> DataSourceResponse:
-        """Test DataSourceResponse
+    def make_instance(self, include_optional) -> YidingCursor:
+        """Test YidingCursor
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `DataSourceResponse`
+        # uncomment below to create an instance of `YidingCursor`
         """
-        model = DataSourceResponse()
+        model = YidingCursor()
         if include_optional:
-            return DataSourceResponse(
-                part_type = 'DATA_SOURCE',
-                id = '',
-                path_part_id = '',
-                parent_path_part_id = '',
-                materialized_path = '',
-                tenant_id = '',
-                name = '',
-                engine = 'MYSQL',
-                source_type = 'DIRECT',
-                connection_summary = ksapi.models.connection_summary.ConnectionSummary(
-                    host = '', 
-                    port = 56, 
-                    database = '', 
-                    username = '', ),
-                source_config = ksapi.models.source_config_summary.SourceConfigSummary(
-                    username = '0', 
-                    business_id = '0', 
-                    start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    cron = '0', 
-                    base_url = 'https://admin.zhidianfan.com/seller_resv_sys', ),
-                approval_state = 'not_required',
-                owner = ksapi.models.user_info.UserInfo(
-                    user_id = '', 
-                    first_name = '', 
-                    last_name = '', ),
-                permissions = ksapi.models.item_permissions.ItemPermissions(
-                    can_read = True, 
-                    can_write = True, 
-                    can_delete = True, 
-                    can_approve = True, ),
-                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
+            return YidingCursor(
+                last_synced_order_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:
-            return DataSourceResponse(
-                id = '',
-                path_part_id = '',
-                parent_path_part_id = '',
-                materialized_path = '',
-                tenant_id = '',
-                name = '',
-                engine = 'MYSQL',
-                source_type = 'DIRECT',
-                approval_state = 'not_required',
-                permissions = ksapi.models.item_permissions.ItemPermissions(
-                    can_read = True, 
-                    can_write = True, 
-                    can_delete = True, 
-                    can_approve = True, ),
-                created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+            return YidingCursor(
         )
         """
 
-    def testDataSourceResponse(self):
-        """Test DataSourceResponse"""
+    def testYidingCursor(self):
+        """Test YidingCursor"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

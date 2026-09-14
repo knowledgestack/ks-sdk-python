@@ -354,7 +354,7 @@ class DataSourcesApi:
     ) -> None:
         """Delete Data Source Handler
 
-        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).
+        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A YIDINGSYNC connector also owns a daily crawl schedule, which is removed here: left behind, it would fire every night at a connector that is gone. The check is not redundant — unlike the best-effort trash sync above, ``delete_connector_schedule`` re-raises anything that is not NOT_FOUND, so calling it for a DIRECT connector would put a Temporal outage in the way of a delete that never needed Temporal at all.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -422,7 +422,7 @@ class DataSourcesApi:
     ) -> ApiResponse[None]:
         """Delete Data Source Handler
 
-        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).
+        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A YIDINGSYNC connector also owns a daily crawl schedule, which is removed here: left behind, it would fire every night at a connector that is gone. The check is not redundant — unlike the best-effort trash sync above, ``delete_connector_schedule`` re-raises anything that is not NOT_FOUND, so calling it for a DIRECT connector would put a Temporal outage in the way of a delete that never needed Temporal at all.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -490,7 +490,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Delete Data Source Handler
 
-        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).
+        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A YIDINGSYNC connector also owns a daily crawl schedule, which is removed here: left behind, it would fire every night at a connector that is gone. The check is not redundant — unlike the best-effort trash sync above, ``delete_connector_schedule`` re-raises anything that is not NOT_FOUND, so calling it for a DIRECT connector would put a Temporal outage in the way of a delete that never needed Temporal at all.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -3413,7 +3413,7 @@ class DataSourcesApi:
     ) -> DataSourceSyncResponse:
         """Sync Data Source Handler
 
-        Reconcile modeled tables against the live external catalog.  Requires ``can_write``. Re-introspects each modeled schema and, per table: a schema change (columns added/removed/retyped) refreshes ``column_config`` (preserving the admin's ``exposed``/``comment`` field-modeling) and re-summarizes + re-embeds; an unchanged table is a no-op; a table dropped from the source is soft-deleted (keeping the \"was modeled, now gone\" record) and its embedding purged. It never models tables that were not imported.
+        Reconcile modeled tables against the live external catalog.  Requires ``can_write``. Re-introspects each modeled schema and, per table: a schema change (columns added/removed/retyped) refreshes ``column_config`` (preserving the admin's ``exposed``/``comment`` field-modeling) and re-summarizes + re-embeds; an unchanged table is a no-op; a table dropped from the source is soft-deleted (keeping the \"was modeled, now gone\" record) and its embedding purged. It never models tables that were not imported.  A crawler-fed connector has no catalog to reconcile against, so it starts a crawl instead and returns 202.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -3449,6 +3449,7 @@ class DataSourcesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSyncResponse",
+            '202': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3481,7 +3482,7 @@ class DataSourcesApi:
     ) -> ApiResponse[DataSourceSyncResponse]:
         """Sync Data Source Handler
 
-        Reconcile modeled tables against the live external catalog.  Requires ``can_write``. Re-introspects each modeled schema and, per table: a schema change (columns added/removed/retyped) refreshes ``column_config`` (preserving the admin's ``exposed``/``comment`` field-modeling) and re-summarizes + re-embeds; an unchanged table is a no-op; a table dropped from the source is soft-deleted (keeping the \"was modeled, now gone\" record) and its embedding purged. It never models tables that were not imported.
+        Reconcile modeled tables against the live external catalog.  Requires ``can_write``. Re-introspects each modeled schema and, per table: a schema change (columns added/removed/retyped) refreshes ``column_config`` (preserving the admin's ``exposed``/``comment`` field-modeling) and re-summarizes + re-embeds; an unchanged table is a no-op; a table dropped from the source is soft-deleted (keeping the \"was modeled, now gone\" record) and its embedding purged. It never models tables that were not imported.  A crawler-fed connector has no catalog to reconcile against, so it starts a crawl instead and returns 202.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -3517,6 +3518,7 @@ class DataSourcesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSyncResponse",
+            '202': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3549,7 +3551,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Sync Data Source Handler
 
-        Reconcile modeled tables against the live external catalog.  Requires ``can_write``. Re-introspects each modeled schema and, per table: a schema change (columns added/removed/retyped) refreshes ``column_config`` (preserving the admin's ``exposed``/``comment`` field-modeling) and re-summarizes + re-embeds; an unchanged table is a no-op; a table dropped from the source is soft-deleted (keeping the \"was modeled, now gone\" record) and its embedding purged. It never models tables that were not imported.
+        Reconcile modeled tables against the live external catalog.  Requires ``can_write``. Re-introspects each modeled schema and, per table: a schema change (columns added/removed/retyped) refreshes ``column_config`` (preserving the admin's ``exposed``/``comment`` field-modeling) and re-summarizes + re-embeds; an unchanged table is a no-op; a table dropped from the source is soft-deleted (keeping the \"was modeled, now gone\" record) and its embedding purged. It never models tables that were not imported.  A crawler-fed connector has no catalog to reconcile against, so it starts a crawl instead and returns 202.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -3585,6 +3587,7 @@ class DataSourcesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSyncResponse",
+            '202': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -4222,7 +4225,7 @@ class DataSourcesApi:
     ) -> DataSourceResponse:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -4294,7 +4297,7 @@ class DataSourcesApi:
     ) -> ApiResponse[DataSourceResponse]:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -4366,7 +4369,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
 
         :param data_source_id: (required)
         :type data_source_id: UUID

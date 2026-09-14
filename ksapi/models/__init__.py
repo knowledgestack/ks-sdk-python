@@ -81,6 +81,7 @@ from ksapi.models.column_reference import ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason
 from ksapi.models.complete_upload_request import CompleteUploadRequest
 from ksapi.models.connection_config import ConnectionConfig
+from ksapi.models.connection_summary import ConnectionSummary
 from ksapi.models.contents_sort_order import ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest
@@ -304,6 +305,8 @@ from ksapi.models.skill_response import SkillResponse
 from ksapi.models.skill_search_result import SkillSearchResult
 from ksapi.models.skill_version_response import SkillVersionResponse
 from ksapi.models.sort_direction import SortDirection
+from ksapi.models.source_config_summary import SourceConfigSummary
+from ksapi.models.source_type import SourceType
 from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest
 from ksapi.models.step import Step
 from ksapi.models.step_kind import StepKind
@@ -406,6 +409,8 @@ from ksapi.models.xlsx_cell_anchor_input import XlsxCellAnchorInput
 from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import XlsxCellAnchorInputOrDocxParagraphAnchorInput
 from ksapi.models.xlsx_cell_anchor_output import XlsxCellAnchorOutput
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
+from ksapi.models.yiding_config import YidingConfig
+from ksapi.models.yiding_cursor import YidingCursor
 from ksapi.models.zip_file_result import ZipFileResult
 from ksapi.models.zip_ingestion_status_response import ZipIngestionStatusResponse
 from ksapi.models.zip_member_status_response import ZipMemberStatusResponse

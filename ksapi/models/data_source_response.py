@@ -21,9 +21,12 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
+from ksapi.models.connection_summary import ConnectionSummary
 from ksapi.models.data_source_engine import DataSourceEngine
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.source_config_summary import SourceConfigSummary
+from ksapi.models.source_type import SourceType
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
@@ -31,7 +34,7 @@ from pydantic_core import to_jsonable_python
 
 class DataSourceResponse(BaseModel):
     """
-    Connector response; a discriminated-union variant for folder listings.  The ``connection_config`` (host/port/credentials) is intentionally omitted — the password is write-only and never serialized back.
+    Connector response; a discriminated-union variant for folder listings.  The stored ``connection_config`` is never returned whole: the password is write-only and never serialized back. What it points at travels in ``connection_summary`` instead, which a YIDINGSYNC connector needs — the server generated those credentials, so this is the only place its owner ever sees which database the sync built.
     """ # noqa: E501
     part_type: Optional[StrictStr] = Field(default='DATA_SOURCE', description="Path part type")
     id: UUID
@@ -41,12 +44,15 @@ class DataSourceResponse(BaseModel):
     tenant_id: UUID
     name: StrictStr
     engine: DataSourceEngine
+    source_type: SourceType
+    connection_summary: Optional[ConnectionSummary] = Field(default=None, description="Where the connector points, without the password. Null on a YIDINGSYNC connector until provisioning has built its database, so polling this is how the UI learns the sync is ready.")
+    source_config: Optional[SourceConfigSummary] = Field(default=None, description="A YIDINGSYNC connector's crawler config without the password: which shop, from when, and the crawl recurrence. Null on DIRECT.")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the connector, or null if unowned.")
     permissions: ItemPermissions
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "approval_state", "owner", "permissions", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "source_type", "connection_summary", "source_config", "approval_state", "owner", "permissions", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -97,6 +103,12 @@ class DataSourceResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of connection_summary
+        if self.connection_summary:
+            _dict['connection_summary'] = self.connection_summary.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of source_config
+        if self.source_config:
+            _dict['source_config'] = self.source_config.to_dict()
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
@@ -107,6 +119,16 @@ class DataSourceResponse(BaseModel):
         # and model_fields_set contains the field
         if self.parent_path_part_id is None and "parent_path_part_id" in self.model_fields_set:
             _dict['parent_path_part_id'] = None
+
+        # set to None if connection_summary (nullable) is None
+        # and model_fields_set contains the field
+        if self.connection_summary is None and "connection_summary" in self.model_fields_set:
+            _dict['connection_summary'] = None
+
+        # set to None if source_config (nullable) is None
+        # and model_fields_set contains the field
+        if self.source_config is None and "source_config" in self.model_fields_set:
+            _dict['source_config'] = None
 
         # set to None if owner (nullable) is None
         # and model_fields_set contains the field
@@ -133,6 +155,9 @@ class DataSourceResponse(BaseModel):
             "tenant_id": obj.get("tenant_id"),
             "name": obj.get("name"),
             "engine": obj.get("engine"),
+            "source_type": obj.get("source_type"),
+            "connection_summary": ConnectionSummary.from_dict(obj["connection_summary"]) if obj.get("connection_summary") is not None else None,
+            "source_config": SourceConfigSummary.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,

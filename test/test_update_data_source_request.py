@@ -43,7 +43,17 @@ class TestUpdateDataSourceRequest(unittest.TestCase):
                     database = '', 
                     username = '', 
                     password = '', 
-                    ssl = True, )
+                    ssl = True, ),
+                source_config = ksapi.models.yiding_config.YidingConfig(
+                    username = '0', 
+                    business_id = '0', 
+                    start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
+                    cron = '0', 
+                    base_url = 'https://admin.zhidianfan.com/seller_resv_sys', 
+                    password = '0', ),
+                sync_state = ksapi.models.yiding_cursor.YidingCursor(
+                    last_synced_order_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
             )
         else:
             return UpdateDataSourceRequest(
