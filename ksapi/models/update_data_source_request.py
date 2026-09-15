@@ -22,7 +22,7 @@ from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.connection_config import ConnectionConfig
-from ksapi.models.yiding_config import YidingConfig
+from ksapi.models.yiding_config_change import YidingConfigChange
 from ksapi.models.yiding_cursor import YidingCursor
 from typing import Optional, Set
 from typing_extensions import Self
@@ -35,7 +35,7 @@ class UpdateDataSourceRequest(BaseModel):
     name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = None
     parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent FOLDER path_part to move the connector under.")
     connection_config: Optional[ConnectionConfig] = Field(default=None, description="Fresh, whole-object credentials to replace the stored ones.")
-    source_config: Optional[YidingConfig] = Field(default=None, description="Fresh YIDINGSYNC crawler config to replace the stored one (login, shop, start date, recurrence); rejected on a DIRECT connector. Changing ``cron`` re-arms the schedule. connection_config stays server-managed for YIDINGSYNC.")
+    source_config: Optional[YidingConfigChange] = Field(default=None, description="What a YIDINGSYNC connector's crawler config may still change: the panel password and the crawl recurrence, each optional and each merged into the stored config rather than replacing it. Which shop and from when are fixed at creation. Rejected on a DIRECT connector. Changing ``cron`` re-arms the schedule. connection_config stays server-managed for YIDINGSYNC.")
     sync_state: Optional[YidingCursor] = Field(default=None, description="The crawl cursor, replaced whole. Written by the sync itself (the worker acts as the connector's owner) after each batch, so it records what has already been read. Moving it forward by hand makes the next run skip those days for good — the increment only re-scans what the cursor points at.")
     __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "connection_config", "source_config", "sync_state"]
 
@@ -127,7 +127,7 @@ class UpdateDataSourceRequest(BaseModel):
             "name": obj.get("name"),
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None,
-            "source_config": YidingConfig.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
+            "source_config": YidingConfigChange.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
             "sync_state": YidingCursor.from_dict(obj["sync_state"]) if obj.get("sync_state") is not None else None
         })
         return _obj

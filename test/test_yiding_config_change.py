@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.update_data_source_request import UpdateDataSourceRequest
+from ksapi.models.yiding_config_change import YidingConfigChange
 
-class TestUpdateDataSourceRequest(unittest.TestCase):
-    """UpdateDataSourceRequest unit test stubs"""
+class TestYidingConfigChange(unittest.TestCase):
+    """YidingConfigChange unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,39 +25,26 @@ class TestUpdateDataSourceRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> UpdateDataSourceRequest:
-        """Test UpdateDataSourceRequest
+    def make_instance(self, include_optional) -> YidingConfigChange:
+        """Test YidingConfigChange
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `UpdateDataSourceRequest`
+        # uncomment below to create an instance of `YidingConfigChange`
         """
-        model = UpdateDataSourceRequest()
+        model = YidingConfigChange()
         if include_optional:
-            return UpdateDataSourceRequest(
-                name = '0',
-                parent_path_part_id = '',
-                connection_config = ksapi.models.connection_config.ConnectionConfig(
-                    host = '', 
-                    port = 56, 
-                    database = '', 
-                    username = '', 
-                    password = '', 
-                    ssl = True, ),
-                source_config = ksapi.models.yiding_config_change.YidingConfigChange(
-                    cron = '', 
-                    password = '0', ),
-                sync_state = ksapi.models.yiding_cursor.YidingCursor(
-                    last_synced_order_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                    last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
+            return YidingConfigChange(
+                cron = '',
+                password = '0'
             )
         else:
-            return UpdateDataSourceRequest(
+            return YidingConfigChange(
         )
         """
 
-    def testUpdateDataSourceRequest(self):
-        """Test UpdateDataSourceRequest"""
+    def testYidingConfigChange(self):
+        """Test YidingConfigChange"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

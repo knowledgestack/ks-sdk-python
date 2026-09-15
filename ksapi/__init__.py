@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.3.1"
+__version__ = "3.4.0"
 
 # Define package exports
 __all__ = [
@@ -466,6 +466,7 @@ __all__ = [
     "XlsxCellAnchorOutput",
     "XlsxCellAnchorOutputOrDocxParagraphAnchorOutput",
     "YidingConfig",
+    "YidingConfigChange",
     "YidingCursor",
     "ZipFileResult",
     "ZipIngestionStatusResponse",
@@ -925,6 +926,7 @@ from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import X
 from ksapi.models.xlsx_cell_anchor_output import XlsxCellAnchorOutput as XlsxCellAnchorOutput
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput as XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
 from ksapi.models.yiding_config import YidingConfig as YidingConfig
+from ksapi.models.yiding_config_change import YidingConfigChange as YidingConfigChange
 from ksapi.models.yiding_cursor import YidingCursor as YidingCursor
 from ksapi.models.zip_file_result import ZipFileResult as ZipFileResult
 from ksapi.models.zip_ingestion_status_response import ZipIngestionStatusResponse as ZipIngestionStatusResponse

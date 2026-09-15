@@ -443,6 +443,7 @@ docs/XlsxCellAnchorInputOrDocxParagraphAnchorInput.md
 docs/XlsxCellAnchorOutput.md
 docs/XlsxCellAnchorOutputOrDocxParagraphAnchorOutput.md
 docs/YidingConfig.md
+docs/YidingConfigChange.md
 docs/YidingCursor.md
 docs/ZipFileResult.md
 docs/ZipIngestionStatusResponse.md
@@ -894,6 +895,7 @@ ksapi/models/xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 ksapi/models/xlsx_cell_anchor_output.py
 ksapi/models/xlsx_cell_anchor_output_or_docx_paragraph_anchor_output.py
 ksapi/models/yiding_config.py
+ksapi/models/yiding_config_change.py
 ksapi/models/yiding_cursor.py
 ksapi/models/zip_file_result.py
 ksapi/models/zip_ingestion_status_response.py
@@ -1345,6 +1347,7 @@ test/test_xlsx_cell_anchor_input_or_docx_paragraph_anchor_input.py
 test/test_xlsx_cell_anchor_output.py
 test/test_xlsx_cell_anchor_output_or_docx_paragraph_anchor_output.py
 test/test_yiding_config.py
+test/test_yiding_config_change.py
 test/test_yiding_cursor.py
 test/test_zip_file_result.py
 test/test_zip_ingestion_status_response.py

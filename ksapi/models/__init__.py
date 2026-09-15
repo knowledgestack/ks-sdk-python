@@ -410,6 +410,7 @@ from ksapi.models.xlsx_cell_anchor_input_or_docx_paragraph_anchor_input import X
 from ksapi.models.xlsx_cell_anchor_output import XlsxCellAnchorOutput
 from ksapi.models.xlsx_cell_anchor_output_or_docx_paragraph_anchor_output import XlsxCellAnchorOutputOrDocxParagraphAnchorOutput
 from ksapi.models.yiding_config import YidingConfig
+from ksapi.models.yiding_config_change import YidingConfigChange
 from ksapi.models.yiding_cursor import YidingCursor
 from ksapi.models.zip_file_result import ZipFileResult
 from ksapi.models.zip_ingestion_status_response import ZipIngestionStatusResponse
