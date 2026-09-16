@@ -1530,6 +1530,7 @@ class WorkflowDefinitionsApi:
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
+        needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -1564,6 +1565,8 @@ class WorkflowDefinitionsApi:
         :type sort_dir: SortDirection
         :param is_template:
         :type is_template: bool
+        :param needs_approval: Only definitions with a run awaiting approval.
+        :type needs_approval: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1608,6 +1611,7 @@ class WorkflowDefinitionsApi:
             sort_by=sort_by,
             sort_dir=sort_dir,
             is_template=is_template,
+            needs_approval=needs_approval,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -1645,6 +1649,7 @@ class WorkflowDefinitionsApi:
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
+        needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -1679,6 +1684,8 @@ class WorkflowDefinitionsApi:
         :type sort_dir: SortDirection
         :param is_template:
         :type is_template: bool
+        :param needs_approval: Only definitions with a run awaiting approval.
+        :type needs_approval: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1723,6 +1730,7 @@ class WorkflowDefinitionsApi:
             sort_by=sort_by,
             sort_dir=sort_dir,
             is_template=is_template,
+            needs_approval=needs_approval,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -1760,6 +1768,7 @@ class WorkflowDefinitionsApi:
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
+        needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -1794,6 +1803,8 @@ class WorkflowDefinitionsApi:
         :type sort_dir: SortDirection
         :param is_template:
         :type is_template: bool
+        :param needs_approval: Only definitions with a run awaiting approval.
+        :type needs_approval: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1838,6 +1849,7 @@ class WorkflowDefinitionsApi:
             sort_by=sort_by,
             sort_dir=sort_dir,
             is_template=is_template,
+            needs_approval=needs_approval,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -1870,6 +1882,7 @@ class WorkflowDefinitionsApi:
         sort_by,
         sort_dir,
         is_template,
+        needs_approval,
         limit,
         offset,
         created_after,
@@ -1921,6 +1934,10 @@ class WorkflowDefinitionsApi:
         if is_template is not None:
             
             _query_params.append(('is_template', is_template))
+            
+        if needs_approval is not None:
+            
+            _query_params.append(('needs_approval', needs_approval))
             
         if limit is not None:
             
