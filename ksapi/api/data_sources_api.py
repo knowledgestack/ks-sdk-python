@@ -3450,6 +3450,7 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSyncResponse",
             '202': None,
+            '409': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3519,6 +3520,7 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSyncResponse",
             '202': None,
+            '409': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3588,6 +3590,7 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSyncResponse",
             '202': None,
+            '409': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
