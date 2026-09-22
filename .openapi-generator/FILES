@@ -123,6 +123,11 @@ docs/DataSourceTableResponse.md
 docs/DataSourcesApi.md
 docs/DefaultApi.md
 docs/DefinitionOutputStat.md
+docs/DiagnosticTraceFailureReason.md
+docs/DiagnosticTraceItem.md
+docs/DiagnosticTraceStatus.md
+docs/DiagnosticsApi.md
+docs/DiagnosticsResponse.md
 docs/DiffFormat.md
 docs/DiffRow.md
 docs/DiffRowType.md
@@ -376,6 +381,7 @@ docs/TimeseriesPoint.md
 docs/ToolDisplayType.md
 docs/ToolPart.md
 docs/ToolStatus.md
+docs/TraceKind.md
 docs/TranscriptionResponse.md
 docs/TranscriptionsApi.md
 docs/TransferOwnerRequest.md
@@ -466,6 +472,7 @@ ksapi/api/chunk_lineages_api.py
 ksapi/api/chunks_api.py
 ksapi/api/data_sources_api.py
 ksapi/api/default_api.py
+ksapi/api/diagnostics_api.py
 ksapi/api/document_checkout_api.py
 ksapi/api/document_versions_api.py
 ksapi/api/documents_api.py
@@ -602,6 +609,10 @@ ksapi/models/data_source_schema_response.py
 ksapi/models/data_source_sync_response.py
 ksapi/models/data_source_table_response.py
 ksapi/models/definition_output_stat.py
+ksapi/models/diagnostic_trace_failure_reason.py
+ksapi/models/diagnostic_trace_item.py
+ksapi/models/diagnostic_trace_status.py
+ksapi/models/diagnostics_response.py
 ksapi/models/diff_format.py
 ksapi/models/diff_row.py
 ksapi/models/diff_row_type.py
@@ -835,6 +846,7 @@ ksapi/models/timeseries_point.py
 ksapi/models/tool_display_type.py
 ksapi/models/tool_part.py
 ksapi/models/tool_status.py
+ksapi/models/trace_kind.py
 ksapi/models/transcription_response.py
 ksapi/models/transfer_owner_request.py
 ksapi/models/transfer_owner_response.py
@@ -1027,6 +1039,11 @@ test/test_data_source_table_response.py
 test/test_data_sources_api.py
 test/test_default_api.py
 test/test_definition_output_stat.py
+test/test_diagnostic_trace_failure_reason.py
+test/test_diagnostic_trace_item.py
+test/test_diagnostic_trace_status.py
+test/test_diagnostics_api.py
+test/test_diagnostics_response.py
 test/test_diff_format.py
 test/test_diff_row.py
 test/test_diff_row_type.py
@@ -1280,6 +1297,7 @@ test/test_timeseries_point.py
 test/test_tool_display_type.py
 test/test_tool_part.py
 test/test_tool_status.py
+test/test_trace_kind.py
 test/test_transcription_response.py
 test/test_transcriptions_api.py
 test/test_transfer_owner_request.py

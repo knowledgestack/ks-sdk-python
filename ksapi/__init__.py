@@ -14,11 +14,12 @@
 """  # noqa: E501
 
 
-__version__ = "3.5.2"
+__version__ = "3.6.0"
 
 # Define package exports
 __all__ = [
     "AgentApi",
+    "DiagnosticsApi",
     "FeedbackApi",
     "MemoryApi",
     "SkillsApi",
@@ -173,6 +174,10 @@ __all__ = [
     "DataSourceSyncResponse",
     "DataSourceTableResponse",
     "DefinitionOutputStat",
+    "DiagnosticTraceFailureReason",
+    "DiagnosticTraceItem",
+    "DiagnosticTraceStatus",
+    "DiagnosticsResponse",
     "DiffFormat",
     "DiffRow",
     "DiffRowType",
@@ -406,6 +411,7 @@ __all__ = [
     "ToolDisplayType",
     "ToolPart",
     "ToolStatus",
+    "TraceKind",
     "TranscriptionResponse",
     "TransferOwnerRequest",
     "TransferOwnerResponse",
@@ -475,6 +481,7 @@ __all__ = [
 
 # import apis into sdk package
 from ksapi.api.agent_api import AgentApi as AgentApi
+from ksapi.api.diagnostics_api import DiagnosticsApi as DiagnosticsApi
 from ksapi.api.feedback_api import FeedbackApi as FeedbackApi
 from ksapi.api.memory_api import MemoryApi as MemoryApi
 from ksapi.api.skills_api import SkillsApi as SkillsApi
@@ -633,6 +640,10 @@ from ksapi.models.data_source_schema_response import DataSourceSchemaResponse as
 from ksapi.models.data_source_sync_response import DataSourceSyncResponse as DataSourceSyncResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse as DataSourceTableResponse
 from ksapi.models.definition_output_stat import DefinitionOutputStat as DefinitionOutputStat
+from ksapi.models.diagnostic_trace_failure_reason import DiagnosticTraceFailureReason as DiagnosticTraceFailureReason
+from ksapi.models.diagnostic_trace_item import DiagnosticTraceItem as DiagnosticTraceItem
+from ksapi.models.diagnostic_trace_status import DiagnosticTraceStatus as DiagnosticTraceStatus
+from ksapi.models.diagnostics_response import DiagnosticsResponse as DiagnosticsResponse
 from ksapi.models.diff_format import DiffFormat as DiffFormat
 from ksapi.models.diff_row import DiffRow as DiffRow
 from ksapi.models.diff_row_type import DiffRowType as DiffRowType
@@ -866,6 +877,7 @@ from ksapi.models.timeseries_point import TimeseriesPoint as TimeseriesPoint
 from ksapi.models.tool_display_type import ToolDisplayType as ToolDisplayType
 from ksapi.models.tool_part import ToolPart as ToolPart
 from ksapi.models.tool_status import ToolStatus as ToolStatus
+from ksapi.models.trace_kind import TraceKind as TraceKind
 from ksapi.models.transcription_response import TranscriptionResponse as TranscriptionResponse
 from ksapi.models.transfer_owner_request import TransferOwnerRequest as TransferOwnerRequest
 from ksapi.models.transfer_owner_response import TransferOwnerResponse as TransferOwnerResponse

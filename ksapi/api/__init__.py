@@ -2,6 +2,7 @@
 
 # import apis into api package
 from ksapi.api.agent_api import AgentApi
+from ksapi.api.diagnostics_api import DiagnosticsApi
 from ksapi.api.feedback_api import FeedbackApi
 from ksapi.api.memory_api import MemoryApi
 from ksapi.api.skills_api import SkillsApi

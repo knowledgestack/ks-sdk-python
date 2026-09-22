@@ -117,6 +117,10 @@ from ksapi.models.data_source_schema_response import DataSourceSchemaResponse
 from ksapi.models.data_source_sync_response import DataSourceSyncResponse
 from ksapi.models.data_source_table_response import DataSourceTableResponse
 from ksapi.models.definition_output_stat import DefinitionOutputStat
+from ksapi.models.diagnostic_trace_failure_reason import DiagnosticTraceFailureReason
+from ksapi.models.diagnostic_trace_item import DiagnosticTraceItem
+from ksapi.models.diagnostic_trace_status import DiagnosticTraceStatus
+from ksapi.models.diagnostics_response import DiagnosticsResponse
 from ksapi.models.diff_format import DiffFormat
 from ksapi.models.diff_row import DiffRow
 from ksapi.models.diff_row_type import DiffRowType
@@ -350,6 +354,7 @@ from ksapi.models.timeseries_point import TimeseriesPoint
 from ksapi.models.tool_display_type import ToolDisplayType
 from ksapi.models.tool_part import ToolPart
 from ksapi.models.tool_status import ToolStatus
+from ksapi.models.trace_kind import TraceKind
 from ksapi.models.transcription_response import TranscriptionResponse
 from ksapi.models.transfer_owner_request import TransferOwnerRequest
 from ksapi.models.transfer_owner_response import TransferOwnerResponse
