@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, Optional
+from ksapi.models.supported_language import SupportedLanguage
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -29,7 +30,8 @@ class UserMessageRequest(BaseModel):
     """ # noqa: E501
     input_text: Optional[StrictStr] = Field(default='', description="User input text. Mock agent dev controls may be embedded here (e.g. /mock duration=5 wps=3 scenario=tool_call_once).")
     fast_mode: Optional[StrictBool] = Field(default=None, description="Answer with the faster, lower-cost chat profile. Omit to use the tenant's default_fast_mode; true/false overrides it for this message. Ignored when the tenant pins a chat profile and on workflow-run threads.")
-    __properties: ClassVar[List[str]] = ["input_text", "fast_mode"]
+    output_language: Optional[SupportedLanguage] = None
+    __properties: ClassVar[List[str]] = ["input_text", "fast_mode", "output_language"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -88,7 +90,8 @@ class UserMessageRequest(BaseModel):
 
         _obj = cls.model_validate({
             "input_text": obj.get("input_text") if obj.get("input_text") is not None else '',
-            "fast_mode": obj.get("fast_mode")
+            "fast_mode": obj.get("fast_mode"),
+            "output_language": obj.get("output_language")
         })
         return _obj
 

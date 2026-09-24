@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, Optional
+from ksapi.models.supported_language import SupportedLanguage
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -28,7 +29,8 @@ class AskRequest(BaseModel):
     Request body for POST /v1/agent/ask.
     """ # noqa: E501
     prompt: StrictStr = Field(description="User prompt passed directly to the agent")
-    __properties: ClassVar[List[str]] = ["prompt"]
+    output_language: Optional[SupportedLanguage] = None
+    __properties: ClassVar[List[str]] = ["prompt", "output_language"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -81,7 +83,8 @@ class AskRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "prompt": obj.get("prompt")
+            "prompt": obj.get("prompt"),
+            "output_language": obj.get("output_language")
         })
         return _obj
 

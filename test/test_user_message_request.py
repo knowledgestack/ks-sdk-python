@@ -36,7 +36,8 @@ class TestUserMessageRequest(unittest.TestCase):
         if include_optional:
             return UserMessageRequest(
                 input_text = '',
-                fast_mode = True
+                fast_mode = True,
+                output_language = 'en'
             )
         else:
             return UserMessageRequest(

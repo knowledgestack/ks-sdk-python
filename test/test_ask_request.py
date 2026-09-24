@@ -35,7 +35,8 @@ class TestAskRequest(unittest.TestCase):
         model = AskRequest()
         if include_optional:
             return AskRequest(
-                prompt = 'Summarize the latest version of the Q3 vendor contract.'
+                prompt = 'Summarize the latest version of the Q3 vendor contract.',
+                output_language = 'en'
             )
         else:
             return AskRequest(
