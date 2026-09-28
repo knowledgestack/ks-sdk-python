@@ -44,7 +44,8 @@ class TestFeaturesResponse(unittest.TestCase):
                     formats = [
                         ksapi.models.upload_format.UploadFormat(
                             extension = '', 
-                            content_type = '', )
+                            content_type = '', 
+                            max_bytes = 56, )
                         ], 
                     max_bytes = 56, 
                     max_image_bytes = 56, 
@@ -63,7 +64,8 @@ class TestFeaturesResponse(unittest.TestCase):
                     formats = [
                         ksapi.models.upload_format.UploadFormat(
                             extension = '', 
-                            content_type = '', )
+                            content_type = '', 
+                            max_bytes = 56, )
                         ], 
                     max_bytes = 56, 
                     max_image_bytes = 56, 

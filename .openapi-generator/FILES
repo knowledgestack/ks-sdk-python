@@ -157,8 +157,6 @@ docs/DocxParagraphAnchorInput.md
 docs/DocxParagraphAnchorOutput.md
 docs/DownloadArtifact.md
 docs/EditMemoryChunkRequest.md
-docs/EmailMetadata.md
-docs/EmailParty.md
 docs/EmailSentResponse.md
 docs/EmailVerificationRequest.md
 docs/EnrichedCitation.md
@@ -639,8 +637,6 @@ ksapi/models/docx_paragraph_anchor_input.py
 ksapi/models/docx_paragraph_anchor_output.py
 ksapi/models/download_artifact.py
 ksapi/models/edit_memory_chunk_request.py
-ksapi/models/email_metadata.py
-ksapi/models/email_party.py
 ksapi/models/email_sent_response.py
 ksapi/models/email_verification_request.py
 ksapi/models/enriched_citation.py
@@ -1073,8 +1069,6 @@ test/test_docx_paragraph_anchor_input.py
 test/test_docx_paragraph_anchor_output.py
 test/test_download_artifact.py
 test/test_edit_memory_chunk_request.py
-test/test_email_metadata.py
-test/test_email_party.py
 test/test_email_sent_response.py
 test/test_email_verification_request.py
 test/test_enriched_citation.py

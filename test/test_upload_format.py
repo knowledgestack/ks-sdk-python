@@ -36,12 +36,14 @@ class TestUploadFormat(unittest.TestCase):
         if include_optional:
             return UploadFormat(
                 extension = '',
-                content_type = ''
+                content_type = '',
+                max_bytes = 56
             )
         else:
             return UploadFormat(
                 extension = '',
                 content_type = '',
+                max_bytes = 56,
         )
         """
 

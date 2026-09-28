@@ -44,7 +44,8 @@ class TestPipelineState(unittest.TestCase):
                 chunks_processed = 56,
                 page_dpi = 56,
                 ingestion_mode = 'high_accuracy',
-                chunk_type = 'TEXT'
+                chunk_type = 'TEXT',
+                secondary_taxonomy = 'picture'
             )
         else:
             return PipelineState(

@@ -55,38 +55,14 @@ class TestDocumentVersionMetadataUpdate(unittest.TestCase):
                     chunks_processed = 56, 
                     page_dpi = 56, 
                     ingestion_mode = 'high_accuracy', 
-                    chunk_type = 'TEXT', ),
+                    chunk_type = 'TEXT', 
+                    secondary_taxonomy = 'picture', ),
                 total_pages = 56,
                 total_sections = 56,
                 total_chunks = 56,
                 duration_ms = 56,
                 language = '',
                 segment_count = 56,
-                email = ksapi.models.email_metadata.EmailMetadata(
-                    subject = '', 
-                    sender = null, 
-                    to = [
-                        ksapi.models.email_party.EmailParty(
-                            name = '', 
-                            address = '', )
-                        ], 
-                    cc = [
-                        ksapi.models.email_party.EmailParty(
-                            name = '', 
-                            address = '', )
-                        ], 
-                    bcc = [
-                        
-                        ], 
-                    sent_at = '', 
-                    message_id = '', 
-                    in_reply_to = '', 
-                    references = [
-                        ''
-                        ], 
-                    conversation_topic = '', 
-                    thread_root_id = '', 
-                    raw_headers = '', ),
                 total_formulas = 56,
                 xlsx_parse_result_s3 = '',
                 xlsx_named_ranges = [

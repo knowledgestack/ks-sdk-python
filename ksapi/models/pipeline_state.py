@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from ksapi.models.chunk_type import ChunkType
+from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.ingestion_mode import IngestionMode
 from ksapi.models.pipeline_status import PipelineStatus
 from typing import Optional, Set
@@ -34,15 +35,16 @@ class PipelineState(BaseModel):
     status: PipelineStatus
     last_run_timestamp: Optional[datetime] = Field(default=None, description="Timestamp of the last pipeline execution attempt (set once when a run starts)")
     last_state_update_timestamp: Optional[datetime] = Field(default=None, description="Timestamp of the last pipeline state change (set by activities)")
-    last_activity: Optional[StrictStr] = Field(default=None, description="Name of the last activity that executed (e.g., 'document_preparation')")
+    last_activity: Optional[StrictStr] = Field(default=None, description="Name of the last activity that executed (e.g., 'pdf_preparation_activity')")
     error: Optional[StrictStr] = Field(default=None, description="Error message if pipeline failed")
     temporal_workflow_id: Optional[StrictStr] = Field(default=None, description="Temporal workflow ID for tracking the ingestion run")
     chunks_processed: Optional[StrictInt] = Field(default=None, description="Number of chunks processed (for progress tracking)")
     page_dpi: Optional[StrictInt] = Field(default=None, description="DPI used for PDF page screenshots during ingestion")
     ingestion_mode: Optional[IngestionMode] = None
     chunk_type: Optional[ChunkType] = None
+    secondary_taxonomy: Optional[ImageTaxonomy] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["status", "last_run_timestamp", "last_state_update_timestamp", "last_activity", "error", "temporal_workflow_id", "chunks_processed", "page_dpi", "ingestion_mode", "chunk_type"]
+    __properties: ClassVar[List[str]] = ["status", "last_run_timestamp", "last_state_update_timestamp", "last_activity", "error", "temporal_workflow_id", "chunks_processed", "page_dpi", "ingestion_mode", "chunk_type", "secondary_taxonomy"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -146,7 +148,8 @@ class PipelineState(BaseModel):
             "chunks_processed": obj.get("chunks_processed"),
             "page_dpi": obj.get("page_dpi"),
             "ingestion_mode": obj.get("ingestion_mode"),
-            "chunk_type": obj.get("chunk_type")
+            "chunk_type": obj.get("chunk_type"),
+            "secondary_taxonomy": obj.get("secondary_taxonomy")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

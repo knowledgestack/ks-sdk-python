@@ -73,7 +73,6 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             duration_ms = 56, 
                             language = '', 
                             segment_count = 56, 
-                            email = null, 
                             total_formulas = 56, 
                             xlsx_parse_result_s3 = '', 
                             xlsx_named_ranges = [
@@ -137,7 +136,6 @@ class TestPaginatedResponseDocumentVersionResponse(unittest.TestCase):
                             duration_ms = 56, 
                             language = '', 
                             segment_count = 56, 
-                            email = null, 
                             total_formulas = 56, 
                             xlsx_parse_result_s3 = '', 
                             xlsx_named_ranges = [

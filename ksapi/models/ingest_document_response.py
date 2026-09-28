@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -31,10 +31,7 @@ class IngestDocumentResponse(BaseModel):
     workflow_id: StrictStr = Field(description="Temporal workflow ID")
     document_id: UUID
     document_version_id: UUID
-    folder_id: Optional[UUID] = Field(default=None, description="Folder created to hold this upload and its members. Set for email uploads, which always nest inside their own folder; null for every other type, which ingest directly into path_part_id.")
-    attachment_count: Optional[StrictInt] = Field(default=None, description="Members found on an email upload, each becoming its own document beside the email: the attachments of a single message, or the messages of an .mbox archive (whose own attachments are then expanded one level deeper). Always 0 for non-email uploads. Null for a .pst, whose members are enumerated only by the worker fan-out — poll attachment_workflow_id for per-member outcomes.")
-    attachment_workflow_id: Optional[StrictStr] = Field(default=None, description="Fan-out workflow ingesting the members. Poll GET /v1/system-jobs/zip-ingestions/{id} for per-member outcomes. Null when the upload had no ingestible members.")
-    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_version_id", "folder_id", "attachment_count", "attachment_workflow_id"]
+    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_version_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,21 +72,6 @@ class IngestDocumentResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if folder_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.folder_id is None and "folder_id" in self.model_fields_set:
-            _dict['folder_id'] = None
-
-        # set to None if attachment_count (nullable) is None
-        # and model_fields_set contains the field
-        if self.attachment_count is None and "attachment_count" in self.model_fields_set:
-            _dict['attachment_count'] = None
-
-        # set to None if attachment_workflow_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.attachment_workflow_id is None and "attachment_workflow_id" in self.model_fields_set:
-            _dict['attachment_workflow_id'] = None
-
         return _dict
 
     @classmethod
@@ -104,10 +86,7 @@ class IngestDocumentResponse(BaseModel):
         _obj = cls.model_validate({
             "workflow_id": obj.get("workflow_id"),
             "document_id": obj.get("document_id"),
-            "document_version_id": obj.get("document_version_id"),
-            "folder_id": obj.get("folder_id"),
-            "attachment_count": obj.get("attachment_count"),
-            "attachment_workflow_id": obj.get("attachment_workflow_id")
+            "document_version_id": obj.get("document_version_id")
         })
         return _obj
 

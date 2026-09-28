@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.7.0"
+__version__ = "3.8.0"
 
 # Define package exports
 __all__ = [
@@ -204,8 +204,6 @@ __all__ = [
     "DocxParagraphAnchorOutput",
     "DownloadArtifact",
     "EditMemoryChunkRequest",
-    "EmailMetadata",
-    "EmailParty",
     "EmailSentResponse",
     "EmailVerificationRequest",
     "EnrichedCitation",
@@ -670,8 +668,6 @@ from ksapi.models.docx_paragraph_anchor_input import DocxParagraphAnchorInput as
 from ksapi.models.docx_paragraph_anchor_output import DocxParagraphAnchorOutput as DocxParagraphAnchorOutput
 from ksapi.models.download_artifact import DownloadArtifact as DownloadArtifact
 from ksapi.models.edit_memory_chunk_request import EditMemoryChunkRequest as EditMemoryChunkRequest
-from ksapi.models.email_metadata import EmailMetadata as EmailMetadata
-from ksapi.models.email_party import EmailParty as EmailParty
 from ksapi.models.email_sent_response import EmailSentResponse as EmailSentResponse
 from ksapi.models.email_verification_request import EmailVerificationRequest as EmailVerificationRequest
 from ksapi.models.enriched_citation import EnrichedCitation as EnrichedCitation

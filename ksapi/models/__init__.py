@@ -147,8 +147,6 @@ from ksapi.models.docx_paragraph_anchor_input import DocxParagraphAnchorInput
 from ksapi.models.docx_paragraph_anchor_output import DocxParagraphAnchorOutput
 from ksapi.models.download_artifact import DownloadArtifact
 from ksapi.models.edit_memory_chunk_request import EditMemoryChunkRequest
-from ksapi.models.email_metadata import EmailMetadata
-from ksapi.models.email_party import EmailParty
 from ksapi.models.email_sent_response import EmailSentResponse
 from ksapi.models.email_verification_request import EmailVerificationRequest
 from ksapi.models.enriched_citation import EnrichedCitation

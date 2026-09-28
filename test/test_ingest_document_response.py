@@ -37,10 +37,7 @@ class TestIngestDocumentResponse(unittest.TestCase):
             return IngestDocumentResponse(
                 workflow_id = '',
                 document_id = '',
-                document_version_id = '',
-                folder_id = '',
-                attachment_count = 56,
-                attachment_workflow_id = ''
+                document_version_id = ''
             )
         else:
             return IngestDocumentResponse(

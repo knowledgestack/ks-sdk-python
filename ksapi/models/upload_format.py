@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +29,8 @@ class UploadFormat(BaseModel):
     """ # noqa: E501
     extension: StrictStr
     content_type: StrictStr
-    __properties: ClassVar[List[str]] = ["extension", "content_type"]
+    max_bytes: StrictInt = Field(description="Largest file of this format the buffered uploads accept (new document, new version, ZIP member, workflow-run file). A new audio/video document uses the resumable upload, capped at upload.max_media_bytes")
+    __properties: ClassVar[List[str]] = ["extension", "content_type", "max_bytes"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,7 +84,8 @@ class UploadFormat(BaseModel):
 
         _obj = cls.model_validate({
             "extension": obj.get("extension"),
-            "content_type": obj.get("content_type")
+            "content_type": obj.get("content_type"),
+            "max_bytes": obj.get("max_bytes")
         })
         return _obj
 
