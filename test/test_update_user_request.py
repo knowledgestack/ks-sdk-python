@@ -37,7 +37,10 @@ class TestUpdateUserRequest(unittest.TestCase):
             return UpdateUserRequest(
                 default_tenant_id = '',
                 first_name = '',
-                last_name = ''
+                last_name = '',
+                job_title = '',
+                department = '',
+                bio = ''
             )
         else:
             return UpdateUserRequest(

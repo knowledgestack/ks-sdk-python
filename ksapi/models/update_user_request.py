@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,9 +30,12 @@ class UpdateUserRequest(BaseModel):
     UpdateUserRequest
     """ # noqa: E501
     default_tenant_id: Optional[UUID] = Field(default=None, description="Default tenant ID the user shall be logged into")
-    first_name: Optional[StrictStr] = Field(default=None, description="First name of the user")
-    last_name: Optional[StrictStr] = Field(default=None, description="Last name of the user")
-    __properties: ClassVar[List[str]] = ["default_tenant_id", "first_name", "last_name"]
+    first_name: Optional[Annotated[str, Field(strict=True, max_length=255)]] = Field(default=None, description="First name of the user")
+    last_name: Optional[Annotated[str, Field(strict=True, max_length=255)]] = Field(default=None, description="Last name of the user. Directory-synced users cannot set it.")
+    job_title: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Job title at the current tenant; omit to leave unchanged, empty string to clear. Directory-synced users cannot set it.")
+    department: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Department at the current tenant; omit to leave unchanged, empty string to clear. Directory-synced users cannot set it.")
+    bio: Optional[Annotated[str, Field(strict=True, max_length=1000)]] = Field(default=None, description="About the user at the current tenant, read by the chat agent; omit to leave unchanged, empty string to clear.")
+    __properties: ClassVar[List[str]] = ["default_tenant_id", "first_name", "last_name", "job_title", "department", "bio"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,6 +91,21 @@ class UpdateUserRequest(BaseModel):
         if self.last_name is None and "last_name" in self.model_fields_set:
             _dict['last_name'] = None
 
+        # set to None if job_title (nullable) is None
+        # and model_fields_set contains the field
+        if self.job_title is None and "job_title" in self.model_fields_set:
+            _dict['job_title'] = None
+
+        # set to None if department (nullable) is None
+        # and model_fields_set contains the field
+        if self.department is None and "department" in self.model_fields_set:
+            _dict['department'] = None
+
+        # set to None if bio (nullable) is None
+        # and model_fields_set contains the field
+        if self.bio is None and "bio" in self.model_fields_set:
+            _dict['bio'] = None
+
         return _dict
 
     @classmethod
@@ -101,7 +120,10 @@ class UpdateUserRequest(BaseModel):
         _obj = cls.model_validate({
             "default_tenant_id": obj.get("default_tenant_id"),
             "first_name": obj.get("first_name"),
-            "last_name": obj.get("last_name")
+            "last_name": obj.get("last_name"),
+            "job_title": obj.get("job_title"),
+            "department": obj.get("department"),
+            "bio": obj.get("bio")
         })
         return _obj
 

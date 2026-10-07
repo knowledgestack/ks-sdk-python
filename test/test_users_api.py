@@ -26,6 +26,13 @@ class TestUsersApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_delete_my_avatar(self) -> None:
+        """Test case for delete_my_avatar
+
+        Delete My Avatar Handler
+        """
+        pass
+
     def test_get_me(self) -> None:
         """Test case for get_me
 
@@ -58,6 +65,13 @@ class TestUsersApi(unittest.TestCase):
         """Test case for update_onboarding_profile
 
         Update Onboarding Profile Handler
+        """
+        pass
+
+    def test_upload_my_avatar(self) -> None:
+        """Test case for upload_my_avatar
+
+        Upload My Avatar Handler
         """
         pass
 

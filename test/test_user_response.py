@@ -45,6 +45,9 @@ class TestUserResponse(unittest.TestCase):
                 current_tenant_role = 'USER',
                 default_tenant_id = '',
                 job_title = '',
+                department = '',
+                bio = '',
+                avatar_url = '',
                 onboarding_completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
         else:

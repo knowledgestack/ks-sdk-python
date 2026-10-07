@@ -41,8 +41,11 @@ class UserResponse(BaseModel):
     current_tenant_role: TenantUserRole
     default_tenant_id: UUID = Field(description="Default tenant ID the user shall be logged into")
     job_title: Optional[StrictStr] = Field(default=None, description="User's job title at the current tenant (per-membership)")
+    department: Optional[StrictStr] = Field(default=None, description="User's department at the current tenant (per-membership)")
+    bio: Optional[StrictStr] = Field(default=None, description="What the user wrote about themselves at the current tenant. The chat agent reads it on every turn.")
+    avatar_url: Optional[StrictStr] = Field(default=None, description="Presigned URL of the user's profile photo at the current tenant. Expires after six hours; read GET /v1/users/me again for a fresh one.")
     onboarding_completed_at: Optional[datetime] = Field(default=None, description="When the user finished onboarding for the current tenant. NULL = wizard should be shown.")
-    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "onboarding_completed_at"]
+    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "department", "bio", "avatar_url", "onboarding_completed_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -108,6 +111,21 @@ class UserResponse(BaseModel):
         if self.job_title is None and "job_title" in self.model_fields_set:
             _dict['job_title'] = None
 
+        # set to None if department (nullable) is None
+        # and model_fields_set contains the field
+        if self.department is None and "department" in self.model_fields_set:
+            _dict['department'] = None
+
+        # set to None if bio (nullable) is None
+        # and model_fields_set contains the field
+        if self.bio is None and "bio" in self.model_fields_set:
+            _dict['bio'] = None
+
+        # set to None if avatar_url (nullable) is None
+        # and model_fields_set contains the field
+        if self.avatar_url is None and "avatar_url" in self.model_fields_set:
+            _dict['avatar_url'] = None
+
         # set to None if onboarding_completed_at (nullable) is None
         # and model_fields_set contains the field
         if self.onboarding_completed_at is None and "onboarding_completed_at" in self.model_fields_set:
@@ -135,6 +153,9 @@ class UserResponse(BaseModel):
             "current_tenant_role": obj.get("current_tenant_role"),
             "default_tenant_id": obj.get("default_tenant_id"),
             "job_title": obj.get("job_title"),
+            "department": obj.get("department"),
+            "bio": obj.get("bio"),
+            "avatar_url": obj.get("avatar_url"),
             "onboarding_completed_at": obj.get("onboarding_completed_at")
         })
         return _obj
