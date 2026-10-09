@@ -53,8 +53,6 @@ class TestFeedbackEventResponse(unittest.TestCase):
                 target_id = '',
                 user_id = '',
                 rating = 'UP',
-                reason = 'INCORRECT',
-                comment = '',
                 extra_metadata = { },
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),

@@ -37,8 +37,8 @@ class FeedbackEventResponse(BaseModel):
     target_id: UUID
     user_id: UUID
     rating: FeedbackRating
-    reason: FeedbackReason
-    comment: Optional[StrictStr]
+    reason: Optional[FeedbackReason] = None
+    comment: Optional[StrictStr] = None
     extra_metadata: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
