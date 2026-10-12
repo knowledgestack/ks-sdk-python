@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.onboarding_profile_request import OnboardingProfileRequest
+from ksapi.models.invite_rejection import InviteRejection
 
-class TestOnboardingProfileRequest(unittest.TestCase):
-    """OnboardingProfileRequest unit test stubs"""
+class TestInviteRejection(unittest.TestCase):
+    """InviteRejection unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,29 +25,9 @@ class TestOnboardingProfileRequest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> OnboardingProfileRequest:
-        """Test OnboardingProfileRequest
-            include_optional is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # uncomment below to create an instance of `OnboardingProfileRequest`
-        """
-        model = OnboardingProfileRequest()
-        if include_optional:
-            return OnboardingProfileRequest(
-                first_name = '',
-                last_name = '',
-                job_title = ''
-            )
-        else:
-            return OnboardingProfileRequest(
-        )
-        """
-
-    def testOnboardingProfileRequest(self):
-        """Test OnboardingProfileRequest"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
+    def testInviteRejection(self):
+        """Test InviteRejection"""
+        # inst = InviteRejection()
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,6 +31,7 @@ class KbSummaryResponse(BaseModel):
     documents_total: StrictInt
     documents_by_origin: Dict[str, StrictInt] = Field(description="Live document count keyed by document_origin.")
     documents_by_type: Dict[str, StrictInt] = Field(description="Live document count keyed by document_type.")
+    documents_by_ingestion_status: Dict[str, StrictInt] = Field(description="Live document count keyed by the active version's pipeline status (pending, processing, completed, failed, cancelled, quota_limit). Documents whose active version was never ingested are absent.")
     document_versions_total: StrictInt
     chunks_total: StrictInt
     chunks_by_type: Dict[str, StrictInt]
@@ -45,7 +46,7 @@ class KbSummaryResponse(BaseModel):
     quota: List[MeteredQuotaStatus] = Field(description="Current-period usage vs limit per metered resource.")
     feedback_up: StrictInt
     feedback_down: StrictInt
-    __properties: ClassVar[List[str]] = ["documents_total", "documents_by_origin", "documents_by_type", "document_versions_total", "chunks_total", "chunks_by_type", "tokens_total", "sections_total", "threads_total", "messages_total", "messages_by_role", "data_sources_total", "data_source_tables_total", "documents_checked_out", "quota", "feedback_up", "feedback_down"]
+    __properties: ClassVar[List[str]] = ["documents_total", "documents_by_origin", "documents_by_type", "documents_by_ingestion_status", "document_versions_total", "chunks_total", "chunks_by_type", "tokens_total", "sections_total", "threads_total", "messages_total", "messages_by_role", "data_sources_total", "data_source_tables_total", "documents_checked_out", "quota", "feedback_up", "feedback_down"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -108,6 +109,7 @@ class KbSummaryResponse(BaseModel):
             "documents_total": obj.get("documents_total"),
             "documents_by_origin": obj.get("documents_by_origin"),
             "documents_by_type": obj.get("documents_by_type"),
+            "documents_by_ingestion_status": obj.get("documents_by_ingestion_status"),
             "document_versions_total": obj.get("document_versions_total"),
             "chunks_total": obj.get("chunks_total"),
             "chunks_by_type": obj.get("chunks_by_type"),

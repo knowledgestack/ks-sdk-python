@@ -7,8 +7,10 @@ README.md
 docs/AcceptDisclaimerRequest.md
 docs/AcceptInviteResponse.md
 docs/AccessCheckResponse.md
+docs/AccessRequestResponse.md
 docs/ActivateSkillVersionRequest.md
 docs/AddMemberRequest.md
+docs/AddedBy.md
 docs/AdminKbApi.md
 docs/AdminWorkflowsApi.md
 docs/AgentApi.md
@@ -184,6 +186,9 @@ docs/GroupMemberOrder.md
 docs/GroupPermissionOrder.md
 docs/GroupPermissionResponse.md
 docs/GroupResponse.md
+docs/GuideModuleProgress.md
+docs/GuideModuleStatus.md
+docs/GuideModules.md
 docs/HTTPValidationError.md
 docs/HealthCheckResponse.md
 docs/HourHistogramResponse.md
@@ -203,6 +208,9 @@ docs/InstructionSnapshot.md
 docs/InviteLinkSettingsRequest.md
 docs/InviteLinkSettingsResponse.md
 docs/InviteOrder.md
+docs/InvitePreviewResponse.md
+docs/InvitePreviewState.md
+docs/InviteRejection.md
 docs/InviteResponse.md
 docs/InviteStatus.md
 docs/InviteUserRequest.md
@@ -231,8 +239,9 @@ docs/ModelTableRequest.md
 docs/ModelTableResult.md
 docs/NetworkClass.md
 docs/NonFilesystemReferenceType.md
-docs/OnboardingCompanyRequest.md
-docs/OnboardingProfileRequest.md
+docs/OnboardingState.md
+docs/OnboardingStateUpdate.md
+docs/OnboardingStep.md
 docs/PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat.md
 docs/PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator.md
 docs/PaginatedResponseBillingPaymentResponse.md
@@ -320,6 +329,7 @@ docs/SetApprovalStateRequest.md
 docs/SetWorkflowRunApprovalRequest.md
 docs/SheetVisibilityChange.md
 docs/SignInRequest.md
+docs/SignUpResponse.md
 docs/SkillFile.md
 docs/SkillOrder.md
 docs/SkillResponse.md
@@ -358,6 +368,7 @@ docs/TenantSettingsResponse.md
 docs/TenantSettingsUpdate.md
 docs/TenantSubscriptionResponse.md
 docs/TenantUserEditRequest.md
+docs/TenantUserJoinMethod.md
 docs/TenantUserOrder.md
 docs/TenantUserResponse.md
 docs/TenantUserRole.md
@@ -506,8 +517,10 @@ ksapi/models/__init__.py
 ksapi/models/accept_disclaimer_request.py
 ksapi/models/accept_invite_response.py
 ksapi/models/access_check_response.py
+ksapi/models/access_request_response.py
 ksapi/models/activate_skill_version_request.py
 ksapi/models/add_member_request.py
+ksapi/models/added_by.py
 ksapi/models/ancestry_response.py
 ksapi/models/api_auth_config.py
 ksapi/models/api_connection_request_request.py
@@ -661,6 +674,9 @@ ksapi/models/group_member_order.py
 ksapi/models/group_permission_order.py
 ksapi/models/group_permission_response.py
 ksapi/models/group_response.py
+ksapi/models/guide_module_progress.py
+ksapi/models/guide_module_status.py
+ksapi/models/guide_modules.py
 ksapi/models/health_check_response.py
 ksapi/models/hour_histogram_response.py
 ksapi/models/http_validation_error.py
@@ -680,6 +696,9 @@ ksapi/models/instruction_snapshot.py
 ksapi/models/invite_link_settings_request.py
 ksapi/models/invite_link_settings_response.py
 ksapi/models/invite_order.py
+ksapi/models/invite_preview_response.py
+ksapi/models/invite_preview_state.py
+ksapi/models/invite_rejection.py
 ksapi/models/invite_response.py
 ksapi/models/invite_status.py
 ksapi/models/invite_user_request.py
@@ -706,8 +725,9 @@ ksapi/models/model_table_request.py
 ksapi/models/model_table_result.py
 ksapi/models/network_class.py
 ksapi/models/non_filesystem_reference_type.py
-ksapi/models/onboarding_company_request.py
-ksapi/models/onboarding_profile_request.py
+ksapi/models/onboarding_state.py
+ksapi/models/onboarding_state_update.py
+ksapi/models/onboarding_step.py
 ksapi/models/paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 ksapi/models/paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
 ksapi/models/paginated_response_billing_payment_response.py
@@ -790,6 +810,7 @@ ksapi/models/set_approval_state_request.py
 ksapi/models/set_workflow_run_approval_request.py
 ksapi/models/sheet_visibility_change.py
 ksapi/models/sign_in_request.py
+ksapi/models/sign_up_response.py
 ksapi/models/skill_file.py
 ksapi/models/skill_order.py
 ksapi/models/skill_response.py
@@ -824,6 +845,7 @@ ksapi/models/tenant_settings_response.py
 ksapi/models/tenant_settings_update.py
 ksapi/models/tenant_subscription_response.py
 ksapi/models/tenant_user_edit_request.py
+ksapi/models/tenant_user_join_method.py
 ksapi/models/tenant_user_order.py
 ksapi/models/tenant_user_response.py
 ksapi/models/tenant_user_role.py
@@ -919,8 +941,10 @@ test/__init__.py
 test/test_accept_disclaimer_request.py
 test/test_accept_invite_response.py
 test/test_access_check_response.py
+test/test_access_request_response.py
 test/test_activate_skill_version_request.py
 test/test_add_member_request.py
+test/test_added_by.py
 test/test_admin_kb_api.py
 test/test_admin_workflows_api.py
 test/test_agent_api.py
@@ -1096,6 +1120,9 @@ test/test_group_member_order.py
 test/test_group_permission_order.py
 test/test_group_permission_response.py
 test/test_group_response.py
+test/test_guide_module_progress.py
+test/test_guide_module_status.py
+test/test_guide_modules.py
 test/test_health_check_response.py
 test/test_hour_histogram_response.py
 test/test_http_validation_error.py
@@ -1115,6 +1142,9 @@ test/test_instruction_snapshot.py
 test/test_invite_link_settings_request.py
 test/test_invite_link_settings_response.py
 test/test_invite_order.py
+test/test_invite_preview_response.py
+test/test_invite_preview_state.py
+test/test_invite_rejection.py
 test/test_invite_response.py
 test/test_invite_status.py
 test/test_invite_user_request.py
@@ -1143,8 +1173,9 @@ test/test_model_table_request.py
 test/test_model_table_result.py
 test/test_network_class.py
 test/test_non_filesystem_reference_type.py
-test/test_onboarding_company_request.py
-test/test_onboarding_profile_request.py
+test/test_onboarding_state.py
+test/test_onboarding_state_update.py
+test/test_onboarding_step.py
 test/test_paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 test/test_paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
 test/test_paginated_response_billing_payment_response.py
@@ -1231,6 +1262,7 @@ test/test_set_approval_state_request.py
 test/test_set_workflow_run_approval_request.py
 test/test_sheet_visibility_change.py
 test/test_sign_in_request.py
+test/test_sign_up_response.py
 test/test_skill_file.py
 test/test_skill_order.py
 test/test_skill_response.py
@@ -1270,6 +1302,7 @@ test/test_tenant_settings_response.py
 test/test_tenant_settings_update.py
 test/test_tenant_subscription_response.py
 test/test_tenant_user_edit_request.py
+test/test_tenant_user_join_method.py
 test/test_tenant_user_order.py
 test/test_tenant_user_response.py
 test/test_tenant_user_role.py

@@ -40,6 +40,13 @@ class TestUsersApi(unittest.TestCase):
         """
         pass
 
+    def test_request_access(self) -> None:
+        """Test case for request_access
+
+        Request Access Handler
+        """
+        pass
+
     def test_skip_onboarding(self) -> None:
         """Test case for skip_onboarding
 
@@ -54,17 +61,10 @@ class TestUsersApi(unittest.TestCase):
         """
         pass
 
-    def test_update_onboarding_company(self) -> None:
-        """Test case for update_onboarding_company
+    def test_update_onboarding_state(self) -> None:
+        """Test case for update_onboarding_state
 
-        Update Onboarding Company Handler
-        """
-        pass
-
-    def test_update_onboarding_profile(self) -> None:
-        """Test case for update_onboarding_profile
-
-        Update Onboarding Profile Handler
+        Update Onboarding State Handler
         """
         pass
 

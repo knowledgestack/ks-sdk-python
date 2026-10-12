@@ -51,7 +51,10 @@ class TestFeaturesResponse(unittest.TestCase):
                     max_image_bytes = 56, 
                     max_media_bytes = 56, 
                     max_media_duration_ms = 56, 
-                    resumable_part_size = 56, )
+                    resumable_part_size = 56, ),
+                data_source_engines = [
+                    'MYSQL'
+                    ]
             )
         else:
             return FeaturesResponse(
@@ -72,6 +75,9 @@ class TestFeaturesResponse(unittest.TestCase):
                     max_media_bytes = 56, 
                     max_media_duration_ms = 56, 
                     resumable_part_size = 56, ),
+                data_source_engines = [
+                    'MYSQL'
+                    ],
         )
         """
 

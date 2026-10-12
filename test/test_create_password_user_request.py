@@ -38,7 +38,8 @@ class TestCreatePasswordUserRequest(unittest.TestCase):
                 password = '01234567',
                 email_token = '',
                 first_name = '',
-                last_name = ''
+                last_name = '',
+                invite_id = ''
             )
         else:
             return CreatePasswordUserRequest(

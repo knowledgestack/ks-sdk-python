@@ -17,20 +17,27 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
-from typing_extensions import Annotated
+from ksapi.models.invite_preview_state import InvitePreviewState
+from ksapi.models.tenant_user_role import TenantUserRole
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class OnboardingCompanyRequest(BaseModel):
+class InvitePreviewResponse(BaseModel):
     """
-    Step 1 of onboarding — tenant-wide company info. OWNER/ADMIN only.
+    InvitePreviewResponse
     """ # noqa: E501
-    description: Optional[Annotated[str, Field(strict=True, max_length=5000)]] = Field(default=None, description="Brief company description (≤5000 chars)")
-    industry: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Industry / company type (free text)")
-    __properties: ClassVar[List[str]] = ["description", "industry"]
+    state: InvitePreviewState
+    email: Optional[StrictStr] = Field(default=None, description="Invitee email, to lock the form")
+    tenant_name: Optional[StrictStr] = None
+    role: Optional[TenantUserRole] = None
+    expires_at: Optional[datetime] = None
+    invited_by: Optional[UserInfo] = Field(default=None, description="Display name only, no email")
+    __properties: ClassVar[List[str]] = ["state", "email", "tenant_name", "role", "expires_at", "invited_by"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -50,7 +57,7 @@ class OnboardingCompanyRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of OnboardingCompanyRequest from a JSON string"""
+        """Create an instance of InvitePreviewResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,21 +78,34 @@ class OnboardingCompanyRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if description (nullable) is None
+        # override the default output from pydantic by calling `to_dict()` of invited_by
+        if self.invited_by:
+            _dict['invited_by'] = self.invited_by.to_dict()
+        # set to None if email (nullable) is None
         # and model_fields_set contains the field
-        if self.description is None and "description" in self.model_fields_set:
-            _dict['description'] = None
+        if self.email is None and "email" in self.model_fields_set:
+            _dict['email'] = None
 
-        # set to None if industry (nullable) is None
+        # set to None if tenant_name (nullable) is None
         # and model_fields_set contains the field
-        if self.industry is None and "industry" in self.model_fields_set:
-            _dict['industry'] = None
+        if self.tenant_name is None and "tenant_name" in self.model_fields_set:
+            _dict['tenant_name'] = None
+
+        # set to None if expires_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.expires_at is None and "expires_at" in self.model_fields_set:
+            _dict['expires_at'] = None
+
+        # set to None if invited_by (nullable) is None
+        # and model_fields_set contains the field
+        if self.invited_by is None and "invited_by" in self.model_fields_set:
+            _dict['invited_by'] = None
 
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of OnboardingCompanyRequest from a dict"""
+        """Create an instance of InvitePreviewResponse from a dict"""
         if obj is None:
             return None
 
@@ -93,8 +113,12 @@ class OnboardingCompanyRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "description": obj.get("description"),
-            "industry": obj.get("industry")
+            "state": obj.get("state"),
+            "email": obj.get("email"),
+            "tenant_name": obj.get("tenant_name"),
+            "role": obj.get("role"),
+            "expires_at": obj.get("expires_at"),
+            "invited_by": UserInfo.from_dict(obj["invited_by"]) if obj.get("invited_by") is not None else None
         })
         return _obj
 

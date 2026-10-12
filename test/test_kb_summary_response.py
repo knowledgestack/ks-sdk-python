@@ -42,6 +42,9 @@ class TestKbSummaryResponse(unittest.TestCase):
                 documents_by_type = {
                     'key' : 56
                     },
+                documents_by_ingestion_status = {
+                    'key' : 56
+                    },
                 document_versions_total = 56,
                 chunks_total = 56,
                 chunks_by_type = {
@@ -76,6 +79,9 @@ class TestKbSummaryResponse(unittest.TestCase):
                     'key' : 56
                     },
                 documents_by_type = {
+                    'key' : 56
+                    },
+                documents_by_ingestion_status = {
                     'key' : 56
                     },
                 document_versions_total = 56,

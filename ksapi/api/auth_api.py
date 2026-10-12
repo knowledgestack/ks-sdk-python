@@ -37,6 +37,7 @@ from ksapi.models.response_send_pw_reset_email import ResponseSendPwResetEmail
 from ksapi.models.sso_initiate_response import SSOInitiateResponse
 from ksapi.models.send_password_reset_request import SendPasswordResetRequest
 from ksapi.models.sign_in_request import SignInRequest
+from ksapi.models.sign_up_response import SignUpResponse
 from ksapi.models.user_response import UserResponse
 from ksapi.models.validate_reset_code_request import ValidateResetCodeRequest
 
@@ -352,7 +353,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> SignUpResponse:
         """Create Password User Handler
 
 
@@ -389,7 +390,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "UserResponse",
+            '201': "SignUpResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -419,7 +420,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[SignUpResponse]:
         """Create Password User Handler
 
 
@@ -456,7 +457,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "UserResponse",
+            '201': "SignUpResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -523,7 +524,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "UserResponse",
+            '201': "SignUpResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1471,6 +1472,7 @@ class AuthApi:
     def initiate_sso(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
         tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
         _request_timeout: Union[
             None,
@@ -1491,6 +1493,8 @@ class AuthApi:
 
         :param provider: Provider to initiate SSO with (required)
         :type provider: IdpType
+        :param invite_id: Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.
+        :type invite_id: UUID
         :param tenant_id: Tenant ID to initiate SSO with
         :type tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -1517,6 +1521,7 @@ class AuthApi:
 
         _param = self._initiate_sso_serialize(
             provider=provider,
+            invite_id=invite_id,
             tenant_id=tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1543,6 +1548,7 @@ class AuthApi:
     def initiate_sso_with_http_info(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
         tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
         _request_timeout: Union[
             None,
@@ -1563,6 +1569,8 @@ class AuthApi:
 
         :param provider: Provider to initiate SSO with (required)
         :type provider: IdpType
+        :param invite_id: Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.
+        :type invite_id: UUID
         :param tenant_id: Tenant ID to initiate SSO with
         :type tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -1589,6 +1597,7 @@ class AuthApi:
 
         _param = self._initiate_sso_serialize(
             provider=provider,
+            invite_id=invite_id,
             tenant_id=tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1615,6 +1624,7 @@ class AuthApi:
     def initiate_sso_without_preload_content(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
         tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
         _request_timeout: Union[
             None,
@@ -1635,6 +1645,8 @@ class AuthApi:
 
         :param provider: Provider to initiate SSO with (required)
         :type provider: IdpType
+        :param invite_id: Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.
+        :type invite_id: UUID
         :param tenant_id: Tenant ID to initiate SSO with
         :type tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
@@ -1661,6 +1673,7 @@ class AuthApi:
 
         _param = self._initiate_sso_serialize(
             provider=provider,
+            invite_id=invite_id,
             tenant_id=tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1682,6 +1695,7 @@ class AuthApi:
     def _initiate_sso_serialize(
         self,
         provider,
+        invite_id,
         tenant_id,
         _request_auth,
         _content_type,
@@ -1705,6 +1719,10 @@ class AuthApi:
 
         # process the path parameters
         # process the query parameters
+        if invite_id is not None:
+            
+            _query_params.append(('invite_id', invite_id))
+            
         if provider is not None:
             
             _query_params.append(('provider', provider.value))
@@ -1770,7 +1788,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> SignUpResponse:
         """Oauth2 Callback Handler
 
         Handle OAuth2 callback from the given OAuth client.
@@ -1823,7 +1841,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "SignUpResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1858,7 +1876,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[SignUpResponse]:
         """Oauth2 Callback Handler
 
         Handle OAuth2 callback from the given OAuth client.
@@ -1911,7 +1929,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "SignUpResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1999,7 +2017,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "SignUpResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

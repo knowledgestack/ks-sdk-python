@@ -37,6 +37,10 @@ class TestTenantResponse(unittest.TestCase):
             return TenantResponse(
                 id = '',
                 name = '',
+                owner = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 idp_config = { },
                 settings = ksapi.models.tenant_settings_response.TenantSettingsResponse(
                     language = 'en', 
@@ -66,6 +70,10 @@ class TestTenantResponse(unittest.TestCase):
             return TenantResponse(
                 id = '',
                 name = '',
+                owner = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 settings = ksapi.models.tenant_settings_response.TenantSettingsResponse(
                     language = 'en', 
                     description = '', 

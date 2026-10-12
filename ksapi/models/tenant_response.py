@@ -23,6 +23,7 @@ from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.tenant_branding_response import TenantBrandingResponse
 from ksapi.models.tenant_settings_response import TenantSettingsResponse
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -33,12 +34,13 @@ class TenantResponse(BaseModel):
     """ # noqa: E501
     id: UUID = Field(description="Tenant ID")
     name: StrictStr = Field(description="Tenant name")
+    owner: Optional[UserInfo] = Field(description="The tenant OWNER's name, so a member knows who can grant access. Null only when the tenant has no OWNER membership.")
     idp_config: Optional[Dict[str, Any]] = Field(default=None, description="External IdP configuration")
     settings: TenantSettingsResponse
     branding: Optional[TenantBrandingResponse] = None
     seats: Annotated[int, Field(strict=True, ge=1)] = Field(description="Maximum active members allowed for this tenant.")
     subscription_id: UUID = Field(description="FK to the subscription plan governing the tenant's caps. Resolve ``GET /public/subscriptions`` to display plan name and limits.")
-    __properties: ClassVar[List[str]] = ["id", "name", "idp_config", "settings", "branding", "seats", "subscription_id"]
+    __properties: ClassVar[List[str]] = ["id", "name", "owner", "idp_config", "settings", "branding", "seats", "subscription_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,12 +81,20 @@ class TenantResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of settings
         if self.settings:
             _dict['settings'] = self.settings.to_dict()
         # override the default output from pydantic by calling `to_dict()` of branding
         if self.branding:
             _dict['branding'] = self.branding.to_dict()
+        # set to None if owner (nullable) is None
+        # and model_fields_set contains the field
+        if self.owner is None and "owner" in self.model_fields_set:
+            _dict['owner'] = None
+
         # set to None if idp_config (nullable) is None
         # and model_fields_set contains the field
         if self.idp_config is None and "idp_config" in self.model_fields_set:
@@ -104,6 +114,7 @@ class TenantResponse(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name"),
+            "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "idp_config": obj.get("idp_config"),
             "settings": TenantSettingsResponse.from_dict(obj["settings"]) if obj.get("settings") is not None else None,
             "branding": TenantBrandingResponse.from_dict(obj["branding"]) if obj.get("branding") is not None else None,

@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.11.0"
+__version__ = "3.12.0"
 
 # Define package exports
 __all__ = [
@@ -73,8 +73,10 @@ __all__ = [
     "AcceptDisclaimerRequest",
     "AcceptInviteResponse",
     "AccessCheckResponse",
+    "AccessRequestResponse",
     "ActivateSkillVersionRequest",
     "AddMemberRequest",
+    "AddedBy",
     "AncestryResponse",
     "ApiAuthConfig",
     "ApiConnectionRequestRequest",
@@ -228,6 +230,9 @@ __all__ = [
     "GroupPermissionOrder",
     "GroupPermissionResponse",
     "GroupResponse",
+    "GuideModuleProgress",
+    "GuideModuleStatus",
+    "GuideModules",
     "HTTPValidationError",
     "HealthCheckResponse",
     "HourHistogramResponse",
@@ -247,6 +252,9 @@ __all__ = [
     "InviteLinkSettingsRequest",
     "InviteLinkSettingsResponse",
     "InviteOrder",
+    "InvitePreviewResponse",
+    "InvitePreviewState",
+    "InviteRejection",
     "InviteResponse",
     "InviteStatus",
     "InviteUserRequest",
@@ -273,8 +281,9 @@ __all__ = [
     "ModelTableResult",
     "NetworkClass",
     "NonFilesystemReferenceType",
-    "OnboardingCompanyRequest",
-    "OnboardingProfileRequest",
+    "OnboardingState",
+    "OnboardingStateUpdate",
+    "OnboardingStep",
     "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
     "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
     "PaginatedResponseBillingPaymentResponse",
@@ -358,6 +367,7 @@ __all__ = [
     "SetWorkflowRunApprovalRequest",
     "SheetVisibilityChange",
     "SignInRequest",
+    "SignUpResponse",
     "SkillFile",
     "SkillOrder",
     "SkillResponse",
@@ -391,6 +401,7 @@ __all__ = [
     "TenantSettingsUpdate",
     "TenantSubscriptionResponse",
     "TenantUserEditRequest",
+    "TenantUserJoinMethod",
     "TenantUserOrder",
     "TenantUserResponse",
     "TenantUserRole",
@@ -537,8 +548,10 @@ from ksapi.exceptions import ApiException as ApiException
 from ksapi.models.accept_disclaimer_request import AcceptDisclaimerRequest as AcceptDisclaimerRequest
 from ksapi.models.accept_invite_response import AcceptInviteResponse as AcceptInviteResponse
 from ksapi.models.access_check_response import AccessCheckResponse as AccessCheckResponse
+from ksapi.models.access_request_response import AccessRequestResponse as AccessRequestResponse
 from ksapi.models.activate_skill_version_request import ActivateSkillVersionRequest as ActivateSkillVersionRequest
 from ksapi.models.add_member_request import AddMemberRequest as AddMemberRequest
+from ksapi.models.added_by import AddedBy as AddedBy
 from ksapi.models.ancestry_response import AncestryResponse as AncestryResponse
 from ksapi.models.api_auth_config import ApiAuthConfig as ApiAuthConfig
 from ksapi.models.api_connection_request_request import ApiConnectionRequestRequest as ApiConnectionRequestRequest
@@ -692,6 +705,9 @@ from ksapi.models.group_member_order import GroupMemberOrder as GroupMemberOrder
 from ksapi.models.group_permission_order import GroupPermissionOrder as GroupPermissionOrder
 from ksapi.models.group_permission_response import GroupPermissionResponse as GroupPermissionResponse
 from ksapi.models.group_response import GroupResponse as GroupResponse
+from ksapi.models.guide_module_progress import GuideModuleProgress as GuideModuleProgress
+from ksapi.models.guide_module_status import GuideModuleStatus as GuideModuleStatus
+from ksapi.models.guide_modules import GuideModules as GuideModules
 from ksapi.models.http_validation_error import HTTPValidationError as HTTPValidationError
 from ksapi.models.health_check_response import HealthCheckResponse as HealthCheckResponse
 from ksapi.models.hour_histogram_response import HourHistogramResponse as HourHistogramResponse
@@ -711,6 +727,9 @@ from ksapi.models.instruction_snapshot import InstructionSnapshot as Instruction
 from ksapi.models.invite_link_settings_request import InviteLinkSettingsRequest as InviteLinkSettingsRequest
 from ksapi.models.invite_link_settings_response import InviteLinkSettingsResponse as InviteLinkSettingsResponse
 from ksapi.models.invite_order import InviteOrder as InviteOrder
+from ksapi.models.invite_preview_response import InvitePreviewResponse as InvitePreviewResponse
+from ksapi.models.invite_preview_state import InvitePreviewState as InvitePreviewState
+from ksapi.models.invite_rejection import InviteRejection as InviteRejection
 from ksapi.models.invite_response import InviteResponse as InviteResponse
 from ksapi.models.invite_status import InviteStatus as InviteStatus
 from ksapi.models.invite_user_request import InviteUserRequest as InviteUserRequest
@@ -737,8 +756,9 @@ from ksapi.models.model_table_request import ModelTableRequest as ModelTableRequ
 from ksapi.models.model_table_result import ModelTableResult as ModelTableResult
 from ksapi.models.network_class import NetworkClass as NetworkClass
 from ksapi.models.non_filesystem_reference_type import NonFilesystemReferenceType as NonFilesystemReferenceType
-from ksapi.models.onboarding_company_request import OnboardingCompanyRequest as OnboardingCompanyRequest
-from ksapi.models.onboarding_profile_request import OnboardingProfileRequest as OnboardingProfileRequest
+from ksapi.models.onboarding_state import OnboardingState as OnboardingState
+from ksapi.models.onboarding_state_update import OnboardingStateUpdate as OnboardingStateUpdate
+from ksapi.models.onboarding_step import OnboardingStep as OnboardingStep
 from ksapi.models.paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat import PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat as PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat
 from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator import PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator as PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator
 from ksapi.models.paginated_response_billing_payment_response import PaginatedResponseBillingPaymentResponse as PaginatedResponseBillingPaymentResponse
@@ -822,6 +842,7 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest as S
 from ksapi.models.set_workflow_run_approval_request import SetWorkflowRunApprovalRequest as SetWorkflowRunApprovalRequest
 from ksapi.models.sheet_visibility_change import SheetVisibilityChange as SheetVisibilityChange
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
+from ksapi.models.sign_up_response import SignUpResponse as SignUpResponse
 from ksapi.models.skill_file import SkillFile as SkillFile
 from ksapi.models.skill_order import SkillOrder as SkillOrder
 from ksapi.models.skill_response import SkillResponse as SkillResponse
@@ -855,6 +876,7 @@ from ksapi.models.tenant_settings_response import TenantSettingsResponse as Tena
 from ksapi.models.tenant_settings_update import TenantSettingsUpdate as TenantSettingsUpdate
 from ksapi.models.tenant_subscription_response import TenantSubscriptionResponse as TenantSubscriptionResponse
 from ksapi.models.tenant_user_edit_request import TenantUserEditRequest as TenantUserEditRequest
+from ksapi.models.tenant_user_join_method import TenantUserJoinMethod as TenantUserJoinMethod
 from ksapi.models.tenant_user_order import TenantUserOrder as TenantUserOrder
 from ksapi.models.tenant_user_response import TenantUserResponse as TenantUserResponse
 from ksapi.models.tenant_user_role import TenantUserRole as TenantUserRole

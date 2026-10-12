@@ -16,8 +16,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from datetime import datetime
-from pydantic import Field
-from typing import Optional
+from pydantic import Field, StrictBool
+from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.feedback_event_response import FeedbackEventResponse
@@ -315,8 +315,9 @@ class FeedbackApi:
     def list_feedback(
         self,
         target_type: Optional[FeedbackTargetType] = None,
-        target_id: Optional[UUID] = None,
+        target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
         rating: Optional[FeedbackRating] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.")] = None,
         sort_by: Annotated[Optional[FeedbackOrder], Field(description="Field to sort feedback by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -340,14 +341,16 @@ class FeedbackApi:
     ) -> PaginatedResponseFeedbackEventResponse:
         """List Feedback Handler
 
-        List feedback entries with optional filters.  USER role: only returns their own feedback. OWNER/ADMIN role: returns feedback from all users.
+        List feedback entries with optional filters.  USER role: only returns their own feedback. OWNER/ADMIN role: returns feedback from all users unless `mine` is set.
 
         :param target_type:
         :type target_type: FeedbackTargetType
-        :param target_id:
-        :type target_id: UUID
+        :param target_id: Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).
+        :type target_id: List[UUID]
         :param rating:
         :type rating: FeedbackRating
+        :param mine: Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.
+        :type mine: bool
         :param sort_by: Field to sort feedback by (default: CREATED_AT)
         :type sort_by: FeedbackOrder
         :param sort_dir: Sort direction; overrides the field's natural default
@@ -390,6 +393,7 @@ class FeedbackApi:
             target_type=target_type,
             target_id=target_id,
             rating=rating,
+            mine=mine,
             sort_by=sort_by,
             sort_dir=sort_dir,
             limit=limit,
@@ -423,8 +427,9 @@ class FeedbackApi:
     def list_feedback_with_http_info(
         self,
         target_type: Optional[FeedbackTargetType] = None,
-        target_id: Optional[UUID] = None,
+        target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
         rating: Optional[FeedbackRating] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.")] = None,
         sort_by: Annotated[Optional[FeedbackOrder], Field(description="Field to sort feedback by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -448,14 +453,16 @@ class FeedbackApi:
     ) -> ApiResponse[PaginatedResponseFeedbackEventResponse]:
         """List Feedback Handler
 
-        List feedback entries with optional filters.  USER role: only returns their own feedback. OWNER/ADMIN role: returns feedback from all users.
+        List feedback entries with optional filters.  USER role: only returns their own feedback. OWNER/ADMIN role: returns feedback from all users unless `mine` is set.
 
         :param target_type:
         :type target_type: FeedbackTargetType
-        :param target_id:
-        :type target_id: UUID
+        :param target_id: Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).
+        :type target_id: List[UUID]
         :param rating:
         :type rating: FeedbackRating
+        :param mine: Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.
+        :type mine: bool
         :param sort_by: Field to sort feedback by (default: CREATED_AT)
         :type sort_by: FeedbackOrder
         :param sort_dir: Sort direction; overrides the field's natural default
@@ -498,6 +505,7 @@ class FeedbackApi:
             target_type=target_type,
             target_id=target_id,
             rating=rating,
+            mine=mine,
             sort_by=sort_by,
             sort_dir=sort_dir,
             limit=limit,
@@ -531,8 +539,9 @@ class FeedbackApi:
     def list_feedback_without_preload_content(
         self,
         target_type: Optional[FeedbackTargetType] = None,
-        target_id: Optional[UUID] = None,
+        target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
         rating: Optional[FeedbackRating] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.")] = None,
         sort_by: Annotated[Optional[FeedbackOrder], Field(description="Field to sort feedback by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -556,14 +565,16 @@ class FeedbackApi:
     ) -> RESTResponseType:
         """List Feedback Handler
 
-        List feedback entries with optional filters.  USER role: only returns their own feedback. OWNER/ADMIN role: returns feedback from all users.
+        List feedback entries with optional filters.  USER role: only returns their own feedback. OWNER/ADMIN role: returns feedback from all users unless `mine` is set.
 
         :param target_type:
         :type target_type: FeedbackTargetType
-        :param target_id:
-        :type target_id: UUID
+        :param target_id: Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).
+        :type target_id: List[UUID]
         :param rating:
         :type rating: FeedbackRating
+        :param mine: Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.
+        :type mine: bool
         :param sort_by: Field to sort feedback by (default: CREATED_AT)
         :type sort_by: FeedbackOrder
         :param sort_dir: Sort direction; overrides the field's natural default
@@ -606,6 +617,7 @@ class FeedbackApi:
             target_type=target_type,
             target_id=target_id,
             rating=rating,
+            mine=mine,
             sort_by=sort_by,
             sort_dir=sort_dir,
             limit=limit,
@@ -636,6 +648,7 @@ class FeedbackApi:
         target_type,
         target_id,
         rating,
+        mine,
         sort_by,
         sort_dir,
         limit,
@@ -653,6 +666,7 @@ class FeedbackApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'target_id': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -677,6 +691,10 @@ class FeedbackApi:
         if rating is not None:
             
             _query_params.append(('rating', rating.value))
+            
+        if mine is not None:
+            
+            _query_params.append(('mine', mine))
             
         if sort_by is not None:
             

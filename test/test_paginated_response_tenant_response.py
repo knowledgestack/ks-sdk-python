@@ -39,6 +39,7 @@ class TestPaginatedResponseTenantResponse(unittest.TestCase):
                     ksapi.models.tenant_response.TenantResponse(
                         id = '', 
                         name = '', 
+                        owner = null, 
                         idp_config = { }, 
                         settings = ksapi.models.tenant_settings_response.TenantSettingsResponse(
                             language = 'en', 
@@ -74,6 +75,7 @@ class TestPaginatedResponseTenantResponse(unittest.TestCase):
                     ksapi.models.tenant_response.TenantResponse(
                         id = '', 
                         name = '', 
+                        owner = null, 
                         idp_config = { }, 
                         settings = ksapi.models.tenant_settings_response.TenantSettingsResponse(
                             language = 'en', 

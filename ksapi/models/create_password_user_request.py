@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
+from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -32,7 +33,8 @@ class CreatePasswordUserRequest(BaseModel):
     email_token: StrictStr = Field(description="Email verification token")
     first_name: Optional[StrictStr] = Field(default=None, description="First name")
     last_name: Optional[StrictStr] = Field(default=None, description="Last name")
-    __properties: ClassVar[List[str]] = ["password", "email_token", "first_name", "last_name"]
+    invite_id: Optional[UUID] = Field(default=None, description="Invite to resolve before any workspace is provisioned. When it is valid for the verified email the account joins that tenant only; otherwise sign-up proceeds as usual and invite_rejection says why.")
+    __properties: ClassVar[List[str]] = ["password", "email_token", "first_name", "last_name", "invite_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,6 +85,11 @@ class CreatePasswordUserRequest(BaseModel):
         if self.last_name is None and "last_name" in self.model_fields_set:
             _dict['last_name'] = None
 
+        # set to None if invite_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.invite_id is None and "invite_id" in self.model_fields_set:
+            _dict['invite_id'] = None
+
         return _dict
 
     @classmethod
@@ -98,7 +105,8 @@ class CreatePasswordUserRequest(BaseModel):
             "password": obj.get("password"),
             "email_token": obj.get("email_token"),
             "first_name": obj.get("first_name"),
-            "last_name": obj.get("last_name")
+            "last_name": obj.get("last_name"),
+            "invite_id": obj.get("invite_id")
         })
         return _obj
 

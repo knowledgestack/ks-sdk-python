@@ -36,8 +36,8 @@ class ErrorResponse(BaseModel):
     @field_validator('code')
     def code_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['error', 'bad_request', 'permission_limit', 'unauthorized', 'forbidden', 'not_found', 'conflict', 'run_busy', 'payload_too_large', 'unsupported_media_type', 'unprocessable_entity', 'too_many_requests', 'quota_exceeded', 'not_implemented', 'service_configuration_error', 'quota_period_missing', 'internal_error', 'service_unavailable']):
-            raise ValueError("must be one of enum values ('error', 'bad_request', 'permission_limit', 'unauthorized', 'forbidden', 'not_found', 'conflict', 'run_busy', 'payload_too_large', 'unsupported_media_type', 'unprocessable_entity', 'too_many_requests', 'quota_exceeded', 'not_implemented', 'service_configuration_error', 'quota_period_missing', 'internal_error', 'service_unavailable')")
+        if value not in set(['error', 'bad_request', 'permission_limit', 'unauthorized', 'forbidden', 'no_workspace', 'not_found', 'conflict', 'tenant_deactivated', 'run_busy', 'payload_too_large', 'unsupported_media_type', 'unprocessable_entity', 'too_many_requests', 'quota_exceeded', 'not_implemented', 'service_configuration_error', 'quota_period_missing', 'internal_error', 'service_unavailable']):
+            raise ValueError("must be one of enum values ('error', 'bad_request', 'permission_limit', 'unauthorized', 'forbidden', 'no_workspace', 'not_found', 'conflict', 'tenant_deactivated', 'run_busy', 'payload_too_large', 'unsupported_media_type', 'unprocessable_entity', 'too_many_requests', 'quota_exceeded', 'not_implemented', 'service_configuration_error', 'quota_period_missing', 'internal_error', 'service_unavailable')")
         return value
 
     model_config = ConfigDict(

@@ -54,6 +54,13 @@ class TestInvitesApi(unittest.TestCase):
         """
         pass
 
+    def test_preview_invite(self) -> None:
+        """Test case for preview_invite
+
+        Preview Invite Handler
+        """
+        pass
+
     def test_update_invite(self) -> None:
         """Test case for update_invite
 

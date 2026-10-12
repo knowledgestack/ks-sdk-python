@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, List
+from ksapi.models.data_source_engine import DataSourceEngine
 from ksapi.models.supported_language import SupportedLanguage
 from ksapi.models.upload_constraints import UploadConstraints
 from typing import Optional, Set
@@ -35,7 +36,8 @@ class FeaturesResponse(BaseModel):
     sms_login_enabled: StrictBool
     default_frontend_language: SupportedLanguage
     upload: UploadConstraints
-    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "default_frontend_language", "upload"]
+    data_source_engines: List[DataSourceEngine]
+    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "default_frontend_language", "upload", "data_source_engines"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -96,7 +98,8 @@ class FeaturesResponse(BaseModel):
             "github_login_enabled": obj.get("github_login_enabled"),
             "sms_login_enabled": obj.get("sms_login_enabled"),
             "default_frontend_language": obj.get("default_frontend_language"),
-            "upload": UploadConstraints.from_dict(obj["upload"]) if obj.get("upload") is not None else None
+            "upload": UploadConstraints.from_dict(obj["upload"]) if obj.get("upload") is not None else None,
+            "data_source_engines": obj.get("data_source_engines")
         })
         return _obj
 

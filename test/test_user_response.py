@@ -48,7 +48,35 @@ class TestUserResponse(unittest.TestCase):
                 department = '',
                 bio = '',
                 avatar_url = '',
-                onboarding_completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
+                onboarding_completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                join_method = 'CREATOR',
+                onboarding_state = ksapi.models.onboarding_state.OnboardingState(
+                    current_step = 'WORKSPACE', 
+                    guide_modules = ksapi.models.guide_modules.GuideModules(
+                        core = null, 
+                        grounded_answers = null, 
+                        knowledge = null, 
+                        repeatable_work = null, 
+                        access = null, 
+                        administration = null, 
+                        documents = null, 
+                        workflow_runs = null, 
+                        search = null, 
+                        workflow_setup = null, 
+                        skills = null, 
+                        dashboard = null, 
+                        groups = null, 
+                        audit_log = null, ), 
+                    setup_checklist_dismissed = True, ),
+                invited_by = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
+                added_by = 'directory_sync',
+                idp_managed_fields = [
+                    ''
+                    ],
+                onboarding_enabled = True
             )
         else:
             return UserResponse(
@@ -60,6 +88,7 @@ class TestUserResponse(unittest.TestCase):
                 current_tenant_id = '',
                 current_tenant_role = 'USER',
                 default_tenant_id = '',
+                join_method = 'CREATOR',
         )
         """
 

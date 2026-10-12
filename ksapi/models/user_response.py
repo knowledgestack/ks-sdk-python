@@ -18,11 +18,15 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from ksapi.models.added_by import AddedBy
 from ksapi.models.idp_type import IdpType
+from ksapi.models.onboarding_state import OnboardingState
+from ksapi.models.tenant_user_join_method import TenantUserJoinMethod
 from ksapi.models.tenant_user_role import TenantUserRole
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -45,7 +49,13 @@ class UserResponse(BaseModel):
     bio: Optional[StrictStr] = Field(default=None, description="What the user wrote about themselves at the current tenant. The chat agent reads it on every turn.")
     avatar_url: Optional[StrictStr] = Field(default=None, description="Presigned URL of the user's profile photo at the current tenant. Expires after six hours; read GET /v1/users/me again for a fresh one.")
     onboarding_completed_at: Optional[datetime] = Field(default=None, description="When the user finished onboarding for the current tenant. NULL = wizard should be shown.")
-    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "department", "bio", "avatar_url", "onboarding_completed_at"]
+    join_method: TenantUserJoinMethod
+    onboarding_state: Optional[OnboardingState] = Field(default=None, description="Resume step and guide progress for the current membership.")
+    invited_by: Optional[UserInfo] = Field(default=None, description="Who sent the accepted invite that created the current membership. NULL when the membership did not come from an email invite, and on the sign-in and sign-up responses; read it from GET /v1/users/me.")
+    added_by: Optional[AddedBy] = None
+    idp_managed_fields: Optional[List[StrictStr]] = Field(default=None, description="Profile fields the identity provider overwrites on every sync, so clients render them read-only. Empty unless directory-managed.")
+    onboarding_enabled: Optional[StrictBool] = Field(default=None, description="The current tenant's onboarding switch: true forces the flow on, false hides it, NULL follows the deployment default.")
+    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "department", "bio", "avatar_url", "onboarding_completed_at", "join_method", "onboarding_state", "invited_by", "added_by", "idp_managed_fields", "onboarding_enabled"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,6 +96,12 @@ class UserResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of onboarding_state
+        if self.onboarding_state:
+            _dict['onboarding_state'] = self.onboarding_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of invited_by
+        if self.invited_by:
+            _dict['invited_by'] = self.invited_by.to_dict()
         # set to None if email (nullable) is None
         # and model_fields_set contains the field
         if self.email is None and "email" in self.model_fields_set:
@@ -131,6 +147,21 @@ class UserResponse(BaseModel):
         if self.onboarding_completed_at is None and "onboarding_completed_at" in self.model_fields_set:
             _dict['onboarding_completed_at'] = None
 
+        # set to None if onboarding_state (nullable) is None
+        # and model_fields_set contains the field
+        if self.onboarding_state is None and "onboarding_state" in self.model_fields_set:
+            _dict['onboarding_state'] = None
+
+        # set to None if invited_by (nullable) is None
+        # and model_fields_set contains the field
+        if self.invited_by is None and "invited_by" in self.model_fields_set:
+            _dict['invited_by'] = None
+
+        # set to None if onboarding_enabled (nullable) is None
+        # and model_fields_set contains the field
+        if self.onboarding_enabled is None and "onboarding_enabled" in self.model_fields_set:
+            _dict['onboarding_enabled'] = None
+
         return _dict
 
     @classmethod
@@ -156,7 +187,13 @@ class UserResponse(BaseModel):
             "department": obj.get("department"),
             "bio": obj.get("bio"),
             "avatar_url": obj.get("avatar_url"),
-            "onboarding_completed_at": obj.get("onboarding_completed_at")
+            "onboarding_completed_at": obj.get("onboarding_completed_at"),
+            "join_method": obj.get("join_method"),
+            "onboarding_state": OnboardingState.from_dict(obj["onboarding_state"]) if obj.get("onboarding_state") is not None else None,
+            "invited_by": UserInfo.from_dict(obj["invited_by"]) if obj.get("invited_by") is not None else None,
+            "added_by": obj.get("added_by"),
+            "idp_managed_fields": obj.get("idp_managed_fields"),
+            "onboarding_enabled": obj.get("onboarding_enabled")
         })
         return _obj
 

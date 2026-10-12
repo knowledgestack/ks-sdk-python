@@ -17,21 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, Optional
-from typing_extensions import Annotated
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class OnboardingProfileRequest(BaseModel):
+class AccessRequestResponse(BaseModel):
     """
-    Step 2 of onboarding — per-user info for the current tenant.
+    AccessRequestResponse
     """ # noqa: E501
-    first_name: Optional[StrictStr] = Field(default=None, description="User's first name")
-    last_name: Optional[StrictStr] = Field(default=None, description="User's last name")
-    job_title: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="What the user does at this tenant")
-    __properties: ClassVar[List[str]] = ["first_name", "last_name", "job_title"]
+    requested_at: datetime = Field(description="When this member's request was recorded. A repeat inside the daily window returns the original request and sends no second email.")
+    __properties: ClassVar[List[str]] = ["requested_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -51,7 +49,7 @@ class OnboardingProfileRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of OnboardingProfileRequest from a JSON string"""
+        """Create an instance of AccessRequestResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,26 +70,11 @@ class OnboardingProfileRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if first_name (nullable) is None
-        # and model_fields_set contains the field
-        if self.first_name is None and "first_name" in self.model_fields_set:
-            _dict['first_name'] = None
-
-        # set to None if last_name (nullable) is None
-        # and model_fields_set contains the field
-        if self.last_name is None and "last_name" in self.model_fields_set:
-            _dict['last_name'] = None
-
-        # set to None if job_title (nullable) is None
-        # and model_fields_set contains the field
-        if self.job_title is None and "job_title" in self.model_fields_set:
-            _dict['job_title'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of OnboardingProfileRequest from a dict"""
+        """Create an instance of AccessRequestResponse from a dict"""
         if obj is None:
             return None
 
@@ -99,9 +82,7 @@ class OnboardingProfileRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "first_name": obj.get("first_name"),
-            "last_name": obj.get("last_name"),
-            "job_title": obj.get("job_title")
+            "requested_at": obj.get("requested_at")
         })
         return _obj
 
