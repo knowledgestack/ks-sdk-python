@@ -26,6 +26,13 @@ class TestSystemJobsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_bulk_rerun_dv_workflows(self) -> None:
+        """Test case for bulk_rerun_dv_workflows
+
+        Bulk Rerun Dv Workflows Handler
+        """
+        pass
+
     def test_cancel_temporal_workflow(self) -> None:
         """Test case for cancel_temporal_workflow
 
@@ -58,6 +65,13 @@ class TestSystemJobsApi(unittest.TestCase):
         """Test case for get_zip_ingestion_status
 
         Get Zip Ingestion Status Handler
+        """
+        pass
+
+    def test_list_dv_workflow_uploaders(self) -> None:
+        """Test case for list_dv_workflow_uploaders
+
+        List Dv Workflow Uploaders Handler
         """
         pass
 

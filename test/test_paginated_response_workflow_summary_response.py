@@ -39,7 +39,14 @@ class TestPaginatedResponseWorkflowSummaryResponse(unittest.TestCase):
                     ksapi.models.workflow_summary_response.WorkflowSummaryResponse(
                         workflow_id = '', 
                         document_id = '', 
+                        document_name = '', 
+                        materialized_path = '', 
                         document_version_id = '', 
+                        is_active_version = True, 
+                        uploader = ksapi.models.user_info.UserInfo(
+                            user_id = '', 
+                            first_name = '', 
+                            last_name = '', ), 
                         status = 'pending', 
                         last_activity = '', 
                         error = '', 
@@ -57,7 +64,14 @@ class TestPaginatedResponseWorkflowSummaryResponse(unittest.TestCase):
                     ksapi.models.workflow_summary_response.WorkflowSummaryResponse(
                         workflow_id = '', 
                         document_id = '', 
+                        document_name = '', 
+                        materialized_path = '', 
                         document_version_id = '', 
+                        is_active_version = True, 
+                        uploader = ksapi.models.user_info.UserInfo(
+                            user_id = '', 
+                            first_name = '', 
+                            last_name = '', ), 
                         status = 'pending', 
                         last_activity = '', 
                         error = '', 

@@ -18,10 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.pipeline_status import PipelineStatus
+from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -32,14 +33,18 @@ class WorkflowSummaryResponse(BaseModel):
     """ # noqa: E501
     workflow_id: StrictStr
     document_id: UUID
+    document_name: StrictStr
+    materialized_path: StrictStr = Field(description="The document's path")
     document_version_id: UUID
+    is_active_version: StrictBool = Field(description="Whether this version is the document's active one; false for an unfinished newer upload and for a superseded older version")
+    uploader: UserInfo
     status: PipelineStatus
     last_activity: Optional[StrictStr] = None
     error: Optional[StrictStr] = None
-    last_run_timestamp: datetime
+    last_run_timestamp: datetime = Field(description="When the last run started; the upload time until a run has started")
     last_state_update_timestamp: Optional[datetime] = None
     created_at: datetime
-    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_version_id", "status", "last_activity", "error", "last_run_timestamp", "last_state_update_timestamp", "created_at"]
+    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_name", "materialized_path", "document_version_id", "is_active_version", "uploader", "status", "last_activity", "error", "last_run_timestamp", "last_state_update_timestamp", "created_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -80,6 +85,9 @@ class WorkflowSummaryResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of uploader
+        if self.uploader:
+            _dict['uploader'] = self.uploader.to_dict()
         # set to None if last_activity (nullable) is None
         # and model_fields_set contains the field
         if self.last_activity is None and "last_activity" in self.model_fields_set:
@@ -109,7 +117,11 @@ class WorkflowSummaryResponse(BaseModel):
         _obj = cls.model_validate({
             "workflow_id": obj.get("workflow_id"),
             "document_id": obj.get("document_id"),
+            "document_name": obj.get("document_name"),
+            "materialized_path": obj.get("materialized_path"),
             "document_version_id": obj.get("document_version_id"),
+            "is_active_version": obj.get("is_active_version"),
+            "uploader": UserInfo.from_dict(obj["uploader"]) if obj.get("uploader") is not None else None,
             "status": obj.get("status"),
             "last_activity": obj.get("last_activity"),
             "error": obj.get("error"),

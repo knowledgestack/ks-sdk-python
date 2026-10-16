@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.13.1"
+__version__ = "3.14.0"
 
 # Define package exports
 __all__ = [
@@ -107,6 +107,7 @@ __all__ = [
     "BulkModelTablesResponse",
     "BulkMoveRequest",
     "BulkOperationResponse",
+    "BulkRerunRequest",
     "BulkRevokeRequest",
     "BulkTagRequest",
     "BulkTrashRequest",
@@ -307,6 +308,7 @@ __all__ = [
     "PaginatedResponseThreadMessageResponse",
     "PaginatedResponseThreadResponse",
     "PaginatedResponseTrashItemResponse",
+    "PaginatedResponseUserInfo",
     "PaginatedResponseWorkflowDefinitionResponse",
     "PaginatedResponseWorkflowRunResponse",
     "PaginatedResponseWorkflowSummaryResponse",
@@ -582,6 +584,7 @@ from ksapi.models.bulk_model_tables_request import BulkModelTablesRequest as Bul
 from ksapi.models.bulk_model_tables_response import BulkModelTablesResponse as BulkModelTablesResponse
 from ksapi.models.bulk_move_request import BulkMoveRequest as BulkMoveRequest
 from ksapi.models.bulk_operation_response import BulkOperationResponse as BulkOperationResponse
+from ksapi.models.bulk_rerun_request import BulkRerunRequest as BulkRerunRequest
 from ksapi.models.bulk_revoke_request import BulkRevokeRequest as BulkRevokeRequest
 from ksapi.models.bulk_tag_request import BulkTagRequest as BulkTagRequest
 from ksapi.models.bulk_trash_request import BulkTrashRequest as BulkTrashRequest
@@ -782,6 +785,7 @@ from ksapi.models.paginated_response_tenant_user_response import PaginatedRespon
 from ksapi.models.paginated_response_thread_message_response import PaginatedResponseThreadMessageResponse as PaginatedResponseThreadMessageResponse
 from ksapi.models.paginated_response_thread_response import PaginatedResponseThreadResponse as PaginatedResponseThreadResponse
 from ksapi.models.paginated_response_trash_item_response import PaginatedResponseTrashItemResponse as PaginatedResponseTrashItemResponse
+from ksapi.models.paginated_response_user_info import PaginatedResponseUserInfo as PaginatedResponseUserInfo
 from ksapi.models.paginated_response_workflow_definition_response import PaginatedResponseWorkflowDefinitionResponse as PaginatedResponseWorkflowDefinitionResponse
 from ksapi.models.paginated_response_workflow_run_response import PaginatedResponseWorkflowRunResponse as PaginatedResponseWorkflowRunResponse
 from ksapi.models.paginated_response_workflow_summary_response import PaginatedResponseWorkflowSummaryResponse as PaginatedResponseWorkflowSummaryResponse

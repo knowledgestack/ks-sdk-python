@@ -15,10 +15,17 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-from typing import Optional
+from datetime import datetime
+from pydantic import Field, StrictBool, StrictStr
+from typing import List, Optional
 from typing_extensions import Annotated
+from uuid import UUID
+from ksapi.models.bulk_operation_response import BulkOperationResponse
+from ksapi.models.bulk_rerun_request import BulkRerunRequest
+from ksapi.models.paginated_response_user_info import PaginatedResponseUserInfo
 from ksapi.models.paginated_response_workflow_summary_response import PaginatedResponseWorkflowSummaryResponse
+from ksapi.models.pipeline_status import PipelineStatus
+from ksapi.models.sort_direction import SortDirection
 from ksapi.models.temporal_workflow_status_response import TemporalWorkflowStatusResponse
 from ksapi.models.workflow_action_response import WorkflowActionResponse
 from ksapi.models.workflow_cancel_response import WorkflowCancelResponse
@@ -44,6 +51,284 @@ class SystemJobsApi:
 
 
     @validate_call
+    def bulk_rerun_dv_workflows(
+        self,
+        bulk_rerun_request: BulkRerunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkOperationResponse:
+        """Bulk Rerun Dv Workflows Handler
+
+        Re-run ingestion for the selected document versions, reporting per item.  ``not_found``: missing, trashed, never ingested or without its stored source; ``forbidden``: no ``can_write``; ``in_progress_workflow``: still pending/processing; ``already_ingested``: completed; ``unsupported_document_type``: a type that is no longer ingested; ``superseded``: a newer version of the document exists. More than 200 ids is a 400 before any re-run.
+
+        :param bulk_rerun_request: (required)
+        :type bulk_rerun_request: BulkRerunRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._bulk_rerun_dv_workflows_serialize(
+            bulk_rerun_request=bulk_rerun_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BulkOperationResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def bulk_rerun_dv_workflows_with_http_info(
+        self,
+        bulk_rerun_request: BulkRerunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkOperationResponse]:
+        """Bulk Rerun Dv Workflows Handler
+
+        Re-run ingestion for the selected document versions, reporting per item.  ``not_found``: missing, trashed, never ingested or without its stored source; ``forbidden``: no ``can_write``; ``in_progress_workflow``: still pending/processing; ``already_ingested``: completed; ``unsupported_document_type``: a type that is no longer ingested; ``superseded``: a newer version of the document exists. More than 200 ids is a 400 before any re-run.
+
+        :param bulk_rerun_request: (required)
+        :type bulk_rerun_request: BulkRerunRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._bulk_rerun_dv_workflows_serialize(
+            bulk_rerun_request=bulk_rerun_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BulkOperationResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def bulk_rerun_dv_workflows_without_preload_content(
+        self,
+        bulk_rerun_request: BulkRerunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Rerun Dv Workflows Handler
+
+        Re-run ingestion for the selected document versions, reporting per item.  ``not_found``: missing, trashed, never ingested or without its stored source; ``forbidden``: no ``can_write``; ``in_progress_workflow``: still pending/processing; ``already_ingested``: completed; ``unsupported_document_type``: a type that is no longer ingested; ``superseded``: a newer version of the document exists. More than 200 ids is a 400 before any re-run.
+
+        :param bulk_rerun_request: (required)
+        :type bulk_rerun_request: BulkRerunRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._bulk_rerun_dv_workflows_serialize(
+            bulk_rerun_request=bulk_rerun_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BulkOperationResponse",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _bulk_rerun_dv_workflows_serialize(
+        self,
+        bulk_rerun_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if bulk_rerun_request is not None:
+            _body_params = bulk_rerun_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/system-jobs/document_versions/bulk-rerun',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def cancel_temporal_workflow(
         self,
         workflow_id: StrictStr,
@@ -62,7 +347,7 @@ class SystemJobsApi:
     ) -> WorkflowCancelResponse:
         """Cancel Temporal Workflow Handler
 
-        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side.
+        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side. A run no worker ever picked up is terminated instead, since a cancel request is itself a workflow task nobody would process. When Temporal no longer has the run, or it was terminated here, a document version still showing it running is settled as cancelled (needs ``can_write``) so it can be re-run.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -130,7 +415,7 @@ class SystemJobsApi:
     ) -> ApiResponse[WorkflowCancelResponse]:
         """Cancel Temporal Workflow Handler
 
-        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side.
+        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side. A run no worker ever picked up is terminated instead, since a cancel request is itself a workflow task nobody would process. When Temporal no longer has the run, or it was terminated here, a document version still showing it running is settled as cancelled (needs ``can_write``) so it can be re-run.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -198,7 +483,7 @@ class SystemJobsApi:
     ) -> RESTResponseType:
         """Cancel Temporal Workflow Handler
 
-        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side.
+        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side. A run no worker ever picked up is terminated instead, since a cancel request is itself a workflow task nobody would process. When Temporal no longer has the run, or it was terminated here, a document version still showing it running is settled as cancelled (needs ``can_write``) so it can be re-run.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -327,7 +612,7 @@ class SystemJobsApi:
     ) -> WorkflowActionResponse:
         """Dv Workflow Rerun Handler
 
-        Rerun a workflow. USER role requires ``can_write`` on the document path.  ``s3_client`` is injected because ``DocumentIngestionService.__init__`` requires it, even though the re-ingestion path reuses the existing S3 source.
+        Rerun a workflow. USER role requires ``can_write`` on the document path.  A version that a newer live version supersedes is refused with 409. ``s3_client`` is injected because ``DocumentIngestionService.__init__`` requires it, even though the re-ingestion path reuses the existing S3 source.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -395,7 +680,7 @@ class SystemJobsApi:
     ) -> ApiResponse[WorkflowActionResponse]:
         """Dv Workflow Rerun Handler
 
-        Rerun a workflow. USER role requires ``can_write`` on the document path.  ``s3_client`` is injected because ``DocumentIngestionService.__init__`` requires it, even though the re-ingestion path reuses the existing S3 source.
+        Rerun a workflow. USER role requires ``can_write`` on the document path.  A version that a newer live version supersedes is refused with 409. ``s3_client`` is injected because ``DocumentIngestionService.__init__`` requires it, even though the re-ingestion path reuses the existing S3 source.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -463,7 +748,7 @@ class SystemJobsApi:
     ) -> RESTResponseType:
         """Dv Workflow Rerun Handler
 
-        Rerun a workflow. USER role requires ``can_write`` on the document path.  ``s3_client`` is injected because ``DocumentIngestionService.__init__`` requires it, even though the re-ingestion path reuses the existing S3 source.
+        Rerun a workflow. USER role requires ``can_write`` on the document path.  A version that a newer live version supersedes is refused with 409. ``s3_client`` is injected because ``DocumentIngestionService.__init__`` requires it, even though the re-ingestion path reuses the existing S3 source.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -1122,7 +1407,7 @@ class SystemJobsApi:
     ) -> ZipIngestionStatusResponse:
         """Get Zip Ingestion Status Handler
 
-        Get a ZIP fan-out's live status + per-member outcomes.  Tenant-scoped via the TenantId search attribute (no per-path can_read check — intentionally consistent with the sibling generic Temporal endpoints below; the opaque workflow_id is only handed to the uploader, who had can_write on the target). The per-member results come from the workflow's ``results`` query (served from retained history), so once Temporal retention expires this 404s.
+        Get a ZIP fan-out's live status + per-member outcomes.  Tenant-scoped via the TenantId search attribute (no per-path can_read check — intentionally consistent with the sibling generic Temporal endpoints below; the opaque workflow_id is only handed to the uploader, who had can_write on the target). The per-member results come from the workflow's ``results`` query (served from retained history), so once Temporal retention expires this 404s. Any other workflow type has no ``results`` query and is a 404, not a 500.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -1190,7 +1475,7 @@ class SystemJobsApi:
     ) -> ApiResponse[ZipIngestionStatusResponse]:
         """Get Zip Ingestion Status Handler
 
-        Get a ZIP fan-out's live status + per-member outcomes.  Tenant-scoped via the TenantId search attribute (no per-path can_read check — intentionally consistent with the sibling generic Temporal endpoints below; the opaque workflow_id is only handed to the uploader, who had can_write on the target). The per-member results come from the workflow's ``results`` query (served from retained history), so once Temporal retention expires this 404s.
+        Get a ZIP fan-out's live status + per-member outcomes.  Tenant-scoped via the TenantId search attribute (no per-path can_read check — intentionally consistent with the sibling generic Temporal endpoints below; the opaque workflow_id is only handed to the uploader, who had can_write on the target). The per-member results come from the workflow's ``results`` query (served from retained history), so once Temporal retention expires this 404s. Any other workflow type has no ``results`` query and is a 404, not a 500.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -1258,7 +1543,7 @@ class SystemJobsApi:
     ) -> RESTResponseType:
         """Get Zip Ingestion Status Handler
 
-        Get a ZIP fan-out's live status + per-member outcomes.  Tenant-scoped via the TenantId search attribute (no per-path can_read check — intentionally consistent with the sibling generic Temporal endpoints below; the opaque workflow_id is only handed to the uploader, who had can_write on the target). The per-member results come from the workflow's ``results`` query (served from retained history), so once Temporal retention expires this 404s.
+        Get a ZIP fan-out's live status + per-member outcomes.  Tenant-scoped via the TenantId search attribute (no per-path can_read check — intentionally consistent with the sibling generic Temporal endpoints below; the opaque workflow_id is only handed to the uploader, who had can_write on the target). The per-member results come from the workflow's ``results`` query (served from retained history), so once Temporal retention expires this 404s. Any other workflow type has no ``results`` query and is a 404, not a 500.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -1369,8 +1654,9 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflows(
+    def list_dv_workflow_uploaders(
         self,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1385,11 +1671,13 @@ class SystemJobsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseWorkflowSummaryResponse:
-        """List Dv Workflows Handler
+    ) -> PaginatedResponseUserInfo:
+        """List Dv Workflow Uploaders Handler
 
-        List all workflows for the current tenant (paginated, DB-backed).  ADMIN/OWNER see all workflows; USER sees only those under permitted paths.
+        People who uploaded a version the caller can list, for the uploader filter.  Scoped like ``list_dv_workflows``: USER only counts versions under readable paths.
 
+        :param username_like: Case-insensitive substring of the first or last name
+        :type username_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1416,9 +1704,343 @@ class SystemJobsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
+        _param = self._list_dv_workflow_uploaders_serialize(
+            username_like=username_like,
+            limit=limit,
+            offset=offset,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseUserInfo",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def list_dv_workflow_uploaders_with_http_info(
+        self,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseUserInfo]:
+        """List Dv Workflow Uploaders Handler
+
+        People who uploaded a version the caller can list, for the uploader filter.  Scoped like ``list_dv_workflows``: USER only counts versions under readable paths.
+
+        :param username_like: Case-insensitive substring of the first or last name
+        :type username_like: str
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_dv_workflow_uploaders_serialize(
+            username_like=username_like,
+            limit=limit,
+            offset=offset,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseUserInfo",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def list_dv_workflow_uploaders_without_preload_content(
+        self,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Dv Workflow Uploaders Handler
+
+        People who uploaded a version the caller can list, for the uploader filter.  Scoped like ``list_dv_workflows``: USER only counts versions under readable paths.
+
+        :param username_like: Case-insensitive substring of the first or last name
+        :type username_like: str
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_dv_workflow_uploaders_serialize(
+            username_like=username_like,
+            limit=limit,
+            offset=offset,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaginatedResponseUserInfo",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _list_dv_workflow_uploaders_serialize(
+        self,
+        username_like,
+        limit,
+        offset,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if username_like is not None:
+            
+            _query_params.append(('username_like', username_like))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/system-jobs/document_versions/uploaders',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def list_dv_workflows(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        status: Annotated[Optional[List[PipelineStatus]], Field(description="Only versions in one of these pipeline statuses")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on document name")] = None,
+        latest_version_only: Annotated[Optional[StrictBool], Field(description="Skip versions superseded by a newer version")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions uploaded by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseWorkflowSummaryResponse:
+        """List Dv Workflows Handler
+
+        List ingestions of live documents in the current tenant, newest upload first.  ADMIN/OWNER see every version; USER only versions under readable paths. ``sort_dir=ASC`` lists the oldest upload first.
+
+        :param limit: Number of items per page
+        :type limit: int
+        :param offset: Number of items to skip
+        :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
+        :param status: Only versions in one of these pipeline statuses
+        :type status: List[PipelineStatus]
+        :param name_like: Case-insensitive substring filter on document name
+        :type name_like: str
+        :param latest_version_only: Skip versions superseded by a newer version
+        :type latest_version_only: bool
+        :param uploader_user_id: Filter to versions uploaded by this user
+        :type uploader_user_id: UUID
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
         _param = self._list_dv_workflows_serialize(
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
+            status=status,
+            name_like=name_like,
+            latest_version_only=latest_version_only,
+            uploader_user_id=uploader_user_id,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1445,6 +2067,15 @@ class SystemJobsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        status: Annotated[Optional[List[PipelineStatus]], Field(description="Only versions in one of these pipeline statuses")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on document name")] = None,
+        latest_version_only: Annotated[Optional[StrictBool], Field(description="Skip versions superseded by a newer version")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions uploaded by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1460,12 +2091,30 @@ class SystemJobsApi:
     ) -> ApiResponse[PaginatedResponseWorkflowSummaryResponse]:
         """List Dv Workflows Handler
 
-        List all workflows for the current tenant (paginated, DB-backed).  ADMIN/OWNER see all workflows; USER sees only those under permitted paths.
+        List ingestions of live documents in the current tenant, newest upload first.  ADMIN/OWNER see every version; USER only versions under readable paths. ``sort_dir=ASC`` lists the oldest upload first.
 
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
+        :param status: Only versions in one of these pipeline statuses
+        :type status: List[PipelineStatus]
+        :param name_like: Case-insensitive substring filter on document name
+        :type name_like: str
+        :param latest_version_only: Skip versions superseded by a newer version
+        :type latest_version_only: bool
+        :param uploader_user_id: Filter to versions uploaded by this user
+        :type uploader_user_id: UUID
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1491,6 +2140,15 @@ class SystemJobsApi:
         _param = self._list_dv_workflows_serialize(
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
+            status=status,
+            name_like=name_like,
+            latest_version_only=latest_version_only,
+            uploader_user_id=uploader_user_id,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1517,6 +2175,15 @@ class SystemJobsApi:
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        status: Annotated[Optional[List[PipelineStatus]], Field(description="Only versions in one of these pipeline statuses")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on document name")] = None,
+        latest_version_only: Annotated[Optional[StrictBool], Field(description="Skip versions superseded by a newer version")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions uploaded by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1532,12 +2199,30 @@ class SystemJobsApi:
     ) -> RESTResponseType:
         """List Dv Workflows Handler
 
-        List all workflows for the current tenant (paginated, DB-backed).  ADMIN/OWNER see all workflows; USER sees only those under permitted paths.
+        List ingestions of live documents in the current tenant, newest upload first.  ADMIN/OWNER see every version; USER only versions under readable paths. ``sort_dir=ASC`` lists the oldest upload first.
 
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
+        :param status: Only versions in one of these pipeline statuses
+        :type status: List[PipelineStatus]
+        :param name_like: Case-insensitive substring filter on document name
+        :type name_like: str
+        :param latest_version_only: Skip versions superseded by a newer version
+        :type latest_version_only: bool
+        :param uploader_user_id: Filter to versions uploaded by this user
+        :type uploader_user_id: UUID
+        :param created_after: Only items created at or after this timestamp (inclusive)
+        :type created_after: datetime
+        :param created_before: Only items created strictly before this timestamp
+        :type created_before: datetime
+        :param updated_after: Only items updated at or after this timestamp (inclusive)
+        :type updated_after: datetime
+        :param updated_before: Only items updated strictly before this timestamp
+        :type updated_before: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1563,6 +2248,15 @@ class SystemJobsApi:
         _param = self._list_dv_workflows_serialize(
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
+            status=status,
+            name_like=name_like,
+            latest_version_only=latest_version_only,
+            uploader_user_id=uploader_user_id,
+            created_after=created_after,
+            created_before=created_before,
+            updated_after=updated_after,
+            updated_before=updated_before,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1584,6 +2278,15 @@ class SystemJobsApi:
         self,
         limit,
         offset,
+        sort_dir,
+        status,
+        name_like,
+        latest_version_only,
+        uploader_user_id,
+        created_after,
+        created_before,
+        updated_after,
+        updated_before,
         _request_auth,
         _content_type,
         _headers,
@@ -1593,6 +2296,7 @@ class SystemJobsApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'status': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -1613,6 +2317,78 @@ class SystemJobsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if name_like is not None:
+            
+            _query_params.append(('name_like', name_like))
+            
+        if latest_version_only is not None:
+            
+            _query_params.append(('latest_version_only', latest_version_only))
+            
+        if uploader_user_id is not None:
+            
+            _query_params.append(('uploader_user_id', uploader_user_id))
+            
+        if created_after is not None:
+            if isinstance(created_after, datetime):
+                _query_params.append(
+                    (
+                        'created_after',
+                        created_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_after', created_after))
+            
+        if created_before is not None:
+            if isinstance(created_before, datetime):
+                _query_params.append(
+                    (
+                        'created_before',
+                        created_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('created_before', created_before))
+            
+        if updated_after is not None:
+            if isinstance(updated_after, datetime):
+                _query_params.append(
+                    (
+                        'updated_after',
+                        updated_after.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_after', updated_after))
+            
+        if updated_before is not None:
+            if isinstance(updated_before, datetime):
+                _query_params.append(
+                    (
+                        'updated_before',
+                        updated_before.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('updated_before', updated_before))
             
         # process the header parameters
         # process the form parameters

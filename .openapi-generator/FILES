@@ -52,6 +52,7 @@ docs/BulkModelTablesResponse.md
 docs/BulkMoveApi.md
 docs/BulkMoveRequest.md
 docs/BulkOperationResponse.md
+docs/BulkRerunRequest.md
 docs/BulkRevokeRequest.md
 docs/BulkTagRequest.md
 docs/BulkTrashRequest.md
@@ -265,6 +266,7 @@ docs/PaginatedResponseTenantUserResponse.md
 docs/PaginatedResponseThreadMessageResponse.md
 docs/PaginatedResponseThreadResponse.md
 docs/PaginatedResponseTrashItemResponse.md
+docs/PaginatedResponseUserInfo.md
 docs/PaginatedResponseWorkflowDefinitionResponse.md
 docs/PaginatedResponseWorkflowRunResponse.md
 docs/PaginatedResponseWorkflowSummaryResponse.md
@@ -551,6 +553,7 @@ ksapi/models/bulk_model_tables_request.py
 ksapi/models/bulk_model_tables_response.py
 ksapi/models/bulk_move_request.py
 ksapi/models/bulk_operation_response.py
+ksapi/models/bulk_rerun_request.py
 ksapi/models/bulk_revoke_request.py
 ksapi/models/bulk_tag_request.py
 ksapi/models/bulk_trash_request.py
@@ -751,6 +754,7 @@ ksapi/models/paginated_response_tenant_user_response.py
 ksapi/models/paginated_response_thread_message_response.py
 ksapi/models/paginated_response_thread_response.py
 ksapi/models/paginated_response_trash_item_response.py
+ksapi/models/paginated_response_user_info.py
 ksapi/models/paginated_response_workflow_definition_response.py
 ksapi/models/paginated_response_workflow_run_response.py
 ksapi/models/paginated_response_workflow_summary_response.py
@@ -986,6 +990,7 @@ test/test_bulk_model_tables_response.py
 test/test_bulk_move_api.py
 test/test_bulk_move_request.py
 test/test_bulk_operation_response.py
+test/test_bulk_rerun_request.py
 test/test_bulk_revoke_request.py
 test/test_bulk_tag_request.py
 test/test_bulk_trash_request.py
@@ -1199,6 +1204,7 @@ test/test_paginated_response_tenant_user_response.py
 test/test_paginated_response_thread_message_response.py
 test/test_paginated_response_thread_response.py
 test/test_paginated_response_trash_item_response.py
+test/test_paginated_response_user_info.py
 test/test_paginated_response_workflow_definition_response.py
 test/test_paginated_response_workflow_run_response.py
 test/test_paginated_response_workflow_summary_response.py

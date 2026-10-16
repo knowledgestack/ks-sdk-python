@@ -37,7 +37,14 @@ class TestWorkflowDetailResponse(unittest.TestCase):
             return WorkflowDetailResponse(
                 workflow_id = '',
                 document_id = '',
+                document_name = '',
+                materialized_path = '',
                 document_version_id = '',
+                is_active_version = True,
+                uploader = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 status = 'pending',
                 last_activity = '',
                 error = '',
@@ -56,7 +63,14 @@ class TestWorkflowDetailResponse(unittest.TestCase):
             return WorkflowDetailResponse(
                 workflow_id = '',
                 document_id = '',
+                document_name = '',
+                materialized_path = '',
                 document_version_id = '',
+                is_active_version = True,
+                uploader = ksapi.models.user_info.UserInfo(
+                    user_id = '', 
+                    first_name = '', 
+                    last_name = '', ),
                 status = 'pending',
                 last_run_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),

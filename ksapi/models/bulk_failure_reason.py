@@ -36,6 +36,9 @@ class BulkFailureReason(str, Enum):
     NAME_CONFLICT = 'name_conflict'
     IN_PROGRESS_WORKFLOW = 'in_progress_workflow'
     PERMISSION_LIMIT = 'permission_limit'
+    ALREADY_INGESTED = 'already_ingested'
+    UNSUPPORTED_DOCUMENT_TYPE = 'unsupported_document_type'
+    SUPERSEDED = 'superseded'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
