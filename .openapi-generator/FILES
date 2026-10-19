@@ -333,6 +333,7 @@ docs/SheetVisibilityChange.md
 docs/SignInRequest.md
 docs/SignUpResponse.md
 docs/SkillFile.md
+docs/SkillFileDocument.md
 docs/SkillOrder.md
 docs/SkillResponse.md
 docs/SkillSearchResult.md
@@ -816,6 +817,7 @@ ksapi/models/sheet_visibility_change.py
 ksapi/models/sign_in_request.py
 ksapi/models/sign_up_response.py
 ksapi/models/skill_file.py
+ksapi/models/skill_file_document.py
 ksapi/models/skill_order.py
 ksapi/models/skill_response.py
 ksapi/models/skill_search_result.py
@@ -1270,6 +1272,7 @@ test/test_sheet_visibility_change.py
 test/test_sign_in_request.py
 test/test_sign_up_response.py
 test/test_skill_file.py
+test/test_skill_file_document.py
 test/test_skill_order.py
 test/test_skill_response.py
 test/test_skill_search_result.py

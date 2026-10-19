@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.15.1"
+__version__ = "3.16.0"
 
 # Define package exports
 __all__ = [
@@ -371,6 +371,7 @@ __all__ = [
     "SignInRequest",
     "SignUpResponse",
     "SkillFile",
+    "SkillFileDocument",
     "SkillOrder",
     "SkillResponse",
     "SkillSearchResult",
@@ -848,6 +849,7 @@ from ksapi.models.sheet_visibility_change import SheetVisibilityChange as SheetV
 from ksapi.models.sign_in_request import SignInRequest as SignInRequest
 from ksapi.models.sign_up_response import SignUpResponse as SignUpResponse
 from ksapi.models.skill_file import SkillFile as SkillFile
+from ksapi.models.skill_file_document import SkillFileDocument as SkillFileDocument
 from ksapi.models.skill_order import SkillOrder as SkillOrder
 from ksapi.models.skill_response import SkillResponse as SkillResponse
 from ksapi.models.skill_search_result import SkillSearchResult as SkillSearchResult

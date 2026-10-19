@@ -292,6 +292,11 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         content = '', 
                         encoding = 'utf-8', )
                     ],
+                file_documents = [
+                    ksapi.models.skill_file_document.SkillFileDocument(
+                        path = '', 
+                        document_id = '', )
+                    ],
                 has_unpublished_changes = True
             )
         else:

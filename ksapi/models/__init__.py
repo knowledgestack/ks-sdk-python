@@ -314,6 +314,7 @@ from ksapi.models.sheet_visibility_change import SheetVisibilityChange
 from ksapi.models.sign_in_request import SignInRequest
 from ksapi.models.sign_up_response import SignUpResponse
 from ksapi.models.skill_file import SkillFile
+from ksapi.models.skill_file_document import SkillFileDocument
 from ksapi.models.skill_order import SkillOrder
 from ksapi.models.skill_response import SkillResponse
 from ksapi.models.skill_search_result import SkillSearchResult

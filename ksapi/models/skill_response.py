@@ -24,6 +24,7 @@ from uuid import UUID
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.skill_file import SkillFile
+from ksapi.models.skill_file_document import SkillFileDocument
 from ksapi.models.user_info import UserInfo
 from typing import Optional, Set
 from typing_extensions import Self
@@ -44,13 +45,14 @@ class SkillResponse(BaseModel):
     skill_md: Optional[StrictStr] = Field(default=None, description="Full SKILL.md content; populated on the detail read and on mutation responses, null on list.")
     file_paths: Optional[List[StrictStr]] = Field(default=None, description="Bundle file paths relative to the skill root (SKILL.md excluded); populated on the detail read and on mutation responses, empty on list.")
     files: Optional[List[SkillFile]] = Field(default=None, description="Bundle files with their contents; populated only on the detail read (GET /skills/{id}), null on list. Lets the editor read the current file set so a PATCH can safely resubmit the whole set.")
+    file_documents: Optional[List[SkillFileDocument]] = Field(default=None, description="Every working file with its Document id, SKILL.md included, sorted by path; populated with file_paths, empty on list.")
     has_unpublished_changes: Optional[StrictBool] = Field(default=False, description="Whether the working copy differs from the active published version. Always present (incl. list responses) so the UI can flag a skill with an unpublished draft.")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Creator, or null.")
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; populated on the list, detail read, and mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "skill_md", "file_paths", "files", "has_unpublished_changes", "approval_state", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "description", "skill_md", "file_paths", "files", "file_documents", "has_unpublished_changes", "approval_state", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -108,6 +110,13 @@ class SkillResponse(BaseModel):
                 if _item_files:
                     _items.append(_item_files.to_dict())
             _dict['files'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in file_documents (list)
+        _items = []
+        if self.file_documents:
+            for _item_file_documents in self.file_documents:
+                if _item_file_documents:
+                    _items.append(_item_file_documents.to_dict())
+            _dict['file_documents'] = _items
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
@@ -162,6 +171,7 @@ class SkillResponse(BaseModel):
             "skill_md": obj.get("skill_md"),
             "file_paths": obj.get("file_paths"),
             "files": [SkillFile.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None,
+            "file_documents": [SkillFileDocument.from_dict(_item) for _item in obj["file_documents"]] if obj.get("file_documents") is not None else None,
             "has_unpublished_changes": obj.get("has_unpublished_changes") if obj.get("has_unpublished_changes") is not None else False,
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
