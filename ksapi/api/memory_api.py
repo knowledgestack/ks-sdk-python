@@ -20,7 +20,7 @@ from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.memory_body_response import MemoryBodyResponse
-from ksapi.models.memory_chunk_response import MemoryChunkResponse
+from ksapi.models.memory_entry_response import MemoryEntryResponse
 from ksapi.models.memory_scope import MemoryScope
 from ksapi.models.paginated_response_pending_memory_chunk_response import PaginatedResponsePendingMemoryChunkResponse
 from ksapi.models.pending_memory_chunk_response import PendingMemoryChunkResponse
@@ -60,7 +60,7 @@ class MemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MemoryChunkResponse:
+    ) -> MemoryEntryResponse:
         """Approve Memory Proposal Handler
 
 
@@ -97,7 +97,7 @@ class MemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -127,7 +127,7 @@ class MemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MemoryChunkResponse]:
+    ) -> ApiResponse[MemoryEntryResponse]:
         """Approve Memory Proposal Handler
 
 
@@ -164,7 +164,7 @@ class MemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -231,7 +231,7 @@ class MemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

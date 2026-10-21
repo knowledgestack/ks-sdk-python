@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.paginated_response_memory_chunk_response import PaginatedResponseMemoryChunkResponse
+from ksapi.models.repo_version_response import RepoVersionResponse
 
-class TestPaginatedResponseMemoryChunkResponse(unittest.TestCase):
-    """PaginatedResponseMemoryChunkResponse unit test stubs"""
+class TestRepoVersionResponse(unittest.TestCase):
+    """RepoVersionResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,42 +25,41 @@ class TestPaginatedResponseMemoryChunkResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> PaginatedResponseMemoryChunkResponse:
-        """Test PaginatedResponseMemoryChunkResponse
+    def make_instance(self, include_optional) -> RepoVersionResponse:
+        """Test RepoVersionResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `PaginatedResponseMemoryChunkResponse`
+        # uncomment below to create an instance of `RepoVersionResponse`
         """
-        model = PaginatedResponseMemoryChunkResponse()
+        model = RepoVersionResponse()
         if include_optional:
-            return PaginatedResponseMemoryChunkResponse(
-                items = [
-                    ksapi.models.memory_chunk_response.MemoryChunkResponse(
-                        chunk_id = '', 
-                        kind = 'CORRECTION', 
-                        body = '', )
-                    ],
-                total = 0.0,
-                limit = 1.0,
-                offset = 0.0
+            return RepoVersionResponse(
+                version_id = '',
+                head_sha = '',
+                previous_head_sha = '',
+                commits_added = 56,
+                run_id = '',
+                saved_by_user_id = '',
+                saved_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                instruction_version_id = '',
+                candidate_version_id = ''
             )
         else:
-            return PaginatedResponseMemoryChunkResponse(
-                items = [
-                    ksapi.models.memory_chunk_response.MemoryChunkResponse(
-                        chunk_id = '', 
-                        kind = 'CORRECTION', 
-                        body = '', )
-                    ],
-                total = 0.0,
-                limit = 1.0,
-                offset = 0.0,
+            return RepoVersionResponse(
+                version_id = '',
+                head_sha = '',
+                previous_head_sha = '',
+                commits_added = 56,
+                run_id = '',
+                saved_by_user_id = '',
+                saved_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                instruction_version_id = '',
         )
         """
 
-    def testPaginatedResponseMemoryChunkResponse(self):
-        """Test PaginatedResponseMemoryChunkResponse"""
+    def testRepoVersionResponse(self):
+        """Test RepoVersionResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

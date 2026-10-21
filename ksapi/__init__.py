@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.16.2"
+__version__ = "3.17.0"
 
 # Define package exports
 __all__ = [
@@ -28,6 +28,7 @@ __all__ = [
     "TranscriptionsApi",
     "WorkflowDefinitionsApi",
     "WorkflowMemoryApi",
+    "WorkflowRepositoryApi",
     "WorkflowRunsApi",
     "AdminKbApi",
     "AdminWorkflowsApi",
@@ -272,7 +273,7 @@ __all__ = [
     "LocationInner",
     "MembershipResponse",
     "MemoryBodyResponse",
-    "MemoryChunkResponse",
+    "MemoryEntryResponse",
     "MemoryKind",
     "MemoryScope",
     "MessageRole",
@@ -297,10 +298,11 @@ __all__ = [
     "PaginatedResponseGroupResponse",
     "PaginatedResponseInviteResponse",
     "PaginatedResponseMembershipResponse",
-    "PaginatedResponseMemoryChunkResponse",
+    "PaginatedResponseMemoryEntryResponse",
     "PaginatedResponsePathPartResponse",
     "PaginatedResponsePendingMemoryChunkResponse",
     "PaginatedResponsePermissionResponse",
+    "PaginatedResponseRepoVersionResponse",
     "PaginatedResponseSkillResponse",
     "PaginatedResponseTagResponse",
     "PaginatedResponseTenantResponse",
@@ -335,8 +337,16 @@ __all__ = [
     "PolygonReference",
     "ProposeMemoryChunkRequest",
     "ReasoningPart",
+    "RecordRepoSaveSkipRequest",
     "ReferenceType",
     "ReorderPathPartRequest",
+    "RepoBranchResponse",
+    "RepoCommitSummary",
+    "RepoSaveSkipReason",
+    "RepoSnapshot",
+    "RepoTreeEntry",
+    "RepoTreeResponse",
+    "RepoVersionResponse",
     "RequestPhoneChangeRequest",
     "ResolvedRef",
     "ResolvedReferenceInput",
@@ -472,6 +482,7 @@ __all__ = [
     "WorkflowExecutionState",
     "WorkflowLeaderboardResponse",
     "WorkflowOutputStatsResponse",
+    "WorkflowRepoResponse",
     "WorkflowRunAsset",
     "WorkflowRunCallbackRequest",
     "WorkflowRunOrder",
@@ -502,6 +513,7 @@ from ksapi.api.threads_api import ThreadsApi as ThreadsApi
 from ksapi.api.transcriptions_api import TranscriptionsApi as TranscriptionsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi as WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi as WorkflowMemoryApi
+from ksapi.api.workflow_repository_api import WorkflowRepositoryApi as WorkflowRepositoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi as WorkflowRunsApi
 from ksapi.api.admin_kb_api import AdminKbApi as AdminKbApi
 from ksapi.api.admin_workflows_api import AdminWorkflowsApi as AdminWorkflowsApi
@@ -750,7 +762,7 @@ from ksapi.models.lineage_node_response import LineageNodeResponse as LineageNod
 from ksapi.models.location_inner import LocationInner as LocationInner
 from ksapi.models.membership_response import MembershipResponse as MembershipResponse
 from ksapi.models.memory_body_response import MemoryBodyResponse as MemoryBodyResponse
-from ksapi.models.memory_chunk_response import MemoryChunkResponse as MemoryChunkResponse
+from ksapi.models.memory_entry_response import MemoryEntryResponse as MemoryEntryResponse
 from ksapi.models.memory_kind import MemoryKind as MemoryKind
 from ksapi.models.memory_scope import MemoryScope as MemoryScope
 from ksapi.models.message_role import MessageRole as MessageRole
@@ -775,10 +787,11 @@ from ksapi.models.paginated_response_group_permission_response import PaginatedR
 from ksapi.models.paginated_response_group_response import PaginatedResponseGroupResponse as PaginatedResponseGroupResponse
 from ksapi.models.paginated_response_invite_response import PaginatedResponseInviteResponse as PaginatedResponseInviteResponse
 from ksapi.models.paginated_response_membership_response import PaginatedResponseMembershipResponse as PaginatedResponseMembershipResponse
-from ksapi.models.paginated_response_memory_chunk_response import PaginatedResponseMemoryChunkResponse as PaginatedResponseMemoryChunkResponse
+from ksapi.models.paginated_response_memory_entry_response import PaginatedResponseMemoryEntryResponse as PaginatedResponseMemoryEntryResponse
 from ksapi.models.paginated_response_path_part_response import PaginatedResponsePathPartResponse as PaginatedResponsePathPartResponse
 from ksapi.models.paginated_response_pending_memory_chunk_response import PaginatedResponsePendingMemoryChunkResponse as PaginatedResponsePendingMemoryChunkResponse
 from ksapi.models.paginated_response_permission_response import PaginatedResponsePermissionResponse as PaginatedResponsePermissionResponse
+from ksapi.models.paginated_response_repo_version_response import PaginatedResponseRepoVersionResponse as PaginatedResponseRepoVersionResponse
 from ksapi.models.paginated_response_skill_response import PaginatedResponseSkillResponse as PaginatedResponseSkillResponse
 from ksapi.models.paginated_response_tag_response import PaginatedResponseTagResponse as PaginatedResponseTagResponse
 from ksapi.models.paginated_response_tenant_response import PaginatedResponseTenantResponse as PaginatedResponseTenantResponse
@@ -813,8 +826,16 @@ from ksapi.models.polygon import Polygon as Polygon
 from ksapi.models.polygon_reference import PolygonReference as PolygonReference
 from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest as ProposeMemoryChunkRequest
 from ksapi.models.reasoning_part import ReasoningPart as ReasoningPart
+from ksapi.models.record_repo_save_skip_request import RecordRepoSaveSkipRequest as RecordRepoSaveSkipRequest
 from ksapi.models.reference_type import ReferenceType as ReferenceType
 from ksapi.models.reorder_path_part_request import ReorderPathPartRequest as ReorderPathPartRequest
+from ksapi.models.repo_branch_response import RepoBranchResponse as RepoBranchResponse
+from ksapi.models.repo_commit_summary import RepoCommitSummary as RepoCommitSummary
+from ksapi.models.repo_save_skip_reason import RepoSaveSkipReason as RepoSaveSkipReason
+from ksapi.models.repo_snapshot import RepoSnapshot as RepoSnapshot
+from ksapi.models.repo_tree_entry import RepoTreeEntry as RepoTreeEntry
+from ksapi.models.repo_tree_response import RepoTreeResponse as RepoTreeResponse
+from ksapi.models.repo_version_response import RepoVersionResponse as RepoVersionResponse
 from ksapi.models.request_phone_change_request import RequestPhoneChangeRequest as RequestPhoneChangeRequest
 from ksapi.models.resolved_ref import ResolvedRef as ResolvedRef
 from ksapi.models.resolved_reference_input import ResolvedReferenceInput as ResolvedReferenceInput
@@ -950,6 +971,7 @@ from ksapi.models.workflow_detail_response import WorkflowDetailResponse as Work
 from ksapi.models.workflow_execution_state import WorkflowExecutionState as WorkflowExecutionState
 from ksapi.models.workflow_leaderboard_response import WorkflowLeaderboardResponse as WorkflowLeaderboardResponse
 from ksapi.models.workflow_output_stats_response import WorkflowOutputStatsResponse as WorkflowOutputStatsResponse
+from ksapi.models.workflow_repo_response import WorkflowRepoResponse as WorkflowRepoResponse
 from ksapi.models.workflow_run_asset import WorkflowRunAsset as WorkflowRunAsset
 from ksapi.models.workflow_run_callback_request import WorkflowRunCallbackRequest as WorkflowRunCallbackRequest
 from ksapi.models.workflow_run_order import WorkflowRunOrder as WorkflowRunOrder

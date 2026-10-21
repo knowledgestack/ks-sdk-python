@@ -11,6 +11,7 @@ from ksapi.api.threads_api import ThreadsApi
 from ksapi.api.transcriptions_api import TranscriptionsApi
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi
+from ksapi.api.workflow_repository_api import WorkflowRepositoryApi
 from ksapi.api.workflow_runs_api import WorkflowRunsApi
 from ksapi.api.admin_kb_api import AdminKbApi
 from ksapi.api.admin_workflows_api import AdminWorkflowsApi

@@ -12,83 +12,44 @@
 """  # noqa: E501
 
 
-from __future__ import annotations
-import pprint
-import re  # noqa: F401
-import json
+import unittest
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict
-from uuid import UUID
-from ksapi.models.memory_kind import MemoryKind
-from typing import Optional, Set
-from typing_extensions import Self
-from pydantic_core import to_jsonable_python
+from ksapi.models.record_repo_save_skip_request import RecordRepoSaveSkipRequest
 
-class MemoryChunkResponse(BaseModel):
-    """
-    MemoryChunkResponse
-    """ # noqa: E501
-    chunk_id: UUID
-    kind: MemoryKind
-    body: StrictStr
-    __properties: ClassVar[List[str]] = ["chunk_id", "kind", "body"]
+class TestRecordRepoSaveSkipRequest(unittest.TestCase):
+    """RecordRepoSaveSkipRequest unit test stubs"""
 
-    model_config = ConfigDict(
-        validate_by_name=True,
-        validate_by_alias=True,
-        validate_assignment=True,
-        protected_namespaces=(),
-    )
+    def setUp(self):
+        pass
 
+    def tearDown(self):
+        pass
 
-    def to_str(self) -> str:
-        """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.model_dump(by_alias=True))
-
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        return json.dumps(to_jsonable_python(self.to_dict()))
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of MemoryChunkResponse from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
+    def make_instance(self, include_optional) -> RecordRepoSaveSkipRequest:
+        """Test RecordRepoSaveSkipRequest
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `RecordRepoSaveSkipRequest`
         """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
+        model = RecordRepoSaveSkipRequest()
+        if include_optional:
+            return RecordRepoSaveSkipRequest(
+                run_id = '',
+                reason = 'conflict',
+                detail = 'pr2c3v8s7djuy2zmetozkhdomha2bae48b9ocvx9o64ow3e'
+            )
+        else:
+            return RecordRepoSaveSkipRequest(
+                run_id = '',
+                reason = 'conflict',
         )
-        return _dict
+        """
 
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of MemoryChunkResponse from a dict"""
-        if obj is None:
-            return None
+    def testRecordRepoSaveSkipRequest(self):
+        """Test RecordRepoSaveSkipRequest"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "chunk_id": obj.get("chunk_id"),
-            "kind": obj.get("kind"),
-            "body": obj.get("body")
-        })
-        return _obj
-
-
+if __name__ == '__main__':
+    unittest.main()

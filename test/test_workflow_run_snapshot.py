@@ -57,7 +57,11 @@ class TestWorkflowRunSnapshot(unittest.TestCase):
                 user_message = '',
                 selected_skill_ids = [
                     ''
-                    ]
+                    ],
+                repo = ksapi.models.repo_snapshot.RepoSnapshot(
+                    commit = '', 
+                    version_id = '', 
+                    instruction_version_id = '', )
             )
         else:
             return WorkflowRunSnapshot(

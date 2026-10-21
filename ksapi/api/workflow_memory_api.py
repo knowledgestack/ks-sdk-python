@@ -21,8 +21,8 @@ from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.append_memory_chunk_request import AppendMemoryChunkRequest
 from ksapi.models.edit_memory_chunk_request import EditMemoryChunkRequest
-from ksapi.models.memory_chunk_response import MemoryChunkResponse
-from ksapi.models.paginated_response_memory_chunk_response import PaginatedResponseMemoryChunkResponse
+from ksapi.models.memory_entry_response import MemoryEntryResponse
+from ksapi.models.paginated_response_memory_entry_response import PaginatedResponseMemoryEntryResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -59,7 +59,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MemoryChunkResponse:
+    ) -> MemoryEntryResponse:
         """Append Workflow Memory Chunk Handler
 
 
@@ -99,7 +99,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MemoryChunkResponse",
+            '201': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -130,7 +130,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MemoryChunkResponse]:
+    ) -> ApiResponse[MemoryEntryResponse]:
         """Append Workflow Memory Chunk Handler
 
 
@@ -170,7 +170,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MemoryChunkResponse",
+            '201': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -241,7 +241,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MemoryChunkResponse",
+            '201': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -350,7 +350,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MemoryChunkResponse:
+    ) -> MemoryEntryResponse:
         """Edit Workflow Memory Chunk Handler
 
 
@@ -393,7 +393,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -425,7 +425,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MemoryChunkResponse]:
+    ) -> ApiResponse[MemoryEntryResponse]:
         """Edit Workflow Memory Chunk Handler
 
 
@@ -468,7 +468,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -543,7 +543,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -931,7 +931,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MemoryChunkResponse:
+    ) -> MemoryEntryResponse:
         """Get Workflow Memory Chunk Handler
 
 
@@ -971,7 +971,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1002,7 +1002,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MemoryChunkResponse]:
+    ) -> ApiResponse[MemoryEntryResponse]:
         """Get Workflow Memory Chunk Handler
 
 
@@ -1042,7 +1042,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1113,7 +1113,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryChunkResponse",
+            '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1209,7 +1209,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaginatedResponseMemoryChunkResponse:
+    ) -> PaginatedResponseMemoryEntryResponse:
         """List Workflow Memory Chunks Handler
 
 
@@ -1252,7 +1252,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseMemoryChunkResponse",
+            '200': "PaginatedResponseMemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1284,7 +1284,7 @@ class WorkflowMemoryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaginatedResponseMemoryChunkResponse]:
+    ) -> ApiResponse[PaginatedResponseMemoryEntryResponse]:
         """List Workflow Memory Chunks Handler
 
 
@@ -1327,7 +1327,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseMemoryChunkResponse",
+            '200': "PaginatedResponseMemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1402,7 +1402,7 @@ class WorkflowMemoryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaginatedResponseMemoryChunkResponse",
+            '200': "PaginatedResponseMemoryEntryResponse",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

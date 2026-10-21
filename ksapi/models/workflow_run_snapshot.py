@@ -24,6 +24,7 @@ from uuid import UUID
 from ksapi.models.excluded_common_file import ExcludedCommonFile
 from ksapi.models.input_snapshot import InputSnapshot
 from ksapi.models.instruction_snapshot import InstructionSnapshot
+from ksapi.models.repo_snapshot import RepoSnapshot
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -39,7 +40,8 @@ class WorkflowRunSnapshot(BaseModel):
     excluded_common_files: Optional[List[ExcludedCommonFile]] = Field(default=None, description="Definition common files left out of this run at Start (deleted or unreadable by the starter), each with its exclusion reason. Empty for the common happy path; pre-feature snapshots default to empty.")
     user_message: Optional[Annotated[str, Field(strict=True, max_length=4000)]] = Field(default=None, description="Optional free-text message the caller supplied at Start. Pinned here so the runner injects it into the agent's first user turn and it survives retry, redrive, and workflow-thread follow-ups (all of which re-assemble the prompt from this snapshot).")
     selected_skill_ids: Optional[List[UUID]] = Field(default=None, description="Skill PDO ids to force-load into the run at turn 0, merged with the definition's prefill. Definition selections are validated readable + SKILL at write time; every id is re-checked fail-closed when the run materializes (a skill deleted or revoked after selection is dropped, never bricking the run). The runner materializes each skill's ACTIVE published version into the agent's skills dir; the agent can still discover others via search. Empty for the common case; pre-feature snapshots default to empty.")
-    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "excluded_common_files", "user_message", "selected_skill_ids"]
+    repo: Optional[RepoSnapshot] = Field(default=None, description="The workflow repository's main when the run started; absent when the workflow had no repository.")
+    __properties: ClassVar[List[str]] = ["workflow_name", "max_run_duration_seconds", "instruction", "inputs", "excluded_common_files", "user_message", "selected_skill_ids", "repo"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -97,10 +99,18 @@ class WorkflowRunSnapshot(BaseModel):
                 if _item_excluded_common_files:
                     _items.append(_item_excluded_common_files.to_dict())
             _dict['excluded_common_files'] = _items
+        # override the default output from pydantic by calling `to_dict()` of repo
+        if self.repo:
+            _dict['repo'] = self.repo.to_dict()
         # set to None if user_message (nullable) is None
         # and model_fields_set contains the field
         if self.user_message is None and "user_message" in self.model_fields_set:
             _dict['user_message'] = None
+
+        # set to None if repo (nullable) is None
+        # and model_fields_set contains the field
+        if self.repo is None and "repo" in self.model_fields_set:
+            _dict['repo'] = None
 
         return _dict
 
@@ -120,7 +130,8 @@ class WorkflowRunSnapshot(BaseModel):
             "inputs": [InputSnapshot.from_dict(_item) for _item in obj["inputs"]] if obj.get("inputs") is not None else None,
             "excluded_common_files": [ExcludedCommonFile.from_dict(_item) for _item in obj["excluded_common_files"]] if obj.get("excluded_common_files") is not None else None,
             "user_message": obj.get("user_message"),
-            "selected_skill_ids": obj.get("selected_skill_ids")
+            "selected_skill_ids": obj.get("selected_skill_ids"),
+            "repo": RepoSnapshot.from_dict(obj["repo"]) if obj.get("repo") is not None else None
         })
         return _obj
 

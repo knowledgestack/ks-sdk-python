@@ -189,7 +189,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     user_message = '', 
                     selected_skill_ids = [
                         ''
-                        ], ),
+                        ], 
+                    repo = null, ),
                 error = '',
                 auto_start = True,
                 auto_start_user_message = '',
@@ -414,7 +415,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     user_message = '', 
                     selected_skill_ids = [
                         ''
-                        ], ),
+                        ], 
+                    repo = null, ),
                 error = '',
                 auto_start = True,
                 inputs = ksapi.models.run_folder.RunFolder(

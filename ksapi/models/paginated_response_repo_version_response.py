@@ -20,16 +20,16 @@ import json
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List
 from typing_extensions import Annotated
-from ksapi.models.memory_chunk_response import MemoryChunkResponse
+from ksapi.models.repo_version_response import RepoVersionResponse
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class PaginatedResponseMemoryChunkResponse(BaseModel):
+class PaginatedResponseRepoVersionResponse(BaseModel):
     """
-    PaginatedResponseMemoryChunkResponse
+    PaginatedResponseRepoVersionResponse
     """ # noqa: E501
-    items: List[MemoryChunkResponse] = Field(description="List of items")
+    items: List[RepoVersionResponse] = Field(description="List of items")
     total: Annotated[int, Field(strict=True, ge=0)] = Field(description="Total number of items")
     limit: Annotated[int, Field(strict=True, ge=1)] = Field(description="Number of items per page")
     offset: Annotated[int, Field(strict=True, ge=0)] = Field(description="Number of items to skip")
@@ -53,7 +53,7 @@ class PaginatedResponseMemoryChunkResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PaginatedResponseMemoryChunkResponse from a JSON string"""
+        """Create an instance of PaginatedResponseRepoVersionResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -85,7 +85,7 @@ class PaginatedResponseMemoryChunkResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PaginatedResponseMemoryChunkResponse from a dict"""
+        """Create an instance of PaginatedResponseRepoVersionResponse from a dict"""
         if obj is None:
             return None
 
@@ -93,7 +93,7 @@ class PaginatedResponseMemoryChunkResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "items": [MemoryChunkResponse.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
+            "items": [RepoVersionResponse.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
             "total": obj.get("total"),
             "limit": obj.get("limit"),
             "offset": obj.get("offset")

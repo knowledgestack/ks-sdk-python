@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.memory_chunk_response import MemoryChunkResponse
+from ksapi.models.paginated_response_memory_entry_response import PaginatedResponseMemoryEntryResponse
 
-class TestMemoryChunkResponse(unittest.TestCase):
-    """MemoryChunkResponse unit test stubs"""
+class TestPaginatedResponseMemoryEntryResponse(unittest.TestCase):
+    """PaginatedResponseMemoryEntryResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,30 +25,42 @@ class TestMemoryChunkResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> MemoryChunkResponse:
-        """Test MemoryChunkResponse
+    def make_instance(self, include_optional) -> PaginatedResponseMemoryEntryResponse:
+        """Test PaginatedResponseMemoryEntryResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `MemoryChunkResponse`
+        # uncomment below to create an instance of `PaginatedResponseMemoryEntryResponse`
         """
-        model = MemoryChunkResponse()
+        model = PaginatedResponseMemoryEntryResponse()
         if include_optional:
-            return MemoryChunkResponse(
-                chunk_id = '',
-                kind = 'CORRECTION',
-                body = ''
+            return PaginatedResponseMemoryEntryResponse(
+                items = [
+                    ksapi.models.memory_entry_response.MemoryEntryResponse(
+                        chunk_id = '', 
+                        kind = 'CORRECTION', 
+                        body = '', )
+                    ],
+                total = 0.0,
+                limit = 1.0,
+                offset = 0.0
             )
         else:
-            return MemoryChunkResponse(
-                chunk_id = '',
-                kind = 'CORRECTION',
-                body = '',
+            return PaginatedResponseMemoryEntryResponse(
+                items = [
+                    ksapi.models.memory_entry_response.MemoryEntryResponse(
+                        chunk_id = '', 
+                        kind = 'CORRECTION', 
+                        body = '', )
+                    ],
+                total = 0.0,
+                limit = 1.0,
+                offset = 0.0,
         )
         """
 
-    def testMemoryChunkResponse(self):
-        """Test MemoryChunkResponse"""
+    def testPaginatedResponseMemoryEntryResponse(self):
+        """Test PaginatedResponseMemoryEntryResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 
