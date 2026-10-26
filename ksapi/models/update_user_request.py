@@ -21,6 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
+from ksapi.models.supported_language import SupportedLanguage
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -35,7 +36,8 @@ class UpdateUserRequest(BaseModel):
     job_title: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Job title at the current tenant; omit to leave unchanged, empty string to clear. Directory-synced users cannot set it.")
     department: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Department at the current tenant; omit to leave unchanged, empty string to clear. Directory-synced users cannot set it.")
     bio: Optional[Annotated[str, Field(strict=True, max_length=1000)]] = Field(default=None, description="About the user at the current tenant, read by the chat agent; omit to leave unchanged, empty string to clear.")
-    __properties: ClassVar[List[str]] = ["default_tenant_id", "first_name", "last_name", "job_title", "department", "bio"]
+    language_preference: Optional[SupportedLanguage] = None
+    __properties: ClassVar[List[str]] = ["default_tenant_id", "first_name", "last_name", "job_title", "department", "bio", "language_preference"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -123,7 +125,8 @@ class UpdateUserRequest(BaseModel):
             "last_name": obj.get("last_name"),
             "job_title": obj.get("job_title"),
             "department": obj.get("department"),
-            "bio": obj.get("bio")
+            "bio": obj.get("bio"),
+            "language_preference": obj.get("language_preference")
         })
         return _obj
 

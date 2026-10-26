@@ -48,6 +48,7 @@ class TestSignUpResponse(unittest.TestCase):
                 department = '',
                 bio = '',
                 avatar_url = '',
+                language_preference = 'en',
                 onboarding_completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 join_method = 'CREATOR',
                 onboarding_state = ksapi.models.onboarding_state.OnboardingState(
@@ -89,6 +90,7 @@ class TestSignUpResponse(unittest.TestCase):
                 current_tenant_id = '',
                 current_tenant_role = 'USER',
                 default_tenant_id = '',
+                language_preference = 'en',
                 join_method = 'CREATOR',
         )
         """

@@ -25,6 +25,7 @@ from ksapi.models.added_by import AddedBy
 from ksapi.models.idp_type import IdpType
 from ksapi.models.invite_rejection import InviteRejection
 from ksapi.models.onboarding_state import OnboardingState
+from ksapi.models.supported_language import SupportedLanguage
 from ksapi.models.tenant_user_join_method import TenantUserJoinMethod
 from ksapi.models.tenant_user_role import TenantUserRole
 from ksapi.models.user_info import UserInfo
@@ -49,6 +50,7 @@ class SignUpResponse(BaseModel):
     department: Optional[StrictStr] = Field(default=None, description="User's department at the current tenant (per-membership)")
     bio: Optional[StrictStr] = Field(default=None, description="What the user wrote about themselves at the current tenant. The chat agent reads it on every turn.")
     avatar_url: Optional[StrictStr] = Field(default=None, description="Presigned URL of the user's profile photo at the current tenant. Expires after six hours; read GET /v1/users/me again for a fresh one.")
+    language_preference: SupportedLanguage
     onboarding_completed_at: Optional[datetime] = Field(default=None, description="When the user finished onboarding for the current tenant. NULL = wizard should be shown.")
     join_method: TenantUserJoinMethod
     onboarding_state: Optional[OnboardingState] = Field(default=None, description="Resume step and guide progress for the current membership.")
@@ -57,7 +59,7 @@ class SignUpResponse(BaseModel):
     idp_managed_fields: Optional[List[StrictStr]] = Field(default=None, description="Profile fields the identity provider overwrites on every sync, so clients render them read-only. Empty unless directory-managed.")
     onboarding_enabled: Optional[StrictBool] = Field(default=None, description="The current tenant's onboarding switch: true forces the flow on, false hides it, NULL follows the deployment default.")
     invite_rejection: Optional[InviteRejection] = None
-    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "department", "bio", "avatar_url", "onboarding_completed_at", "join_method", "onboarding_state", "invited_by", "added_by", "idp_managed_fields", "onboarding_enabled", "invite_rejection"]
+    __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "department", "bio", "avatar_url", "language_preference", "onboarding_completed_at", "join_method", "onboarding_state", "invited_by", "added_by", "idp_managed_fields", "onboarding_enabled", "invite_rejection"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -189,6 +191,7 @@ class SignUpResponse(BaseModel):
             "department": obj.get("department"),
             "bio": obj.get("bio"),
             "avatar_url": obj.get("avatar_url"),
+            "language_preference": obj.get("language_preference"),
             "onboarding_completed_at": obj.get("onboarding_completed_at"),
             "join_method": obj.get("join_method"),
             "onboarding_state": OnboardingState.from_dict(obj["onboarding_state"]) if obj.get("onboarding_state") is not None else None,

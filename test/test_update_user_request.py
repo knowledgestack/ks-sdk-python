@@ -40,7 +40,8 @@ class TestUpdateUserRequest(unittest.TestCase):
                 last_name = '',
                 job_title = '',
                 department = '',
-                bio = ''
+                bio = '',
+                language_preference = 'en'
             )
         else:
             return UpdateUserRequest(
