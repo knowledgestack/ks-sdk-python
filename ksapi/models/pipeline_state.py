@@ -20,6 +20,7 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from ksapi.models.chunk_type import ChunkType
 from ksapi.models.image_taxonomy import ImageTaxonomy
 from ksapi.models.ingestion_mode import IngestionMode
@@ -32,11 +33,12 @@ class PipelineState(BaseModel):
     """
     Pipeline execution state tracking.
     """ # noqa: E501
+    last_stage_retry_attempt: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="Zero-based retry count for the current stage; maximum across fan-out activities. Managed by ingestion.")
     status: PipelineStatus
     last_run_timestamp: Optional[datetime] = Field(default=None, description="Timestamp of the last pipeline execution attempt (set once when a run starts)")
     last_state_update_timestamp: Optional[datetime] = Field(default=None, description="Timestamp of the last pipeline state change (set by activities)")
-    last_activity: Optional[StrictStr] = Field(default=None, description="Name of the last activity that executed (e.g., 'pdf_preparation_activity')")
-    error: Optional[StrictStr] = Field(default=None, description="Error message if pipeline failed")
+    last_activity: Optional[StrictStr] = Field(default=None, description="Current ingestion stage, recorded before its activity starts")
+    error: Optional[StrictStr] = Field(default=None, description="Latest stage failure; retained during retries and cleared on the next stage or success")
     temporal_workflow_id: Optional[StrictStr] = Field(default=None, description="Temporal workflow ID for tracking the ingestion run")
     chunks_processed: Optional[StrictInt] = Field(default=None, description="Number of chunks processed (for progress tracking)")
     page_dpi: Optional[StrictInt] = Field(default=None, description="DPI used for PDF page screenshots during ingestion")
@@ -44,7 +46,7 @@ class PipelineState(BaseModel):
     chunk_type: Optional[ChunkType] = None
     secondary_taxonomy: Optional[ImageTaxonomy] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["status", "last_run_timestamp", "last_state_update_timestamp", "last_activity", "error", "temporal_workflow_id", "chunks_processed", "page_dpi", "ingestion_mode", "chunk_type", "secondary_taxonomy"]
+    __properties: ClassVar[List[str]] = ["last_stage_retry_attempt", "status", "last_run_timestamp", "last_state_update_timestamp", "last_activity", "error", "temporal_workflow_id", "chunks_processed", "page_dpi", "ingestion_mode", "chunk_type", "secondary_taxonomy"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -76,9 +78,11 @@ class PipelineState(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * OpenAPI `readOnly` fields are excluded.
         * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "last_stage_retry_attempt",
             "additional_properties",
         ])
 
@@ -139,6 +143,7 @@ class PipelineState(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "last_stage_retry_attempt": obj.get("last_stage_retry_attempt") if obj.get("last_stage_retry_attempt") is not None else 0,
             "status": obj.get("status"),
             "last_run_timestamp": obj.get("last_run_timestamp"),
             "last_state_update_timestamp": obj.get("last_state_update_timestamp"),

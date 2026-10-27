@@ -347,7 +347,7 @@ class SystemJobsApi:
     ) -> WorkflowCancelResponse:
         """Cancel Temporal Workflow Handler
 
-        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side. A run no worker ever picked up is terminated instead, since a cancel request is itself a workflow task nobody would process. When Temporal no longer has the run, or it was terminated here, a document version still showing it running is settled as cancelled (needs ``can_write``) so it can be re-run.
+        Cancel a tenant workflow; tracked ingestion also requires document write access.  Tracked attempts are settled before cancelling their matching Temporal run, including attempts not yet dispatched. Unstarted executions are terminated because cancellation needs a worker. Temporal operations pin the described run so a concurrent rerun is left alone.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -415,7 +415,7 @@ class SystemJobsApi:
     ) -> ApiResponse[WorkflowCancelResponse]:
         """Cancel Temporal Workflow Handler
 
-        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side. A run no worker ever picked up is terminated instead, since a cancel request is itself a workflow task nobody would process. When Temporal no longer has the run, or it was terminated here, a document version still showing it running is settled as cancelled (needs ``can_write``) so it can be re-run.
+        Cancel a tenant workflow; tracked ingestion also requires document write access.  Tracked attempts are settled before cancelling their matching Temporal run, including attempts not yet dispatched. Unstarted executions are terminated because cancellation needs a worker. Temporal operations pin the described run so a concurrent rerun is left alone.
 
         :param workflow_id: (required)
         :type workflow_id: str
@@ -483,7 +483,7 @@ class SystemJobsApi:
     ) -> RESTResponseType:
         """Cancel Temporal Workflow Handler
 
-        Cancel any Temporal workflow owned by the caller's tenant.  No status guard — this is a thin Temporal wrapper. Cancelling an already-terminal workflow is a no-op on the Temporal side. A run no worker ever picked up is terminated instead, since a cancel request is itself a workflow task nobody would process. When Temporal no longer has the run, or it was terminated here, a document version still showing it running is settled as cancelled (needs ``can_write``) so it can be re-run.
+        Cancel a tenant workflow; tracked ingestion also requires document write access.  Tracked attempts are settled before cancelling their matching Temporal run, including attempts not yet dispatched. Unstarted executions are terminated because cancellation needs a worker. Temporal operations pin the described run so a concurrent rerun is left alone.
 
         :param workflow_id: (required)
         :type workflow_id: str

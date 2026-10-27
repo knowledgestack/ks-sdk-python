@@ -20,6 +20,7 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.pipeline_status import PipelineStatus
 from ksapi.models.user_info import UserInfo
@@ -40,11 +41,12 @@ class WorkflowSummaryResponse(BaseModel):
     uploader: UserInfo
     status: PipelineStatus
     last_activity: Optional[StrictStr] = None
+    last_stage_retry_attempt: Optional[Annotated[int, Field(strict=True, ge=0)]] = 0
     error: Optional[StrictStr] = None
     last_run_timestamp: datetime = Field(description="When the last run started; the upload time until a run has started")
     last_state_update_timestamp: Optional[datetime] = None
     created_at: datetime
-    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_name", "materialized_path", "document_version_id", "is_active_version", "uploader", "status", "last_activity", "error", "last_run_timestamp", "last_state_update_timestamp", "created_at"]
+    __properties: ClassVar[List[str]] = ["workflow_id", "document_id", "document_name", "materialized_path", "document_version_id", "is_active_version", "uploader", "status", "last_activity", "last_stage_retry_attempt", "error", "last_run_timestamp", "last_state_update_timestamp", "created_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -124,6 +126,7 @@ class WorkflowSummaryResponse(BaseModel):
             "uploader": UserInfo.from_dict(obj["uploader"]) if obj.get("uploader") is not None else None,
             "status": obj.get("status"),
             "last_activity": obj.get("last_activity"),
+            "last_stage_retry_attempt": obj.get("last_stage_retry_attempt") if obj.get("last_stage_retry_attempt") is not None else 0,
             "error": obj.get("error"),
             "last_run_timestamp": obj.get("last_run_timestamp"),
             "last_state_update_timestamp": obj.get("last_state_update_timestamp"),

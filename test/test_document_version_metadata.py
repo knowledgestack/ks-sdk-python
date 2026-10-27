@@ -43,6 +43,7 @@ class TestDocumentVersionMetadata(unittest.TestCase):
                 transcript_s3 = '',
                 hash = '',
                 pipeline_state = ksapi.models.pipeline_state.PipelineState(
+                    last_stage_retry_attempt = 0.0, 
                     status = 'pending', 
                     last_run_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                     last_state_update_timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
