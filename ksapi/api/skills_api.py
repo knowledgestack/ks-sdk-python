@@ -34,6 +34,7 @@ from ksapi.models.update_skill_request import UpdateSkillRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class SkillsApi:
@@ -50,7 +51,7 @@ class SkillsApi:
 
 
     @validate_call
-    def activate_skill_version(
+    async def activate_skill_version(
         self,
         skill_id: UUID,
         version_id: UUID,
@@ -113,12 +114,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -126,7 +128,7 @@ class SkillsApi:
 
 
     @validate_call
-    def activate_skill_version_with_http_info(
+    async def activate_skill_version_with_http_info(
         self,
         skill_id: UUID,
         version_id: UUID,
@@ -189,12 +191,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -202,7 +205,7 @@ class SkillsApi:
 
 
     @validate_call
-    def activate_skill_version_without_preload_content(
+    async def activate_skill_version_without_preload_content(
         self,
         skill_id: UUID,
         version_id: UUID,
@@ -265,12 +268,127 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def activate_skill_version_sync(
+        self,
+        skill_id: UUID,
+        version_id: UUID,
+        activate_skill_version_request: ActivateSkillVersionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Activate Skill Version Handler (synchronous)
+
+        Synchronous variant of :meth:`activate_skill_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.activate_skill_version(
+                skill_id=skill_id,
+                version_id=version_id,
+                activate_skill_version_request=activate_skill_version_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def activate_skill_version_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        version_id: UUID,
+        activate_skill_version_request: ActivateSkillVersionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Activate Skill Version Handler (synchronous)
+
+        Synchronous variant of :meth:`activate_skill_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.activate_skill_version_with_http_info(
+                skill_id=skill_id,
+                version_id=version_id,
+                activate_skill_version_request=activate_skill_version_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def activate_skill_version_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        version_id: UUID,
+        activate_skill_version_request: ActivateSkillVersionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Activate Skill Version Handler (synchronous)
+
+        Synchronous variant of :meth:`activate_skill_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.activate_skill_version_without_preload_content(
+                skill_id=skill_id,
+                version_id=version_id,
+                activate_skill_version_request=activate_skill_version_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _activate_skill_version_serialize(
@@ -358,7 +476,7 @@ class SkillsApi:
 
 
     @validate_call
-    def checkin_skill(
+    async def checkin_skill(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -413,12 +531,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -426,7 +545,7 @@ class SkillsApi:
 
 
     @validate_call
-    def checkin_skill_with_http_info(
+    async def checkin_skill_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -481,12 +600,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -494,7 +614,7 @@ class SkillsApi:
 
 
     @validate_call
-    def checkin_skill_without_preload_content(
+    async def checkin_skill_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -549,12 +669,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def checkin_skill_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Checkin Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`checkin_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.checkin_skill(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def checkin_skill_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Checkin Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`checkin_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.checkin_skill_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def checkin_skill_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Checkin Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`checkin_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.checkin_skill_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _checkin_skill_serialize(
@@ -623,7 +846,7 @@ class SkillsApi:
 
 
     @validate_call
-    def checkout_skill(
+    async def checkout_skill(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -678,12 +901,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -691,7 +915,7 @@ class SkillsApi:
 
 
     @validate_call
-    def checkout_skill_with_http_info(
+    async def checkout_skill_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -746,12 +970,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -759,7 +984,7 @@ class SkillsApi:
 
 
     @validate_call
-    def checkout_skill_without_preload_content(
+    async def checkout_skill_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -814,12 +1039,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def checkout_skill_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Checkout Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`checkout_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.checkout_skill(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def checkout_skill_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Checkout Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`checkout_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.checkout_skill_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def checkout_skill_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Checkout Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`checkout_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.checkout_skill_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _checkout_skill_serialize(
@@ -888,7 +1216,7 @@ class SkillsApi:
 
 
     @validate_call
-    def create_skill(
+    async def create_skill(
         self,
         create_skill_request: CreateSkillRequest,
         _request_timeout: Union[
@@ -943,12 +1271,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -956,7 +1285,7 @@ class SkillsApi:
 
 
     @validate_call
-    def create_skill_with_http_info(
+    async def create_skill_with_http_info(
         self,
         create_skill_request: CreateSkillRequest,
         _request_timeout: Union[
@@ -1011,12 +1340,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1024,7 +1354,7 @@ class SkillsApi:
 
 
     @validate_call
-    def create_skill_without_preload_content(
+    async def create_skill_without_preload_content(
         self,
         create_skill_request: CreateSkillRequest,
         _request_timeout: Union[
@@ -1079,12 +1409,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_skill_sync(
+        self,
+        create_skill_request: CreateSkillRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Create Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`create_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_skill(
+                create_skill_request=create_skill_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_skill_sync_with_http_info(
+        self,
+        create_skill_request: CreateSkillRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Create Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`create_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_skill_with_http_info(
+                create_skill_request=create_skill_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_skill_sync_without_preload_content(
+        self,
+        create_skill_request: CreateSkillRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`create_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_skill_without_preload_content(
+                create_skill_request=create_skill_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_skill_serialize(
@@ -1166,7 +1599,7 @@ class SkillsApi:
 
 
     @validate_call
-    def delete_skill(
+    async def delete_skill(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1221,12 +1654,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1234,7 +1668,7 @@ class SkillsApi:
 
 
     @validate_call
-    def delete_skill_with_http_info(
+    async def delete_skill_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1289,12 +1723,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1302,7 +1737,7 @@ class SkillsApi:
 
 
     @validate_call
-    def delete_skill_without_preload_content(
+    async def delete_skill_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1357,12 +1792,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_skill_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_skill(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_skill_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_skill_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_skill_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_skill_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_skill_serialize(
@@ -1431,7 +1969,7 @@ class SkillsApi:
 
 
     @validate_call
-    def discard_skill_draft(
+    async def discard_skill_draft(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1486,12 +2024,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1499,7 +2038,7 @@ class SkillsApi:
 
 
     @validate_call
-    def discard_skill_draft_with_http_info(
+    async def discard_skill_draft_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1554,12 +2093,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1567,7 +2107,7 @@ class SkillsApi:
 
 
     @validate_call
-    def discard_skill_draft_without_preload_content(
+    async def discard_skill_draft_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1622,12 +2162,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def discard_skill_draft_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Discard Skill Draft Handler (synchronous)
+
+        Synchronous variant of :meth:`discard_skill_draft`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.discard_skill_draft(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def discard_skill_draft_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Discard Skill Draft Handler (synchronous)
+
+        Synchronous variant of :meth:`discard_skill_draft_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.discard_skill_draft_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def discard_skill_draft_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Discard Skill Draft Handler (synchronous)
+
+        Synchronous variant of :meth:`discard_skill_draft_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.discard_skill_draft_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _discard_skill_draft_serialize(
@@ -1696,7 +2339,7 @@ class SkillsApi:
 
 
     @validate_call
-    def export_skill(
+    async def export_skill(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1751,12 +2394,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1764,7 +2408,7 @@ class SkillsApi:
 
 
     @validate_call
-    def export_skill_with_http_info(
+    async def export_skill_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1819,12 +2463,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1832,7 +2477,7 @@ class SkillsApi:
 
 
     @validate_call
-    def export_skill_without_preload_content(
+    async def export_skill_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -1887,12 +2532,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def export_skill_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Export Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`export_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_skill(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def export_skill_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Export Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`export_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_skill_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def export_skill_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Export Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`export_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_skill_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _export_skill_serialize(
@@ -1961,7 +2709,7 @@ class SkillsApi:
 
 
     @validate_call
-    def export_skills(
+    async def export_skills(
         self,
         export_skills_request: ExportSkillsRequest,
         _request_timeout: Union[
@@ -2016,12 +2764,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2029,7 +2778,7 @@ class SkillsApi:
 
 
     @validate_call
-    def export_skills_with_http_info(
+    async def export_skills_with_http_info(
         self,
         export_skills_request: ExportSkillsRequest,
         _request_timeout: Union[
@@ -2084,12 +2833,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2097,7 +2847,7 @@ class SkillsApi:
 
 
     @validate_call
-    def export_skills_without_preload_content(
+    async def export_skills_without_preload_content(
         self,
         export_skills_request: ExportSkillsRequest,
         _request_timeout: Union[
@@ -2152,12 +2902,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def export_skills_sync(
+        self,
+        export_skills_request: ExportSkillsRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """Export Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`export_skills`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_skills(
+                export_skills_request=export_skills_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def export_skills_sync_with_http_info(
+        self,
+        export_skills_request: ExportSkillsRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """Export Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`export_skills_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_skills_with_http_info(
+                export_skills_request=export_skills_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def export_skills_sync_without_preload_content(
+        self,
+        export_skills_request: ExportSkillsRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Export Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`export_skills_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_skills_without_preload_content(
+                export_skills_request=export_skills_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _export_skills_serialize(
@@ -2240,7 +3093,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_skill(
+    async def get_skill(
         self,
         skill_id: UUID,
         include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
@@ -2299,12 +3152,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2312,7 +3166,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_skill_with_http_info(
+    async def get_skill_with_http_info(
         self,
         skill_id: UUID,
         include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
@@ -2371,12 +3225,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2384,7 +3239,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_skill_without_preload_content(
+    async def get_skill_without_preload_content(
         self,
         skill_id: UUID,
         include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
@@ -2443,12 +3298,121 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_skill_sync(
+        self,
+        skill_id: UUID,
+        include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Get Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`get_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_skill(
+                skill_id=skill_id,
+                include_file_contents=include_file_contents,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_skill_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Get Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`get_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_skill_with_http_info(
+                skill_id=skill_id,
+                include_file_contents=include_file_contents,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_skill_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        include_file_contents: Annotated[Optional[StrictBool], Field(description="Include every bundle file's contents (base64 for binary). Off by default — the editor opts in; a large skill's contents can be many MB and one S3 read per file.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`get_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_skill_without_preload_content(
+                skill_id=skill_id,
+                include_file_contents=include_file_contents,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_skill_serialize(
@@ -2522,7 +3486,7 @@ class SkillsApi:
 
 
     @validate_call
-    def import_skill(
+    async def import_skill(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         _request_timeout: Union[
@@ -2577,12 +3541,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2590,7 +3555,7 @@ class SkillsApi:
 
 
     @validate_call
-    def import_skill_with_http_info(
+    async def import_skill_with_http_info(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         _request_timeout: Union[
@@ -2645,12 +3610,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2658,7 +3624,7 @@ class SkillsApi:
 
 
     @validate_call
-    def import_skill_without_preload_content(
+    async def import_skill_without_preload_content(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         _request_timeout: Union[
@@ -2713,12 +3679,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def import_skill_sync(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Import Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`import_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.import_skill(
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def import_skill_sync_with_http_info(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Import Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`import_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.import_skill_with_http_info(
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def import_skill_sync_without_preload_content(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Import Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`import_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.import_skill_without_preload_content(
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _import_skill_serialize(
@@ -2800,7 +3869,7 @@ class SkillsApi:
 
 
     @validate_call
-    def list_skill_versions(
+    async def list_skill_versions(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -2855,12 +3924,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[SkillVersionResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2868,7 +3938,7 @@ class SkillsApi:
 
 
     @validate_call
-    def list_skill_versions_with_http_info(
+    async def list_skill_versions_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -2923,12 +3993,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[SkillVersionResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2936,7 +4007,7 @@ class SkillsApi:
 
 
     @validate_call
-    def list_skill_versions_without_preload_content(
+    async def list_skill_versions_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -2991,12 +4062,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[SkillVersionResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_skill_versions_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[SkillVersionResponse]:
+        """List Skill Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_skill_versions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_skill_versions(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_skill_versions_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[SkillVersionResponse]]:
+        """List Skill Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_skill_versions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_skill_versions_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_skill_versions_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Skill Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_skill_versions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_skill_versions_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_skill_versions_serialize(
@@ -3065,7 +4239,7 @@ class SkillsApi:
 
 
     @validate_call
-    def list_skills(
+    async def list_skills(
         self,
         sort_by: Annotated[Optional[SkillOrder], Field(description="Field to sort skills by (default: CREATED_AT)")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive skill-name substring filter (search bar)")] = None,
@@ -3136,12 +4310,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseSkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3149,7 +4324,7 @@ class SkillsApi:
 
 
     @validate_call
-    def list_skills_with_http_info(
+    async def list_skills_with_http_info(
         self,
         sort_by: Annotated[Optional[SkillOrder], Field(description="Field to sort skills by (default: CREATED_AT)")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive skill-name substring filter (search bar)")] = None,
@@ -3220,12 +4395,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseSkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3233,7 +4409,7 @@ class SkillsApi:
 
 
     @validate_call
-    def list_skills_without_preload_content(
+    async def list_skills_without_preload_content(
         self,
         sort_by: Annotated[Optional[SkillOrder], Field(description="Field to sort skills by (default: CREATED_AT)")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive skill-name substring filter (search bar)")] = None,
@@ -3304,12 +4480,139 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseSkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_skills_sync(
+        self,
+        sort_by: Annotated[Optional[SkillOrder], Field(description="Field to sort skills by (default: CREATED_AT)")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive skill-name substring filter (search bar)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseSkillResponse:
+        """List Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`list_skills`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_skills(
+                sort_by=sort_by,
+                search=search,
+                limit=limit,
+                offset=offset,
+                sort_dir=sort_dir,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_skills_sync_with_http_info(
+        self,
+        sort_by: Annotated[Optional[SkillOrder], Field(description="Field to sort skills by (default: CREATED_AT)")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive skill-name substring filter (search bar)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseSkillResponse]:
+        """List Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`list_skills_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_skills_with_http_info(
+                sort_by=sort_by,
+                search=search,
+                limit=limit,
+                offset=offset,
+                sort_dir=sort_dir,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_skills_sync_without_preload_content(
+        self,
+        sort_by: Annotated[Optional[SkillOrder], Field(description="Field to sort skills by (default: CREATED_AT)")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive skill-name substring filter (search bar)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`list_skills_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_skills_without_preload_content(
+                sort_by=sort_by,
+                search=search,
+                limit=limit,
+                offset=offset,
+                sort_dir=sort_dir,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_skills_serialize(
@@ -3400,7 +4703,7 @@ class SkillsApi:
 
 
     @validate_call
-    def publish_skill_version(
+    async def publish_skill_version(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -3455,12 +4758,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3468,7 +4772,7 @@ class SkillsApi:
 
 
     @validate_call
-    def publish_skill_version_with_http_info(
+    async def publish_skill_version_with_http_info(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -3523,12 +4827,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3536,7 +4841,7 @@ class SkillsApi:
 
 
     @validate_call
-    def publish_skill_version_without_preload_content(
+    async def publish_skill_version_without_preload_content(
         self,
         skill_id: UUID,
         _request_timeout: Union[
@@ -3591,12 +4896,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def publish_skill_version_sync(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Publish Skill Version Handler (synchronous)
+
+        Synchronous variant of :meth:`publish_skill_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.publish_skill_version(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def publish_skill_version_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Publish Skill Version Handler (synchronous)
+
+        Synchronous variant of :meth:`publish_skill_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.publish_skill_version_with_http_info(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def publish_skill_version_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Publish Skill Version Handler (synchronous)
+
+        Synchronous variant of :meth:`publish_skill_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.publish_skill_version_without_preload_content(
+                skill_id=skill_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _publish_skill_version_serialize(
@@ -3665,7 +5073,7 @@ class SkillsApi:
 
 
     @validate_call
-    def search_skills(
+    async def search_skills(
         self,
         search_skills_request: SearchSkillsRequest,
         _request_timeout: Union[
@@ -3720,12 +5128,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchSkillsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3733,7 +5142,7 @@ class SkillsApi:
 
 
     @validate_call
-    def search_skills_with_http_info(
+    async def search_skills_with_http_info(
         self,
         search_skills_request: SearchSkillsRequest,
         _request_timeout: Union[
@@ -3788,12 +5197,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchSkillsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3801,7 +5211,7 @@ class SkillsApi:
 
 
     @validate_call
-    def search_skills_without_preload_content(
+    async def search_skills_without_preload_content(
         self,
         search_skills_request: SearchSkillsRequest,
         _request_timeout: Union[
@@ -3856,12 +5266,115 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchSkillsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def search_skills_sync(
+        self,
+        search_skills_request: SearchSkillsRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SearchSkillsResponse:
+        """Search Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`search_skills`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_skills(
+                search_skills_request=search_skills_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_skills_sync_with_http_info(
+        self,
+        search_skills_request: SearchSkillsRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SearchSkillsResponse]:
+        """Search Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`search_skills_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_skills_with_http_info(
+                search_skills_request=search_skills_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_skills_sync_without_preload_content(
+        self,
+        search_skills_request: SearchSkillsRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Search Skills Handler (synchronous)
+
+        Synchronous variant of :meth:`search_skills_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_skills_without_preload_content(
+                search_skills_request=search_skills_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _search_skills_serialize(
@@ -3943,7 +5456,7 @@ class SkillsApi:
 
 
     @validate_call
-    def update_skill(
+    async def update_skill(
         self,
         skill_id: UUID,
         update_skill_request: UpdateSkillRequest,
@@ -4002,12 +5515,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4015,7 +5529,7 @@ class SkillsApi:
 
 
     @validate_call
-    def update_skill_with_http_info(
+    async def update_skill_with_http_info(
         self,
         skill_id: UUID,
         update_skill_request: UpdateSkillRequest,
@@ -4074,12 +5588,13 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4087,7 +5602,7 @@ class SkillsApi:
 
 
     @validate_call
-    def update_skill_without_preload_content(
+    async def update_skill_without_preload_content(
         self,
         skill_id: UUID,
         update_skill_request: UpdateSkillRequest,
@@ -4146,12 +5661,121 @@ class SkillsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SkillResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_skill_sync(
+        self,
+        skill_id: UUID,
+        update_skill_request: UpdateSkillRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SkillResponse:
+        """Update Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`update_skill`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_skill(
+                skill_id=skill_id,
+                update_skill_request=update_skill_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_skill_sync_with_http_info(
+        self,
+        skill_id: UUID,
+        update_skill_request: UpdateSkillRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SkillResponse]:
+        """Update Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`update_skill_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_skill_with_http_info(
+                skill_id=skill_id,
+                update_skill_request=update_skill_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_skill_sync_without_preload_content(
+        self,
+        skill_id: UUID,
+        update_skill_request: UpdateSkillRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Skill Handler (synchronous)
+
+        Synchronous variant of :meth:`update_skill_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_skill_without_preload_content(
+                skill_id=skill_id,
+                update_skill_request=update_skill_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_skill_serialize(

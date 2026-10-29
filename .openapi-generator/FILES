@@ -960,6 +960,7 @@ ksapi/models/zip_ingestion_status_response.py
 ksapi/models/zip_member_status_response.py
 ksapi/py.typed
 ksapi/rest.py
+ksapi/sync_helper.py
 pyproject.toml
 requirements.txt
 setup.cfg

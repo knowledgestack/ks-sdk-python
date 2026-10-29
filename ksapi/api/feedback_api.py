@@ -31,6 +31,7 @@ from ksapi.models.submit_feedback_request import SubmitFeedbackRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class FeedbackApi:
@@ -47,7 +48,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def delete_feedback(
+    async def delete_feedback(
         self,
         feedback_id: UUID,
         _request_timeout: Union[
@@ -102,12 +103,13 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -115,7 +117,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def delete_feedback_with_http_info(
+    async def delete_feedback_with_http_info(
         self,
         feedback_id: UUID,
         _request_timeout: Union[
@@ -170,12 +172,13 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -183,7 +186,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def delete_feedback_without_preload_content(
+    async def delete_feedback_without_preload_content(
         self,
         feedback_id: UUID,
         _request_timeout: Union[
@@ -238,12 +241,115 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_feedback_sync(
+        self,
+        feedback_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_feedback`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_feedback(
+                feedback_id=feedback_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_feedback_sync_with_http_info(
+        self,
+        feedback_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_feedback_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_feedback_with_http_info(
+                feedback_id=feedback_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_feedback_sync_without_preload_content(
+        self,
+        feedback_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_feedback_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_feedback_without_preload_content(
+                feedback_id=feedback_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_feedback_serialize(
@@ -312,7 +418,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def list_feedback(
+    async def list_feedback(
         self,
         target_type: Optional[FeedbackTargetType] = None,
         target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
@@ -411,12 +517,13 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseFeedbackEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -424,7 +531,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def list_feedback_with_http_info(
+    async def list_feedback_with_http_info(
         self,
         target_type: Optional[FeedbackTargetType] = None,
         target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
@@ -523,12 +630,13 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseFeedbackEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -536,7 +644,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def list_feedback_without_preload_content(
+    async def list_feedback_without_preload_content(
         self,
         target_type: Optional[FeedbackTargetType] = None,
         target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
@@ -635,12 +743,181 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseFeedbackEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_feedback_sync(
+        self,
+        target_type: Optional[FeedbackTargetType] = None,
+        target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
+        rating: Optional[FeedbackRating] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.")] = None,
+        sort_by: Annotated[Optional[FeedbackOrder], Field(description="Field to sort feedback by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseFeedbackEventResponse:
+        """List Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`list_feedback`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_feedback(
+                target_type=target_type,
+                target_id=target_id,
+                rating=rating,
+                mine=mine,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_feedback_sync_with_http_info(
+        self,
+        target_type: Optional[FeedbackTargetType] = None,
+        target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
+        rating: Optional[FeedbackRating] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.")] = None,
+        sort_by: Annotated[Optional[FeedbackOrder], Field(description="Field to sort feedback by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseFeedbackEventResponse]:
+        """List Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`list_feedback_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_feedback_with_http_info(
+                target_type=target_type,
+                target_id=target_id,
+                rating=rating,
+                mine=mine,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_feedback_sync_without_preload_content(
+        self,
+        target_type: Optional[FeedbackTargetType] = None,
+        target_id: Annotated[Optional[Annotated[List[UUID], Field(max_length=200)]], Field(description="Repeatable. Feedback on any of these targets, so a thread page reads every visible message's feedback in one call; more than 200 ids is a 422 (send the page you render, not the thread).")] = None,
+        rating: Optional[FeedbackRating] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only the caller's own feedback, whatever their role, so an owner or admin reading a thread sees their own vote on each message.")] = None,
+        sort_by: Annotated[Optional[FeedbackOrder], Field(description="Field to sort feedback by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`list_feedback_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_feedback_without_preload_content(
+                target_type=target_type,
+                target_id=target_id,
+                rating=rating,
+                mine=mine,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_feedback_serialize(
@@ -803,7 +1080,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def submit_feedback(
+    async def submit_feedback(
         self,
         submit_feedback_request: SubmitFeedbackRequest,
         _request_timeout: Union[
@@ -858,12 +1135,13 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "FeedbackEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -871,7 +1149,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def submit_feedback_with_http_info(
+    async def submit_feedback_with_http_info(
         self,
         submit_feedback_request: SubmitFeedbackRequest,
         _request_timeout: Union[
@@ -926,12 +1204,13 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "FeedbackEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -939,7 +1218,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def submit_feedback_without_preload_content(
+    async def submit_feedback_without_preload_content(
         self,
         submit_feedback_request: SubmitFeedbackRequest,
         _request_timeout: Union[
@@ -994,12 +1273,115 @@ class FeedbackApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "FeedbackEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def submit_feedback_sync(
+        self,
+        submit_feedback_request: SubmitFeedbackRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FeedbackEventResponse:
+        """Submit Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`submit_feedback`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.submit_feedback(
+                submit_feedback_request=submit_feedback_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def submit_feedback_sync_with_http_info(
+        self,
+        submit_feedback_request: SubmitFeedbackRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FeedbackEventResponse]:
+        """Submit Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`submit_feedback_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.submit_feedback_with_http_info(
+                submit_feedback_request=submit_feedback_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def submit_feedback_sync_without_preload_content(
+        self,
+        submit_feedback_request: SubmitFeedbackRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Submit Feedback Handler (synchronous)
+
+        Synchronous variant of :meth:`submit_feedback_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.submit_feedback_without_preload_content(
+                submit_feedback_request=submit_feedback_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _submit_feedback_serialize(

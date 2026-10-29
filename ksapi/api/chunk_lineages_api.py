@@ -26,6 +26,7 @@ from ksapi.models.lineage_graph_response import LineageGraphResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class ChunkLineagesApi:
@@ -42,7 +43,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def create_chunk_lineage(
+    async def create_chunk_lineage(
         self,
         create_chunk_lineage_request: CreateChunkLineageRequest,
         _request_timeout: Union[
@@ -97,12 +98,13 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "List[ChunkLineageResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -110,7 +112,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def create_chunk_lineage_with_http_info(
+    async def create_chunk_lineage_with_http_info(
         self,
         create_chunk_lineage_request: CreateChunkLineageRequest,
         _request_timeout: Union[
@@ -165,12 +167,13 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "List[ChunkLineageResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -178,7 +181,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def create_chunk_lineage_without_preload_content(
+    async def create_chunk_lineage_without_preload_content(
         self,
         create_chunk_lineage_request: CreateChunkLineageRequest,
         _request_timeout: Union[
@@ -233,12 +236,115 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "List[ChunkLineageResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_chunk_lineage_sync(
+        self,
+        create_chunk_lineage_request: CreateChunkLineageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ChunkLineageResponse]:
+        """Create Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`create_chunk_lineage`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_chunk_lineage(
+                create_chunk_lineage_request=create_chunk_lineage_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_chunk_lineage_sync_with_http_info(
+        self,
+        create_chunk_lineage_request: CreateChunkLineageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ChunkLineageResponse]]:
+        """Create Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`create_chunk_lineage_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_chunk_lineage_with_http_info(
+                create_chunk_lineage_request=create_chunk_lineage_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_chunk_lineage_sync_without_preload_content(
+        self,
+        create_chunk_lineage_request: CreateChunkLineageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`create_chunk_lineage_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_chunk_lineage_without_preload_content(
+                create_chunk_lineage_request=create_chunk_lineage_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_chunk_lineage_serialize(
@@ -320,7 +426,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def delete_chunk_lineage(
+    async def delete_chunk_lineage(
         self,
         parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
         chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
@@ -379,12 +485,13 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -392,7 +499,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def delete_chunk_lineage_with_http_info(
+    async def delete_chunk_lineage_with_http_info(
         self,
         parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
         chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
@@ -451,12 +558,13 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -464,7 +572,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def delete_chunk_lineage_without_preload_content(
+    async def delete_chunk_lineage_without_preload_content(
         self,
         parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
         chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
@@ -523,12 +631,121 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_chunk_lineage_sync(
+        self,
+        parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
+        chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_chunk_lineage`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_chunk_lineage(
+                parent_chunk_id=parent_chunk_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_chunk_lineage_sync_with_http_info(
+        self,
+        parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
+        chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_chunk_lineage_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_chunk_lineage_with_http_info(
+                parent_chunk_id=parent_chunk_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_chunk_lineage_sync_without_preload_content(
+        self,
+        parent_chunk_id: Annotated[UUID, Field(description="Parent chunk ID")],
+        chunk_id: Annotated[UUID, Field(description="Child chunk ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_chunk_lineage_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_chunk_lineage_without_preload_content(
+                parent_chunk_id=parent_chunk_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_chunk_lineage_serialize(
@@ -604,7 +821,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def get_chunk_lineage(
+    async def get_chunk_lineage(
         self,
         chunk_id: UUID,
         max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
@@ -663,12 +880,13 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "LineageGraphResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -676,7 +894,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def get_chunk_lineage_with_http_info(
+    async def get_chunk_lineage_with_http_info(
         self,
         chunk_id: UUID,
         max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
@@ -735,12 +953,13 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "LineageGraphResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -748,7 +967,7 @@ class ChunkLineagesApi:
 
 
     @validate_call
-    def get_chunk_lineage_without_preload_content(
+    async def get_chunk_lineage_without_preload_content(
         self,
         chunk_id: UUID,
         max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
@@ -807,12 +1026,121 @@ class ChunkLineagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "LineageGraphResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_chunk_lineage_sync(
+        self,
+        chunk_id: UUID,
+        max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> LineageGraphResponse:
+        """Get Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_lineage`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_lineage(
+                chunk_id=chunk_id,
+                max_depth=max_depth,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunk_lineage_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[LineageGraphResponse]:
+        """Get Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_lineage_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_lineage_with_http_info(
+                chunk_id=chunk_id,
+                max_depth=max_depth,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunk_lineage_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        max_depth: Optional[Annotated[int, Field(le=10, strict=True, ge=1)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Chunk Lineage Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_lineage_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_lineage_without_preload_content(
+                chunk_id=chunk_id,
+                max_depth=max_depth,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_chunk_lineage_serialize(

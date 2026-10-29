@@ -44,6 +44,7 @@ from ksapi.models.validate_reset_code_request import ValidateResetCodeRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class AuthApi:
@@ -60,7 +61,7 @@ class AuthApi:
 
 
     @validate_call
-    def change_phone_number(
+    async def change_phone_number(
         self,
         change_phone_number_request: ChangePhoneNumberRequest,
         _request_timeout: Union[
@@ -115,12 +116,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -128,7 +130,7 @@ class AuthApi:
 
 
     @validate_call
-    def change_phone_number_with_http_info(
+    async def change_phone_number_with_http_info(
         self,
         change_phone_number_request: ChangePhoneNumberRequest,
         _request_timeout: Union[
@@ -183,12 +185,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -196,7 +199,7 @@ class AuthApi:
 
 
     @validate_call
-    def change_phone_number_without_preload_content(
+    async def change_phone_number_without_preload_content(
         self,
         change_phone_number_request: ChangePhoneNumberRequest,
         _request_timeout: Union[
@@ -251,12 +254,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def change_phone_number_sync(
+        self,
+        change_phone_number_request: ChangePhoneNumberRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Change Phone Number Handler (synchronous)
+
+        Synchronous variant of :meth:`change_phone_number`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.change_phone_number(
+                change_phone_number_request=change_phone_number_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def change_phone_number_sync_with_http_info(
+        self,
+        change_phone_number_request: ChangePhoneNumberRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Change Phone Number Handler (synchronous)
+
+        Synchronous variant of :meth:`change_phone_number_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.change_phone_number_with_http_info(
+                change_phone_number_request=change_phone_number_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def change_phone_number_sync_without_preload_content(
+        self,
+        change_phone_number_request: ChangePhoneNumberRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Change Phone Number Handler (synchronous)
+
+        Synchronous variant of :meth:`change_phone_number_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.change_phone_number_without_preload_content(
+                change_phone_number_request=change_phone_number_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _change_phone_number_serialize(
@@ -338,7 +444,7 @@ class AuthApi:
 
 
     @validate_call
-    def create_password_user(
+    async def create_password_user(
         self,
         create_password_user_request: CreatePasswordUserRequest,
         _request_timeout: Union[
@@ -392,12 +498,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SignUpResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -405,7 +512,7 @@ class AuthApi:
 
 
     @validate_call
-    def create_password_user_with_http_info(
+    async def create_password_user_with_http_info(
         self,
         create_password_user_request: CreatePasswordUserRequest,
         _request_timeout: Union[
@@ -459,12 +566,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SignUpResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -472,7 +580,7 @@ class AuthApi:
 
 
     @validate_call
-    def create_password_user_without_preload_content(
+    async def create_password_user_without_preload_content(
         self,
         create_password_user_request: CreatePasswordUserRequest,
         _request_timeout: Union[
@@ -526,12 +634,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SignUpResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_password_user_sync(
+        self,
+        create_password_user_request: CreatePasswordUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SignUpResponse:
+        """Create Password User Handler (synchronous)
+
+        Synchronous variant of :meth:`create_password_user`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_password_user(
+                create_password_user_request=create_password_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_password_user_sync_with_http_info(
+        self,
+        create_password_user_request: CreatePasswordUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SignUpResponse]:
+        """Create Password User Handler (synchronous)
+
+        Synchronous variant of :meth:`create_password_user_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_password_user_with_http_info(
+                create_password_user_request=create_password_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_password_user_sync_without_preload_content(
+        self,
+        create_password_user_request: CreatePasswordUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Password User Handler (synchronous)
+
+        Synchronous variant of :meth:`create_password_user_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_password_user_without_preload_content(
+                create_password_user_request=create_password_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_password_user_serialize(
@@ -611,7 +822,7 @@ class AuthApi:
 
 
     @validate_call
-    def create_phone_password_user(
+    async def create_phone_password_user(
         self,
         create_phone_password_user_request: CreatePhonePasswordUserRequest,
         _request_timeout: Union[
@@ -666,12 +877,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -679,7 +891,7 @@ class AuthApi:
 
 
     @validate_call
-    def create_phone_password_user_with_http_info(
+    async def create_phone_password_user_with_http_info(
         self,
         create_phone_password_user_request: CreatePhonePasswordUserRequest,
         _request_timeout: Union[
@@ -734,12 +946,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -747,7 +960,7 @@ class AuthApi:
 
 
     @validate_call
-    def create_phone_password_user_without_preload_content(
+    async def create_phone_password_user_without_preload_content(
         self,
         create_phone_password_user_request: CreatePhonePasswordUserRequest,
         _request_timeout: Union[
@@ -802,12 +1015,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_phone_password_user_sync(
+        self,
+        create_phone_password_user_request: CreatePhonePasswordUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Create Phone Password User Handler (synchronous)
+
+        Synchronous variant of :meth:`create_phone_password_user`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_phone_password_user(
+                create_phone_password_user_request=create_phone_password_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_phone_password_user_sync_with_http_info(
+        self,
+        create_phone_password_user_request: CreatePhonePasswordUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Create Phone Password User Handler (synchronous)
+
+        Synchronous variant of :meth:`create_phone_password_user_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_phone_password_user_with_http_info(
+                create_phone_password_user_request=create_phone_password_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_phone_password_user_sync_without_preload_content(
+        self,
+        create_phone_password_user_request: CreatePhonePasswordUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Phone Password User Handler (synchronous)
+
+        Synchronous variant of :meth:`create_phone_password_user_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_phone_password_user_without_preload_content(
+                create_phone_password_user_request=create_phone_password_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_phone_password_user_serialize(
@@ -887,7 +1203,7 @@ class AuthApi:
 
 
     @validate_call
-    def fanwei_directory_sync(
+    async def fanwei_directory_sync(
         self,
         tenant_id: UUID,
         authorization: Optional[StrictStr] = None,
@@ -950,12 +1266,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DirectorySyncResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -963,7 +1280,7 @@ class AuthApi:
 
 
     @validate_call
-    def fanwei_directory_sync_with_http_info(
+    async def fanwei_directory_sync_with_http_info(
         self,
         tenant_id: UUID,
         authorization: Optional[StrictStr] = None,
@@ -1026,12 +1343,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DirectorySyncResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1039,7 +1357,7 @@ class AuthApi:
 
 
     @validate_call
-    def fanwei_directory_sync_without_preload_content(
+    async def fanwei_directory_sync_without_preload_content(
         self,
         tenant_id: UUID,
         authorization: Optional[StrictStr] = None,
@@ -1102,12 +1420,127 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DirectorySyncResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def fanwei_directory_sync_sync(
+        self,
+        tenant_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DirectorySyncResponse:
+        """Directory Sync Handler (synchronous)
+
+        Synchronous variant of :meth:`fanwei_directory_sync`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.fanwei_directory_sync(
+                tenant_id=tenant_id,
+                authorization=authorization,
+                ks_uat=ks_uat,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def fanwei_directory_sync_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DirectorySyncResponse]:
+        """Directory Sync Handler (synchronous)
+
+        Synchronous variant of :meth:`fanwei_directory_sync_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.fanwei_directory_sync_with_http_info(
+                tenant_id=tenant_id,
+                authorization=authorization,
+                ks_uat=ks_uat,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def fanwei_directory_sync_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Directory Sync Handler (synchronous)
+
+        Synchronous variant of :meth:`fanwei_directory_sync_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.fanwei_directory_sync_without_preload_content(
+                tenant_id=tenant_id,
+                authorization=authorization,
+                ks_uat=ks_uat,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _fanwei_directory_sync_serialize(
@@ -1178,7 +1611,7 @@ class AuthApi:
 
 
     @validate_call
-    def fanwei_directory_sync_0(
+    async def fanwei_directory_sync_0(
         self,
         tenant_id: UUID,
         authorization: Optional[StrictStr] = None,
@@ -1241,12 +1674,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DirectorySyncResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1254,7 +1688,7 @@ class AuthApi:
 
 
     @validate_call
-    def fanwei_directory_sync_0_with_http_info(
+    async def fanwei_directory_sync_0_with_http_info(
         self,
         tenant_id: UUID,
         authorization: Optional[StrictStr] = None,
@@ -1317,12 +1751,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DirectorySyncResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1330,7 +1765,7 @@ class AuthApi:
 
 
     @validate_call
-    def fanwei_directory_sync_0_without_preload_content(
+    async def fanwei_directory_sync_0_without_preload_content(
         self,
         tenant_id: UUID,
         authorization: Optional[StrictStr] = None,
@@ -1393,12 +1828,127 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DirectorySyncResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def fanwei_directory_sync_0_sync(
+        self,
+        tenant_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DirectorySyncResponse:
+        """Directory Sync Handler (synchronous)
+
+        Synchronous variant of :meth:`fanwei_directory_sync_0`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.fanwei_directory_sync_0(
+                tenant_id=tenant_id,
+                authorization=authorization,
+                ks_uat=ks_uat,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def fanwei_directory_sync_0_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DirectorySyncResponse]:
+        """Directory Sync Handler (synchronous)
+
+        Synchronous variant of :meth:`fanwei_directory_sync_0_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.fanwei_directory_sync_0_with_http_info(
+                tenant_id=tenant_id,
+                authorization=authorization,
+                ks_uat=ks_uat,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def fanwei_directory_sync_0_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        authorization: Optional[StrictStr] = None,
+        ks_uat: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Directory Sync Handler (synchronous)
+
+        Synchronous variant of :meth:`fanwei_directory_sync_0_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.fanwei_directory_sync_0_without_preload_content(
+                tenant_id=tenant_id,
+                authorization=authorization,
+                ks_uat=ks_uat,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _fanwei_directory_sync_0_serialize(
@@ -1469,7 +2019,7 @@ class AuthApi:
 
 
     @validate_call
-    def initiate_sso(
+    async def initiate_sso(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
         invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
@@ -1532,12 +2082,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SSOInitiateResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1545,7 +2096,7 @@ class AuthApi:
 
 
     @validate_call
-    def initiate_sso_with_http_info(
+    async def initiate_sso_with_http_info(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
         invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
@@ -1608,12 +2159,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SSOInitiateResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1621,7 +2173,7 @@ class AuthApi:
 
 
     @validate_call
-    def initiate_sso_without_preload_content(
+    async def initiate_sso_without_preload_content(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
         invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
@@ -1684,12 +2236,127 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SSOInitiateResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def initiate_sso_sync(
+        self,
+        provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
+        tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SSOInitiateResponse:
+        """Initiate Sso Handler (synchronous)
+
+        Synchronous variant of :meth:`initiate_sso`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.initiate_sso(
+                provider=provider,
+                invite_id=invite_id,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def initiate_sso_sync_with_http_info(
+        self,
+        provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
+        tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SSOInitiateResponse]:
+        """Initiate Sso Handler (synchronous)
+
+        Synchronous variant of :meth:`initiate_sso_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.initiate_sso_with_http_info(
+                provider=provider,
+                invite_id=invite_id,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def initiate_sso_sync_without_preload_content(
+        self,
+        provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        invite_id: Annotated[Optional[UUID], Field(description="Invite to resolve if this sign-in creates the account; carried in the session to the callback like the OAuth state.")] = None,
+        tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Initiate Sso Handler (synchronous)
+
+        Synchronous variant of :meth:`initiate_sso_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.initiate_sso_without_preload_content(
+                provider=provider,
+                invite_id=invite_id,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _initiate_sso_serialize(
@@ -1768,7 +2435,7 @@ class AuthApi:
 
 
     @validate_call
-    def oauth2_callback(
+    async def oauth2_callback(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
         code: Annotated[Optional[StrictStr], Field(description="Authorization code from provider")] = None,
@@ -1843,12 +2510,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SignUpResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1856,7 +2524,7 @@ class AuthApi:
 
 
     @validate_call
-    def oauth2_callback_with_http_info(
+    async def oauth2_callback_with_http_info(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
         code: Annotated[Optional[StrictStr], Field(description="Authorization code from provider")] = None,
@@ -1931,12 +2599,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SignUpResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1944,7 +2613,7 @@ class AuthApi:
 
 
     @validate_call
-    def oauth2_callback_without_preload_content(
+    async def oauth2_callback_without_preload_content(
         self,
         provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
         code: Annotated[Optional[StrictStr], Field(description="Authorization code from provider")] = None,
@@ -2019,12 +2688,145 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SignUpResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def oauth2_callback_sync(
+        self,
+        provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        code: Annotated[Optional[StrictStr], Field(description="Authorization code from provider")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State parameter for CSRF protection")] = None,
+        error: Annotated[Optional[StrictStr], Field(description="Error code if authorization failed")] = None,
+        error_description: Annotated[Optional[StrictStr], Field(description="Error description")] = None,
+        tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SignUpResponse:
+        """Oauth2 Callback Handler (synchronous)
+
+        Synchronous variant of :meth:`oauth2_callback`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.oauth2_callback(
+                provider=provider,
+                code=code,
+                state=state,
+                error=error,
+                error_description=error_description,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def oauth2_callback_sync_with_http_info(
+        self,
+        provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        code: Annotated[Optional[StrictStr], Field(description="Authorization code from provider")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State parameter for CSRF protection")] = None,
+        error: Annotated[Optional[StrictStr], Field(description="Error code if authorization failed")] = None,
+        error_description: Annotated[Optional[StrictStr], Field(description="Error description")] = None,
+        tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SignUpResponse]:
+        """Oauth2 Callback Handler (synchronous)
+
+        Synchronous variant of :meth:`oauth2_callback_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.oauth2_callback_with_http_info(
+                provider=provider,
+                code=code,
+                state=state,
+                error=error,
+                error_description=error_description,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def oauth2_callback_sync_without_preload_content(
+        self,
+        provider: Annotated[IdpType, Field(description="Provider to initiate SSO with")],
+        code: Annotated[Optional[StrictStr], Field(description="Authorization code from provider")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State parameter for CSRF protection")] = None,
+        error: Annotated[Optional[StrictStr], Field(description="Error code if authorization failed")] = None,
+        error_description: Annotated[Optional[StrictStr], Field(description="Error description")] = None,
+        tenant_id: Annotated[Optional[UUID], Field(description="Tenant ID to initiate SSO with")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Oauth2 Callback Handler (synchronous)
+
+        Synchronous variant of :meth:`oauth2_callback_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.oauth2_callback_without_preload_content(
+                provider=provider,
+                code=code,
+                state=state,
+                error=error,
+                error_description=error_description,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _oauth2_callback_serialize(
@@ -2118,7 +2920,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_email_verification(
+    async def pw_email_verification(
         self,
         email_verification_request: EmailVerificationRequest,
         _request_timeout: Union[
@@ -2173,12 +2975,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EmailSentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2186,7 +2989,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_email_verification_with_http_info(
+    async def pw_email_verification_with_http_info(
         self,
         email_verification_request: EmailVerificationRequest,
         _request_timeout: Union[
@@ -2241,12 +3044,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EmailSentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2254,7 +3058,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_email_verification_without_preload_content(
+    async def pw_email_verification_without_preload_content(
         self,
         email_verification_request: EmailVerificationRequest,
         _request_timeout: Union[
@@ -2309,12 +3113,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EmailSentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def pw_email_verification_sync(
+        self,
+        email_verification_request: EmailVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EmailSentResponse:
+        """Pw Email Verification Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_email_verification`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_email_verification(
+                email_verification_request=email_verification_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def pw_email_verification_sync_with_http_info(
+        self,
+        email_verification_request: EmailVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EmailSentResponse]:
+        """Pw Email Verification Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_email_verification_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_email_verification_with_http_info(
+                email_verification_request=email_verification_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def pw_email_verification_sync_without_preload_content(
+        self,
+        email_verification_request: EmailVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Pw Email Verification Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_email_verification_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_email_verification_without_preload_content(
+                email_verification_request=email_verification_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _pw_email_verification_serialize(
@@ -2394,7 +3301,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_phone_verification(
+    async def pw_phone_verification(
         self,
         phone_verification_request: PhoneVerificationRequest,
         _request_timeout: Union[
@@ -2449,12 +3356,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PhoneValidationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2462,7 +3370,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_phone_verification_with_http_info(
+    async def pw_phone_verification_with_http_info(
         self,
         phone_verification_request: PhoneVerificationRequest,
         _request_timeout: Union[
@@ -2517,12 +3425,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PhoneValidationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2530,7 +3439,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_phone_verification_without_preload_content(
+    async def pw_phone_verification_without_preload_content(
         self,
         phone_verification_request: PhoneVerificationRequest,
         _request_timeout: Union[
@@ -2585,12 +3494,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PhoneValidationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def pw_phone_verification_sync(
+        self,
+        phone_verification_request: PhoneVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PhoneValidationResponse:
+        """Pw Phone Verification Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_phone_verification`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_phone_verification(
+                phone_verification_request=phone_verification_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def pw_phone_verification_sync_with_http_info(
+        self,
+        phone_verification_request: PhoneVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PhoneValidationResponse]:
+        """Pw Phone Verification Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_phone_verification_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_phone_verification_with_http_info(
+                phone_verification_request=phone_verification_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def pw_phone_verification_sync_without_preload_content(
+        self,
+        phone_verification_request: PhoneVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Pw Phone Verification Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_phone_verification_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_phone_verification_without_preload_content(
+                phone_verification_request=phone_verification_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _pw_phone_verification_serialize(
@@ -2670,7 +3682,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_signin(
+    async def pw_signin(
         self,
         sign_in_request: SignInRequest,
         _request_timeout: Union[
@@ -2725,12 +3737,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2738,7 +3751,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_signin_with_http_info(
+    async def pw_signin_with_http_info(
         self,
         sign_in_request: SignInRequest,
         _request_timeout: Union[
@@ -2793,12 +3806,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2806,7 +3820,7 @@ class AuthApi:
 
 
     @validate_call
-    def pw_signin_without_preload_content(
+    async def pw_signin_without_preload_content(
         self,
         sign_in_request: SignInRequest,
         _request_timeout: Union[
@@ -2861,12 +3875,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def pw_signin_sync(
+        self,
+        sign_in_request: SignInRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Signin Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_signin`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_signin(
+                sign_in_request=sign_in_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def pw_signin_sync_with_http_info(
+        self,
+        sign_in_request: SignInRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Signin Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_signin_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_signin_with_http_info(
+                sign_in_request=sign_in_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def pw_signin_sync_without_preload_content(
+        self,
+        sign_in_request: SignInRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Signin Handler (synchronous)
+
+        Synchronous variant of :meth:`pw_signin_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.pw_signin_without_preload_content(
+                sign_in_request=sign_in_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _pw_signin_serialize(
@@ -2946,7 +4063,7 @@ class AuthApi:
 
 
     @validate_call
-    def refresh_uat(
+    async def refresh_uat(
         self,
         tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
         _request_timeout: Union[
@@ -3001,12 +4118,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3014,7 +4132,7 @@ class AuthApi:
 
 
     @validate_call
-    def refresh_uat_with_http_info(
+    async def refresh_uat_with_http_info(
         self,
         tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
         _request_timeout: Union[
@@ -3069,12 +4187,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3082,7 +4201,7 @@ class AuthApi:
 
 
     @validate_call
-    def refresh_uat_without_preload_content(
+    async def refresh_uat_without_preload_content(
         self,
         tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
         _request_timeout: Union[
@@ -3137,12 +4256,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def refresh_uat_sync(
+        self,
+        tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Refresh Uat Handler (synchronous)
+
+        Synchronous variant of :meth:`refresh_uat`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.refresh_uat(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def refresh_uat_sync_with_http_info(
+        self,
+        tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Refresh Uat Handler (synchronous)
+
+        Synchronous variant of :meth:`refresh_uat_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.refresh_uat_with_http_info(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def refresh_uat_sync_without_preload_content(
+        self,
+        tenant_id: Annotated[Optional[UUID], Field(description="Target tenant ID to switch to. None=refresh current tenant")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Refresh Uat Handler (synchronous)
+
+        Synchronous variant of :meth:`refresh_uat_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.refresh_uat_without_preload_content(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _refresh_uat_serialize(
@@ -3213,7 +4435,7 @@ class AuthApi:
 
 
     @validate_call
-    def request_phone_change(
+    async def request_phone_change(
         self,
         request_phone_change_request: RequestPhoneChangeRequest,
         _request_timeout: Union[
@@ -3268,12 +4490,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PhoneValidationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3281,7 +4504,7 @@ class AuthApi:
 
 
     @validate_call
-    def request_phone_change_with_http_info(
+    async def request_phone_change_with_http_info(
         self,
         request_phone_change_request: RequestPhoneChangeRequest,
         _request_timeout: Union[
@@ -3336,12 +4559,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PhoneValidationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3349,7 +4573,7 @@ class AuthApi:
 
 
     @validate_call
-    def request_phone_change_without_preload_content(
+    async def request_phone_change_without_preload_content(
         self,
         request_phone_change_request: RequestPhoneChangeRequest,
         _request_timeout: Union[
@@ -3404,12 +4628,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PhoneValidationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def request_phone_change_sync(
+        self,
+        request_phone_change_request: RequestPhoneChangeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PhoneValidationResponse:
+        """Request Phone Change Handler (synchronous)
+
+        Synchronous variant of :meth:`request_phone_change`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.request_phone_change(
+                request_phone_change_request=request_phone_change_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def request_phone_change_sync_with_http_info(
+        self,
+        request_phone_change_request: RequestPhoneChangeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PhoneValidationResponse]:
+        """Request Phone Change Handler (synchronous)
+
+        Synchronous variant of :meth:`request_phone_change_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.request_phone_change_with_http_info(
+                request_phone_change_request=request_phone_change_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def request_phone_change_sync_without_preload_content(
+        self,
+        request_phone_change_request: RequestPhoneChangeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Request Phone Change Handler (synchronous)
+
+        Synchronous variant of :meth:`request_phone_change_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.request_phone_change_without_preload_content(
+                request_phone_change_request=request_phone_change_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _request_phone_change_serialize(
@@ -3491,7 +4818,7 @@ class AuthApi:
 
 
     @validate_call
-    def reset_password(
+    async def reset_password(
         self,
         password_reset_request: PasswordResetRequest,
         _request_timeout: Union[
@@ -3546,12 +4873,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3559,7 +4887,7 @@ class AuthApi:
 
 
     @validate_call
-    def reset_password_with_http_info(
+    async def reset_password_with_http_info(
         self,
         password_reset_request: PasswordResetRequest,
         _request_timeout: Union[
@@ -3614,12 +4942,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3627,7 +4956,7 @@ class AuthApi:
 
 
     @validate_call
-    def reset_password_without_preload_content(
+    async def reset_password_without_preload_content(
         self,
         password_reset_request: PasswordResetRequest,
         _request_timeout: Union[
@@ -3682,12 +5011,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def reset_password_sync(
+        self,
+        password_reset_request: PasswordResetRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Reset Password Handler (synchronous)
+
+        Synchronous variant of :meth:`reset_password`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reset_password(
+                password_reset_request=password_reset_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reset_password_sync_with_http_info(
+        self,
+        password_reset_request: PasswordResetRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Reset Password Handler (synchronous)
+
+        Synchronous variant of :meth:`reset_password_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reset_password_with_http_info(
+                password_reset_request=password_reset_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reset_password_sync_without_preload_content(
+        self,
+        password_reset_request: PasswordResetRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reset Password Handler (synchronous)
+
+        Synchronous variant of :meth:`reset_password_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reset_password_without_preload_content(
+                password_reset_request=password_reset_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _reset_password_serialize(
@@ -3769,7 +5201,7 @@ class AuthApi:
 
 
     @validate_call
-    def reset_password_with_token(
+    async def reset_password_with_token(
         self,
         password_reset_with_token_request: PasswordResetWithTokenRequest,
         _request_timeout: Union[
@@ -3824,12 +5256,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3837,7 +5270,7 @@ class AuthApi:
 
 
     @validate_call
-    def reset_password_with_token_with_http_info(
+    async def reset_password_with_token_with_http_info(
         self,
         password_reset_with_token_request: PasswordResetWithTokenRequest,
         _request_timeout: Union[
@@ -3892,12 +5325,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3905,7 +5339,7 @@ class AuthApi:
 
 
     @validate_call
-    def reset_password_with_token_without_preload_content(
+    async def reset_password_with_token_without_preload_content(
         self,
         password_reset_with_token_request: PasswordResetWithTokenRequest,
         _request_timeout: Union[
@@ -3960,12 +5394,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def reset_password_with_token_sync(
+        self,
+        password_reset_with_token_request: PasswordResetWithTokenRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Reset Password With Token Handler (synchronous)
+
+        Synchronous variant of :meth:`reset_password_with_token`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reset_password_with_token(
+                password_reset_with_token_request=password_reset_with_token_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reset_password_with_token_sync_with_http_info(
+        self,
+        password_reset_with_token_request: PasswordResetWithTokenRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Reset Password With Token Handler (synchronous)
+
+        Synchronous variant of :meth:`reset_password_with_token_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reset_password_with_token_with_http_info(
+                password_reset_with_token_request=password_reset_with_token_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reset_password_with_token_sync_without_preload_content(
+        self,
+        password_reset_with_token_request: PasswordResetWithTokenRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reset Password With Token Handler (synchronous)
+
+        Synchronous variant of :meth:`reset_password_with_token_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reset_password_with_token_without_preload_content(
+                password_reset_with_token_request=password_reset_with_token_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _reset_password_with_token_serialize(
@@ -4045,7 +5582,7 @@ class AuthApi:
 
 
     @validate_call
-    def send_pw_reset_email(
+    async def send_pw_reset_email(
         self,
         send_password_reset_request: SendPasswordResetRequest,
         _request_timeout: Union[
@@ -4100,12 +5637,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ResponseSendPwResetEmail",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4113,7 +5651,7 @@ class AuthApi:
 
 
     @validate_call
-    def send_pw_reset_email_with_http_info(
+    async def send_pw_reset_email_with_http_info(
         self,
         send_password_reset_request: SendPasswordResetRequest,
         _request_timeout: Union[
@@ -4168,12 +5706,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ResponseSendPwResetEmail",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4181,7 +5720,7 @@ class AuthApi:
 
 
     @validate_call
-    def send_pw_reset_email_without_preload_content(
+    async def send_pw_reset_email_without_preload_content(
         self,
         send_password_reset_request: SendPasswordResetRequest,
         _request_timeout: Union[
@@ -4236,12 +5775,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ResponseSendPwResetEmail",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def send_pw_reset_email_sync(
+        self,
+        send_password_reset_request: SendPasswordResetRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ResponseSendPwResetEmail:
+        """Send Pw Reset Email Handler (synchronous)
+
+        Synchronous variant of :meth:`send_pw_reset_email`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.send_pw_reset_email(
+                send_password_reset_request=send_password_reset_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def send_pw_reset_email_sync_with_http_info(
+        self,
+        send_password_reset_request: SendPasswordResetRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ResponseSendPwResetEmail]:
+        """Send Pw Reset Email Handler (synchronous)
+
+        Synchronous variant of :meth:`send_pw_reset_email_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.send_pw_reset_email_with_http_info(
+                send_password_reset_request=send_password_reset_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def send_pw_reset_email_sync_without_preload_content(
+        self,
+        send_password_reset_request: SendPasswordResetRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Send Pw Reset Email Handler (synchronous)
+
+        Synchronous variant of :meth:`send_pw_reset_email_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.send_pw_reset_email_without_preload_content(
+                send_password_reset_request=send_password_reset_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _send_pw_reset_email_serialize(
@@ -4321,7 +5963,7 @@ class AuthApi:
 
 
     @validate_call
-    def signout(
+    async def signout(
         self,
         _request_timeout: Union[
             None,
@@ -4370,12 +6012,13 @@ class AuthApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4383,7 +6026,7 @@ class AuthApi:
 
 
     @validate_call
-    def signout_with_http_info(
+    async def signout_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4432,12 +6075,13 @@ class AuthApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4445,7 +6089,7 @@ class AuthApi:
 
 
     @validate_call
-    def signout_without_preload_content(
+    async def signout_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4494,12 +6138,109 @@ class AuthApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def signout_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Signout Handler (synchronous)
+
+        Synchronous variant of :meth:`signout`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.signout(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def signout_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Signout Handler (synchronous)
+
+        Synchronous variant of :meth:`signout_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.signout_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def signout_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Signout Handler (synchronous)
+
+        Synchronous variant of :meth:`signout_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.signout_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _signout_serialize(
@@ -4563,7 +6304,7 @@ class AuthApi:
 
 
     @validate_call
-    def sso_signin(
+    async def sso_signin(
         self,
         tenant_id: UUID,
         redirect: Annotated[Optional[StrictStr], Field(description="Post-login redirect path")] = None,
@@ -4622,12 +6363,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '307': "object",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4635,7 +6377,7 @@ class AuthApi:
 
 
     @validate_call
-    def sso_signin_with_http_info(
+    async def sso_signin_with_http_info(
         self,
         tenant_id: UUID,
         redirect: Annotated[Optional[StrictStr], Field(description="Post-login redirect path")] = None,
@@ -4694,12 +6436,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '307': "object",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4707,7 +6450,7 @@ class AuthApi:
 
 
     @validate_call
-    def sso_signin_without_preload_content(
+    async def sso_signin_without_preload_content(
         self,
         tenant_id: UUID,
         redirect: Annotated[Optional[StrictStr], Field(description="Post-login redirect path")] = None,
@@ -4766,12 +6509,121 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '307': "object",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def sso_signin_sync(
+        self,
+        tenant_id: UUID,
+        redirect: Annotated[Optional[StrictStr], Field(description="Post-login redirect path")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ErrorResponse:
+        """Sso Login Handler (synchronous)
+
+        Synchronous variant of :meth:`sso_signin`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.sso_signin(
+                tenant_id=tenant_id,
+                redirect=redirect,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def sso_signin_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        redirect: Annotated[Optional[StrictStr], Field(description="Post-login redirect path")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ErrorResponse]:
+        """Sso Login Handler (synchronous)
+
+        Synchronous variant of :meth:`sso_signin_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.sso_signin_with_http_info(
+                tenant_id=tenant_id,
+                redirect=redirect,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def sso_signin_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        redirect: Annotated[Optional[StrictStr], Field(description="Post-login redirect path")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sso Login Handler (synchronous)
+
+        Synchronous variant of :meth:`sso_signin_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.sso_signin_without_preload_content(
+                tenant_id=tenant_id,
+                redirect=redirect,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _sso_signin_serialize(
@@ -4843,7 +6695,7 @@ class AuthApi:
 
 
     @validate_call
-    def validate_pw_reset_code(
+    async def validate_pw_reset_code(
         self,
         validate_reset_code_request: ValidateResetCodeRequest,
         _request_timeout: Union[
@@ -4898,12 +6750,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PasswordResetTokenResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4911,7 +6764,7 @@ class AuthApi:
 
 
     @validate_call
-    def validate_pw_reset_code_with_http_info(
+    async def validate_pw_reset_code_with_http_info(
         self,
         validate_reset_code_request: ValidateResetCodeRequest,
         _request_timeout: Union[
@@ -4966,12 +6819,13 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PasswordResetTokenResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4979,7 +6833,7 @@ class AuthApi:
 
 
     @validate_call
-    def validate_pw_reset_code_without_preload_content(
+    async def validate_pw_reset_code_without_preload_content(
         self,
         validate_reset_code_request: ValidateResetCodeRequest,
         _request_timeout: Union[
@@ -5034,12 +6888,115 @@ class AuthApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PasswordResetTokenResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def validate_pw_reset_code_sync(
+        self,
+        validate_reset_code_request: ValidateResetCodeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PasswordResetTokenResponse:
+        """Validate Reset Code Handler (synchronous)
+
+        Synchronous variant of :meth:`validate_pw_reset_code`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.validate_pw_reset_code(
+                validate_reset_code_request=validate_reset_code_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def validate_pw_reset_code_sync_with_http_info(
+        self,
+        validate_reset_code_request: ValidateResetCodeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PasswordResetTokenResponse]:
+        """Validate Reset Code Handler (synchronous)
+
+        Synchronous variant of :meth:`validate_pw_reset_code_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.validate_pw_reset_code_with_http_info(
+                validate_reset_code_request=validate_reset_code_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def validate_pw_reset_code_sync_without_preload_content(
+        self,
+        validate_reset_code_request: ValidateResetCodeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Validate Reset Code Handler (synchronous)
+
+        Synchronous variant of :meth:`validate_pw_reset_code_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.validate_pw_reset_code_without_preload_content(
+                validate_reset_code_request=validate_reset_code_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _validate_pw_reset_code_serialize(

@@ -17,31 +17,52 @@ import unittest
 from ksapi.api.thread_messages_api import ThreadMessagesApi
 
 
-class TestThreadMessagesApi(unittest.TestCase):
+class TestThreadMessagesApi(unittest.IsolatedAsyncioTestCase):
     """ThreadMessagesApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ThreadMessagesApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_thread_message(self) -> None:
+    async def test_create_thread_message(self) -> None:
         """Test case for create_thread_message
 
         Create Thread Message Handler
         """
         pass
 
-    def test_get_thread_message(self) -> None:
+    def test_create_thread_message_sync(self) -> None:
+        """Test case for create_thread_message (synchronous)
+
+        Create Thread Message Handler
+        """
+        pass
+
+    async def test_get_thread_message(self) -> None:
         """Test case for get_thread_message
 
         Get Thread Message Handler
         """
         pass
 
-    def test_list_thread_messages(self) -> None:
+    def test_get_thread_message_sync(self) -> None:
+        """Test case for get_thread_message (synchronous)
+
+        Get Thread Message Handler
+        """
+        pass
+
+    async def test_list_thread_messages(self) -> None:
         """Test case for list_thread_messages
+
+        List Thread Messages Handler
+        """
+        pass
+
+    def test_list_thread_messages_sync(self) -> None:
+        """Test case for list_thread_messages (synchronous)
 
         List Thread Messages Handler
         """

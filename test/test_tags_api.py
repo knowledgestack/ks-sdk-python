@@ -17,45 +17,80 @@ import unittest
 from ksapi.api.tags_api import TagsApi
 
 
-class TestTagsApi(unittest.TestCase):
+class TestTagsApi(unittest.IsolatedAsyncioTestCase):
     """TagsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = TagsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_tag(self) -> None:
+    async def test_create_tag(self) -> None:
         """Test case for create_tag
 
         Create Tag Handler
         """
         pass
 
-    def test_delete_tag(self) -> None:
+    def test_create_tag_sync(self) -> None:
+        """Test case for create_tag (synchronous)
+
+        Create Tag Handler
+        """
+        pass
+
+    async def test_delete_tag(self) -> None:
         """Test case for delete_tag
 
         Delete Tag Handler
         """
         pass
 
-    def test_get_tag(self) -> None:
+    def test_delete_tag_sync(self) -> None:
+        """Test case for delete_tag (synchronous)
+
+        Delete Tag Handler
+        """
+        pass
+
+    async def test_get_tag(self) -> None:
         """Test case for get_tag
 
         Get Tag Handler
         """
         pass
 
-    def test_list_tags(self) -> None:
+    def test_get_tag_sync(self) -> None:
+        """Test case for get_tag (synchronous)
+
+        Get Tag Handler
+        """
+        pass
+
+    async def test_list_tags(self) -> None:
         """Test case for list_tags
 
         List Tags Handler
         """
         pass
 
-    def test_update_tag(self) -> None:
+    def test_list_tags_sync(self) -> None:
+        """Test case for list_tags (synchronous)
+
+        List Tags Handler
+        """
+        pass
+
+    async def test_update_tag(self) -> None:
         """Test case for update_tag
+
+        Update Tag Handler
+        """
+        pass
+
+    def test_update_tag_sync(self) -> None:
+        """Test case for update_tag (synchronous)
 
         Update Tag Handler
         """

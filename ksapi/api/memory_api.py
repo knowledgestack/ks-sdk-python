@@ -29,6 +29,7 @@ from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class MemoryApi:
@@ -45,7 +46,7 @@ class MemoryApi:
 
 
     @validate_call
-    def approve_memory_proposal(
+    async def approve_memory_proposal(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -99,12 +100,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -112,7 +114,7 @@ class MemoryApi:
 
 
     @validate_call
-    def approve_memory_proposal_with_http_info(
+    async def approve_memory_proposal_with_http_info(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -166,12 +168,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -179,7 +182,7 @@ class MemoryApi:
 
 
     @validate_call
-    def approve_memory_proposal_without_preload_content(
+    async def approve_memory_proposal_without_preload_content(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -233,12 +236,115 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def approve_memory_proposal_sync(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MemoryEntryResponse:
+        """Approve Memory Proposal Handler (synchronous)
+
+        Synchronous variant of :meth:`approve_memory_proposal`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.approve_memory_proposal(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def approve_memory_proposal_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MemoryEntryResponse]:
+        """Approve Memory Proposal Handler (synchronous)
+
+        Synchronous variant of :meth:`approve_memory_proposal_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.approve_memory_proposal_with_http_info(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def approve_memory_proposal_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Approve Memory Proposal Handler (synchronous)
+
+        Synchronous variant of :meth:`approve_memory_proposal_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.approve_memory_proposal_without_preload_content(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _approve_memory_proposal_serialize(
@@ -307,7 +413,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_memory_body(
+    async def get_memory_body(
         self,
         scope: MemoryScope,
         owner_id: UUID,
@@ -365,12 +471,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryBodyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -378,7 +485,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_memory_body_with_http_info(
+    async def get_memory_body_with_http_info(
         self,
         scope: MemoryScope,
         owner_id: UUID,
@@ -436,12 +543,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryBodyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -449,7 +557,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_memory_body_without_preload_content(
+    async def get_memory_body_without_preload_content(
         self,
         scope: MemoryScope,
         owner_id: UUID,
@@ -507,12 +615,121 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryBodyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_memory_body_sync(
+        self,
+        scope: MemoryScope,
+        owner_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MemoryBodyResponse:
+        """Get Memory Body Handler (synchronous)
+
+        Synchronous variant of :meth:`get_memory_body`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_memory_body(
+                scope=scope,
+                owner_id=owner_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_memory_body_sync_with_http_info(
+        self,
+        scope: MemoryScope,
+        owner_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MemoryBodyResponse]:
+        """Get Memory Body Handler (synchronous)
+
+        Synchronous variant of :meth:`get_memory_body_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_memory_body_with_http_info(
+                scope=scope,
+                owner_id=owner_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_memory_body_sync_without_preload_content(
+        self,
+        scope: MemoryScope,
+        owner_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Memory Body Handler (synchronous)
+
+        Synchronous variant of :meth:`get_memory_body_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_memory_body_without_preload_content(
+                scope=scope,
+                owner_id=owner_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_memory_body_serialize(
@@ -588,7 +805,7 @@ class MemoryApi:
 
 
     @validate_call
-    def list_memory_proposals(
+    async def list_memory_proposals(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -646,12 +863,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePendingMemoryChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -659,7 +877,7 @@ class MemoryApi:
 
 
     @validate_call
-    def list_memory_proposals_with_http_info(
+    async def list_memory_proposals_with_http_info(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -717,12 +935,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePendingMemoryChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -730,7 +949,7 @@ class MemoryApi:
 
 
     @validate_call
-    def list_memory_proposals_without_preload_content(
+    async def list_memory_proposals_without_preload_content(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -788,12 +1007,121 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePendingMemoryChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_memory_proposals_sync(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponsePendingMemoryChunkResponse:
+        """List Memory Proposals Handler (synchronous)
+
+        Synchronous variant of :meth:`list_memory_proposals`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_memory_proposals(
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_memory_proposals_sync_with_http_info(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponsePendingMemoryChunkResponse]:
+        """List Memory Proposals Handler (synchronous)
+
+        Synchronous variant of :meth:`list_memory_proposals_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_memory_proposals_with_http_info(
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_memory_proposals_sync_without_preload_content(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Memory Proposals Handler (synchronous)
+
+        Synchronous variant of :meth:`list_memory_proposals_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_memory_proposals_without_preload_content(
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_memory_proposals_serialize(
@@ -869,7 +1197,7 @@ class MemoryApi:
 
 
     @validate_call
-    def propose_memory_chunk(
+    async def propose_memory_chunk(
         self,
         propose_memory_chunk_request: ProposeMemoryChunkRequest,
         _request_timeout: Union[
@@ -923,12 +1251,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "PendingMemoryChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -936,7 +1265,7 @@ class MemoryApi:
 
 
     @validate_call
-    def propose_memory_chunk_with_http_info(
+    async def propose_memory_chunk_with_http_info(
         self,
         propose_memory_chunk_request: ProposeMemoryChunkRequest,
         _request_timeout: Union[
@@ -990,12 +1319,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "PendingMemoryChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1003,7 +1333,7 @@ class MemoryApi:
 
 
     @validate_call
-    def propose_memory_chunk_without_preload_content(
+    async def propose_memory_chunk_without_preload_content(
         self,
         propose_memory_chunk_request: ProposeMemoryChunkRequest,
         _request_timeout: Union[
@@ -1057,12 +1387,115 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "PendingMemoryChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def propose_memory_chunk_sync(
+        self,
+        propose_memory_chunk_request: ProposeMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PendingMemoryChunkResponse:
+        """Propose Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`propose_memory_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.propose_memory_chunk(
+                propose_memory_chunk_request=propose_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def propose_memory_chunk_sync_with_http_info(
+        self,
+        propose_memory_chunk_request: ProposeMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PendingMemoryChunkResponse]:
+        """Propose Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`propose_memory_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.propose_memory_chunk_with_http_info(
+                propose_memory_chunk_request=propose_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def propose_memory_chunk_sync_without_preload_content(
+        self,
+        propose_memory_chunk_request: ProposeMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Propose Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`propose_memory_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.propose_memory_chunk_without_preload_content(
+                propose_memory_chunk_request=propose_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _propose_memory_chunk_serialize(
@@ -1144,7 +1577,7 @@ class MemoryApi:
 
 
     @validate_call
-    def reject_memory_proposal(
+    async def reject_memory_proposal(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -1198,12 +1631,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1211,7 +1645,7 @@ class MemoryApi:
 
 
     @validate_call
-    def reject_memory_proposal_with_http_info(
+    async def reject_memory_proposal_with_http_info(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -1265,12 +1699,13 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1278,7 +1713,7 @@ class MemoryApi:
 
 
     @validate_call
-    def reject_memory_proposal_without_preload_content(
+    async def reject_memory_proposal_without_preload_content(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -1332,12 +1767,115 @@ class MemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def reject_memory_proposal_sync(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Reject Memory Proposal Handler (synchronous)
+
+        Synchronous variant of :meth:`reject_memory_proposal`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reject_memory_proposal(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reject_memory_proposal_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Reject Memory Proposal Handler (synchronous)
+
+        Synchronous variant of :meth:`reject_memory_proposal_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reject_memory_proposal_with_http_info(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reject_memory_proposal_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reject Memory Proposal Handler (synchronous)
+
+        Synchronous variant of :meth:`reject_memory_proposal_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reject_memory_proposal_without_preload_content(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _reject_memory_proposal_serialize(

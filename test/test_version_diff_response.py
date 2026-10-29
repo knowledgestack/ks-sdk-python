@@ -137,7 +137,7 @@ class TestVersionDiffResponse(unittest.TestCase):
                                 ], 
                             revisions = [
                                 ksapi.models.revision_edit.RevisionEdit(
-                                    type = , 
+                                    type = 'added', 
                                     author = '', 
                                     date = '', 
                                     text = '', )

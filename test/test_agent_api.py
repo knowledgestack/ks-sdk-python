@@ -17,24 +17,38 @@ import unittest
 from ksapi.api.agent_api import AgentApi
 
 
-class TestAgentApi(unittest.TestCase):
+class TestAgentApi(unittest.IsolatedAsyncioTestCase):
     """AgentApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = AgentApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_agent_ask(self) -> None:
+    async def test_agent_ask(self) -> None:
         """Test case for agent_ask
 
         Agent Ask Handler
         """
         pass
 
-    def test_agent_extract(self) -> None:
+    def test_agent_ask_sync(self) -> None:
+        """Test case for agent_ask (synchronous)
+
+        Agent Ask Handler
+        """
+        pass
+
+    async def test_agent_extract(self) -> None:
         """Test case for agent_extract
+
+        Agent Extract Handler
+        """
+        pass
+
+    def test_agent_extract_sync(self) -> None:
+        """Test case for agent_extract (synchronous)
 
         Agent Extract Handler
         """

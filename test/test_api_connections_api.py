@@ -17,52 +17,94 @@ import unittest
 from ksapi.api.api_connections_api import ApiConnectionsApi
 
 
-class TestApiConnectionsApi(unittest.TestCase):
+class TestApiConnectionsApi(unittest.IsolatedAsyncioTestCase):
     """ApiConnectionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ApiConnectionsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_accept_api_connection_disclaimer(self) -> None:
+    async def test_accept_api_connection_disclaimer(self) -> None:
         """Test case for accept_api_connection_disclaimer
 
         Accept Api Connection Disclaimer Handler
         """
         pass
 
-    def test_create_api_connection(self) -> None:
+    def test_accept_api_connection_disclaimer_sync(self) -> None:
+        """Test case for accept_api_connection_disclaimer (synchronous)
+
+        Accept Api Connection Disclaimer Handler
+        """
+        pass
+
+    async def test_create_api_connection(self) -> None:
         """Test case for create_api_connection
 
         Create Api Connection Handler
         """
         pass
 
-    def test_delete_api_connection(self) -> None:
+    def test_create_api_connection_sync(self) -> None:
+        """Test case for create_api_connection (synchronous)
+
+        Create Api Connection Handler
+        """
+        pass
+
+    async def test_delete_api_connection(self) -> None:
         """Test case for delete_api_connection
 
         Delete Api Connection Handler
         """
         pass
 
-    def test_execute_api_connection_request(self) -> None:
+    def test_delete_api_connection_sync(self) -> None:
+        """Test case for delete_api_connection (synchronous)
+
+        Delete Api Connection Handler
+        """
+        pass
+
+    async def test_execute_api_connection_request(self) -> None:
         """Test case for execute_api_connection_request
 
         Execute Api Connection Request Handler
         """
         pass
 
-    def test_get_api_connection(self) -> None:
+    def test_execute_api_connection_request_sync(self) -> None:
+        """Test case for execute_api_connection_request (synchronous)
+
+        Execute Api Connection Request Handler
+        """
+        pass
+
+    async def test_get_api_connection(self) -> None:
         """Test case for get_api_connection
 
         Get Api Connection Handler
         """
         pass
 
-    def test_update_api_connection(self) -> None:
+    def test_get_api_connection_sync(self) -> None:
+        """Test case for get_api_connection (synchronous)
+
+        Get Api Connection Handler
+        """
+        pass
+
+    async def test_update_api_connection(self) -> None:
         """Test case for update_api_connection
+
+        Update Api Connection Handler
+        """
+        pass
+
+    def test_update_api_connection_sync(self) -> None:
+        """Test case for update_api_connection (synchronous)
 
         Update Api Connection Handler
         """

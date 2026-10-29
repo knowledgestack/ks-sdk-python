@@ -17,129 +17,248 @@ import unittest
 from ksapi.api.data_sources_api import DataSourcesApi
 
 
-class TestDataSourcesApi(unittest.TestCase):
+class TestDataSourcesApi(unittest.IsolatedAsyncioTestCase):
     """DataSourcesApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DataSourcesApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_data_source(self) -> None:
+    async def test_create_data_source(self) -> None:
         """Test case for create_data_source
 
         Create Data Source Handler
         """
         pass
 
-    def test_delete_data_source(self) -> None:
+    def test_create_data_source_sync(self) -> None:
+        """Test case for create_data_source (synchronous)
+
+        Create Data Source Handler
+        """
+        pass
+
+    async def test_delete_data_source(self) -> None:
         """Test case for delete_data_source
 
         Delete Data Source Handler
         """
         pass
 
-    def test_delete_data_source_schema(self) -> None:
+    def test_delete_data_source_sync(self) -> None:
+        """Test case for delete_data_source (synchronous)
+
+        Delete Data Source Handler
+        """
+        pass
+
+    async def test_delete_data_source_schema(self) -> None:
         """Test case for delete_data_source_schema
 
         Delete Data Source Schema Handler
         """
         pass
 
-    def test_delete_data_source_table(self) -> None:
+    def test_delete_data_source_schema_sync(self) -> None:
+        """Test case for delete_data_source_schema (synchronous)
+
+        Delete Data Source Schema Handler
+        """
+        pass
+
+    async def test_delete_data_source_table(self) -> None:
         """Test case for delete_data_source_table
 
         Delete Data Source Table Handler
         """
         pass
 
-    def test_describe_data_source_tables(self) -> None:
+    def test_delete_data_source_table_sync(self) -> None:
+        """Test case for delete_data_source_table (synchronous)
+
+        Delete Data Source Table Handler
+        """
+        pass
+
+    async def test_describe_data_source_tables(self) -> None:
         """Test case for describe_data_source_tables
 
         Describe Data Source Tables Handler
         """
         pass
 
-    def test_get_data_source(self) -> None:
+    def test_describe_data_source_tables_sync(self) -> None:
+        """Test case for describe_data_source_tables (synchronous)
+
+        Describe Data Source Tables Handler
+        """
+        pass
+
+    async def test_get_data_source(self) -> None:
         """Test case for get_data_source
 
         Get Data Source Handler
         """
         pass
 
-    def test_get_data_source_catalog(self) -> None:
+    def test_get_data_source_sync(self) -> None:
+        """Test case for get_data_source (synchronous)
+
+        Get Data Source Handler
+        """
+        pass
+
+    async def test_get_data_source_catalog(self) -> None:
         """Test case for get_data_source_catalog
 
         Get Data Source Catalog Handler
         """
         pass
 
-    def test_list_data_source_schemas(self) -> None:
+    def test_get_data_source_catalog_sync(self) -> None:
+        """Test case for get_data_source_catalog (synchronous)
+
+        Get Data Source Catalog Handler
+        """
+        pass
+
+    async def test_list_data_source_schemas(self) -> None:
         """Test case for list_data_source_schemas
 
         List Data Source Schemas Handler
         """
         pass
 
-    def test_model_data_source_table(self) -> None:
+    def test_list_data_source_schemas_sync(self) -> None:
+        """Test case for list_data_source_schemas (synchronous)
+
+        List Data Source Schemas Handler
+        """
+        pass
+
+    async def test_model_data_source_table(self) -> None:
         """Test case for model_data_source_table
 
         Model Data Source Table Handler
         """
         pass
 
-    def test_model_data_source_tables(self) -> None:
+    def test_model_data_source_table_sync(self) -> None:
+        """Test case for model_data_source_table (synchronous)
+
+        Model Data Source Table Handler
+        """
+        pass
+
+    async def test_model_data_source_tables(self) -> None:
         """Test case for model_data_source_tables
 
         Model Data Source Tables Handler
         """
         pass
 
-    def test_query_data_source(self) -> None:
+    def test_model_data_source_tables_sync(self) -> None:
+        """Test case for model_data_source_tables (synchronous)
+
+        Model Data Source Tables Handler
+        """
+        pass
+
+    async def test_query_data_source(self) -> None:
         """Test case for query_data_source
 
         Query Data Source Handler
         """
         pass
 
-    def test_search_data_source_tables(self) -> None:
+    def test_query_data_source_sync(self) -> None:
+        """Test case for query_data_source (synchronous)
+
+        Query Data Source Handler
+        """
+        pass
+
+    async def test_search_data_source_tables(self) -> None:
         """Test case for search_data_source_tables
 
         Search Data Source Tables Handler
         """
         pass
 
-    def test_sync_data_source(self) -> None:
+    def test_search_data_source_tables_sync(self) -> None:
+        """Test case for search_data_source_tables (synchronous)
+
+        Search Data Source Tables Handler
+        """
+        pass
+
+    async def test_sync_data_source(self) -> None:
         """Test case for sync_data_source
 
         Sync Data Source Handler
         """
         pass
 
-    def test_test_data_source_connection(self) -> None:
+    def test_sync_data_source_sync(self) -> None:
+        """Test case for sync_data_source (synchronous)
+
+        Sync Data Source Handler
+        """
+        pass
+
+    async def test_test_data_source_connection(self) -> None:
         """Test case for test_data_source_connection
 
         Test Data Source Connection Handler
         """
         pass
 
-    def test_test_data_source_connection_fresh(self) -> None:
+    def test_test_data_source_connection_sync(self) -> None:
+        """Test case for test_data_source_connection (synchronous)
+
+        Test Data Source Connection Handler
+        """
+        pass
+
+    async def test_test_data_source_connection_fresh(self) -> None:
         """Test case for test_data_source_connection_fresh
 
         Test Data Source Connection Fresh Handler
         """
         pass
 
-    def test_update_data_source(self) -> None:
+    def test_test_data_source_connection_fresh_sync(self) -> None:
+        """Test case for test_data_source_connection_fresh (synchronous)
+
+        Test Data Source Connection Fresh Handler
+        """
+        pass
+
+    async def test_update_data_source(self) -> None:
         """Test case for update_data_source
 
         Update Data Source Handler
         """
         pass
 
-    def test_update_data_source_table(self) -> None:
+    def test_update_data_source_sync(self) -> None:
+        """Test case for update_data_source (synchronous)
+
+        Update Data Source Handler
+        """
+        pass
+
+    async def test_update_data_source_table(self) -> None:
         """Test case for update_data_source_table
+
+        Update Data Source Table Handler
+        """
+        pass
+
+    def test_update_data_source_table_sync(self) -> None:
+        """Test case for update_data_source_table (synchronous)
 
         Update Data Source Table Handler
         """

@@ -24,6 +24,7 @@ from ksapi.models.transcription_response import TranscriptionResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class TranscriptionsApi:
@@ -40,7 +41,7 @@ class TranscriptionsApi:
 
 
     @validate_call
-    def create_transcription(
+    async def create_transcription(
         self,
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="The audio clip. Accepts what a browser records (audio/webm, audio/ogg, audio/mp4) plus audio/mpeg, audio/wav and audio/flac. Re-encoded server-side, so the container does not have to match the backend.")],
         language: Optional[SupportedLanguage] = None,
@@ -99,12 +100,13 @@ class TranscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TranscriptionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -112,7 +114,7 @@ class TranscriptionsApi:
 
 
     @validate_call
-    def create_transcription_with_http_info(
+    async def create_transcription_with_http_info(
         self,
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="The audio clip. Accepts what a browser records (audio/webm, audio/ogg, audio/mp4) plus audio/mpeg, audio/wav and audio/flac. Re-encoded server-side, so the container does not have to match the backend.")],
         language: Optional[SupportedLanguage] = None,
@@ -171,12 +173,13 @@ class TranscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TranscriptionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -184,7 +187,7 @@ class TranscriptionsApi:
 
 
     @validate_call
-    def create_transcription_without_preload_content(
+    async def create_transcription_without_preload_content(
         self,
         file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="The audio clip. Accepts what a browser records (audio/webm, audio/ogg, audio/mp4) plus audio/mpeg, audio/wav and audio/flac. Re-encoded server-side, so the container does not have to match the backend.")],
         language: Optional[SupportedLanguage] = None,
@@ -243,12 +246,121 @@ class TranscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TranscriptionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_transcription_sync(
+        self,
+        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="The audio clip. Accepts what a browser records (audio/webm, audio/ogg, audio/mp4) plus audio/mpeg, audio/wav and audio/flac. Re-encoded server-side, so the container does not have to match the backend.")],
+        language: Optional[SupportedLanguage] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TranscriptionResponse:
+        """Create Transcription Handler (synchronous)
+
+        Synchronous variant of :meth:`create_transcription`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_transcription(
+                file=file,
+                language=language,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_transcription_sync_with_http_info(
+        self,
+        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="The audio clip. Accepts what a browser records (audio/webm, audio/ogg, audio/mp4) plus audio/mpeg, audio/wav and audio/flac. Re-encoded server-side, so the container does not have to match the backend.")],
+        language: Optional[SupportedLanguage] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TranscriptionResponse]:
+        """Create Transcription Handler (synchronous)
+
+        Synchronous variant of :meth:`create_transcription_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_transcription_with_http_info(
+                file=file,
+                language=language,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_transcription_sync_without_preload_content(
+        self,
+        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="The audio clip. Accepts what a browser records (audio/webm, audio/ogg, audio/mp4) plus audio/mpeg, audio/wav and audio/flac. Re-encoded server-side, so the container does not have to match the backend.")],
+        language: Optional[SupportedLanguage] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Transcription Handler (synchronous)
+
+        Synchronous variant of :meth:`create_transcription_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_transcription_without_preload_content(
+                file=file,
+                language=language,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_transcription_serialize(

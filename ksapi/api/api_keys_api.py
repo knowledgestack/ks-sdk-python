@@ -24,6 +24,7 @@ from ksapi.models.create_api_key_response import CreateApiKeyResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class ApiKeysApi:
@@ -40,7 +41,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def create_api_key(
+    async def create_api_key(
         self,
         create_api_key_request: CreateApiKeyRequest,
         _request_timeout: Union[
@@ -95,12 +96,13 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateApiKeyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -108,7 +110,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def create_api_key_with_http_info(
+    async def create_api_key_with_http_info(
         self,
         create_api_key_request: CreateApiKeyRequest,
         _request_timeout: Union[
@@ -163,12 +165,13 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateApiKeyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -176,7 +179,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def create_api_key_without_preload_content(
+    async def create_api_key_without_preload_content(
         self,
         create_api_key_request: CreateApiKeyRequest,
         _request_timeout: Union[
@@ -231,12 +234,115 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateApiKeyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_api_key_sync(
+        self,
+        create_api_key_request: CreateApiKeyRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CreateApiKeyResponse:
+        """Create Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`create_api_key`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_api_key(
+                create_api_key_request=create_api_key_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_api_key_sync_with_http_info(
+        self,
+        create_api_key_request: CreateApiKeyRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CreateApiKeyResponse]:
+        """Create Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`create_api_key_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_api_key_with_http_info(
+                create_api_key_request=create_api_key_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_api_key_sync_without_preload_content(
+        self,
+        create_api_key_request: CreateApiKeyRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`create_api_key_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_api_key_without_preload_content(
+                create_api_key_request=create_api_key_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_api_key_serialize(
@@ -317,7 +423,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def delete_api_key(
+    async def delete_api_key(
         self,
         api_key_id: UUID,
         _request_timeout: Union[
@@ -372,12 +478,13 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -385,7 +492,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def delete_api_key_with_http_info(
+    async def delete_api_key_with_http_info(
         self,
         api_key_id: UUID,
         _request_timeout: Union[
@@ -440,12 +547,13 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -453,7 +561,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def delete_api_key_without_preload_content(
+    async def delete_api_key_without_preload_content(
         self,
         api_key_id: UUID,
         _request_timeout: Union[
@@ -508,12 +616,115 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_api_key_sync(
+        self,
+        api_key_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_api_key`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_api_key(
+                api_key_id=api_key_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_api_key_sync_with_http_info(
+        self,
+        api_key_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_api_key_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_api_key_with_http_info(
+                api_key_id=api_key_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_api_key_sync_without_preload_content(
+        self,
+        api_key_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_api_key_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_api_key_without_preload_content(
+                api_key_id=api_key_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_api_key_serialize(
@@ -581,7 +792,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def get_api_key(
+    async def get_api_key(
         self,
         api_key_id: UUID,
         _request_timeout: Union[
@@ -636,12 +847,13 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiKeyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -649,7 +861,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def get_api_key_with_http_info(
+    async def get_api_key_with_http_info(
         self,
         api_key_id: UUID,
         _request_timeout: Union[
@@ -704,12 +916,13 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiKeyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -717,7 +930,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def get_api_key_without_preload_content(
+    async def get_api_key_without_preload_content(
         self,
         api_key_id: UUID,
         _request_timeout: Union[
@@ -772,12 +985,115 @@ class ApiKeysApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiKeyResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_api_key_sync(
+        self,
+        api_key_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiKeyResponse:
+        """Get Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`get_api_key`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_api_key(
+                api_key_id=api_key_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_api_key_sync_with_http_info(
+        self,
+        api_key_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApiKeyResponse]:
+        """Get Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`get_api_key_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_api_key_with_http_info(
+                api_key_id=api_key_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_api_key_sync_without_preload_content(
+        self,
+        api_key_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Api Key Handler (synchronous)
+
+        Synchronous variant of :meth:`get_api_key_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_api_key_without_preload_content(
+                api_key_id=api_key_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_api_key_serialize(
@@ -845,7 +1161,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def list_api_keys(
+    async def list_api_keys(
         self,
         _request_timeout: Union[
             None,
@@ -895,12 +1211,13 @@ class ApiKeysApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ApiKeyResponse]",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -908,7 +1225,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def list_api_keys_with_http_info(
+    async def list_api_keys_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -958,12 +1275,13 @@ class ApiKeysApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ApiKeyResponse]",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -971,7 +1289,7 @@ class ApiKeysApi:
 
 
     @validate_call
-    def list_api_keys_without_preload_content(
+    async def list_api_keys_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1021,12 +1339,109 @@ class ApiKeysApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ApiKeyResponse]",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_api_keys_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ApiKeyResponse]:
+        """List Api Keys Handler (synchronous)
+
+        Synchronous variant of :meth:`list_api_keys`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_api_keys(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_api_keys_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ApiKeyResponse]]:
+        """List Api Keys Handler (synchronous)
+
+        Synchronous variant of :meth:`list_api_keys_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_api_keys_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_api_keys_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Api Keys Handler (synchronous)
+
+        Synchronous variant of :meth:`list_api_keys_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_api_keys_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_api_keys_serialize(

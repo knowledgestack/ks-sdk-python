@@ -17,45 +17,80 @@ import unittest
 from ksapi.api.workflow_memory_api import WorkflowMemoryApi
 
 
-class TestWorkflowMemoryApi(unittest.TestCase):
+class TestWorkflowMemoryApi(unittest.IsolatedAsyncioTestCase):
     """WorkflowMemoryApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = WorkflowMemoryApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_append_workflow_memory_chunk(self) -> None:
+    async def test_append_workflow_memory_chunk(self) -> None:
         """Test case for append_workflow_memory_chunk
 
         Append Workflow Memory Chunk Handler
         """
         pass
 
-    def test_edit_workflow_memory_chunk(self) -> None:
+    def test_append_workflow_memory_chunk_sync(self) -> None:
+        """Test case for append_workflow_memory_chunk (synchronous)
+
+        Append Workflow Memory Chunk Handler
+        """
+        pass
+
+    async def test_edit_workflow_memory_chunk(self) -> None:
         """Test case for edit_workflow_memory_chunk
 
         Edit Workflow Memory Chunk Handler
         """
         pass
 
-    def test_forget_workflow_memory_chunk(self) -> None:
+    def test_edit_workflow_memory_chunk_sync(self) -> None:
+        """Test case for edit_workflow_memory_chunk (synchronous)
+
+        Edit Workflow Memory Chunk Handler
+        """
+        pass
+
+    async def test_forget_workflow_memory_chunk(self) -> None:
         """Test case for forget_workflow_memory_chunk
 
         Forget Workflow Memory Chunk Handler
         """
         pass
 
-    def test_get_workflow_memory_chunk(self) -> None:
+    def test_forget_workflow_memory_chunk_sync(self) -> None:
+        """Test case for forget_workflow_memory_chunk (synchronous)
+
+        Forget Workflow Memory Chunk Handler
+        """
+        pass
+
+    async def test_get_workflow_memory_chunk(self) -> None:
         """Test case for get_workflow_memory_chunk
 
         Get Workflow Memory Chunk Handler
         """
         pass
 
-    def test_list_workflow_memory_chunks(self) -> None:
+    def test_get_workflow_memory_chunk_sync(self) -> None:
+        """Test case for get_workflow_memory_chunk (synchronous)
+
+        Get Workflow Memory Chunk Handler
+        """
+        pass
+
+    async def test_list_workflow_memory_chunks(self) -> None:
         """Test case for list_workflow_memory_chunks
+
+        List Workflow Memory Chunks Handler
+        """
+        pass
+
+    def test_list_workflow_memory_chunks_sync(self) -> None:
+        """Test case for list_workflow_memory_chunks (synchronous)
 
         List Workflow Memory Chunks Handler
         """

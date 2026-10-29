@@ -17,24 +17,38 @@ import unittest
 from ksapi.api.audit_events_api import AuditEventsApi
 
 
-class TestAuditEventsApi(unittest.TestCase):
+class TestAuditEventsApi(unittest.IsolatedAsyncioTestCase):
     """AuditEventsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = AuditEventsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_export_audit_events(self) -> None:
+    async def test_export_audit_events(self) -> None:
         """Test case for export_audit_events
 
         Export Audit Events Handler
         """
         pass
 
-    def test_list_audit_events(self) -> None:
+    def test_export_audit_events_sync(self) -> None:
+        """Test case for export_audit_events (synchronous)
+
+        Export Audit Events Handler
+        """
+        pass
+
+    async def test_list_audit_events(self) -> None:
         """Test case for list_audit_events
+
+        List Audit Events Handler
+        """
+        pass
+
+    def test_list_audit_events_sync(self) -> None:
+        """Test case for list_audit_events (synchronous)
 
         List Audit Events Handler
         """

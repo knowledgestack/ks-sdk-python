@@ -31,7 +31,7 @@ class CreateApiKeyResponse(BaseModel):
     """ # noqa: E501
     id: UUID
     name: StrictStr
-    key: StrictStr = Field(description="The raw API key, returned only at creation. Send it as `Authorization: Bearer <key>`.")
+    key: StrictStr = Field(description="The raw API key, returned only at creation. Send it as `Authorization: Bearer <key>`.", json_schema_extra={"examples": ["sk-user-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"]})
     key_suffix: StrictStr
     created_at: datetime
     expires_at: Optional[datetime]

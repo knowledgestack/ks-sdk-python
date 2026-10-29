@@ -17,73 +17,136 @@ import unittest
 from ksapi.api.chunks_api import ChunksApi
 
 
-class TestChunksApi(unittest.TestCase):
+class TestChunksApi(unittest.IsolatedAsyncioTestCase):
     """ChunksApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ChunksApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_chunk(self) -> None:
+    async def test_create_chunk(self) -> None:
         """Test case for create_chunk
 
         Create Chunk Handler
         """
         pass
 
-    def test_delete_chunk(self) -> None:
+    def test_create_chunk_sync(self) -> None:
+        """Test case for create_chunk (synchronous)
+
+        Create Chunk Handler
+        """
+        pass
+
+    async def test_delete_chunk(self) -> None:
         """Test case for delete_chunk
 
         Delete Chunk Handler
         """
         pass
 
-    def test_get_chunk(self) -> None:
+    def test_delete_chunk_sync(self) -> None:
+        """Test case for delete_chunk (synchronous)
+
+        Delete Chunk Handler
+        """
+        pass
+
+    async def test_get_chunk(self) -> None:
         """Test case for get_chunk
 
         Get Chunk Handler
         """
         pass
 
-    def test_get_chunk_neighbors(self) -> None:
+    def test_get_chunk_sync(self) -> None:
+        """Test case for get_chunk (synchronous)
+
+        Get Chunk Handler
+        """
+        pass
+
+    async def test_get_chunk_neighbors(self) -> None:
         """Test case for get_chunk_neighbors
 
         Get Chunk Neighbors Handler
         """
         pass
 
-    def test_get_chunks_bulk(self) -> None:
+    def test_get_chunk_neighbors_sync(self) -> None:
+        """Test case for get_chunk_neighbors (synchronous)
+
+        Get Chunk Neighbors Handler
+        """
+        pass
+
+    async def test_get_chunks_bulk(self) -> None:
         """Test case for get_chunks_bulk
 
         Get Chunks Bulk Handler
         """
         pass
 
-    def test_get_version_chunk_ids(self) -> None:
+    def test_get_chunks_bulk_sync(self) -> None:
+        """Test case for get_chunks_bulk (synchronous)
+
+        Get Chunks Bulk Handler
+        """
+        pass
+
+    async def test_get_version_chunk_ids(self) -> None:
         """Test case for get_version_chunk_ids
 
         Get Version Chunk Ids Handler
         """
         pass
 
-    def test_search_chunks(self) -> None:
+    def test_get_version_chunk_ids_sync(self) -> None:
+        """Test case for get_version_chunk_ids (synchronous)
+
+        Get Version Chunk Ids Handler
+        """
+        pass
+
+    async def test_search_chunks(self) -> None:
         """Test case for search_chunks
 
         Search Chunks Handler
         """
         pass
 
-    def test_update_chunk_content(self) -> None:
+    def test_search_chunks_sync(self) -> None:
+        """Test case for search_chunks (synchronous)
+
+        Search Chunks Handler
+        """
+        pass
+
+    async def test_update_chunk_content(self) -> None:
         """Test case for update_chunk_content
 
         Update Chunk Content Handler
         """
         pass
 
-    def test_update_chunk_metadata(self) -> None:
+    def test_update_chunk_content_sync(self) -> None:
+        """Test case for update_chunk_content (synchronous)
+
+        Update Chunk Content Handler
+        """
+        pass
+
+    async def test_update_chunk_metadata(self) -> None:
         """Test case for update_chunk_metadata
+
+        Update Chunk Metadata Handler
+        """
+        pass
+
+    def test_update_chunk_metadata_sync(self) -> None:
+        """Test case for update_chunk_metadata (synchronous)
 
         Update Chunk Metadata Handler
         """

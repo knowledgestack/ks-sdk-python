@@ -35,13 +35,13 @@ class RecordRepoSaveSkipRequest(BaseModel):
     detail: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A machine-readable code adding context, e.g. the refusal code (`repo_too_large`) or `commits_not_on_main`; never free text.")
     __properties: ClassVar[List[str]] = ["run_id", "reason", "detail"]
 
-    @field_validator('detail')
+    @field_validator('detail', mode="before")
     def detail_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^[a-z0-9_]{1,64}$", value):
+        if isinstance(value, str) and not re.match(r"^[a-z0-9_]{1,64}$", value):
             raise ValueError(r"must validate the regular expression /^[a-z0-9_]{1,64}$/")
         return value
 

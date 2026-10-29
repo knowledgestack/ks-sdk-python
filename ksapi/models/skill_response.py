@@ -107,15 +107,13 @@ class SkillResponse(BaseModel):
         _items = []
         if self.files:
             for _item_files in self.files:
-                if _item_files:
-                    _items.append(_item_files.to_dict())
+                _items.append(_item_files.to_dict() if _item_files is not None else None)
             _dict['files'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in file_documents (list)
         _items = []
         if self.file_documents:
             for _item_file_documents in self.file_documents:
-                if _item_file_documents:
-                    _items.append(_item_file_documents.to_dict())
+                _items.append(_item_file_documents.to_dict() if _item_file_documents is not None else None)
             _dict['file_documents'] = _items
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:

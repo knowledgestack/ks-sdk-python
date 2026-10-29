@@ -42,6 +42,7 @@ from ksapi.models.update_table_request import UpdateTableRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class DataSourcesApi:
@@ -58,7 +59,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def create_data_source(
+    async def create_data_source(
         self,
         create_data_source_request: CreateDataSourceRequest,
         _request_timeout: Union[
@@ -113,12 +114,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DataSourceResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -126,7 +128,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def create_data_source_with_http_info(
+    async def create_data_source_with_http_info(
         self,
         create_data_source_request: CreateDataSourceRequest,
         _request_timeout: Union[
@@ -181,12 +183,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DataSourceResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -194,7 +197,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def create_data_source_without_preload_content(
+    async def create_data_source_without_preload_content(
         self,
         create_data_source_request: CreateDataSourceRequest,
         _request_timeout: Union[
@@ -249,12 +252,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DataSourceResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_data_source_sync(
+        self,
+        create_data_source_request: CreateDataSourceRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceResponse:
+        """Create Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`create_data_source`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_data_source(
+                create_data_source_request=create_data_source_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_data_source_sync_with_http_info(
+        self,
+        create_data_source_request: CreateDataSourceRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceResponse]:
+        """Create Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`create_data_source_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_data_source_with_http_info(
+                create_data_source_request=create_data_source_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_data_source_sync_without_preload_content(
+        self,
+        create_data_source_request: CreateDataSourceRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`create_data_source_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_data_source_without_preload_content(
+                create_data_source_request=create_data_source_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_data_source_serialize(
@@ -336,7 +442,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source(
+    async def delete_data_source(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -391,12 +497,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -404,7 +511,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_with_http_info(
+    async def delete_data_source_with_http_info(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -459,12 +566,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -472,7 +580,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_without_preload_content(
+    async def delete_data_source_without_preload_content(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -527,12 +635,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_data_source_sync(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_data_source_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_with_http_info(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_data_source_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_without_preload_content(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_data_source_serialize(
@@ -601,7 +812,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_schema(
+    async def delete_data_source_schema(
         self,
         data_source_id: UUID,
         schema_id: UUID,
@@ -660,12 +871,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -673,7 +885,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_schema_with_http_info(
+    async def delete_data_source_schema_with_http_info(
         self,
         data_source_id: UUID,
         schema_id: UUID,
@@ -732,12 +944,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -745,7 +958,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_schema_without_preload_content(
+    async def delete_data_source_schema_without_preload_content(
         self,
         data_source_id: UUID,
         schema_id: UUID,
@@ -804,12 +1017,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_data_source_schema_sync(
+        self,
+        data_source_id: UUID,
+        schema_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Data Source Schema Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_schema`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_schema(
+                data_source_id=data_source_id,
+                schema_id=schema_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_data_source_schema_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        schema_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Data Source Schema Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_schema_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_schema_with_http_info(
+                data_source_id=data_source_id,
+                schema_id=schema_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_data_source_schema_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        schema_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Data Source Schema Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_schema_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_schema_without_preload_content(
+                data_source_id=data_source_id,
+                schema_id=schema_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_data_source_schema_serialize(
@@ -881,7 +1203,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_table(
+    async def delete_data_source_table(
         self,
         data_source_id: UUID,
         table_id: UUID,
@@ -940,12 +1262,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -953,7 +1276,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_table_with_http_info(
+    async def delete_data_source_table_with_http_info(
         self,
         data_source_id: UUID,
         table_id: UUID,
@@ -1012,12 +1335,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1025,7 +1349,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def delete_data_source_table_without_preload_content(
+    async def delete_data_source_table_without_preload_content(
         self,
         data_source_id: UUID,
         table_id: UUID,
@@ -1084,12 +1408,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_data_source_table_sync(
+        self,
+        data_source_id: UUID,
+        table_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_table`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_table(
+                data_source_id=data_source_id,
+                table_id=table_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_data_source_table_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        table_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_table_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_table_with_http_info(
+                data_source_id=data_source_id,
+                table_id=table_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_data_source_table_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        table_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_data_source_table_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_data_source_table_without_preload_content(
+                data_source_id=data_source_id,
+                table_id=table_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_data_source_table_serialize(
@@ -1161,7 +1594,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def describe_data_source_tables(
+    async def describe_data_source_tables(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -1216,12 +1649,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceDescribeResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1229,7 +1663,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def describe_data_source_tables_with_http_info(
+    async def describe_data_source_tables_with_http_info(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -1284,12 +1718,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceDescribeResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1297,7 +1732,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def describe_data_source_tables_without_preload_content(
+    async def describe_data_source_tables_without_preload_content(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -1352,12 +1787,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceDescribeResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def describe_data_source_tables_sync(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceDescribeResponse:
+        """Describe Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`describe_data_source_tables`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.describe_data_source_tables(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def describe_data_source_tables_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceDescribeResponse]:
+        """Describe Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`describe_data_source_tables_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.describe_data_source_tables_with_http_info(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def describe_data_source_tables_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Describe Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`describe_data_source_tables_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.describe_data_source_tables_without_preload_content(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _describe_data_source_tables_serialize(
@@ -1426,7 +1964,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def get_data_source(
+    async def get_data_source(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -1481,12 +2019,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1494,7 +2033,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def get_data_source_with_http_info(
+    async def get_data_source_with_http_info(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -1549,12 +2088,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1562,7 +2102,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def get_data_source_without_preload_content(
+    async def get_data_source_without_preload_content(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -1617,12 +2157,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_data_source_sync(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceDetailResponse:
+        """Get Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`get_data_source`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_data_source(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_data_source_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceDetailResponse]:
+        """Get Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`get_data_source_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_data_source_with_http_info(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_data_source_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`get_data_source_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_data_source_without_preload_content(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_data_source_serialize(
@@ -1691,7 +2334,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def get_data_source_catalog(
+    async def get_data_source_catalog(
         self,
         data_source_id: UUID,
         var_schema: Annotated[Optional[StrictStr], Field(description="Schema/namespace to introspect (default: connection default)")] = None,
@@ -1750,12 +2393,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceCatalogResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1763,7 +2407,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def get_data_source_catalog_with_http_info(
+    async def get_data_source_catalog_with_http_info(
         self,
         data_source_id: UUID,
         var_schema: Annotated[Optional[StrictStr], Field(description="Schema/namespace to introspect (default: connection default)")] = None,
@@ -1822,12 +2466,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceCatalogResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1835,7 +2480,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def get_data_source_catalog_without_preload_content(
+    async def get_data_source_catalog_without_preload_content(
         self,
         data_source_id: UUID,
         var_schema: Annotated[Optional[StrictStr], Field(description="Schema/namespace to introspect (default: connection default)")] = None,
@@ -1894,12 +2539,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceCatalogResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_data_source_catalog_sync(
+        self,
+        data_source_id: UUID,
+        var_schema: Annotated[Optional[StrictStr], Field(description="Schema/namespace to introspect (default: connection default)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceCatalogResponse:
+        """Get Data Source Catalog Handler (synchronous)
+
+        Synchronous variant of :meth:`get_data_source_catalog`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_data_source_catalog(
+                data_source_id=data_source_id,
+                var_schema=var_schema,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_data_source_catalog_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        var_schema: Annotated[Optional[StrictStr], Field(description="Schema/namespace to introspect (default: connection default)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceCatalogResponse]:
+        """Get Data Source Catalog Handler (synchronous)
+
+        Synchronous variant of :meth:`get_data_source_catalog_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_data_source_catalog_with_http_info(
+                data_source_id=data_source_id,
+                var_schema=var_schema,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_data_source_catalog_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        var_schema: Annotated[Optional[StrictStr], Field(description="Schema/namespace to introspect (default: connection default)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Data Source Catalog Handler (synchronous)
+
+        Synchronous variant of :meth:`get_data_source_catalog_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_data_source_catalog_without_preload_content(
+                data_source_id=data_source_id,
+                var_schema=var_schema,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_data_source_catalog_serialize(
@@ -1973,7 +2727,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def list_data_source_schemas(
+    async def list_data_source_schemas(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -2028,12 +2782,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSchemaListResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2041,7 +2796,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def list_data_source_schemas_with_http_info(
+    async def list_data_source_schemas_with_http_info(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -2096,12 +2851,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSchemaListResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2109,7 +2865,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def list_data_source_schemas_without_preload_content(
+    async def list_data_source_schemas_without_preload_content(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -2164,12 +2920,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceSchemaListResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_data_source_schemas_sync(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceSchemaListResponse:
+        """List Data Source Schemas Handler (synchronous)
+
+        Synchronous variant of :meth:`list_data_source_schemas`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_data_source_schemas(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_data_source_schemas_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceSchemaListResponse]:
+        """List Data Source Schemas Handler (synchronous)
+
+        Synchronous variant of :meth:`list_data_source_schemas_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_data_source_schemas_with_http_info(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_data_source_schemas_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Data Source Schemas Handler (synchronous)
+
+        Synchronous variant of :meth:`list_data_source_schemas_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_data_source_schemas_without_preload_content(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_data_source_schemas_serialize(
@@ -2238,7 +3097,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def model_data_source_table(
+    async def model_data_source_table(
         self,
         data_source_id: UUID,
         model_table_request: ModelTableRequest,
@@ -2297,12 +3156,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DataSourceTableResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2310,7 +3170,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def model_data_source_table_with_http_info(
+    async def model_data_source_table_with_http_info(
         self,
         data_source_id: UUID,
         model_table_request: ModelTableRequest,
@@ -2369,12 +3229,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DataSourceTableResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2382,7 +3243,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def model_data_source_table_without_preload_content(
+    async def model_data_source_table_without_preload_content(
         self,
         data_source_id: UUID,
         model_table_request: ModelTableRequest,
@@ -2441,12 +3302,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DataSourceTableResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def model_data_source_table_sync(
+        self,
+        data_source_id: UUID,
+        model_table_request: ModelTableRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceTableResponse:
+        """Model Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`model_data_source_table`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.model_data_source_table(
+                data_source_id=data_source_id,
+                model_table_request=model_table_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def model_data_source_table_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        model_table_request: ModelTableRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceTableResponse]:
+        """Model Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`model_data_source_table_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.model_data_source_table_with_http_info(
+                data_source_id=data_source_id,
+                model_table_request=model_table_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def model_data_source_table_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        model_table_request: ModelTableRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Model Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`model_data_source_table_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.model_data_source_table_without_preload_content(
+                data_source_id=data_source_id,
+                model_table_request=model_table_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _model_data_source_table_serialize(
@@ -2531,7 +3501,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def model_data_source_tables(
+    async def model_data_source_tables(
         self,
         data_source_id: UUID,
         bulk_model_tables_request: BulkModelTablesRequest,
@@ -2590,12 +3560,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "BulkModelTablesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2603,7 +3574,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def model_data_source_tables_with_http_info(
+    async def model_data_source_tables_with_http_info(
         self,
         data_source_id: UUID,
         bulk_model_tables_request: BulkModelTablesRequest,
@@ -2662,12 +3633,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "BulkModelTablesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2675,7 +3647,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def model_data_source_tables_without_preload_content(
+    async def model_data_source_tables_without_preload_content(
         self,
         data_source_id: UUID,
         bulk_model_tables_request: BulkModelTablesRequest,
@@ -2734,12 +3706,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "BulkModelTablesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def model_data_source_tables_sync(
+        self,
+        data_source_id: UUID,
+        bulk_model_tables_request: BulkModelTablesRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkModelTablesResponse:
+        """Model Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`model_data_source_tables`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.model_data_source_tables(
+                data_source_id=data_source_id,
+                bulk_model_tables_request=bulk_model_tables_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def model_data_source_tables_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        bulk_model_tables_request: BulkModelTablesRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkModelTablesResponse]:
+        """Model Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`model_data_source_tables_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.model_data_source_tables_with_http_info(
+                data_source_id=data_source_id,
+                bulk_model_tables_request=bulk_model_tables_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def model_data_source_tables_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        bulk_model_tables_request: BulkModelTablesRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Model Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`model_data_source_tables_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.model_data_source_tables_without_preload_content(
+                data_source_id=data_source_id,
+                bulk_model_tables_request=bulk_model_tables_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _model_data_source_tables_serialize(
@@ -2824,7 +3905,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def query_data_source(
+    async def query_data_source(
         self,
         data_source_id: UUID,
         data_source_query_request: DataSourceQueryRequest,
@@ -2883,12 +3964,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceQueryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2896,7 +3978,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def query_data_source_with_http_info(
+    async def query_data_source_with_http_info(
         self,
         data_source_id: UUID,
         data_source_query_request: DataSourceQueryRequest,
@@ -2955,12 +4037,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceQueryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2968,7 +4051,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def query_data_source_without_preload_content(
+    async def query_data_source_without_preload_content(
         self,
         data_source_id: UUID,
         data_source_query_request: DataSourceQueryRequest,
@@ -3027,12 +4110,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceQueryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def query_data_source_sync(
+        self,
+        data_source_id: UUID,
+        data_source_query_request: DataSourceQueryRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceQueryResponse:
+        """Query Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`query_data_source`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.query_data_source(
+                data_source_id=data_source_id,
+                data_source_query_request=data_source_query_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def query_data_source_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        data_source_query_request: DataSourceQueryRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceQueryResponse]:
+        """Query Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`query_data_source_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.query_data_source_with_http_info(
+                data_source_id=data_source_id,
+                data_source_query_request=data_source_query_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def query_data_source_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        data_source_query_request: DataSourceQueryRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Query Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`query_data_source_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.query_data_source_without_preload_content(
+                data_source_id=data_source_id,
+                data_source_query_request=data_source_query_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _query_data_source_serialize(
@@ -3117,7 +4309,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def search_data_source_tables(
+    async def search_data_source_tables(
         self,
         search_tables_request: SearchTablesRequest,
         _request_timeout: Union[
@@ -3172,12 +4364,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchTablesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3185,7 +4378,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def search_data_source_tables_with_http_info(
+    async def search_data_source_tables_with_http_info(
         self,
         search_tables_request: SearchTablesRequest,
         _request_timeout: Union[
@@ -3240,12 +4433,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchTablesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3253,7 +4447,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def search_data_source_tables_without_preload_content(
+    async def search_data_source_tables_without_preload_content(
         self,
         search_tables_request: SearchTablesRequest,
         _request_timeout: Union[
@@ -3308,12 +4502,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchTablesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def search_data_source_tables_sync(
+        self,
+        search_tables_request: SearchTablesRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SearchTablesResponse:
+        """Search Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`search_data_source_tables`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_data_source_tables(
+                search_tables_request=search_tables_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_data_source_tables_sync_with_http_info(
+        self,
+        search_tables_request: SearchTablesRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SearchTablesResponse]:
+        """Search Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`search_data_source_tables_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_data_source_tables_with_http_info(
+                search_tables_request=search_tables_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_data_source_tables_sync_without_preload_content(
+        self,
+        search_tables_request: SearchTablesRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Search Data Source Tables Handler (synchronous)
+
+        Synchronous variant of :meth:`search_data_source_tables_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_data_source_tables_without_preload_content(
+                search_tables_request=search_tables_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _search_data_source_tables_serialize(
@@ -3395,7 +4692,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def sync_data_source(
+    async def sync_data_source(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -3452,12 +4749,13 @@ class DataSourcesApi:
             '202': None,
             '409': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3465,7 +4763,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def sync_data_source_with_http_info(
+    async def sync_data_source_with_http_info(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -3522,12 +4820,13 @@ class DataSourcesApi:
             '202': None,
             '409': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3535,7 +4834,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def sync_data_source_without_preload_content(
+    async def sync_data_source_without_preload_content(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -3592,12 +4891,115 @@ class DataSourcesApi:
             '202': None,
             '409': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def sync_data_source_sync(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceSyncResponse:
+        """Sync Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`sync_data_source`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.sync_data_source(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def sync_data_source_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceSyncResponse]:
+        """Sync Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`sync_data_source_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.sync_data_source_with_http_info(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def sync_data_source_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sync Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`sync_data_source_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.sync_data_source_without_preload_content(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _sync_data_source_serialize(
@@ -3666,7 +5068,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def test_data_source_connection(
+    async def test_data_source_connection(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -3721,12 +5123,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3734,7 +5137,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def test_data_source_connection_with_http_info(
+    async def test_data_source_connection_with_http_info(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -3789,12 +5192,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3802,7 +5206,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def test_data_source_connection_without_preload_content(
+    async def test_data_source_connection_without_preload_content(
         self,
         data_source_id: UUID,
         _request_timeout: Union[
@@ -3857,12 +5261,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def test_data_source_connection_sync(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Test Data Source Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`test_data_source_connection`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.test_data_source_connection(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def test_data_source_connection_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Test Data Source Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`test_data_source_connection_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.test_data_source_connection_with_http_info(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def test_data_source_connection_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Test Data Source Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`test_data_source_connection_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.test_data_source_connection_without_preload_content(
+                data_source_id=data_source_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _test_data_source_connection_serialize(
@@ -3931,7 +5438,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def test_data_source_connection_fresh(
+    async def test_data_source_connection_fresh(
         self,
         test_connection_request: TestConnectionRequest,
         _request_timeout: Union[
@@ -3986,12 +5493,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TestConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3999,7 +5507,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def test_data_source_connection_fresh_with_http_info(
+    async def test_data_source_connection_fresh_with_http_info(
         self,
         test_connection_request: TestConnectionRequest,
         _request_timeout: Union[
@@ -4054,12 +5562,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TestConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4067,7 +5576,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def test_data_source_connection_fresh_without_preload_content(
+    async def test_data_source_connection_fresh_without_preload_content(
         self,
         test_connection_request: TestConnectionRequest,
         _request_timeout: Union[
@@ -4122,12 +5631,115 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TestConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def test_data_source_connection_fresh_sync(
+        self,
+        test_connection_request: TestConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TestConnectionResponse:
+        """Test Data Source Connection Fresh Handler (synchronous)
+
+        Synchronous variant of :meth:`test_data_source_connection_fresh`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.test_data_source_connection_fresh(
+                test_connection_request=test_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def test_data_source_connection_fresh_sync_with_http_info(
+        self,
+        test_connection_request: TestConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TestConnectionResponse]:
+        """Test Data Source Connection Fresh Handler (synchronous)
+
+        Synchronous variant of :meth:`test_data_source_connection_fresh_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.test_data_source_connection_fresh_with_http_info(
+                test_connection_request=test_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def test_data_source_connection_fresh_sync_without_preload_content(
+        self,
+        test_connection_request: TestConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Test Data Source Connection Fresh Handler (synchronous)
+
+        Synchronous variant of :meth:`test_data_source_connection_fresh_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.test_data_source_connection_fresh_without_preload_content(
+                test_connection_request=test_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _test_data_source_connection_fresh_serialize(
@@ -4209,7 +5821,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def update_data_source(
+    async def update_data_source(
         self,
         data_source_id: UUID,
         update_data_source_request: UpdateDataSourceRequest,
@@ -4268,12 +5880,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4281,7 +5894,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def update_data_source_with_http_info(
+    async def update_data_source_with_http_info(
         self,
         data_source_id: UUID,
         update_data_source_request: UpdateDataSourceRequest,
@@ -4340,12 +5953,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4353,7 +5967,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def update_data_source_without_preload_content(
+    async def update_data_source_without_preload_content(
         self,
         data_source_id: UUID,
         update_data_source_request: UpdateDataSourceRequest,
@@ -4412,12 +6026,121 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_data_source_sync(
+        self,
+        data_source_id: UUID,
+        update_data_source_request: UpdateDataSourceRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceResponse:
+        """Update Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`update_data_source`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_data_source(
+                data_source_id=data_source_id,
+                update_data_source_request=update_data_source_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_data_source_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        update_data_source_request: UpdateDataSourceRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceResponse]:
+        """Update Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`update_data_source_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_data_source_with_http_info(
+                data_source_id=data_source_id,
+                update_data_source_request=update_data_source_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_data_source_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        update_data_source_request: UpdateDataSourceRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Data Source Handler (synchronous)
+
+        Synchronous variant of :meth:`update_data_source_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_data_source_without_preload_content(
+                data_source_id=data_source_id,
+                update_data_source_request=update_data_source_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_data_source_serialize(
@@ -4502,7 +6225,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def update_data_source_table(
+    async def update_data_source_table(
         self,
         data_source_id: UUID,
         table_id: UUID,
@@ -4565,12 +6288,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceTableResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4578,7 +6302,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def update_data_source_table_with_http_info(
+    async def update_data_source_table_with_http_info(
         self,
         data_source_id: UUID,
         table_id: UUID,
@@ -4641,12 +6365,13 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceTableResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4654,7 +6379,7 @@ class DataSourcesApi:
 
 
     @validate_call
-    def update_data_source_table_without_preload_content(
+    async def update_data_source_table_without_preload_content(
         self,
         data_source_id: UUID,
         table_id: UUID,
@@ -4717,12 +6442,127 @@ class DataSourcesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DataSourceTableResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_data_source_table_sync(
+        self,
+        data_source_id: UUID,
+        table_id: UUID,
+        update_table_request: UpdateTableRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataSourceTableResponse:
+        """Update Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`update_data_source_table`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_data_source_table(
+                data_source_id=data_source_id,
+                table_id=table_id,
+                update_table_request=update_table_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_data_source_table_sync_with_http_info(
+        self,
+        data_source_id: UUID,
+        table_id: UUID,
+        update_table_request: UpdateTableRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataSourceTableResponse]:
+        """Update Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`update_data_source_table_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_data_source_table_with_http_info(
+                data_source_id=data_source_id,
+                table_id=table_id,
+                update_table_request=update_table_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_data_source_table_sync_without_preload_content(
+        self,
+        data_source_id: UUID,
+        table_id: UUID,
+        update_table_request: UpdateTableRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Data Source Table Handler (synchronous)
+
+        Synchronous variant of :meth:`update_data_source_table_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_data_source_table_without_preload_content(
+                data_source_id=data_source_id,
+                table_id=table_id,
+                update_table_request=update_table_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_data_source_table_serialize(

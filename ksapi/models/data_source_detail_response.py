@@ -79,8 +79,7 @@ class DataSourceDetailResponse(BaseModel):
         _items = []
         if self.schemas:
             for _item_schemas in self.schemas:
-                if _item_schemas:
-                    _items.append(_item_schemas.to_dict())
+                _items.append(_item_schemas.to_dict() if _item_schemas is not None else None)
             _dict['schemas'] = _items
         return _dict
 

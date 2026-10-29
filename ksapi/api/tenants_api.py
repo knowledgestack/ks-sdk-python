@@ -34,6 +34,7 @@ from ksapi.models.update_tenant_request import UpdateTenantRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class TenantsApi:
@@ -50,7 +51,7 @@ class TenantsApi:
 
 
     @validate_call
-    def activate_tenant_user(
+    async def activate_tenant_user(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -109,12 +110,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -122,7 +124,7 @@ class TenantsApi:
 
 
     @validate_call
-    def activate_tenant_user_with_http_info(
+    async def activate_tenant_user_with_http_info(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -181,12 +183,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -194,7 +197,7 @@ class TenantsApi:
 
 
     @validate_call
-    def activate_tenant_user_without_preload_content(
+    async def activate_tenant_user_without_preload_content(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -253,12 +256,121 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def activate_tenant_user_sync(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantUserResponse:
+        """Activate Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`activate_tenant_user`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.activate_tenant_user(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def activate_tenant_user_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantUserResponse]:
+        """Activate Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`activate_tenant_user_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.activate_tenant_user_with_http_info(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def activate_tenant_user_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Activate Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`activate_tenant_user_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.activate_tenant_user_without_preload_content(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _activate_tenant_user_serialize(
@@ -330,7 +442,7 @@ class TenantsApi:
 
 
     @validate_call
-    def deactivate_tenant_user(
+    async def deactivate_tenant_user(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -389,12 +501,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -402,7 +515,7 @@ class TenantsApi:
 
 
     @validate_call
-    def deactivate_tenant_user_with_http_info(
+    async def deactivate_tenant_user_with_http_info(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -461,12 +574,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -474,7 +588,7 @@ class TenantsApi:
 
 
     @validate_call
-    def deactivate_tenant_user_without_preload_content(
+    async def deactivate_tenant_user_without_preload_content(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -533,12 +647,121 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def deactivate_tenant_user_sync(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantUserResponse:
+        """Deactivate Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`deactivate_tenant_user`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.deactivate_tenant_user(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def deactivate_tenant_user_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantUserResponse]:
+        """Deactivate Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`deactivate_tenant_user_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.deactivate_tenant_user_with_http_info(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def deactivate_tenant_user_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Deactivate Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`deactivate_tenant_user_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.deactivate_tenant_user_without_preload_content(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _deactivate_tenant_user_serialize(
@@ -610,7 +833,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant(
+    async def delete_tenant(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -665,12 +888,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -678,7 +902,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_with_http_info(
+    async def delete_tenant_with_http_info(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -733,12 +957,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -746,7 +971,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_without_preload_content(
+    async def delete_tenant_without_preload_content(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -801,12 +1026,115 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_tenant_sync(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Tenant (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Tenant (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_with_http_info(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Tenant (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_without_preload_content(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_tenant_serialize(
@@ -875,7 +1203,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_logo(
+    async def delete_tenant_logo(
         self,
         tenant_id: UUID,
         logo_type: Optional[BrandingLogoType] = None,
@@ -934,12 +1262,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -947,7 +1276,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_logo_with_http_info(
+    async def delete_tenant_logo_with_http_info(
         self,
         tenant_id: UUID,
         logo_type: Optional[BrandingLogoType] = None,
@@ -1006,12 +1335,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1019,7 +1349,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_logo_without_preload_content(
+    async def delete_tenant_logo_without_preload_content(
         self,
         tenant_id: UUID,
         logo_type: Optional[BrandingLogoType] = None,
@@ -1078,12 +1408,121 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_tenant_logo_sync(
+        self,
+        tenant_id: UUID,
+        logo_type: Optional[BrandingLogoType] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantResponse:
+        """Delete Tenant Logo (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_logo`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_logo(
+                tenant_id=tenant_id,
+                logo_type=logo_type,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_logo_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        logo_type: Optional[BrandingLogoType] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantResponse]:
+        """Delete Tenant Logo (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_logo_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_logo_with_http_info(
+                tenant_id=tenant_id,
+                logo_type=logo_type,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_logo_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        logo_type: Optional[BrandingLogoType] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Tenant Logo (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_logo_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_logo_without_preload_content(
+                tenant_id=tenant_id,
+                logo_type=logo_type,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_tenant_logo_serialize(
@@ -1157,7 +1596,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_user(
+    async def delete_tenant_user(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -1216,12 +1655,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1229,7 +1669,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_user_with_http_info(
+    async def delete_tenant_user_with_http_info(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -1288,12 +1728,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1301,7 +1742,7 @@ class TenantsApi:
 
 
     @validate_call
-    def delete_tenant_user_without_preload_content(
+    async def delete_tenant_user_without_preload_content(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -1360,12 +1801,121 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_tenant_user_sync(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_user`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_user(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_user_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_user_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_user_with_http_info(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_user_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Tenant User Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_user_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_user_without_preload_content(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_tenant_user_serialize(
@@ -1437,7 +1987,7 @@ class TenantsApi:
 
 
     @validate_call
-    def get_tenant(
+    async def get_tenant(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -1492,12 +2042,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1505,7 +2056,7 @@ class TenantsApi:
 
 
     @validate_call
-    def get_tenant_with_http_info(
+    async def get_tenant_with_http_info(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -1560,12 +2111,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1573,7 +2125,7 @@ class TenantsApi:
 
 
     @validate_call
-    def get_tenant_without_preload_content(
+    async def get_tenant_without_preload_content(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -1628,12 +2180,115 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_tenant_sync(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantResponse:
+        """Get Tenant (synchronous)
+
+        Synchronous variant of :meth:`get_tenant`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantResponse]:
+        """Get Tenant (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_with_http_info(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Tenant (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_without_preload_content(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_tenant_serialize(
@@ -1702,7 +2357,7 @@ class TenantsApi:
 
 
     @validate_call
-    def get_tenant_quota_state(
+    async def get_tenant_quota_state(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -1757,12 +2412,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantQuotaStateResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1770,7 +2426,7 @@ class TenantsApi:
 
 
     @validate_call
-    def get_tenant_quota_state_with_http_info(
+    async def get_tenant_quota_state_with_http_info(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -1825,12 +2481,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantQuotaStateResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1838,7 +2495,7 @@ class TenantsApi:
 
 
     @validate_call
-    def get_tenant_quota_state_without_preload_content(
+    async def get_tenant_quota_state_without_preload_content(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -1893,12 +2550,115 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantQuotaStateResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_tenant_quota_state_sync(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantQuotaStateResponse:
+        """Get Tenant Quota State Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_quota_state`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_quota_state(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_quota_state_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantQuotaStateResponse]:
+        """Get Tenant Quota State Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_quota_state_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_quota_state_with_http_info(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_quota_state_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Tenant Quota State Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_quota_state_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_quota_state_without_preload_content(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_tenant_quota_state_serialize(
@@ -1967,7 +2727,7 @@ class TenantsApi:
 
 
     @validate_call
-    def list_tenant_users(
+    async def list_tenant_users(
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
@@ -2050,12 +2810,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2063,7 +2824,7 @@ class TenantsApi:
 
 
     @validate_call
-    def list_tenant_users_with_http_info(
+    async def list_tenant_users_with_http_info(
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
@@ -2146,12 +2907,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2159,7 +2921,7 @@ class TenantsApi:
 
 
     @validate_call
-    def list_tenant_users_without_preload_content(
+    async def list_tenant_users_without_preload_content(
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
@@ -2242,12 +3004,157 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_tenant_users_sync(
+        self,
+        tenant_id: UUID,
+        sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
+        active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseTenantUserResponse:
+        """List Tenant Users (synchronous)
+
+        Synchronous variant of :meth:`list_tenant_users`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenant_users(
+                tenant_id=tenant_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                role=role,
+                username_like=username_like,
+                active_only=active_only,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_tenant_users_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
+        active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseTenantUserResponse]:
+        """List Tenant Users (synchronous)
+
+        Synchronous variant of :meth:`list_tenant_users_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenant_users_with_http_info(
+                tenant_id=tenant_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                role=role,
+                username_like=username_like,
+                active_only=active_only,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_tenant_users_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
+        active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Tenant Users (synchronous)
+
+        Synchronous variant of :meth:`list_tenant_users_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenant_users_without_preload_content(
+                tenant_id=tenant_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                role=role,
+                username_like=username_like,
+                active_only=active_only,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_tenant_users_serialize(
@@ -2351,7 +3258,7 @@ class TenantsApi:
 
 
     @validate_call
-    def list_tenants(
+    async def list_tenants(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -2410,12 +3317,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2423,7 +3331,7 @@ class TenantsApi:
 
 
     @validate_call
-    def list_tenants_with_http_info(
+    async def list_tenants_with_http_info(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -2482,12 +3390,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2495,7 +3404,7 @@ class TenantsApi:
 
 
     @validate_call
-    def list_tenants_without_preload_content(
+    async def list_tenants_without_preload_content(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -2554,12 +3463,121 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_tenants_sync(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseTenantResponse:
+        """List Tenants (synchronous)
+
+        Synchronous variant of :meth:`list_tenants`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenants(
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_tenants_sync_with_http_info(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseTenantResponse]:
+        """List Tenants (synchronous)
+
+        Synchronous variant of :meth:`list_tenants_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenants_with_http_info(
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_tenants_sync_without_preload_content(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Tenants (synchronous)
+
+        Synchronous variant of :meth:`list_tenants_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenants_without_preload_content(
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_tenants_serialize(
@@ -2635,7 +3653,7 @@ class TenantsApi:
 
 
     @validate_call
-    def update_tenant(
+    async def update_tenant(
         self,
         tenant_id: UUID,
         update_tenant_request: UpdateTenantRequest,
@@ -2694,12 +3712,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2707,7 +3726,7 @@ class TenantsApi:
 
 
     @validate_call
-    def update_tenant_with_http_info(
+    async def update_tenant_with_http_info(
         self,
         tenant_id: UUID,
         update_tenant_request: UpdateTenantRequest,
@@ -2766,12 +3785,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2779,7 +3799,7 @@ class TenantsApi:
 
 
     @validate_call
-    def update_tenant_without_preload_content(
+    async def update_tenant_without_preload_content(
         self,
         tenant_id: UUID,
         update_tenant_request: UpdateTenantRequest,
@@ -2838,12 +3858,121 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_tenant_sync(
+        self,
+        tenant_id: UUID,
+        update_tenant_request: UpdateTenantRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantResponse:
+        """Update Tenant (synchronous)
+
+        Synchronous variant of :meth:`update_tenant`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant(
+                tenant_id=tenant_id,
+                update_tenant_request=update_tenant_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_tenant_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        update_tenant_request: UpdateTenantRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantResponse]:
+        """Update Tenant (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_with_http_info(
+                tenant_id=tenant_id,
+                update_tenant_request=update_tenant_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_tenant_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        update_tenant_request: UpdateTenantRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Tenant (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_without_preload_content(
+                tenant_id=tenant_id,
+                update_tenant_request=update_tenant_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_tenant_serialize(
@@ -2928,7 +4057,7 @@ class TenantsApi:
 
 
     @validate_call
-    def update_tenant_user(
+    async def update_tenant_user(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -2991,12 +4120,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3004,7 +4134,7 @@ class TenantsApi:
 
 
     @validate_call
-    def update_tenant_user_with_http_info(
+    async def update_tenant_user_with_http_info(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -3067,12 +4197,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3080,7 +4211,7 @@ class TenantsApi:
 
 
     @validate_call
-    def update_tenant_user_without_preload_content(
+    async def update_tenant_user_without_preload_content(
         self,
         tenant_id: UUID,
         user_id: UUID,
@@ -3143,12 +4274,127 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantUserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_tenant_user_sync(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        tenant_user_edit_request: TenantUserEditRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantUserResponse:
+        """Update Tenant User (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_user`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_user(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                tenant_user_edit_request=tenant_user_edit_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_tenant_user_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        tenant_user_edit_request: TenantUserEditRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantUserResponse]:
+        """Update Tenant User (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_user_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_user_with_http_info(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                tenant_user_edit_request=tenant_user_edit_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_tenant_user_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        user_id: UUID,
+        tenant_user_edit_request: TenantUserEditRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Tenant User (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_user_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_user_without_preload_content(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                tenant_user_edit_request=tenant_user_edit_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_tenant_user_serialize(
@@ -3236,7 +4482,7 @@ class TenantsApi:
 
 
     @validate_call
-    def upload_tenant_logo(
+    async def upload_tenant_logo(
         self,
         tenant_id: UUID,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -3299,12 +4545,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3312,7 +4559,7 @@ class TenantsApi:
 
 
     @validate_call
-    def upload_tenant_logo_with_http_info(
+    async def upload_tenant_logo_with_http_info(
         self,
         tenant_id: UUID,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -3375,12 +4622,13 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3388,7 +4636,7 @@ class TenantsApi:
 
 
     @validate_call
-    def upload_tenant_logo_without_preload_content(
+    async def upload_tenant_logo_without_preload_content(
         self,
         tenant_id: UUID,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -3451,12 +4699,127 @@ class TenantsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def upload_tenant_logo_sync(
+        self,
+        tenant_id: UUID,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        logo_type: Optional[BrandingLogoType] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantResponse:
+        """Upload Tenant Logo (synchronous)
+
+        Synchronous variant of :meth:`upload_tenant_logo`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_tenant_logo(
+                tenant_id=tenant_id,
+                file=file,
+                logo_type=logo_type,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def upload_tenant_logo_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        logo_type: Optional[BrandingLogoType] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantResponse]:
+        """Upload Tenant Logo (synchronous)
+
+        Synchronous variant of :meth:`upload_tenant_logo_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_tenant_logo_with_http_info(
+                tenant_id=tenant_id,
+                file=file,
+                logo_type=logo_type,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def upload_tenant_logo_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        logo_type: Optional[BrandingLogoType] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Upload Tenant Logo (synchronous)
+
+        Synchronous variant of :meth:`upload_tenant_logo_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_tenant_logo_without_preload_content(
+                tenant_id=tenant_id,
+                file=file,
+                logo_type=logo_type,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _upload_tenant_logo_serialize(

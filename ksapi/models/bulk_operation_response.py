@@ -76,8 +76,7 @@ class BulkOperationResponse(BaseModel):
         _items = []
         if self.failed:
             for _item_failed in self.failed:
-                if _item_failed:
-                    _items.append(_item_failed.to_dict())
+                _items.append(_item_failed.to_dict() if _item_failed is not None else None)
             _dict['failed'] = _items
         return _dict
 

@@ -35,6 +35,7 @@ from ksapi.models.zip_ingestion_status_response import ZipIngestionStatusRespons
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class SystemJobsApi:
@@ -51,7 +52,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def bulk_rerun_dv_workflows(
+    async def bulk_rerun_dv_workflows(
         self,
         bulk_rerun_request: BulkRerunRequest,
         _request_timeout: Union[
@@ -106,12 +107,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -119,7 +121,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def bulk_rerun_dv_workflows_with_http_info(
+    async def bulk_rerun_dv_workflows_with_http_info(
         self,
         bulk_rerun_request: BulkRerunRequest,
         _request_timeout: Union[
@@ -174,12 +176,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -187,7 +190,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def bulk_rerun_dv_workflows_without_preload_content(
+    async def bulk_rerun_dv_workflows_without_preload_content(
         self,
         bulk_rerun_request: BulkRerunRequest,
         _request_timeout: Union[
@@ -242,12 +245,115 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_rerun_dv_workflows_sync(
+        self,
+        bulk_rerun_request: BulkRerunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkOperationResponse:
+        """Bulk Rerun Dv Workflows Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_rerun_dv_workflows`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_rerun_dv_workflows(
+                bulk_rerun_request=bulk_rerun_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_rerun_dv_workflows_sync_with_http_info(
+        self,
+        bulk_rerun_request: BulkRerunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkOperationResponse]:
+        """Bulk Rerun Dv Workflows Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_rerun_dv_workflows_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_rerun_dv_workflows_with_http_info(
+                bulk_rerun_request=bulk_rerun_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_rerun_dv_workflows_sync_without_preload_content(
+        self,
+        bulk_rerun_request: BulkRerunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Rerun Dv Workflows Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_rerun_dv_workflows_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_rerun_dv_workflows_without_preload_content(
+                bulk_rerun_request=bulk_rerun_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_rerun_dv_workflows_serialize(
@@ -329,7 +435,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def cancel_temporal_workflow(
+    async def cancel_temporal_workflow(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -384,12 +490,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowCancelResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -397,7 +504,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def cancel_temporal_workflow_with_http_info(
+    async def cancel_temporal_workflow_with_http_info(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -452,12 +559,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowCancelResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -465,7 +573,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def cancel_temporal_workflow_without_preload_content(
+    async def cancel_temporal_workflow_without_preload_content(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -520,12 +628,115 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowCancelResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def cancel_temporal_workflow_sync(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowCancelResponse:
+        """Cancel Temporal Workflow Handler (synchronous)
+
+        Synchronous variant of :meth:`cancel_temporal_workflow`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.cancel_temporal_workflow(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def cancel_temporal_workflow_sync_with_http_info(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowCancelResponse]:
+        """Cancel Temporal Workflow Handler (synchronous)
+
+        Synchronous variant of :meth:`cancel_temporal_workflow_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.cancel_temporal_workflow_with_http_info(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def cancel_temporal_workflow_sync_without_preload_content(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Cancel Temporal Workflow Handler (synchronous)
+
+        Synchronous variant of :meth:`cancel_temporal_workflow_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.cancel_temporal_workflow_without_preload_content(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _cancel_temporal_workflow_serialize(
@@ -594,7 +805,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def dv_workflow_rerun(
+    async def dv_workflow_rerun(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -649,12 +860,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -662,7 +874,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def dv_workflow_rerun_with_http_info(
+    async def dv_workflow_rerun_with_http_info(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -717,12 +929,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -730,7 +943,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def dv_workflow_rerun_without_preload_content(
+    async def dv_workflow_rerun_without_preload_content(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -785,12 +998,115 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def dv_workflow_rerun_sync(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowActionResponse:
+        """Dv Workflow Rerun Handler (synchronous)
+
+        Synchronous variant of :meth:`dv_workflow_rerun`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.dv_workflow_rerun(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def dv_workflow_rerun_sync_with_http_info(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowActionResponse]:
+        """Dv Workflow Rerun Handler (synchronous)
+
+        Synchronous variant of :meth:`dv_workflow_rerun_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.dv_workflow_rerun_with_http_info(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def dv_workflow_rerun_sync_without_preload_content(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Dv Workflow Rerun Handler (synchronous)
+
+        Synchronous variant of :meth:`dv_workflow_rerun_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.dv_workflow_rerun_without_preload_content(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _dv_workflow_rerun_serialize(
@@ -859,7 +1175,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_dv_workflow(
+    async def get_dv_workflow(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -914,12 +1230,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -927,7 +1244,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_dv_workflow_with_http_info(
+    async def get_dv_workflow_with_http_info(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -982,12 +1299,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -995,7 +1313,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_dv_workflow_without_preload_content(
+    async def get_dv_workflow_without_preload_content(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1050,12 +1368,115 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_dv_workflow_sync(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowDetailResponse:
+        """Get Dv Workflow Handler (synchronous)
+
+        Synchronous variant of :meth:`get_dv_workflow`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_dv_workflow(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_dv_workflow_sync_with_http_info(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowDetailResponse]:
+        """Get Dv Workflow Handler (synchronous)
+
+        Synchronous variant of :meth:`get_dv_workflow_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_dv_workflow_with_http_info(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_dv_workflow_sync_without_preload_content(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Dv Workflow Handler (synchronous)
+
+        Synchronous variant of :meth:`get_dv_workflow_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_dv_workflow_without_preload_content(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_dv_workflow_serialize(
@@ -1124,7 +1545,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_temporal_workflow_status(
+    async def get_temporal_workflow_status(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1179,12 +1600,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TemporalWorkflowStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1192,7 +1614,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_temporal_workflow_status_with_http_info(
+    async def get_temporal_workflow_status_with_http_info(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1247,12 +1669,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TemporalWorkflowStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1260,7 +1683,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_temporal_workflow_status_without_preload_content(
+    async def get_temporal_workflow_status_without_preload_content(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1315,12 +1738,115 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TemporalWorkflowStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_temporal_workflow_status_sync(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TemporalWorkflowStatusResponse:
+        """Get Temporal Workflow Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_temporal_workflow_status`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_temporal_workflow_status(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_temporal_workflow_status_sync_with_http_info(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TemporalWorkflowStatusResponse]:
+        """Get Temporal Workflow Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_temporal_workflow_status_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_temporal_workflow_status_with_http_info(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_temporal_workflow_status_sync_without_preload_content(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Temporal Workflow Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_temporal_workflow_status_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_temporal_workflow_status_without_preload_content(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_temporal_workflow_status_serialize(
@@ -1389,7 +1915,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_zip_ingestion_status(
+    async def get_zip_ingestion_status(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1444,12 +1970,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ZipIngestionStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1457,7 +1984,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_zip_ingestion_status_with_http_info(
+    async def get_zip_ingestion_status_with_http_info(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1512,12 +2039,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ZipIngestionStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1525,7 +2053,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def get_zip_ingestion_status_without_preload_content(
+    async def get_zip_ingestion_status_without_preload_content(
         self,
         workflow_id: StrictStr,
         _request_timeout: Union[
@@ -1580,12 +2108,115 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ZipIngestionStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_zip_ingestion_status_sync(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ZipIngestionStatusResponse:
+        """Get Zip Ingestion Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_zip_ingestion_status`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_zip_ingestion_status(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_zip_ingestion_status_sync_with_http_info(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ZipIngestionStatusResponse]:
+        """Get Zip Ingestion Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_zip_ingestion_status_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_zip_ingestion_status_with_http_info(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_zip_ingestion_status_sync_without_preload_content(
+        self,
+        workflow_id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Zip Ingestion Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_zip_ingestion_status_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_zip_ingestion_status_without_preload_content(
+                workflow_id=workflow_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_zip_ingestion_status_serialize(
@@ -1654,7 +2285,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflow_uploaders(
+    async def list_dv_workflow_uploaders(
         self,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -1717,12 +2348,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseUserInfo",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1730,7 +2362,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflow_uploaders_with_http_info(
+    async def list_dv_workflow_uploaders_with_http_info(
         self,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -1793,12 +2425,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseUserInfo",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1806,7 +2439,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflow_uploaders_without_preload_content(
+    async def list_dv_workflow_uploaders_without_preload_content(
         self,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -1869,12 +2502,127 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseUserInfo",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_dv_workflow_uploaders_sync(
+        self,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseUserInfo:
+        """List Dv Workflow Uploaders Handler (synchronous)
+
+        Synchronous variant of :meth:`list_dv_workflow_uploaders`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_dv_workflow_uploaders(
+                username_like=username_like,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_dv_workflow_uploaders_sync_with_http_info(
+        self,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseUserInfo]:
+        """List Dv Workflow Uploaders Handler (synchronous)
+
+        Synchronous variant of :meth:`list_dv_workflow_uploaders_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_dv_workflow_uploaders_with_http_info(
+                username_like=username_like,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_dv_workflow_uploaders_sync_without_preload_content(
+        self,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring of the first or last name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Dv Workflow Uploaders Handler (synchronous)
+
+        Synchronous variant of :meth:`list_dv_workflow_uploaders_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_dv_workflow_uploaders_without_preload_content(
+                username_like=username_like,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_dv_workflow_uploaders_serialize(
@@ -1955,7 +2703,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflows(
+    async def list_dv_workflows(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -2050,12 +2798,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2063,7 +2812,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflows_with_http_info(
+    async def list_dv_workflows_with_http_info(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -2158,12 +2907,13 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2171,7 +2921,7 @@ class SystemJobsApi:
 
 
     @validate_call
-    def list_dv_workflows_without_preload_content(
+    async def list_dv_workflows_without_preload_content(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -2266,12 +3016,175 @@ class SystemJobsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_dv_workflows_sync(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        status: Annotated[Optional[List[PipelineStatus]], Field(description="Only versions in one of these pipeline statuses")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on document name")] = None,
+        latest_version_only: Annotated[Optional[StrictBool], Field(description="Skip versions superseded by a newer version")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions uploaded by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseWorkflowSummaryResponse:
+        """List Dv Workflows Handler (synchronous)
+
+        Synchronous variant of :meth:`list_dv_workflows`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_dv_workflows(
+                limit=limit,
+                offset=offset,
+                sort_dir=sort_dir,
+                status=status,
+                name_like=name_like,
+                latest_version_only=latest_version_only,
+                uploader_user_id=uploader_user_id,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_dv_workflows_sync_with_http_info(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        status: Annotated[Optional[List[PipelineStatus]], Field(description="Only versions in one of these pipeline statuses")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on document name")] = None,
+        latest_version_only: Annotated[Optional[StrictBool], Field(description="Skip versions superseded by a newer version")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions uploaded by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseWorkflowSummaryResponse]:
+        """List Dv Workflows Handler (synchronous)
+
+        Synchronous variant of :meth:`list_dv_workflows_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_dv_workflows_with_http_info(
+                limit=limit,
+                offset=offset,
+                sort_dir=sort_dir,
+                status=status,
+                name_like=name_like,
+                latest_version_only=latest_version_only,
+                uploader_user_id=uploader_user_id,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_dv_workflows_sync_without_preload_content(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        status: Annotated[Optional[List[PipelineStatus]], Field(description="Only versions in one of these pipeline statuses")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on document name")] = None,
+        latest_version_only: Annotated[Optional[StrictBool], Field(description="Skip versions superseded by a newer version")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions uploaded by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Dv Workflows Handler (synchronous)
+
+        Synchronous variant of :meth:`list_dv_workflows_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_dv_workflows_without_preload_content(
+                limit=limit,
+                offset=offset,
+                sort_dir=sort_dir,
+                status=status,
+                name_like=name_like,
+                latest_version_only=latest_version_only,
+                uploader_user_id=uploader_user_id,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_dv_workflows_serialize(

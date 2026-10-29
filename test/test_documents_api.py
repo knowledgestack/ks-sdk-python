@@ -17,108 +17,206 @@ import unittest
 from ksapi.api.documents_api import DocumentsApi
 
 
-class TestDocumentsApi(unittest.TestCase):
+class TestDocumentsApi(unittest.IsolatedAsyncioTestCase):
     """DocumentsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DocumentsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_abort_document_upload(self) -> None:
+    async def test_abort_document_upload(self) -> None:
         """Test case for abort_document_upload
 
         Abort Document Upload Handler
         """
         pass
 
-    def test_complete_document_upload(self) -> None:
+    def test_abort_document_upload_sync(self) -> None:
+        """Test case for abort_document_upload (synchronous)
+
+        Abort Document Upload Handler
+        """
+        pass
+
+    async def test_complete_document_upload(self) -> None:
         """Test case for complete_document_upload
 
         Complete Document Upload Handler
         """
         pass
 
-    def test_create_document(self) -> None:
+    def test_complete_document_upload_sync(self) -> None:
+        """Test case for complete_document_upload (synchronous)
+
+        Complete Document Upload Handler
+        """
+        pass
+
+    async def test_create_document(self) -> None:
         """Test case for create_document
 
         Create Document Handler
         """
         pass
 
-    def test_create_document_upload(self) -> None:
+    def test_create_document_sync(self) -> None:
+        """Test case for create_document (synchronous)
+
+        Create Document Handler
+        """
+        pass
+
+    async def test_create_document_upload(self) -> None:
         """Test case for create_document_upload
 
         Create Document Upload Handler
         """
         pass
 
-    def test_delete_document(self) -> None:
+    def test_create_document_upload_sync(self) -> None:
+        """Test case for create_document_upload (synchronous)
+
+        Create Document Upload Handler
+        """
+        pass
+
+    async def test_delete_document(self) -> None:
         """Test case for delete_document
 
         Delete Document Handler
         """
         pass
 
-    def test_download_document(self) -> None:
+    def test_delete_document_sync(self) -> None:
+        """Test case for delete_document (synchronous)
+
+        Delete Document Handler
+        """
+        pass
+
+    async def test_download_document(self) -> None:
         """Test case for download_document
 
         Download Document Handler
         """
         pass
 
-    def test_get_document(self) -> None:
+    def test_download_document_sync(self) -> None:
+        """Test case for download_document (synchronous)
+
+        Download Document Handler
+        """
+        pass
+
+    async def test_get_document(self) -> None:
         """Test case for get_document
 
         Get Document Handler
         """
         pass
 
-    def test_get_document_upload_status(self) -> None:
+    def test_get_document_sync(self) -> None:
+        """Test case for get_document (synchronous)
+
+        Get Document Handler
+        """
+        pass
+
+    async def test_get_document_upload_status(self) -> None:
         """Test case for get_document_upload_status
 
         Get Document Upload Status Handler
         """
         pass
 
-    def test_ingest_document(self) -> None:
+    def test_get_document_upload_status_sync(self) -> None:
+        """Test case for get_document_upload_status (synchronous)
+
+        Get Document Upload Status Handler
+        """
+        pass
+
+    async def test_ingest_document(self) -> None:
         """Test case for ingest_document
 
         Ingest Document Handler
         """
         pass
 
-    def test_ingest_document_version(self) -> None:
+    def test_ingest_document_sync(self) -> None:
+        """Test case for ingest_document (synchronous)
+
+        Ingest Document Handler
+        """
+        pass
+
+    async def test_ingest_document_version(self) -> None:
         """Test case for ingest_document_version
 
         Ingest Document Version Handler
         """
         pass
 
-    def test_ingest_zip(self) -> None:
+    def test_ingest_document_version_sync(self) -> None:
+        """Test case for ingest_document_version (synchronous)
+
+        Ingest Document Version Handler
+        """
+        pass
+
+    async def test_ingest_zip(self) -> None:
         """Test case for ingest_zip
 
         Ingest Zip Handler
         """
         pass
 
-    def test_list_documents(self) -> None:
+    def test_ingest_zip_sync(self) -> None:
+        """Test case for ingest_zip (synchronous)
+
+        Ingest Zip Handler
+        """
+        pass
+
+    async def test_list_documents(self) -> None:
         """Test case for list_documents
 
         List Documents Handler
         """
         pass
 
-    def test_update_document(self) -> None:
+    def test_list_documents_sync(self) -> None:
+        """Test case for list_documents (synchronous)
+
+        List Documents Handler
+        """
+        pass
+
+    async def test_update_document(self) -> None:
         """Test case for update_document
 
         Update Document Handler
         """
         pass
 
-    def test_upload_document_part(self) -> None:
+    def test_update_document_sync(self) -> None:
+        """Test case for update_document (synchronous)
+
+        Update Document Handler
+        """
+        pass
+
+    async def test_upload_document_part(self) -> None:
         """Test case for upload_document_part
+
+        Upload Document Part Handler
+        """
+        pass
+
+    def test_upload_document_part_sync(self) -> None:
+        """Test case for upload_document_part (synchronous)
 
         Upload Document Part Handler
         """

@@ -37,6 +37,7 @@ from ksapi.models.version_diff_response import VersionDiffResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class DocumentVersionsApi:
@@ -53,7 +54,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def attach_cited_asset(
+    async def attach_cited_asset(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -112,12 +113,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -125,7 +127,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def attach_cited_asset_with_http_info(
+    async def attach_cited_asset_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -184,12 +186,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -197,7 +200,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def attach_cited_asset_without_preload_content(
+    async def attach_cited_asset_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -256,12 +259,121 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def attach_cited_asset_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Attach Cited Asset Handler (synchronous)
+
+        Synchronous variant of :meth:`attach_cited_asset`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.attach_cited_asset(
+                version_id=version_id,
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def attach_cited_asset_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Attach Cited Asset Handler (synchronous)
+
+        Synchronous variant of :meth:`attach_cited_asset_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.attach_cited_asset_with_http_info(
+                version_id=version_id,
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def attach_cited_asset_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Attach Cited Asset Handler (synchronous)
+
+        Synchronous variant of :meth:`attach_cited_asset_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.attach_cited_asset_without_preload_content(
+                version_id=version_id,
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _attach_cited_asset_serialize(
@@ -346,7 +458,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def clear_document_version_contents(
+    async def clear_document_version_contents(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         _request_timeout: Union[
@@ -401,12 +513,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ClearVersionContentsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -414,7 +527,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def clear_document_version_contents_with_http_info(
+    async def clear_document_version_contents_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         _request_timeout: Union[
@@ -469,12 +582,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ClearVersionContentsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -482,7 +596,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def clear_document_version_contents_without_preload_content(
+    async def clear_document_version_contents_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         _request_timeout: Union[
@@ -537,12 +651,115 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ClearVersionContentsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def clear_document_version_contents_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ClearVersionContentsResponse:
+        """Clear Document Version Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`clear_document_version_contents`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.clear_document_version_contents(
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def clear_document_version_contents_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ClearVersionContentsResponse]:
+        """Clear Document Version Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`clear_document_version_contents_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.clear_document_version_contents_with_http_info(
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def clear_document_version_contents_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Clear Document Version Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`clear_document_version_contents_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.clear_document_version_contents_without_preload_content(
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _clear_document_version_contents_serialize(
@@ -611,7 +828,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def create_document_version(
+    async def create_document_version(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -666,12 +883,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -679,7 +897,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def create_document_version_with_http_info(
+    async def create_document_version_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -734,12 +952,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -747,7 +966,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def create_document_version_without_preload_content(
+    async def create_document_version_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -802,12 +1021,115 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_document_version_sync(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentVersionResponse:
+        """Create Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_version(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_document_version_sync_with_http_info(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentVersionResponse]:
+        """Create Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_version_with_http_info(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_document_version_sync_without_preload_content(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_version_without_preload_content(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_document_version_serialize(
@@ -876,7 +1198,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def delete_document_version(
+    async def delete_document_version(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         _request_timeout: Union[
@@ -931,12 +1253,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -944,7 +1267,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def delete_document_version_with_http_info(
+    async def delete_document_version_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         _request_timeout: Union[
@@ -999,12 +1322,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1012,7 +1336,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def delete_document_version_without_preload_content(
+    async def delete_document_version_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         _request_timeout: Union[
@@ -1067,12 +1391,115 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_document_version_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_document_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_document_version(
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_document_version_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_document_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_document_version_with_http_info(
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_document_version_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_document_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_document_version_without_preload_content(
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_document_version_serialize(
@@ -1141,7 +1568,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def document_version_action(
+    async def document_version_action(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         action: Annotated[DocumentVersionAction, Field(description="Action to perform")],
@@ -1200,12 +1627,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1213,7 +1641,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def document_version_action_with_http_info(
+    async def document_version_action_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         action: Annotated[DocumentVersionAction, Field(description="Action to perform")],
@@ -1272,12 +1700,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1285,7 +1714,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def document_version_action_without_preload_content(
+    async def document_version_action_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         action: Annotated[DocumentVersionAction, Field(description="Action to perform")],
@@ -1344,12 +1773,121 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def document_version_action_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        action: Annotated[DocumentVersionAction, Field(description="Action to perform")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentVersionActionResponse:
+        """Document Version Action Handler (synchronous)
+
+        Synchronous variant of :meth:`document_version_action`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.document_version_action(
+                version_id=version_id,
+                action=action,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def document_version_action_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        action: Annotated[DocumentVersionAction, Field(description="Action to perform")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentVersionActionResponse]:
+        """Document Version Action Handler (synchronous)
+
+        Synchronous variant of :meth:`document_version_action_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.document_version_action_with_http_info(
+                version_id=version_id,
+                action=action,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def document_version_action_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        action: Annotated[DocumentVersionAction, Field(description="Action to perform")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Document Version Action Handler (synchronous)
+
+        Synchronous variant of :meth:`document_version_action_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.document_version_action_without_preload_content(
+                version_id=version_id,
+                action=action,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _document_version_action_serialize(
@@ -1423,7 +1961,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def download_document_version(
+    async def download_document_version(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
@@ -1482,12 +2020,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentDownloadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1495,7 +2034,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def download_document_version_with_http_info(
+    async def download_document_version_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
@@ -1554,12 +2093,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentDownloadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1567,7 +2107,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def download_document_version_without_preload_content(
+    async def download_document_version_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
@@ -1626,12 +2166,121 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentDownloadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def download_document_version_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentDownloadResponse:
+        """Download Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`download_document_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_document_version(
+                version_id=version_id,
+                artifact=artifact,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_document_version_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentDownloadResponse]:
+        """Download Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`download_document_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_document_version_with_http_info(
+                version_id=version_id,
+                artifact=artifact,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_document_version_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Download Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`download_document_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_document_version_without_preload_content(
+                version_id=version_id,
+                artifact=artifact,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _download_document_version_serialize(
@@ -1705,7 +2354,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version(
+    async def get_document_version(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
@@ -1763,12 +2412,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1776,7 +2426,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_with_http_info(
+    async def get_document_version_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
@@ -1834,12 +2484,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1847,7 +2498,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_without_preload_content(
+    async def get_document_version_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
@@ -1905,12 +2556,121 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_document_version_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentVersionResponse:
+        """Get Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version(
+                version_id=version_id,
+                include_page_screenshots=include_page_screenshots,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_version_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentVersionResponse]:
+        """Get Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_with_http_info(
+                version_id=version_id,
+                include_page_screenshots=include_page_screenshots,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_version_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        include_page_screenshots: Annotated[Optional[StrictBool], Field(description="When true, populate page_screenshot_urls with presigned URLs for every per-page WEBP screenshot the ingestion pipeline produced. Off by default to keep typical responses small.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_without_preload_content(
+                version_id=version_id,
+                include_page_screenshots=include_page_screenshots,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_document_version_serialize(
@@ -1984,7 +2744,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_contents(
+    async def get_document_version_contents(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         section_id: Annotated[Optional[UUID], Field(description="Optional section ID to scope traversal to a subtree")] = None,
@@ -2055,12 +2815,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2068,7 +2829,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_contents_with_http_info(
+    async def get_document_version_contents_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         section_id: Annotated[Optional[UUID], Field(description="Optional section ID to scope traversal to a subtree")] = None,
@@ -2139,12 +2900,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2152,7 +2914,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_contents_without_preload_content(
+    async def get_document_version_contents_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         section_id: Annotated[Optional[UUID], Field(description="Optional section ID to scope traversal to a subtree")] = None,
@@ -2223,12 +2985,139 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_document_version_contents_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        section_id: Annotated[Optional[UUID], Field(description="Optional section ID to scope traversal to a subtree")] = None,
+        content_type: Annotated[Optional[DocumentVersionContentTypeFilter], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both types.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator:
+        """Get Document Version Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_contents`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_contents(
+                version_id=version_id,
+                section_id=section_id,
+                content_type=content_type,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_version_contents_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        section_id: Annotated[Optional[UUID], Field(description="Optional section ID to scope traversal to a subtree")] = None,
+        content_type: Annotated[Optional[DocumentVersionContentTypeFilter], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both types.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator]:
+        """Get Document Version Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_contents_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_contents_with_http_info(
+                version_id=version_id,
+                section_id=section_id,
+                content_type=content_type,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_version_contents_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        section_id: Annotated[Optional[UUID], Field(description="Optional section ID to scope traversal to a subtree")] = None,
+        content_type: Annotated[Optional[DocumentVersionContentTypeFilter], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both types.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Document Version Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_contents_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_contents_without_preload_content(
+                version_id=version_id,
+                section_id=section_id,
+                content_type=content_type,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_document_version_contents_serialize(
@@ -2317,7 +3206,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_diff(
+    async def get_document_version_diff(
         self,
         version_id: Annotated[UUID, Field(description="The new (right) version ID")],
         from_version_id: Annotated[Optional[UUID], Field(description="The old (left) version; defaults to the predecessor")] = None,
@@ -2376,12 +3265,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "VersionDiffResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2389,7 +3279,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_diff_with_http_info(
+    async def get_document_version_diff_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="The new (right) version ID")],
         from_version_id: Annotated[Optional[UUID], Field(description="The old (left) version; defaults to the predecessor")] = None,
@@ -2448,12 +3338,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "VersionDiffResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2461,7 +3352,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def get_document_version_diff_without_preload_content(
+    async def get_document_version_diff_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="The new (right) version ID")],
         from_version_id: Annotated[Optional[UUID], Field(description="The old (left) version; defaults to the predecessor")] = None,
@@ -2520,12 +3411,121 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "VersionDiffResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_document_version_diff_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="The new (right) version ID")],
+        from_version_id: Annotated[Optional[UUID], Field(description="The old (left) version; defaults to the predecessor")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> VersionDiffResponse:
+        """Get Document Version Diff Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_diff`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_diff(
+                version_id=version_id,
+                from_version_id=from_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_version_diff_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="The new (right) version ID")],
+        from_version_id: Annotated[Optional[UUID], Field(description="The old (left) version; defaults to the predecessor")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[VersionDiffResponse]:
+        """Get Document Version Diff Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_diff_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_diff_with_http_info(
+                version_id=version_id,
+                from_version_id=from_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_version_diff_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="The new (right) version ID")],
+        from_version_id: Annotated[Optional[UUID], Field(description="The old (left) version; defaults to the predecessor")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Document Version Diff Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_version_diff_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_version_diff_without_preload_content(
+                version_id=version_id,
+                from_version_id=from_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_document_version_diff_serialize(
@@ -2599,7 +3599,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def list_document_versions(
+    async def list_document_versions(
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
@@ -2690,12 +3690,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseDocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2703,7 +3704,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def list_document_versions_with_http_info(
+    async def list_document_versions_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
@@ -2794,12 +3795,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseDocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2807,7 +3809,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def list_document_versions_without_preload_content(
+    async def list_document_versions_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
@@ -2898,12 +3900,169 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseDocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_document_versions_sync(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
+        sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseDocumentVersionResponse:
+        """List Document Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_document_versions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_document_versions(
+                document_id=document_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                uploader_user_id=uploader_user_id,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_document_versions_sync_with_http_info(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
+        sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseDocumentVersionResponse]:
+        """List Document Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_document_versions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_document_versions_with_http_info(
+                document_id=document_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                uploader_user_id=uploader_user_id,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_document_versions_sync_without_preload_content(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
+        sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Document Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_document_versions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_document_versions_without_preload_content(
+                document_id=document_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                uploader_user_id=uploader_user_id,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_document_versions_serialize(
@@ -3055,7 +4214,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def update_document_version_metadata(
+    async def update_document_version_metadata(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         document_version_metadata_update: DocumentVersionMetadataUpdate,
@@ -3114,12 +4273,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3127,7 +4287,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def update_document_version_metadata_with_http_info(
+    async def update_document_version_metadata_with_http_info(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         document_version_metadata_update: DocumentVersionMetadataUpdate,
@@ -3186,12 +4346,13 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3199,7 +4360,7 @@ class DocumentVersionsApi:
 
 
     @validate_call
-    def update_document_version_metadata_without_preload_content(
+    async def update_document_version_metadata_without_preload_content(
         self,
         version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
         document_version_metadata_update: DocumentVersionMetadataUpdate,
@@ -3258,12 +4419,121 @@ class DocumentVersionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_document_version_metadata_sync(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        document_version_metadata_update: DocumentVersionMetadataUpdate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentVersionResponse:
+        """Update Document Version Metadata Handler (synchronous)
+
+        Synchronous variant of :meth:`update_document_version_metadata`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_document_version_metadata(
+                version_id=version_id,
+                document_version_metadata_update=document_version_metadata_update,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_document_version_metadata_sync_with_http_info(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        document_version_metadata_update: DocumentVersionMetadataUpdate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentVersionResponse]:
+        """Update Document Version Metadata Handler (synchronous)
+
+        Synchronous variant of :meth:`update_document_version_metadata_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_document_version_metadata_with_http_info(
+                version_id=version_id,
+                document_version_metadata_update=document_version_metadata_update,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_document_version_metadata_sync_without_preload_content(
+        self,
+        version_id: Annotated[UUID, Field(description="DocumentVersion ID")],
+        document_version_metadata_update: DocumentVersionMetadataUpdate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Document Version Metadata Handler (synchronous)
+
+        Synchronous variant of :meth:`update_document_version_metadata_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_document_version_metadata_without_preload_content(
+                version_id=version_id,
+                document_version_metadata_update=document_version_metadata_update,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_document_version_metadata_serialize(

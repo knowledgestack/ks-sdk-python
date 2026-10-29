@@ -26,6 +26,7 @@ from ksapi.models.update_api_connection_request import UpdateApiConnectionReques
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class ApiConnectionsApi:
@@ -42,7 +43,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def accept_api_connection_disclaimer(
+    async def accept_api_connection_disclaimer(
         self,
         connection_id: UUID,
         accept_disclaimer_request: AcceptDisclaimerRequest,
@@ -101,12 +102,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -114,7 +116,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def accept_api_connection_disclaimer_with_http_info(
+    async def accept_api_connection_disclaimer_with_http_info(
         self,
         connection_id: UUID,
         accept_disclaimer_request: AcceptDisclaimerRequest,
@@ -173,12 +175,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -186,7 +189,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def accept_api_connection_disclaimer_without_preload_content(
+    async def accept_api_connection_disclaimer_without_preload_content(
         self,
         connection_id: UUID,
         accept_disclaimer_request: AcceptDisclaimerRequest,
@@ -245,12 +248,121 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def accept_api_connection_disclaimer_sync(
+        self,
+        connection_id: UUID,
+        accept_disclaimer_request: AcceptDisclaimerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiConnectionResponse:
+        """Accept Api Connection Disclaimer Handler (synchronous)
+
+        Synchronous variant of :meth:`accept_api_connection_disclaimer`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.accept_api_connection_disclaimer(
+                connection_id=connection_id,
+                accept_disclaimer_request=accept_disclaimer_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def accept_api_connection_disclaimer_sync_with_http_info(
+        self,
+        connection_id: UUID,
+        accept_disclaimer_request: AcceptDisclaimerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApiConnectionResponse]:
+        """Accept Api Connection Disclaimer Handler (synchronous)
+
+        Synchronous variant of :meth:`accept_api_connection_disclaimer_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.accept_api_connection_disclaimer_with_http_info(
+                connection_id=connection_id,
+                accept_disclaimer_request=accept_disclaimer_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def accept_api_connection_disclaimer_sync_without_preload_content(
+        self,
+        connection_id: UUID,
+        accept_disclaimer_request: AcceptDisclaimerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Accept Api Connection Disclaimer Handler (synchronous)
+
+        Synchronous variant of :meth:`accept_api_connection_disclaimer_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.accept_api_connection_disclaimer_without_preload_content(
+                connection_id=connection_id,
+                accept_disclaimer_request=accept_disclaimer_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _accept_api_connection_disclaimer_serialize(
@@ -335,7 +447,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def create_api_connection(
+    async def create_api_connection(
         self,
         create_api_connection_request: CreateApiConnectionRequest,
         _request_timeout: Union[
@@ -390,12 +502,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -403,7 +516,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def create_api_connection_with_http_info(
+    async def create_api_connection_with_http_info(
         self,
         create_api_connection_request: CreateApiConnectionRequest,
         _request_timeout: Union[
@@ -458,12 +571,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -471,7 +585,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def create_api_connection_without_preload_content(
+    async def create_api_connection_without_preload_content(
         self,
         create_api_connection_request: CreateApiConnectionRequest,
         _request_timeout: Union[
@@ -526,12 +640,115 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_api_connection_sync(
+        self,
+        create_api_connection_request: CreateApiConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiConnectionResponse:
+        """Create Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`create_api_connection`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_api_connection(
+                create_api_connection_request=create_api_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_api_connection_sync_with_http_info(
+        self,
+        create_api_connection_request: CreateApiConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApiConnectionResponse]:
+        """Create Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`create_api_connection_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_api_connection_with_http_info(
+                create_api_connection_request=create_api_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_api_connection_sync_without_preload_content(
+        self,
+        create_api_connection_request: CreateApiConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`create_api_connection_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_api_connection_without_preload_content(
+                create_api_connection_request=create_api_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_api_connection_serialize(
@@ -613,7 +830,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def delete_api_connection(
+    async def delete_api_connection(
         self,
         connection_id: UUID,
         _request_timeout: Union[
@@ -668,12 +885,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -681,7 +899,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def delete_api_connection_with_http_info(
+    async def delete_api_connection_with_http_info(
         self,
         connection_id: UUID,
         _request_timeout: Union[
@@ -736,12 +954,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -749,7 +968,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def delete_api_connection_without_preload_content(
+    async def delete_api_connection_without_preload_content(
         self,
         connection_id: UUID,
         _request_timeout: Union[
@@ -804,12 +1023,115 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_api_connection_sync(
+        self,
+        connection_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_api_connection`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_api_connection(
+                connection_id=connection_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_api_connection_sync_with_http_info(
+        self,
+        connection_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_api_connection_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_api_connection_with_http_info(
+                connection_id=connection_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_api_connection_sync_without_preload_content(
+        self,
+        connection_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_api_connection_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_api_connection_without_preload_content(
+                connection_id=connection_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_api_connection_serialize(
@@ -878,7 +1200,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def execute_api_connection_request(
+    async def execute_api_connection_request(
         self,
         connection_id: UUID,
         api_connection_request_request: ApiConnectionRequestRequest,
@@ -937,12 +1259,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionRequestResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -950,7 +1273,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def execute_api_connection_request_with_http_info(
+    async def execute_api_connection_request_with_http_info(
         self,
         connection_id: UUID,
         api_connection_request_request: ApiConnectionRequestRequest,
@@ -1009,12 +1332,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionRequestResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1022,7 +1346,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def execute_api_connection_request_without_preload_content(
+    async def execute_api_connection_request_without_preload_content(
         self,
         connection_id: UUID,
         api_connection_request_request: ApiConnectionRequestRequest,
@@ -1081,12 +1405,121 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionRequestResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def execute_api_connection_request_sync(
+        self,
+        connection_id: UUID,
+        api_connection_request_request: ApiConnectionRequestRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiConnectionRequestResponse:
+        """Execute Api Connection Request Handler (synchronous)
+
+        Synchronous variant of :meth:`execute_api_connection_request`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.execute_api_connection_request(
+                connection_id=connection_id,
+                api_connection_request_request=api_connection_request_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def execute_api_connection_request_sync_with_http_info(
+        self,
+        connection_id: UUID,
+        api_connection_request_request: ApiConnectionRequestRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApiConnectionRequestResponse]:
+        """Execute Api Connection Request Handler (synchronous)
+
+        Synchronous variant of :meth:`execute_api_connection_request_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.execute_api_connection_request_with_http_info(
+                connection_id=connection_id,
+                api_connection_request_request=api_connection_request_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def execute_api_connection_request_sync_without_preload_content(
+        self,
+        connection_id: UUID,
+        api_connection_request_request: ApiConnectionRequestRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Execute Api Connection Request Handler (synchronous)
+
+        Synchronous variant of :meth:`execute_api_connection_request_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.execute_api_connection_request_without_preload_content(
+                connection_id=connection_id,
+                api_connection_request_request=api_connection_request_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _execute_api_connection_request_serialize(
@@ -1171,7 +1604,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def get_api_connection(
+    async def get_api_connection(
         self,
         connection_id: UUID,
         _request_timeout: Union[
@@ -1226,12 +1659,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1239,7 +1673,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def get_api_connection_with_http_info(
+    async def get_api_connection_with_http_info(
         self,
         connection_id: UUID,
         _request_timeout: Union[
@@ -1294,12 +1728,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1307,7 +1742,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def get_api_connection_without_preload_content(
+    async def get_api_connection_without_preload_content(
         self,
         connection_id: UUID,
         _request_timeout: Union[
@@ -1362,12 +1797,115 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_api_connection_sync(
+        self,
+        connection_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiConnectionResponse:
+        """Get Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`get_api_connection`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_api_connection(
+                connection_id=connection_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_api_connection_sync_with_http_info(
+        self,
+        connection_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApiConnectionResponse]:
+        """Get Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`get_api_connection_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_api_connection_with_http_info(
+                connection_id=connection_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_api_connection_sync_without_preload_content(
+        self,
+        connection_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`get_api_connection_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_api_connection_without_preload_content(
+                connection_id=connection_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_api_connection_serialize(
@@ -1436,7 +1974,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def update_api_connection(
+    async def update_api_connection(
         self,
         connection_id: UUID,
         update_api_connection_request: UpdateApiConnectionRequest,
@@ -1495,12 +2033,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1508,7 +2047,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def update_api_connection_with_http_info(
+    async def update_api_connection_with_http_info(
         self,
         connection_id: UUID,
         update_api_connection_request: UpdateApiConnectionRequest,
@@ -1567,12 +2106,13 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1580,7 +2120,7 @@ class ApiConnectionsApi:
 
 
     @validate_call
-    def update_api_connection_without_preload_content(
+    async def update_api_connection_without_preload_content(
         self,
         connection_id: UUID,
         update_api_connection_request: UpdateApiConnectionRequest,
@@ -1639,12 +2179,121 @@ class ApiConnectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApiConnectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_api_connection_sync(
+        self,
+        connection_id: UUID,
+        update_api_connection_request: UpdateApiConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiConnectionResponse:
+        """Update Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`update_api_connection`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_api_connection(
+                connection_id=connection_id,
+                update_api_connection_request=update_api_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_api_connection_sync_with_http_info(
+        self,
+        connection_id: UUID,
+        update_api_connection_request: UpdateApiConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApiConnectionResponse]:
+        """Update Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`update_api_connection_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_api_connection_with_http_info(
+                connection_id=connection_id,
+                update_api_connection_request=update_api_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_api_connection_sync_without_preload_content(
+        self,
+        connection_id: UUID,
+        update_api_connection_request: UpdateApiConnectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Api Connection Handler (synchronous)
+
+        Synchronous variant of :meth:`update_api_connection_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_api_connection_without_preload_content(
+                connection_id=connection_id,
+                update_api_connection_request=update_api_connection_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_api_connection_serialize(

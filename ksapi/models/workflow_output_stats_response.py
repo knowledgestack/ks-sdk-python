@@ -75,8 +75,7 @@ class WorkflowOutputStatsResponse(BaseModel):
         _items = []
         if self.per_definition:
             for _item_per_definition in self.per_definition:
-                if _item_per_definition:
-                    _items.append(_item_per_definition.to_dict())
+                _items.append(_item_per_definition.to_dict() if _item_per_definition is not None else None)
             _dict['per_definition'] = _items
         # set to None if overall_avg (nullable) is None
         # and model_fields_set contains the field

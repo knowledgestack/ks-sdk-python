@@ -26,6 +26,7 @@ from ksapi.models.sort_direction import SortDirection
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class AuditEventsApi:
@@ -42,7 +43,7 @@ class AuditEventsApi:
 
 
     @validate_call
-    def export_audit_events(
+    async def export_audit_events(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
@@ -117,12 +118,13 @@ class AuditEventsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -130,7 +132,7 @@ class AuditEventsApi:
 
 
     @validate_call
-    def export_audit_events_with_http_info(
+    async def export_audit_events_with_http_info(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
@@ -205,12 +207,13 @@ class AuditEventsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -218,7 +221,7 @@ class AuditEventsApi:
 
 
     @validate_call
-    def export_audit_events_without_preload_content(
+    async def export_audit_events_without_preload_content(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
@@ -293,12 +296,145 @@ class AuditEventsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def export_audit_events_sync(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """Export Audit Events Handler (synchronous)
+
+        Synchronous variant of :meth:`export_audit_events`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_audit_events(
+                actor_user_id=actor_user_id,
+                kind=kind,
+                since=since,
+                until=until,
+                subject_path_part_id=subject_path_part_id,
+                recursive=recursive,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def export_audit_events_sync_with_http_info(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """Export Audit Events Handler (synchronous)
+
+        Synchronous variant of :meth:`export_audit_events_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_audit_events_with_http_info(
+                actor_user_id=actor_user_id,
+                kind=kind,
+                since=since,
+                until=until,
+                subject_path_part_id=subject_path_part_id,
+                recursive=recursive,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def export_audit_events_sync_without_preload_content(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Export Audit Events Handler (synchronous)
+
+        Synchronous variant of :meth:`export_audit_events_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.export_audit_events_without_preload_content(
+                actor_user_id=actor_user_id,
+                kind=kind,
+                since=since,
+                until=until,
+                subject_path_part_id=subject_path_part_id,
+                recursive=recursive,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _export_audit_events_serialize(
@@ -413,7 +549,7 @@ class AuditEventsApi:
 
 
     @validate_call
-    def list_audit_events(
+    async def list_audit_events(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
@@ -500,12 +636,13 @@ class AuditEventsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -513,7 +650,7 @@ class AuditEventsApi:
 
 
     @validate_call
-    def list_audit_events_with_http_info(
+    async def list_audit_events_with_http_info(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
@@ -600,12 +737,13 @@ class AuditEventsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -613,7 +751,7 @@ class AuditEventsApi:
 
 
     @validate_call
-    def list_audit_events_without_preload_content(
+    async def list_audit_events_without_preload_content(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
@@ -700,12 +838,163 @@ class AuditEventsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_audit_events_sync(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseEventResponse:
+        """List Audit Events Handler (synchronous)
+
+        Synchronous variant of :meth:`list_audit_events`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_audit_events(
+                actor_user_id=actor_user_id,
+                kind=kind,
+                since=since,
+                until=until,
+                subject_path_part_id=subject_path_part_id,
+                recursive=recursive,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_audit_events_sync_with_http_info(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseEventResponse]:
+        """List Audit Events Handler (synchronous)
+
+        Synchronous variant of :meth:`list_audit_events_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_audit_events_with_http_info(
+                actor_user_id=actor_user_id,
+                kind=kind,
+                since=since,
+                until=until,
+                subject_path_part_id=subject_path_part_id,
+                recursive=recursive,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_audit_events_sync_without_preload_content(
+        self,
+        actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Audit Events Handler (synchronous)
+
+        Synchronous variant of :meth:`list_audit_events_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_audit_events_without_preload_content(
+                actor_user_id=actor_user_id,
+                kind=kind,
+                since=since,
+                until=until,
+                subject_path_part_id=subject_path_part_id,
+                recursive=recursive,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_audit_events_serialize(

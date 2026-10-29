@@ -43,6 +43,7 @@ from ksapi.models.upload_status_response import UploadStatusResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class DocumentsApi:
@@ -59,7 +60,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def abort_document_upload(
+    async def abort_document_upload(
         self,
         x_upload_token: StrictStr,
         _request_timeout: Union[
@@ -114,12 +115,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -127,7 +129,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def abort_document_upload_with_http_info(
+    async def abort_document_upload_with_http_info(
         self,
         x_upload_token: StrictStr,
         _request_timeout: Union[
@@ -182,12 +184,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -195,7 +198,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def abort_document_upload_without_preload_content(
+    async def abort_document_upload_without_preload_content(
         self,
         x_upload_token: StrictStr,
         _request_timeout: Union[
@@ -250,12 +253,115 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def abort_document_upload_sync(
+        self,
+        x_upload_token: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Abort Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`abort_document_upload`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.abort_document_upload(
+                x_upload_token=x_upload_token,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def abort_document_upload_sync_with_http_info(
+        self,
+        x_upload_token: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Abort Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`abort_document_upload_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.abort_document_upload_with_http_info(
+                x_upload_token=x_upload_token,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def abort_document_upload_sync_without_preload_content(
+        self,
+        x_upload_token: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Abort Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`abort_document_upload_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.abort_document_upload_without_preload_content(
+                x_upload_token=x_upload_token,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _abort_document_upload_serialize(
@@ -324,7 +430,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def complete_document_upload(
+    async def complete_document_upload(
         self,
         complete_upload_request: CompleteUploadRequest,
         _request_timeout: Union[
@@ -379,12 +485,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -392,7 +499,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def complete_document_upload_with_http_info(
+    async def complete_document_upload_with_http_info(
         self,
         complete_upload_request: CompleteUploadRequest,
         _request_timeout: Union[
@@ -447,12 +554,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -460,7 +568,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def complete_document_upload_without_preload_content(
+    async def complete_document_upload_without_preload_content(
         self,
         complete_upload_request: CompleteUploadRequest,
         _request_timeout: Union[
@@ -515,12 +623,115 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def complete_document_upload_sync(
+        self,
+        complete_upload_request: CompleteUploadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IngestDocumentResponse:
+        """Complete Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`complete_document_upload`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.complete_document_upload(
+                complete_upload_request=complete_upload_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def complete_document_upload_sync_with_http_info(
+        self,
+        complete_upload_request: CompleteUploadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IngestDocumentResponse]:
+        """Complete Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`complete_document_upload_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.complete_document_upload_with_http_info(
+                complete_upload_request=complete_upload_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def complete_document_upload_sync_without_preload_content(
+        self,
+        complete_upload_request: CompleteUploadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Complete Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`complete_document_upload_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.complete_document_upload_without_preload_content(
+                complete_upload_request=complete_upload_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _complete_document_upload_serialize(
@@ -602,7 +813,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def create_document(
+    async def create_document(
         self,
         create_document_request: CreateDocumentRequest,
         _request_timeout: Union[
@@ -657,12 +868,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -670,7 +882,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def create_document_with_http_info(
+    async def create_document_with_http_info(
         self,
         create_document_request: CreateDocumentRequest,
         _request_timeout: Union[
@@ -725,12 +937,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -738,7 +951,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def create_document_without_preload_content(
+    async def create_document_without_preload_content(
         self,
         create_document_request: CreateDocumentRequest,
         _request_timeout: Union[
@@ -793,12 +1006,115 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_document_sync(
+        self,
+        create_document_request: CreateDocumentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentResponse:
+        """Create Document Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document(
+                create_document_request=create_document_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_document_sync_with_http_info(
+        self,
+        create_document_request: CreateDocumentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentResponse]:
+        """Create Document Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_with_http_info(
+                create_document_request=create_document_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_document_sync_without_preload_content(
+        self,
+        create_document_request: CreateDocumentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Document Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_without_preload_content(
+                create_document_request=create_document_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_document_serialize(
@@ -880,7 +1196,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def create_document_upload(
+    async def create_document_upload(
         self,
         create_upload_request: CreateUploadRequest,
         _request_timeout: Union[
@@ -935,12 +1251,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateUploadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -948,7 +1265,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def create_document_upload_with_http_info(
+    async def create_document_upload_with_http_info(
         self,
         create_upload_request: CreateUploadRequest,
         _request_timeout: Union[
@@ -1003,12 +1320,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateUploadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1016,7 +1334,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def create_document_upload_without_preload_content(
+    async def create_document_upload_without_preload_content(
         self,
         create_upload_request: CreateUploadRequest,
         _request_timeout: Union[
@@ -1071,12 +1389,115 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateUploadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_document_upload_sync(
+        self,
+        create_upload_request: CreateUploadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CreateUploadResponse:
+        """Create Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_upload`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_upload(
+                create_upload_request=create_upload_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_document_upload_sync_with_http_info(
+        self,
+        create_upload_request: CreateUploadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CreateUploadResponse]:
+        """Create Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_upload_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_upload_with_http_info(
+                create_upload_request=create_upload_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_document_upload_sync_without_preload_content(
+        self,
+        create_upload_request: CreateUploadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Document Upload Handler (synchronous)
+
+        Synchronous variant of :meth:`create_document_upload_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_document_upload_without_preload_content(
+                create_upload_request=create_upload_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_document_upload_serialize(
@@ -1158,7 +1579,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def delete_document(
+    async def delete_document(
         self,
         document_id: UUID,
         _request_timeout: Union[
@@ -1213,12 +1634,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1226,7 +1648,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def delete_document_with_http_info(
+    async def delete_document_with_http_info(
         self,
         document_id: UUID,
         _request_timeout: Union[
@@ -1281,12 +1703,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1294,7 +1717,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def delete_document_without_preload_content(
+    async def delete_document_without_preload_content(
         self,
         document_id: UUID,
         _request_timeout: Union[
@@ -1349,12 +1772,115 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_document_sync(
+        self,
+        document_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Document Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_document`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_document(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_document_sync_with_http_info(
+        self,
+        document_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Document Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_document_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_document_with_http_info(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_document_sync_without_preload_content(
+        self,
+        document_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Document Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_document_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_document_without_preload_content(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_document_serialize(
@@ -1423,7 +1949,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def download_document(
+    async def download_document(
         self,
         document_id: UUID,
         artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
@@ -1482,12 +2008,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentDownloadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1495,7 +2022,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def download_document_with_http_info(
+    async def download_document_with_http_info(
         self,
         document_id: UUID,
         artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
@@ -1554,12 +2081,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentDownloadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1567,7 +2095,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def download_document_without_preload_content(
+    async def download_document_without_preload_content(
         self,
         document_id: UUID,
         artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
@@ -1626,12 +2154,121 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentDownloadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def download_document_sync(
+        self,
+        document_id: UUID,
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentDownloadResponse:
+        """Download Document Handler (synchronous)
+
+        Synchronous variant of :meth:`download_document`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_document(
+                document_id=document_id,
+                artifact=artifact,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_document_sync_with_http_info(
+        self,
+        document_id: UUID,
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentDownloadResponse]:
+        """Download Document Handler (synchronous)
+
+        Synchronous variant of :meth:`download_document_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_document_with_http_info(
+                document_id=document_id,
+                artifact=artifact,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_document_sync_without_preload_content(
+        self,
+        document_id: UUID,
+        artifact: Annotated[Optional[DownloadArtifact], Field(description="Artifact to download: source, fast_plaintext, or transcript (media only)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Download Document Handler (synchronous)
+
+        Synchronous variant of :meth:`download_document_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_document_without_preload_content(
+                document_id=document_id,
+                artifact=artifact,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _download_document_serialize(
@@ -1705,7 +2342,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_document(
+    async def get_document(
         self,
         document_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
@@ -1763,12 +2400,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1776,7 +2414,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_document_with_http_info(
+    async def get_document_with_http_info(
         self,
         document_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
@@ -1834,12 +2472,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1847,7 +2486,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_document_without_preload_content(
+    async def get_document_without_preload_content(
         self,
         document_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
@@ -1905,12 +2544,121 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_document_sync(
+        self,
+        document_id: UUID,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentResponse:
+        """Get Document Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document(
+                document_id=document_id,
+                with_tags=with_tags,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_sync_with_http_info(
+        self,
+        document_id: UUID,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentResponse]:
+        """Get Document Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_with_http_info(
+                document_id=document_id,
+                with_tags=with_tags,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_sync_without_preload_content(
+        self,
+        document_id: UUID,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Document Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_without_preload_content(
+                document_id=document_id,
+                with_tags=with_tags,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_document_serialize(
@@ -1984,7 +2732,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_document_upload_status(
+    async def get_document_upload_status(
         self,
         x_upload_token: StrictStr,
         _request_timeout: Union[
@@ -2039,12 +2787,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2052,7 +2801,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_document_upload_status_with_http_info(
+    async def get_document_upload_status_with_http_info(
         self,
         x_upload_token: StrictStr,
         _request_timeout: Union[
@@ -2107,12 +2856,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2120,7 +2870,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_document_upload_status_without_preload_content(
+    async def get_document_upload_status_without_preload_content(
         self,
         x_upload_token: StrictStr,
         _request_timeout: Union[
@@ -2175,12 +2925,115 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadStatusResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_document_upload_status_sync(
+        self,
+        x_upload_token: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UploadStatusResponse:
+        """Get Document Upload Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_upload_status`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_upload_status(
+                x_upload_token=x_upload_token,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_upload_status_sync_with_http_info(
+        self,
+        x_upload_token: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UploadStatusResponse]:
+        """Get Document Upload Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_upload_status_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_upload_status_with_http_info(
+                x_upload_token=x_upload_token,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_upload_status_sync_without_preload_content(
+        self,
+        x_upload_token: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Document Upload Status Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_upload_status_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_upload_status_without_preload_content(
+                x_upload_token=x_upload_token,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_document_upload_status_serialize(
@@ -2249,7 +3102,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_document(
+    async def ingest_document(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
@@ -2344,12 +3197,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2357,7 +3211,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_document_with_http_info(
+    async def ingest_document_with_http_info(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
@@ -2452,12 +3306,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2465,7 +3320,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_document_without_preload_content(
+    async def ingest_document_without_preload_content(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
@@ -2560,12 +3415,175 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def ingest_document_sync(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
+        name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
+        ingestion_mode: Optional[IngestionMode] = None,
+        chunk_type: Optional[ChunkType] = None,
+        secondary_taxonomy: Optional[ImageTaxonomy] = None,
+        page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
+        workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IngestDocumentResponse:
+        """Ingest Document Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_document`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_document(
+                file=file,
+                path_part_id=path_part_id,
+                name=name,
+                tag_ids=tag_ids,
+                idempotency_key=idempotency_key,
+                ingestion_mode=ingestion_mode,
+                chunk_type=chunk_type,
+                secondary_taxonomy=secondary_taxonomy,
+                page_dpi=page_dpi,
+                workflow_run_id=workflow_run_id,
+                workflow_definition_id=workflow_definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def ingest_document_sync_with_http_info(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
+        name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
+        ingestion_mode: Optional[IngestionMode] = None,
+        chunk_type: Optional[ChunkType] = None,
+        secondary_taxonomy: Optional[ImageTaxonomy] = None,
+        page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
+        workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IngestDocumentResponse]:
+        """Ingest Document Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_document_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_document_with_http_info(
+                file=file,
+                path_part_id=path_part_id,
+                name=name,
+                tag_ids=tag_ids,
+                idempotency_key=idempotency_key,
+                ingestion_mode=ingestion_mode,
+                chunk_type=chunk_type,
+                secondary_taxonomy=secondary_taxonomy,
+                page_dpi=page_dpi,
+                workflow_run_id=workflow_run_id,
+                workflow_definition_id=workflow_definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def ingest_document_sync_without_preload_content(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
+        name: Annotated[Optional[StrictStr], Field(description="Document name (defaults to filename)")] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to the created document.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Opt-in key: a repeat with the same key at the same (parent, name) replays the existing document instead of a 409.")] = None,
+        ingestion_mode: Optional[IngestionMode] = None,
+        chunk_type: Optional[ChunkType] = None,
+        secondary_taxonomy: Optional[ImageTaxonomy] = None,
+        page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
+        workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Ingest Document Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_document_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_document_without_preload_content(
+                file=file,
+                path_part_id=path_part_id,
+                name=name,
+                tag_ids=tag_ids,
+                idempotency_key=idempotency_key,
+                ingestion_mode=ingestion_mode,
+                chunk_type=chunk_type,
+                secondary_taxonomy=secondary_taxonomy,
+                page_dpi=page_dpi,
+                workflow_run_id=workflow_run_id,
+                workflow_definition_id=workflow_definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _ingest_document_serialize(
@@ -2678,7 +3696,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_document_version(
+    async def ingest_document_version(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -2761,12 +3779,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2774,7 +3793,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_document_version_with_http_info(
+    async def ingest_document_version_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -2857,12 +3876,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2870,7 +3890,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_document_version_without_preload_content(
+    async def ingest_document_version_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
@@ -2953,12 +3973,157 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "IngestDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def ingest_document_version_sync(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        ingestion_mode: Optional[IngestionMode] = None,
+        chunk_type: Optional[ChunkType] = None,
+        secondary_taxonomy: Optional[ImageTaxonomy] = None,
+        page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
+        workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IngestDocumentResponse:
+        """Ingest Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_document_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_document_version(
+                document_id=document_id,
+                file=file,
+                ingestion_mode=ingestion_mode,
+                chunk_type=chunk_type,
+                secondary_taxonomy=secondary_taxonomy,
+                page_dpi=page_dpi,
+                workflow_run_id=workflow_run_id,
+                workflow_definition_id=workflow_definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def ingest_document_version_sync_with_http_info(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        ingestion_mode: Optional[IngestionMode] = None,
+        chunk_type: Optional[ChunkType] = None,
+        secondary_taxonomy: Optional[ImageTaxonomy] = None,
+        page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
+        workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IngestDocumentResponse]:
+        """Ingest Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_document_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_document_version_with_http_info(
+                document_id=document_id,
+                file=file,
+                ingestion_mode=ingestion_mode,
+                chunk_type=chunk_type,
+                secondary_taxonomy=secondary_taxonomy,
+                page_dpi=page_dpi,
+                workflow_run_id=workflow_run_id,
+                workflow_definition_id=workflow_definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def ingest_document_version_sync_without_preload_content(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        ingestion_mode: Optional[IngestionMode] = None,
+        chunk_type: Optional[ChunkType] = None,
+        secondary_taxonomy: Optional[ImageTaxonomy] = None,
+        page_dpi: Annotated[Optional[Annotated[int, Field(le=216, strict=True, ge=36)]], Field(description="DPI for PDF page screenshots (default 72, min 36, max 216).")] = None,
+        workflow_run_id: Annotated[Optional[UUID], Field(description="Workflow run context for assumed agent uploads.")] = None,
+        workflow_definition_id: Annotated[Optional[UUID], Field(description="Workflow definition context for assumed agent uploads.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Ingest Document Version Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_document_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_document_version_without_preload_content(
+                document_id=document_id,
+                file=file,
+                ingestion_mode=ingestion_mode,
+                chunk_type=chunk_type,
+                secondary_taxonomy=secondary_taxonomy,
+                page_dpi=page_dpi,
+                workflow_run_id=workflow_run_id,
+                workflow_definition_id=workflow_definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _ingest_document_version_serialize(
@@ -3061,7 +4226,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_zip(
+    async def ingest_zip(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
@@ -3128,12 +4293,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "IngestZipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3141,7 +4307,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_zip_with_http_info(
+    async def ingest_zip_with_http_info(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
@@ -3208,12 +4374,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "IngestZipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3221,7 +4388,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def ingest_zip_without_preload_content(
+    async def ingest_zip_without_preload_content(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
@@ -3288,12 +4455,133 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "IngestZipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def ingest_zip_sync(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
+        ingestion_mode: Optional[IngestionMode] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to every ingested member document.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IngestZipResponse:
+        """Ingest Zip Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_zip`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_zip(
+                file=file,
+                path_part_id=path_part_id,
+                ingestion_mode=ingestion_mode,
+                tag_ids=tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def ingest_zip_sync_with_http_info(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
+        ingestion_mode: Optional[IngestionMode] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to every ingested member document.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IngestZipResponse]:
+        """Ingest Zip Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_zip_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_zip_with_http_info(
+                file=file,
+                path_part_id=path_part_id,
+                ingestion_mode=ingestion_mode,
+                tag_ids=tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def ingest_zip_sync_without_preload_content(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        path_part_id: Annotated[UUID, Field(description="Parent path part ID (must be a FOLDER type)")],
+        ingestion_mode: Optional[IngestionMode] = None,
+        tag_ids: Annotated[Optional[List[UUID]], Field(description="Tag IDs applied to every ingested member document.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Ingest Zip Handler (synchronous)
+
+        Synchronous variant of :meth:`ingest_zip_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.ingest_zip_without_preload_content(
+                file=file,
+                path_part_id=path_part_id,
+                ingestion_mode=ingestion_mode,
+                tag_ids=tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _ingest_zip_serialize(
@@ -3385,7 +4673,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def list_documents(
+    async def list_documents(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
@@ -3492,12 +4780,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3505,7 +4794,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def list_documents_with_http_info(
+    async def list_documents_with_http_info(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
@@ -3612,12 +4901,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3625,7 +4915,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def list_documents_without_preload_content(
+    async def list_documents_without_preload_content(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
@@ -3732,12 +5022,193 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseDocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_documents_sync(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
+        document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
+        duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
+        duration_max_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at most this long.")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseDocumentResponse:
+        """List Documents Handler (synchronous)
+
+        Synchronous variant of :meth:`list_documents`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_documents(
+                parent_path_part_id=parent_path_part_id,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                document_type=document_type,
+                duration_min_ms=duration_min_ms,
+                duration_max_ms=duration_max_ms,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_documents_sync_with_http_info(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
+        document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
+        duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
+        duration_max_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at most this long.")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseDocumentResponse]:
+        """List Documents Handler (synchronous)
+
+        Synchronous variant of :meth:`list_documents_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_documents_with_http_info(
+                parent_path_part_id=parent_path_part_id,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                document_type=document_type,
+                duration_min_ms=duration_min_ms,
+                duration_max_ms=duration_max_ms,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_documents_sync_without_preload_content(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
+        document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
+        duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
+        duration_max_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at most this long.")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Documents Handler (synchronous)
+
+        Synchronous variant of :meth:`list_documents_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_documents_without_preload_content(
+                parent_path_part_id=parent_path_part_id,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                document_type=document_type,
+                duration_min_ms=duration_min_ms,
+                duration_max_ms=duration_max_ms,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_documents_serialize(
@@ -3909,7 +5380,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def update_document(
+    async def update_document(
         self,
         document_id: UUID,
         update_document_request: UpdateDocumentRequest,
@@ -3968,12 +5439,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3981,7 +5453,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def update_document_with_http_info(
+    async def update_document_with_http_info(
         self,
         document_id: UUID,
         update_document_request: UpdateDocumentRequest,
@@ -4040,12 +5512,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4053,7 +5526,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def update_document_without_preload_content(
+    async def update_document_without_preload_content(
         self,
         document_id: UUID,
         update_document_request: UpdateDocumentRequest,
@@ -4112,12 +5585,121 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_document_sync(
+        self,
+        document_id: UUID,
+        update_document_request: UpdateDocumentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentResponse:
+        """Update Document Handler (synchronous)
+
+        Synchronous variant of :meth:`update_document`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_document(
+                document_id=document_id,
+                update_document_request=update_document_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_document_sync_with_http_info(
+        self,
+        document_id: UUID,
+        update_document_request: UpdateDocumentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentResponse]:
+        """Update Document Handler (synchronous)
+
+        Synchronous variant of :meth:`update_document_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_document_with_http_info(
+                document_id=document_id,
+                update_document_request=update_document_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_document_sync_without_preload_content(
+        self,
+        document_id: UUID,
+        update_document_request: UpdateDocumentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Document Handler (synchronous)
+
+        Synchronous variant of :meth:`update_document_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_document_without_preload_content(
+                document_id=document_id,
+                update_document_request=update_document_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_document_serialize(
@@ -4202,7 +5784,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def upload_document_part(
+    async def upload_document_part(
         self,
         part_number: Annotated[int, Field(le=10000, strict=True, ge=1)],
         x_upload_token: StrictStr,
@@ -4265,12 +5847,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4278,7 +5861,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def upload_document_part_with_http_info(
+    async def upload_document_part_with_http_info(
         self,
         part_number: Annotated[int, Field(le=10000, strict=True, ge=1)],
         x_upload_token: StrictStr,
@@ -4341,12 +5924,13 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -4354,7 +5938,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def upload_document_part_without_preload_content(
+    async def upload_document_part_without_preload_content(
         self,
         part_number: Annotated[int, Field(le=10000, strict=True, ge=1)],
         x_upload_token: StrictStr,
@@ -4417,12 +6001,127 @@ class DocumentsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def upload_document_part_sync(
+        self,
+        part_number: Annotated[int, Field(le=10000, strict=True, ge=1)],
+        x_upload_token: StrictStr,
+        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UploadPartResponse:
+        """Upload Document Part Handler (synchronous)
+
+        Synchronous variant of :meth:`upload_document_part`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_document_part(
+                part_number=part_number,
+                x_upload_token=x_upload_token,
+                body=body,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def upload_document_part_sync_with_http_info(
+        self,
+        part_number: Annotated[int, Field(le=10000, strict=True, ge=1)],
+        x_upload_token: StrictStr,
+        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UploadPartResponse]:
+        """Upload Document Part Handler (synchronous)
+
+        Synchronous variant of :meth:`upload_document_part_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_document_part_with_http_info(
+                part_number=part_number,
+                x_upload_token=x_upload_token,
+                body=body,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def upload_document_part_sync_without_preload_content(
+        self,
+        part_number: Annotated[int, Field(le=10000, strict=True, ge=1)],
+        x_upload_token: StrictStr,
+        body: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Upload Document Part Handler (synchronous)
+
+        Synchronous variant of :meth:`upload_document_part_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_document_part_without_preload_content(
+                part_number=part_number,
+                x_upload_token=x_upload_token,
+                body=body,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _upload_document_part_serialize(

@@ -17,59 +17,108 @@ import unittest
 from ksapi.api.users_api import UsersApi
 
 
-class TestUsersApi(unittest.TestCase):
+class TestUsersApi(unittest.IsolatedAsyncioTestCase):
     """UsersApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = UsersApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_delete_my_avatar(self) -> None:
+    async def test_delete_my_avatar(self) -> None:
         """Test case for delete_my_avatar
 
         Delete My Avatar Handler
         """
         pass
 
-    def test_get_me(self) -> None:
+    def test_delete_my_avatar_sync(self) -> None:
+        """Test case for delete_my_avatar (synchronous)
+
+        Delete My Avatar Handler
+        """
+        pass
+
+    async def test_get_me(self) -> None:
         """Test case for get_me
 
         Get Me Handler
         """
         pass
 
-    def test_request_access(self) -> None:
+    def test_get_me_sync(self) -> None:
+        """Test case for get_me (synchronous)
+
+        Get Me Handler
+        """
+        pass
+
+    async def test_request_access(self) -> None:
         """Test case for request_access
 
         Request Access Handler
         """
         pass
 
-    def test_skip_onboarding(self) -> None:
+    def test_request_access_sync(self) -> None:
+        """Test case for request_access (synchronous)
+
+        Request Access Handler
+        """
+        pass
+
+    async def test_skip_onboarding(self) -> None:
         """Test case for skip_onboarding
 
         Skip Onboarding Handler
         """
         pass
 
-    def test_update_me(self) -> None:
+    def test_skip_onboarding_sync(self) -> None:
+        """Test case for skip_onboarding (synchronous)
+
+        Skip Onboarding Handler
+        """
+        pass
+
+    async def test_update_me(self) -> None:
         """Test case for update_me
 
         Update Me Handler
         """
         pass
 
-    def test_update_onboarding_state(self) -> None:
+    def test_update_me_sync(self) -> None:
+        """Test case for update_me (synchronous)
+
+        Update Me Handler
+        """
+        pass
+
+    async def test_update_onboarding_state(self) -> None:
         """Test case for update_onboarding_state
 
         Update Onboarding State Handler
         """
         pass
 
-    def test_upload_my_avatar(self) -> None:
+    def test_update_onboarding_state_sync(self) -> None:
+        """Test case for update_onboarding_state (synchronous)
+
+        Update Onboarding State Handler
+        """
+        pass
+
+    async def test_upload_my_avatar(self) -> None:
         """Test case for upload_my_avatar
+
+        Upload My Avatar Handler
+        """
+        pass
+
+    def test_upload_my_avatar_sync(self) -> None:
+        """Test case for upload_my_avatar (synchronous)
 
         Upload My Avatar Handler
         """

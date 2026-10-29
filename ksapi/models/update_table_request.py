@@ -74,8 +74,7 @@ class UpdateTableRequest(BaseModel):
         _items = []
         if self.column_config:
             for _item_column_config in self.column_config:
-                if _item_column_config:
-                    _items.append(_item_column_config.to_dict())
+                _items.append(_item_column_config.to_dict() if _item_column_config is not None else None)
             _dict['column_config'] = _items
         # set to None if column_config (nullable) is None
         # and model_fields_set contains the field

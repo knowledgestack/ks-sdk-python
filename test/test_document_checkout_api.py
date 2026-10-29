@@ -17,31 +17,52 @@ import unittest
 from ksapi.api.document_checkout_api import DocumentCheckoutApi
 
 
-class TestDocumentCheckoutApi(unittest.TestCase):
+class TestDocumentCheckoutApi(unittest.IsolatedAsyncioTestCase):
     """DocumentCheckoutApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DocumentCheckoutApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_acquire_document_checkout(self) -> None:
+    async def test_acquire_document_checkout(self) -> None:
         """Test case for acquire_document_checkout
 
         Acquire Document Checkout Handler
         """
         pass
 
-    def test_get_document_checkout(self) -> None:
+    def test_acquire_document_checkout_sync(self) -> None:
+        """Test case for acquire_document_checkout (synchronous)
+
+        Acquire Document Checkout Handler
+        """
+        pass
+
+    async def test_get_document_checkout(self) -> None:
         """Test case for get_document_checkout
 
         Get Document Checkout Handler
         """
         pass
 
-    def test_release_document_checkout(self) -> None:
+    def test_get_document_checkout_sync(self) -> None:
+        """Test case for get_document_checkout (synchronous)
+
+        Get Document Checkout Handler
+        """
+        pass
+
+    async def test_release_document_checkout(self) -> None:
         """Test case for release_document_checkout
+
+        Release Document Checkout Handler
+        """
+        pass
+
+    def test_release_document_checkout_sync(self) -> None:
+        """Test case for release_document_checkout (synchronous)
 
         Release Document Checkout Handler
         """

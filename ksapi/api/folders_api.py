@@ -39,6 +39,7 @@ from ksapi.models.update_folder_request import UpdateFolderRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class FoldersApi:
@@ -55,7 +56,7 @@ class FoldersApi:
 
 
     @validate_call
-    def create_folder(
+    async def create_folder(
         self,
         create_folder_request: CreateFolderRequest,
         _request_timeout: Union[
@@ -110,12 +111,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -123,7 +125,7 @@ class FoldersApi:
 
 
     @validate_call
-    def create_folder_with_http_info(
+    async def create_folder_with_http_info(
         self,
         create_folder_request: CreateFolderRequest,
         _request_timeout: Union[
@@ -178,12 +180,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -191,7 +194,7 @@ class FoldersApi:
 
 
     @validate_call
-    def create_folder_without_preload_content(
+    async def create_folder_without_preload_content(
         self,
         create_folder_request: CreateFolderRequest,
         _request_timeout: Union[
@@ -246,12 +249,115 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_folder_sync(
+        self,
+        create_folder_request: CreateFolderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FolderResponse:
+        """Create Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`create_folder`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_folder(
+                create_folder_request=create_folder_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_folder_sync_with_http_info(
+        self,
+        create_folder_request: CreateFolderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FolderResponse]:
+        """Create Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`create_folder_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_folder_with_http_info(
+                create_folder_request=create_folder_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_folder_sync_without_preload_content(
+        self,
+        create_folder_request: CreateFolderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`create_folder_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_folder_without_preload_content(
+                create_folder_request=create_folder_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_folder_serialize(
@@ -333,7 +439,7 @@ class FoldersApi:
 
 
     @validate_call
-    def delete_folder(
+    async def delete_folder(
         self,
         folder_id: UUID,
         _request_timeout: Union[
@@ -388,12 +494,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -401,7 +508,7 @@ class FoldersApi:
 
 
     @validate_call
-    def delete_folder_with_http_info(
+    async def delete_folder_with_http_info(
         self,
         folder_id: UUID,
         _request_timeout: Union[
@@ -456,12 +563,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -469,7 +577,7 @@ class FoldersApi:
 
 
     @validate_call
-    def delete_folder_without_preload_content(
+    async def delete_folder_without_preload_content(
         self,
         folder_id: UUID,
         _request_timeout: Union[
@@ -524,12 +632,115 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_folder_sync(
+        self,
+        folder_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_folder`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_folder(
+                folder_id=folder_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_folder_sync_with_http_info(
+        self,
+        folder_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_folder_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_folder_with_http_info(
+                folder_id=folder_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_folder_sync_without_preload_content(
+        self,
+        folder_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_folder_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_folder_without_preload_content(
+                folder_id=folder_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_folder_serialize(
@@ -598,7 +809,7 @@ class FoldersApi:
 
 
     @validate_call
-    def folder_action(
+    async def folder_action(
         self,
         folder_id: UUID,
         action: Annotated[FolderAction, Field(description="Action to perform")],
@@ -657,12 +868,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -670,7 +882,7 @@ class FoldersApi:
 
 
     @validate_call
-    def folder_action_with_http_info(
+    async def folder_action_with_http_info(
         self,
         folder_id: UUID,
         action: Annotated[FolderAction, Field(description="Action to perform")],
@@ -729,12 +941,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -742,7 +955,7 @@ class FoldersApi:
 
 
     @validate_call
-    def folder_action_without_preload_content(
+    async def folder_action_without_preload_content(
         self,
         folder_id: UUID,
         action: Annotated[FolderAction, Field(description="Action to perform")],
@@ -801,12 +1014,121 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderActionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def folder_action_sync(
+        self,
+        folder_id: UUID,
+        action: Annotated[FolderAction, Field(description="Action to perform")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FolderActionResponse:
+        """Folder Action Handler (synchronous)
+
+        Synchronous variant of :meth:`folder_action`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.folder_action(
+                folder_id=folder_id,
+                action=action,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def folder_action_sync_with_http_info(
+        self,
+        folder_id: UUID,
+        action: Annotated[FolderAction, Field(description="Action to perform")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FolderActionResponse]:
+        """Folder Action Handler (synchronous)
+
+        Synchronous variant of :meth:`folder_action_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.folder_action_with_http_info(
+                folder_id=folder_id,
+                action=action,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def folder_action_sync_without_preload_content(
+        self,
+        folder_id: UUID,
+        action: Annotated[FolderAction, Field(description="Action to perform")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Folder Action Handler (synchronous)
+
+        Synchronous variant of :meth:`folder_action_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.folder_action_without_preload_content(
+                folder_id=folder_id,
+                action=action,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _folder_action_serialize(
@@ -880,7 +1202,7 @@ class FoldersApi:
 
 
     @validate_call
-    def get_folder(
+    async def get_folder(
         self,
         folder_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
@@ -938,12 +1260,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -951,7 +1274,7 @@ class FoldersApi:
 
 
     @validate_call
-    def get_folder_with_http_info(
+    async def get_folder_with_http_info(
         self,
         folder_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
@@ -1009,12 +1332,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1022,7 +1346,7 @@ class FoldersApi:
 
 
     @validate_call
-    def get_folder_without_preload_content(
+    async def get_folder_without_preload_content(
         self,
         folder_id: UUID,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
@@ -1080,12 +1404,121 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_folder_sync(
+        self,
+        folder_id: UUID,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FolderResponse:
+        """Get Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`get_folder`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_folder(
+                folder_id=folder_id,
+                with_tags=with_tags,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_folder_sync_with_http_info(
+        self,
+        folder_id: UUID,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FolderResponse]:
+        """Get Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`get_folder_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_folder_with_http_info(
+                folder_id=folder_id,
+                with_tags=with_tags,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_folder_sync_without_preload_content(
+        self,
+        folder_id: UUID,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`get_folder_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_folder_without_preload_content(
+                folder_id=folder_id,
+                with_tags=with_tags,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_folder_serialize(
@@ -1159,7 +1592,7 @@ class FoldersApi:
 
 
     @validate_call
-    def list_folder_contents(
+    async def list_folder_contents(
         self,
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
@@ -1274,12 +1707,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1287,7 +1721,7 @@ class FoldersApi:
 
 
     @validate_call
-    def list_folder_contents_with_http_info(
+    async def list_folder_contents_with_http_info(
         self,
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
@@ -1402,12 +1836,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1415,7 +1850,7 @@ class FoldersApi:
 
 
     @validate_call
-    def list_folder_contents_without_preload_content(
+    async def list_folder_contents_without_preload_content(
         self,
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
@@ -1530,12 +1965,205 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_folder_contents_sync(
+        self,
+        folder_id: UUID,
+        max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
+        sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
+        name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat:
+        """List Folder Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`list_folder_contents`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_folder_contents(
+                folder_id=folder_id,
+                max_depth=max_depth,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                name_like=name_like,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                approval_state=approval_state,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_folder_contents_sync_with_http_info(
+        self,
+        folder_id: UUID,
+        max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
+        sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
+        name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat]:
+        """List Folder Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`list_folder_contents_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_folder_contents_with_http_info(
+                folder_id=folder_id,
+                max_depth=max_depth,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                name_like=name_like,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                approval_state=approval_state,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_folder_contents_sync_without_preload_content(
+        self,
+        folder_id: UUID,
+        max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
+        sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
+        name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Folder Contents Handler (synchronous)
+
+        Synchronous variant of :meth:`list_folder_contents_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_folder_contents_without_preload_content(
+                folder_id=folder_id,
+                max_depth=max_depth,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                name_like=name_like,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                approval_state=approval_state,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_folder_contents_serialize(
@@ -1718,7 +2346,7 @@ class FoldersApi:
 
 
     @validate_call
-    def list_folders(
+    async def list_folders(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
@@ -1813,12 +2441,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseFolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1826,7 +2455,7 @@ class FoldersApi:
 
 
     @validate_call
-    def list_folders_with_http_info(
+    async def list_folders_with_http_info(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
@@ -1921,12 +2550,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseFolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1934,7 +2564,7 @@ class FoldersApi:
 
 
     @validate_call
-    def list_folders_without_preload_content(
+    async def list_folders_without_preload_content(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
@@ -2029,12 +2659,175 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseFolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_folders_sync(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseFolderResponse:
+        """List Folders Handler (synchronous)
+
+        Synchronous variant of :meth:`list_folders`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_folders(
+                parent_path_part_id=parent_path_part_id,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_folders_sync_with_http_info(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseFolderResponse]:
+        """List Folders Handler (synchronous)
+
+        Synchronous variant of :meth:`list_folders_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_folders_with_http_info(
+                parent_path_part_id=parent_path_part_id,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_folders_sync_without_preload_content(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Folders Handler (synchronous)
+
+        Synchronous variant of :meth:`list_folders_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_folders_without_preload_content(
+                parent_path_part_id=parent_path_part_id,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                owner_id=owner_id,
+                with_tags=with_tags,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_folders_serialize(
@@ -2191,7 +2984,7 @@ class FoldersApi:
 
 
     @validate_call
-    def search_items(
+    async def search_items(
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
         part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
@@ -2302,12 +3095,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchItemsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2315,7 +3109,7 @@ class FoldersApi:
 
 
     @validate_call
-    def search_items_with_http_info(
+    async def search_items_with_http_info(
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
         part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
@@ -2426,12 +3220,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchItemsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2439,7 +3234,7 @@ class FoldersApi:
 
 
     @validate_call
-    def search_items_without_preload_content(
+    async def search_items_without_preload_content(
         self,
         name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
         part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
@@ -2550,12 +3345,199 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SearchItemsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def search_items_sync(
+        self,
+        name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
+        part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
+        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: RELEVANCE)")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        document_type: Annotated[Optional[List[DocumentType]], Field(description="Only documents of these types; repeat the parameter to select several (default: every type, every item kind)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only items owned by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SearchItemsResponse:
+        """Search Items Handler (synchronous)
+
+        Synchronous variant of :meth:`search_items`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_items(
+                name_like=name_like,
+                part_type=part_type,
+                sort_order=sort_order,
+                with_tags=with_tags,
+                parent_path_part_id=parent_path_part_id,
+                limit=limit,
+                offset=offset,
+                document_type=document_type,
+                owner_id=owner_id,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_items_sync_with_http_info(
+        self,
+        name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
+        part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
+        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: RELEVANCE)")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        document_type: Annotated[Optional[List[DocumentType]], Field(description="Only documents of these types; repeat the parameter to select several (default: every type, every item kind)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only items owned by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SearchItemsResponse]:
+        """Search Items Handler (synchronous)
+
+        Synchronous variant of :meth:`search_items_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_items_with_http_info(
+                name_like=name_like,
+                part_type=part_type,
+                sort_order=sort_order,
+                with_tags=with_tags,
+                parent_path_part_id=parent_path_part_id,
+                limit=limit,
+                offset=offset,
+                document_type=document_type,
+                owner_id=owner_id,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_items_sync_without_preload_content(
+        self,
+        name_like: Annotated[str, Field(min_length=1, strict=True, max_length=255, description="Case-insensitive partial name search")],
+        part_type: Annotated[Optional[List[SearchablePartType]], Field(description="Filter by item type; repeat the parameter to select several (default: all searchable types)")] = None,
+        sort_order: Annotated[Optional[SearchSortOrder], Field(description="Sort order for results (default: RELEVANCE)")] = None,
+        with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Scope search to descendants of this folder's path part")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        document_type: Annotated[Optional[List[DocumentType]], Field(description="Only documents of these types; repeat the parameter to select several (default: every type, every item kind)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only items owned by this user")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Search Items Handler (synchronous)
+
+        Synchronous variant of :meth:`search_items_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_items_without_preload_content(
+                name_like=name_like,
+                part_type=part_type,
+                sort_order=sort_order,
+                with_tags=with_tags,
+                parent_path_part_id=parent_path_part_id,
+                limit=limit,
+                offset=offset,
+                document_type=document_type,
+                owner_id=owner_id,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _search_items_serialize(
@@ -2736,7 +3718,7 @@ class FoldersApi:
 
 
     @validate_call
-    def update_folder(
+    async def update_folder(
         self,
         folder_id: UUID,
         update_folder_request: UpdateFolderRequest,
@@ -2795,12 +3777,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2808,7 +3791,7 @@ class FoldersApi:
 
 
     @validate_call
-    def update_folder_with_http_info(
+    async def update_folder_with_http_info(
         self,
         folder_id: UUID,
         update_folder_request: UpdateFolderRequest,
@@ -2867,12 +3850,13 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2880,7 +3864,7 @@ class FoldersApi:
 
 
     @validate_call
-    def update_folder_without_preload_content(
+    async def update_folder_without_preload_content(
         self,
         folder_id: UUID,
         update_folder_request: UpdateFolderRequest,
@@ -2939,12 +3923,121 @@ class FoldersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "FolderResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_folder_sync(
+        self,
+        folder_id: UUID,
+        update_folder_request: UpdateFolderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FolderResponse:
+        """Update Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`update_folder`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_folder(
+                folder_id=folder_id,
+                update_folder_request=update_folder_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_folder_sync_with_http_info(
+        self,
+        folder_id: UUID,
+        update_folder_request: UpdateFolderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FolderResponse]:
+        """Update Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`update_folder_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_folder_with_http_info(
+                folder_id=folder_id,
+                update_folder_request=update_folder_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_folder_sync_without_preload_content(
+        self,
+        folder_id: UUID,
+        update_folder_request: UpdateFolderRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Folder Handler (synchronous)
+
+        Synchronous variant of :meth:`update_folder_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_folder_without_preload_content(
+                folder_id=folder_id,
+                update_folder_request=update_folder_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_folder_serialize(

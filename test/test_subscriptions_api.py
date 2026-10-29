@@ -17,24 +17,38 @@ import unittest
 from ksapi.api.subscriptions_api import SubscriptionsApi
 
 
-class TestSubscriptionsApi(unittest.TestCase):
+class TestSubscriptionsApi(unittest.IsolatedAsyncioTestCase):
     """SubscriptionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = SubscriptionsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_change_tenant_subscription(self) -> None:
+    async def test_change_tenant_subscription(self) -> None:
         """Test case for change_tenant_subscription
 
         Change Tenant Subscription Handler
         """
         pass
 
-    def test_get_tenant_subscription(self) -> None:
+    def test_change_tenant_subscription_sync(self) -> None:
+        """Test case for change_tenant_subscription (synchronous)
+
+        Change Tenant Subscription Handler
+        """
+        pass
+
+    async def test_get_tenant_subscription(self) -> None:
         """Test case for get_tenant_subscription
+
+        Get Tenant Subscription Handler
+        """
+        pass
+
+    def test_get_tenant_subscription_sync(self) -> None:
+        """Test case for get_tenant_subscription (synchronous)
 
         Get Tenant Subscription Handler
         """

@@ -89,8 +89,7 @@ class RepoBranchResponse(BaseModel):
         _items = []
         if self.files:
             for _item_files in self.files:
-                if _item_files:
-                    _items.append(_item_files.to_dict())
+                _items.append(_item_files.to_dict() if _item_files is not None else None)
             _dict['files'] = _items
         # set to None if previous_head_sha (nullable) is None
         # and model_fields_set contains the field

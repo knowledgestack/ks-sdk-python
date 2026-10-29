@@ -17,73 +17,136 @@ import unittest
 from ksapi.api.workflow_repository_api import WorkflowRepositoryApi
 
 
-class TestWorkflowRepositoryApi(unittest.TestCase):
+class TestWorkflowRepositoryApi(unittest.IsolatedAsyncioTestCase):
     """WorkflowRepositoryApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = WorkflowRepositoryApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_download_workflow_repo_branch_bundle(self) -> None:
+    async def test_download_workflow_repo_branch_bundle(self) -> None:
         """Test case for download_workflow_repo_branch_bundle
 
         Download Workflow Repo Branch Bundle Handler
         """
         pass
 
-    def test_download_workflow_repo_bundle(self) -> None:
+    def test_download_workflow_repo_branch_bundle_sync(self) -> None:
+        """Test case for download_workflow_repo_branch_bundle (synchronous)
+
+        Download Workflow Repo Branch Bundle Handler
+        """
+        pass
+
+    async def test_download_workflow_repo_bundle(self) -> None:
         """Test case for download_workflow_repo_bundle
 
         Download Workflow Repo Bundle Handler
         """
         pass
 
-    def test_get_workflow_repo(self) -> None:
+    def test_download_workflow_repo_bundle_sync(self) -> None:
+        """Test case for download_workflow_repo_bundle (synchronous)
+
+        Download Workflow Repo Bundle Handler
+        """
+        pass
+
+    async def test_get_workflow_repo(self) -> None:
         """Test case for get_workflow_repo
 
         Get Workflow Repo Handler
         """
         pass
 
-    def test_get_workflow_repo_branch(self) -> None:
+    def test_get_workflow_repo_sync(self) -> None:
+        """Test case for get_workflow_repo (synchronous)
+
+        Get Workflow Repo Handler
+        """
+        pass
+
+    async def test_get_workflow_repo_branch(self) -> None:
         """Test case for get_workflow_repo_branch
 
         Get Workflow Repo Branch Handler
         """
         pass
 
-    def test_get_workflow_repo_tree(self) -> None:
+    def test_get_workflow_repo_branch_sync(self) -> None:
+        """Test case for get_workflow_repo_branch (synchronous)
+
+        Get Workflow Repo Branch Handler
+        """
+        pass
+
+    async def test_get_workflow_repo_tree(self) -> None:
         """Test case for get_workflow_repo_tree
 
         Get Workflow Repo Tree Handler
         """
         pass
 
-    def test_list_workflow_repo_versions(self) -> None:
+    def test_get_workflow_repo_tree_sync(self) -> None:
+        """Test case for get_workflow_repo_tree (synchronous)
+
+        Get Workflow Repo Tree Handler
+        """
+        pass
+
+    async def test_list_workflow_repo_versions(self) -> None:
         """Test case for list_workflow_repo_versions
 
         List Workflow Repo Versions Handler
         """
         pass
 
-    def test_record_workflow_repo_skipped_save(self) -> None:
+    def test_list_workflow_repo_versions_sync(self) -> None:
+        """Test case for list_workflow_repo_versions (synchronous)
+
+        List Workflow Repo Versions Handler
+        """
+        pass
+
+    async def test_record_workflow_repo_skipped_save(self) -> None:
         """Test case for record_workflow_repo_skipped_save
 
         Record Workflow Repo Skipped Save Handler
         """
         pass
 
-    def test_save_workflow_repo_branch(self) -> None:
+    def test_record_workflow_repo_skipped_save_sync(self) -> None:
+        """Test case for record_workflow_repo_skipped_save (synchronous)
+
+        Record Workflow Repo Skipped Save Handler
+        """
+        pass
+
+    async def test_save_workflow_repo_branch(self) -> None:
         """Test case for save_workflow_repo_branch
 
         Save Workflow Repo Branch Handler
         """
         pass
 
-    def test_save_workflow_repo_version(self) -> None:
+    def test_save_workflow_repo_branch_sync(self) -> None:
+        """Test case for save_workflow_repo_branch (synchronous)
+
+        Save Workflow Repo Branch Handler
+        """
+        pass
+
+    async def test_save_workflow_repo_version(self) -> None:
         """Test case for save_workflow_repo_version
+
+        Save Workflow Repo Version Handler
+        """
+        pass
+
+    def test_save_workflow_repo_version_sync(self) -> None:
+        """Test case for save_workflow_repo_version (synchronous)
 
         Save Workflow Repo Version Handler
         """

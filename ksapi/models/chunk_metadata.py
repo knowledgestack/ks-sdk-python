@@ -99,15 +99,13 @@ class ChunkMetadata(BaseModel):
         _items = []
         if self.polygons:
             for _item_polygons in self.polygons:
-                if _item_polygons:
-                    _items.append(_item_polygons.to_dict())
+                _items.append(_item_polygons.to_dict() if _item_polygons is not None else None)
             _dict['polygons'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in segments (list)
         _items = []
         if self.segments:
             for _item_segments in self.segments:
-                if _item_segments:
-                    _items.append(_item_segments.to_dict())
+                _items.append(_item_segments.to_dict() if _item_segments is not None else None)
             _dict['segments'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

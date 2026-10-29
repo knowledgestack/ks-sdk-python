@@ -133,8 +133,7 @@ class WorkflowRunResponse(BaseModel):
         _items = []
         if self.excluded_common_files:
             for _item_excluded_common_files in self.excluded_common_files:
-                if _item_excluded_common_files:
-                    _items.append(_item_excluded_common_files.to_dict())
+                _items.append(_item_excluded_common_files.to_dict() if _item_excluded_common_files is not None else None)
             _dict['excluded_common_files'] = _items
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:

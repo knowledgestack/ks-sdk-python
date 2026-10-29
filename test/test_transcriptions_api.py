@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.transcriptions_api import TranscriptionsApi
 
 
-class TestTranscriptionsApi(unittest.TestCase):
+class TestTranscriptionsApi(unittest.IsolatedAsyncioTestCase):
     """TranscriptionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = TranscriptionsApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_create_transcription(self) -> None:
+        """Test case for create_transcription
+
+        Create Transcription Handler
+        """
         pass
 
-    def test_create_transcription(self) -> None:
-        """Test case for create_transcription
+    def test_create_transcription_sync(self) -> None:
+        """Test case for create_transcription (synchronous)
 
         Create Transcription Handler
         """

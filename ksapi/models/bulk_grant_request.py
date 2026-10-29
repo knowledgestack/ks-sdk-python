@@ -76,8 +76,7 @@ class BulkGrantRequest(BaseModel):
         _items = []
         if self.grants:
             for _item_grants in self.grants:
-                if _item_grants:
-                    _items.append(_item_grants.to_dict())
+                _items.append(_item_grants.to_dict() if _item_grants is not None else None)
             _dict['grants'] = _items
         return _dict
 

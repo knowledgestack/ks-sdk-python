@@ -27,6 +27,7 @@ from ksapi.models.paginated_response_memory_entry_response import PaginatedRespo
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class WorkflowMemoryApi:
@@ -43,7 +44,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def append_workflow_memory_chunk(
+    async def append_workflow_memory_chunk(
         self,
         definition_id: UUID,
         append_memory_chunk_request: AppendMemoryChunkRequest,
@@ -101,12 +102,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -114,7 +116,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def append_workflow_memory_chunk_with_http_info(
+    async def append_workflow_memory_chunk_with_http_info(
         self,
         definition_id: UUID,
         append_memory_chunk_request: AppendMemoryChunkRequest,
@@ -172,12 +174,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -185,7 +188,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def append_workflow_memory_chunk_without_preload_content(
+    async def append_workflow_memory_chunk_without_preload_content(
         self,
         definition_id: UUID,
         append_memory_chunk_request: AppendMemoryChunkRequest,
@@ -243,12 +246,121 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def append_workflow_memory_chunk_sync(
+        self,
+        definition_id: UUID,
+        append_memory_chunk_request: AppendMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MemoryEntryResponse:
+        """Append Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`append_workflow_memory_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.append_workflow_memory_chunk(
+                definition_id=definition_id,
+                append_memory_chunk_request=append_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def append_workflow_memory_chunk_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        append_memory_chunk_request: AppendMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MemoryEntryResponse]:
+        """Append Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`append_workflow_memory_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.append_workflow_memory_chunk_with_http_info(
+                definition_id=definition_id,
+                append_memory_chunk_request=append_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def append_workflow_memory_chunk_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        append_memory_chunk_request: AppendMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Append Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`append_workflow_memory_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.append_workflow_memory_chunk_without_preload_content(
+                definition_id=definition_id,
+                append_memory_chunk_request=append_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _append_workflow_memory_chunk_serialize(
@@ -333,7 +445,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def edit_workflow_memory_chunk(
+    async def edit_workflow_memory_chunk(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -395,12 +507,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -408,7 +521,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def edit_workflow_memory_chunk_with_http_info(
+    async def edit_workflow_memory_chunk_with_http_info(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -470,12 +583,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -483,7 +597,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def edit_workflow_memory_chunk_without_preload_content(
+    async def edit_workflow_memory_chunk_without_preload_content(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -545,12 +659,127 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def edit_workflow_memory_chunk_sync(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        edit_memory_chunk_request: EditMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MemoryEntryResponse:
+        """Edit Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`edit_workflow_memory_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.edit_workflow_memory_chunk(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                edit_memory_chunk_request=edit_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def edit_workflow_memory_chunk_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        edit_memory_chunk_request: EditMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MemoryEntryResponse]:
+        """Edit Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`edit_workflow_memory_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.edit_workflow_memory_chunk_with_http_info(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                edit_memory_chunk_request=edit_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def edit_workflow_memory_chunk_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        edit_memory_chunk_request: EditMemoryChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Edit Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`edit_workflow_memory_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.edit_workflow_memory_chunk_without_preload_content(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                edit_memory_chunk_request=edit_memory_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _edit_workflow_memory_chunk_serialize(
@@ -638,7 +867,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def forget_workflow_memory_chunk(
+    async def forget_workflow_memory_chunk(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -696,12 +925,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -709,7 +939,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def forget_workflow_memory_chunk_with_http_info(
+    async def forget_workflow_memory_chunk_with_http_info(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -767,12 +997,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -780,7 +1011,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def forget_workflow_memory_chunk_without_preload_content(
+    async def forget_workflow_memory_chunk_without_preload_content(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -838,12 +1069,121 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def forget_workflow_memory_chunk_sync(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Forget Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`forget_workflow_memory_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.forget_workflow_memory_chunk(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def forget_workflow_memory_chunk_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Forget Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`forget_workflow_memory_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.forget_workflow_memory_chunk_with_http_info(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def forget_workflow_memory_chunk_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Forget Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`forget_workflow_memory_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.forget_workflow_memory_chunk_without_preload_content(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _forget_workflow_memory_chunk_serialize(
@@ -915,7 +1255,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def get_workflow_memory_chunk(
+    async def get_workflow_memory_chunk(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -973,12 +1313,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -986,7 +1327,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def get_workflow_memory_chunk_with_http_info(
+    async def get_workflow_memory_chunk_with_http_info(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -1044,12 +1385,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1057,7 +1399,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def get_workflow_memory_chunk_without_preload_content(
+    async def get_workflow_memory_chunk_without_preload_content(
         self,
         definition_id: UUID,
         chunk_id: UUID,
@@ -1115,12 +1457,121 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "MemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_memory_chunk_sync(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MemoryEntryResponse:
+        """Get Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_memory_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_memory_chunk(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_memory_chunk_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MemoryEntryResponse]:
+        """Get Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_memory_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_memory_chunk_with_http_info(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_memory_chunk_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Memory Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_memory_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_memory_chunk_without_preload_content(
+                definition_id=definition_id,
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_memory_chunk_serialize(
@@ -1192,7 +1643,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def list_workflow_memory_chunks(
+    async def list_workflow_memory_chunks(
         self,
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -1254,12 +1705,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseMemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1267,7 +1719,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def list_workflow_memory_chunks_with_http_info(
+    async def list_workflow_memory_chunks_with_http_info(
         self,
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -1329,12 +1781,13 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseMemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1342,7 +1795,7 @@ class WorkflowMemoryApi:
 
 
     @validate_call
-    def list_workflow_memory_chunks_without_preload_content(
+    async def list_workflow_memory_chunks_without_preload_content(
         self,
         definition_id: UUID,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -1404,12 +1857,127 @@ class WorkflowMemoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseMemoryEntryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_workflow_memory_chunks_sync(
+        self,
+        definition_id: UUID,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseMemoryEntryResponse:
+        """List Workflow Memory Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_memory_chunks`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_memory_chunks(
+                definition_id=definition_id,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_memory_chunks_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseMemoryEntryResponse]:
+        """List Workflow Memory Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_memory_chunks_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_memory_chunks_with_http_info(
+                definition_id=definition_id,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_memory_chunks_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Workflow Memory Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_memory_chunks_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_memory_chunks_without_preload_content(
+                definition_id=definition_id,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_workflow_memory_chunks_serialize(

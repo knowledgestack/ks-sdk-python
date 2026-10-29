@@ -17,31 +17,52 @@ import unittest
 from ksapi.api.chunk_lineages_api import ChunkLineagesApi
 
 
-class TestChunkLineagesApi(unittest.TestCase):
+class TestChunkLineagesApi(unittest.IsolatedAsyncioTestCase):
     """ChunkLineagesApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ChunkLineagesApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_chunk_lineage(self) -> None:
+    async def test_create_chunk_lineage(self) -> None:
         """Test case for create_chunk_lineage
 
         Create Chunk Lineage Handler
         """
         pass
 
-    def test_delete_chunk_lineage(self) -> None:
+    def test_create_chunk_lineage_sync(self) -> None:
+        """Test case for create_chunk_lineage (synchronous)
+
+        Create Chunk Lineage Handler
+        """
+        pass
+
+    async def test_delete_chunk_lineage(self) -> None:
         """Test case for delete_chunk_lineage
 
         Delete Chunk Lineage Handler
         """
         pass
 
-    def test_get_chunk_lineage(self) -> None:
+    def test_delete_chunk_lineage_sync(self) -> None:
+        """Test case for delete_chunk_lineage (synchronous)
+
+        Delete Chunk Lineage Handler
+        """
+        pass
+
+    async def test_get_chunk_lineage(self) -> None:
         """Test case for get_chunk_lineage
+
+        Get Chunk Lineage Handler
+        """
+        pass
+
+    def test_get_chunk_lineage_sync(self) -> None:
+        """Test case for get_chunk_lineage (synchronous)
 
         Get Chunk Lineage Handler
         """

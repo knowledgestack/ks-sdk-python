@@ -92,8 +92,7 @@ class TextPart(BaseModel):
         _items = []
         if self.citations:
             for _item_citations in self.citations:
-                if _item_citations:
-                    _items.append(_item_citations.to_dict())
+                _items.append(_item_citations.to_dict() if _item_citations is not None else None)
             _dict['citations'] = _items
         # set to None if end_time (nullable) is None
         # and model_fields_set contains the field

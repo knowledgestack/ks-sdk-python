@@ -33,6 +33,7 @@ from ksapi.models.version_chunk_ids_response import VersionChunkIdsResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class ChunksApi:
@@ -49,7 +50,7 @@ class ChunksApi:
 
 
     @validate_call
-    def create_chunk(
+    async def create_chunk(
         self,
         create_chunk_request: CreateChunkRequest,
         _request_timeout: Union[
@@ -104,12 +105,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -117,7 +119,7 @@ class ChunksApi:
 
 
     @validate_call
-    def create_chunk_with_http_info(
+    async def create_chunk_with_http_info(
         self,
         create_chunk_request: CreateChunkRequest,
         _request_timeout: Union[
@@ -172,12 +174,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -185,7 +188,7 @@ class ChunksApi:
 
 
     @validate_call
-    def create_chunk_without_preload_content(
+    async def create_chunk_without_preload_content(
         self,
         create_chunk_request: CreateChunkRequest,
         _request_timeout: Union[
@@ -240,12 +243,115 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_chunk_sync(
+        self,
+        create_chunk_request: CreateChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ChunkResponse:
+        """Create Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`create_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_chunk(
+                create_chunk_request=create_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_chunk_sync_with_http_info(
+        self,
+        create_chunk_request: CreateChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ChunkResponse]:
+        """Create Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`create_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_chunk_with_http_info(
+                create_chunk_request=create_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_chunk_sync_without_preload_content(
+        self,
+        create_chunk_request: CreateChunkRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`create_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_chunk_without_preload_content(
+                create_chunk_request=create_chunk_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_chunk_serialize(
@@ -327,7 +433,7 @@ class ChunksApi:
 
 
     @validate_call
-    def delete_chunk(
+    async def delete_chunk(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -382,12 +488,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -395,7 +502,7 @@ class ChunksApi:
 
 
     @validate_call
-    def delete_chunk_with_http_info(
+    async def delete_chunk_with_http_info(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -450,12 +557,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -463,7 +571,7 @@ class ChunksApi:
 
 
     @validate_call
-    def delete_chunk_without_preload_content(
+    async def delete_chunk_without_preload_content(
         self,
         chunk_id: UUID,
         _request_timeout: Union[
@@ -518,12 +626,115 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_chunk_sync(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_chunk(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_chunk_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_chunk_with_http_info(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_chunk_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_chunk_without_preload_content(
+                chunk_id=chunk_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_chunk_serialize(
@@ -592,7 +803,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunk(
+    async def get_chunk(
         self,
         chunk_id: UUID,
         with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
@@ -651,12 +862,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -664,7 +876,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunk_with_http_info(
+    async def get_chunk_with_http_info(
         self,
         chunk_id: UUID,
         with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
@@ -723,12 +935,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -736,7 +949,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunk_without_preload_content(
+    async def get_chunk_without_preload_content(
         self,
         chunk_id: UUID,
         with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
@@ -795,12 +1008,121 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_chunk_sync(
+        self,
+        chunk_id: UUID,
+        with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ChunkResponse:
+        """Get Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk(
+                chunk_id=chunk_id,
+                with_document=with_document,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunk_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ChunkResponse]:
+        """Get Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_with_http_info(
+                chunk_id=chunk_id,
+                with_document=with_document,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunk_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        with_document: Annotated[Optional[StrictBool], Field(description="Include ancestor document_id and document_version_id (default: false)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Chunk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_without_preload_content(
+                chunk_id=chunk_id,
+                with_document=with_document,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_chunk_serialize(
@@ -874,7 +1196,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunk_neighbors(
+    async def get_chunk_neighbors(
         self,
         chunk_id: UUID,
         prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
@@ -945,12 +1267,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkNeighborsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -958,7 +1281,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunk_neighbors_with_http_info(
+    async def get_chunk_neighbors_with_http_info(
         self,
         chunk_id: UUID,
         prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
@@ -1029,12 +1352,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkNeighborsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1042,7 +1366,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunk_neighbors_without_preload_content(
+    async def get_chunk_neighbors_without_preload_content(
         self,
         chunk_id: UUID,
         prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
@@ -1113,12 +1437,139 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkNeighborsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_chunk_neighbors_sync(
+        self,
+        chunk_id: UUID,
+        prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
+        next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
+        content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
+        within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ChunkNeighborsResponse:
+        """Get Chunk Neighbors Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_neighbors`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_neighbors(
+                chunk_id=chunk_id,
+                prev=prev,
+                next=next,
+                content_type=content_type,
+                within_section=within_section,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunk_neighbors_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
+        next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
+        content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
+        within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ChunkNeighborsResponse]:
+        """Get Chunk Neighbors Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_neighbors_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_neighbors_with_http_info(
+                chunk_id=chunk_id,
+                prev=prev,
+                next=next,
+                content_type=content_type,
+                within_section=within_section,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunk_neighbors_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        prev: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of preceding items to include (max 50).")] = None,
+        next: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=0)]], Field(description="Number of succeeding items to include (max 50).")] = None,
+        content_type: Annotated[Optional[PartType], Field(description="Filter by content type: SECTION or CHUNK. Omit to return both. SECTION is rejected when the anchor is a chunk (always).")] = None,
+        within_section: Annotated[Optional[StrictBool], Field(description="When true (default), traverse only the anchor's sibling chain under the same parent. When false, traverse the entire document version in DFS order, crossing section boundaries.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Chunk Neighbors Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunk_neighbors_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunk_neighbors_without_preload_content(
+                chunk_id=chunk_id,
+                prev=prev,
+                next=next,
+                content_type=content_type,
+                within_section=within_section,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_chunk_neighbors_serialize(
@@ -1207,7 +1658,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunks_bulk(
+    async def get_chunks_bulk(
         self,
         chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
         _request_timeout: Union[
@@ -1262,12 +1713,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ChunkBulkResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1275,7 +1727,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunks_bulk_with_http_info(
+    async def get_chunks_bulk_with_http_info(
         self,
         chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
         _request_timeout: Union[
@@ -1330,12 +1782,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ChunkBulkResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1343,7 +1796,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_chunks_bulk_without_preload_content(
+    async def get_chunks_bulk_without_preload_content(
         self,
         chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
         _request_timeout: Union[
@@ -1398,12 +1851,115 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ChunkBulkResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_chunks_bulk_sync(
+        self,
+        chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ChunkBulkResponse]:
+        """Get Chunks Bulk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunks_bulk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunks_bulk(
+                chunk_ids=chunk_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunks_bulk_sync_with_http_info(
+        self,
+        chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ChunkBulkResponse]]:
+        """Get Chunks Bulk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunks_bulk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunks_bulk_with_http_info(
+                chunk_ids=chunk_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_chunks_bulk_sync_without_preload_content(
+        self,
+        chunk_ids: Annotated[Optional[List[UUID]], Field(description="Chunk IDs to resolve (max 200)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Chunks Bulk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_chunks_bulk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_chunks_bulk_without_preload_content(
+                chunk_ids=chunk_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_chunks_bulk_serialize(
@@ -1475,7 +2031,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_version_chunk_ids(
+    async def get_version_chunk_ids(
         self,
         document_version_id: Annotated[UUID, Field(description="Document version ID")],
         _request_timeout: Union[
@@ -1530,12 +2086,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "VersionChunkIdsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1543,7 +2100,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_version_chunk_ids_with_http_info(
+    async def get_version_chunk_ids_with_http_info(
         self,
         document_version_id: Annotated[UUID, Field(description="Document version ID")],
         _request_timeout: Union[
@@ -1598,12 +2155,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "VersionChunkIdsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1611,7 +2169,7 @@ class ChunksApi:
 
 
     @validate_call
-    def get_version_chunk_ids_without_preload_content(
+    async def get_version_chunk_ids_without_preload_content(
         self,
         document_version_id: Annotated[UUID, Field(description="Document version ID")],
         _request_timeout: Union[
@@ -1666,12 +2224,115 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "VersionChunkIdsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_version_chunk_ids_sync(
+        self,
+        document_version_id: Annotated[UUID, Field(description="Document version ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> VersionChunkIdsResponse:
+        """Get Version Chunk Ids Handler (synchronous)
+
+        Synchronous variant of :meth:`get_version_chunk_ids`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_version_chunk_ids(
+                document_version_id=document_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_version_chunk_ids_sync_with_http_info(
+        self,
+        document_version_id: Annotated[UUID, Field(description="Document version ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[VersionChunkIdsResponse]:
+        """Get Version Chunk Ids Handler (synchronous)
+
+        Synchronous variant of :meth:`get_version_chunk_ids_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_version_chunk_ids_with_http_info(
+                document_version_id=document_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_version_chunk_ids_sync_without_preload_content(
+        self,
+        document_version_id: Annotated[UUID, Field(description="Document version ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Version Chunk Ids Handler (synchronous)
+
+        Synchronous variant of :meth:`get_version_chunk_ids_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_version_chunk_ids_without_preload_content(
+                document_version_id=document_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_version_chunk_ids_serialize(
@@ -1742,7 +2403,7 @@ class ChunksApi:
 
 
     @validate_call
-    def search_chunks(
+    async def search_chunks(
         self,
         chunk_search_request: ChunkSearchRequest,
         _request_timeout: Union[
@@ -1797,12 +2458,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ScoredChunkResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1810,7 +2472,7 @@ class ChunksApi:
 
 
     @validate_call
-    def search_chunks_with_http_info(
+    async def search_chunks_with_http_info(
         self,
         chunk_search_request: ChunkSearchRequest,
         _request_timeout: Union[
@@ -1865,12 +2527,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ScoredChunkResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1878,7 +2541,7 @@ class ChunksApi:
 
 
     @validate_call
-    def search_chunks_without_preload_content(
+    async def search_chunks_without_preload_content(
         self,
         chunk_search_request: ChunkSearchRequest,
         _request_timeout: Union[
@@ -1933,12 +2596,115 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[ScoredChunkResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def search_chunks_sync(
+        self,
+        chunk_search_request: ChunkSearchRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ScoredChunkResponse]:
+        """Search Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`search_chunks`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_chunks(
+                chunk_search_request=chunk_search_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_chunks_sync_with_http_info(
+        self,
+        chunk_search_request: ChunkSearchRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ScoredChunkResponse]]:
+        """Search Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`search_chunks_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_chunks_with_http_info(
+                chunk_search_request=chunk_search_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def search_chunks_sync_without_preload_content(
+        self,
+        chunk_search_request: ChunkSearchRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Search Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`search_chunks_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.search_chunks_without_preload_content(
+                chunk_search_request=chunk_search_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _search_chunks_serialize(
@@ -2020,7 +2786,7 @@ class ChunksApi:
 
 
     @validate_call
-    def update_chunk_content(
+    async def update_chunk_content(
         self,
         chunk_id: UUID,
         update_chunk_content_request: UpdateChunkContentRequest,
@@ -2079,12 +2845,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2092,7 +2859,7 @@ class ChunksApi:
 
 
     @validate_call
-    def update_chunk_content_with_http_info(
+    async def update_chunk_content_with_http_info(
         self,
         chunk_id: UUID,
         update_chunk_content_request: UpdateChunkContentRequest,
@@ -2151,12 +2918,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2164,7 +2932,7 @@ class ChunksApi:
 
 
     @validate_call
-    def update_chunk_content_without_preload_content(
+    async def update_chunk_content_without_preload_content(
         self,
         chunk_id: UUID,
         update_chunk_content_request: UpdateChunkContentRequest,
@@ -2223,12 +2991,121 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_chunk_content_sync(
+        self,
+        chunk_id: UUID,
+        update_chunk_content_request: UpdateChunkContentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ChunkResponse:
+        """Update Chunk Content Handler (synchronous)
+
+        Synchronous variant of :meth:`update_chunk_content`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_chunk_content(
+                chunk_id=chunk_id,
+                update_chunk_content_request=update_chunk_content_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_chunk_content_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        update_chunk_content_request: UpdateChunkContentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ChunkResponse]:
+        """Update Chunk Content Handler (synchronous)
+
+        Synchronous variant of :meth:`update_chunk_content_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_chunk_content_with_http_info(
+                chunk_id=chunk_id,
+                update_chunk_content_request=update_chunk_content_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_chunk_content_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        update_chunk_content_request: UpdateChunkContentRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Chunk Content Handler (synchronous)
+
+        Synchronous variant of :meth:`update_chunk_content_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_chunk_content_without_preload_content(
+                chunk_id=chunk_id,
+                update_chunk_content_request=update_chunk_content_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_chunk_content_serialize(
@@ -2313,7 +3190,7 @@ class ChunksApi:
 
 
     @validate_call
-    def update_chunk_metadata(
+    async def update_chunk_metadata(
         self,
         chunk_id: UUID,
         update_chunk_metadata_request: UpdateChunkMetadataRequest,
@@ -2372,12 +3249,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2385,7 +3263,7 @@ class ChunksApi:
 
 
     @validate_call
-    def update_chunk_metadata_with_http_info(
+    async def update_chunk_metadata_with_http_info(
         self,
         chunk_id: UUID,
         update_chunk_metadata_request: UpdateChunkMetadataRequest,
@@ -2444,12 +3322,13 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2457,7 +3336,7 @@ class ChunksApi:
 
 
     @validate_call
-    def update_chunk_metadata_without_preload_content(
+    async def update_chunk_metadata_without_preload_content(
         self,
         chunk_id: UUID,
         update_chunk_metadata_request: UpdateChunkMetadataRequest,
@@ -2516,12 +3395,121 @@ class ChunksApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ChunkResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_chunk_metadata_sync(
+        self,
+        chunk_id: UUID,
+        update_chunk_metadata_request: UpdateChunkMetadataRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ChunkResponse:
+        """Update Chunk Metadata Handler (synchronous)
+
+        Synchronous variant of :meth:`update_chunk_metadata`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_chunk_metadata(
+                chunk_id=chunk_id,
+                update_chunk_metadata_request=update_chunk_metadata_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_chunk_metadata_sync_with_http_info(
+        self,
+        chunk_id: UUID,
+        update_chunk_metadata_request: UpdateChunkMetadataRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ChunkResponse]:
+        """Update Chunk Metadata Handler (synchronous)
+
+        Synchronous variant of :meth:`update_chunk_metadata_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_chunk_metadata_with_http_info(
+                chunk_id=chunk_id,
+                update_chunk_metadata_request=update_chunk_metadata_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_chunk_metadata_sync_without_preload_content(
+        self,
+        chunk_id: UUID,
+        update_chunk_metadata_request: UpdateChunkMetadataRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Chunk Metadata Handler (synchronous)
+
+        Synchronous variant of :meth:`update_chunk_metadata_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_chunk_metadata_without_preload_content(
+                chunk_id=chunk_id,
+                update_chunk_metadata_request=update_chunk_metadata_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_chunk_metadata_serialize(

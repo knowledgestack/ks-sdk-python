@@ -75,8 +75,7 @@ class DiagnosticsResponse(BaseModel):
         _items = []
         if self.traces:
             for _item_traces in self.traces:
-                if _item_traces:
-                    _items.append(_item_traces.to_dict())
+                _items.append(_item_traces.to_dict() if _item_traces is not None else None)
             _dict['traces'] = _items
         return _dict
 

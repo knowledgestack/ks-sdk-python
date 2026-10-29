@@ -10,16 +10,15 @@
 """  # noqa: E501
 
 
+import base64
 import copy
 import http.client as httplib
 import logging
 from logging import FileHandler
-import multiprocessing
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from typing_extensions import NotRequired, Self
 
-import urllib3
 
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
@@ -161,7 +160,7 @@ class Configuration:
       when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
-    :param retries: int | urllib3.util.retry.Retry - Retry configuration.
+    :param retries: int - Retry configuration.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
@@ -215,7 +214,7 @@ conf = ksapi.Configuration(
         server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
-        retries: Optional[Union[int, Any]] = None,
+        retries: Optional[int] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
         cert_file: Optional[str]=None,
         key_file: Optional[str]=None,
@@ -279,7 +278,6 @@ conf = ksapi.Configuration(
         """Logging Settings
         """
         self.logger["package_logger"] = logging.getLogger("ksapi")
-        self.logger["urllib3_logger"] = logging.getLogger("urllib3")
         self.logger_format = '%(asctime)s %(levelname)s %(message)s'
         """Log format
         """
@@ -325,9 +323,9 @@ conf = ksapi.Configuration(
            Set this to the SNI value expected by the server.
         """
 
-        self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else multiprocessing.cpu_count() * 5
-        """urllib3 connection pool's maximum number of connections saved
-           per pool. None in the constructor is coerced to cpu_count * 5.
+        self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else 100
+        """This value is passed to the aiohttp to limit simultaneous connections.
+           None in the constructor is coerced to default 100.
         """
 
         self.proxy = proxy
@@ -366,9 +364,9 @@ conf = ksapi.Configuration(
                 setattr(result, k, copy.deepcopy(v, memo))
         # shallow copy of loggers
         result.logger = copy.copy(self.logger)
-        # use setters to configure loggers
+        # use setter to re-create the file handler (excluded from __dict__ copy)
         result.logger_file = self.logger_file
-        result.debug = self.debug
+
         return result
 
     def __setattr__(self, name: str, value: Any) -> None:
@@ -505,7 +503,8 @@ conf = ksapi.Configuration(
             self.refresh_api_key_hook(self)
         key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
-            prefix = self.api_key_prefix.get(identifier)
+            prefix = self.api_key_prefix.get(
+                identifier, self.api_key_prefix.get(alias) if alias is not None else None)
             if prefix:
                 return "%s %s" % (prefix, key)
             else:
@@ -525,9 +524,9 @@ conf = ksapi.Configuration(
         if self.password is not None:
             password = self.password
 
-        return urllib3.util.make_headers(
-            basic_auth=username + ':' + password
-        ).get('authorization')
+        return "Basic " + base64.b64encode(
+            (username + ":" + password).encode('utf-8')
+        ).decode('utf-8')
 
     def auth_settings(self)-> AuthSettings:
         """Gets Auth Settings dict for api client.
@@ -562,7 +561,7 @@ conf = ksapi.Configuration(
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 0.1.0\n"\
-               "SDK Package Version: 3.19.4".\
+               "SDK Package Version: 3.20.0".\
                format(env=sys.platform, pyversion=sys.version)
 
     def get_host_settings(self) -> List[HostSetting]:
@@ -582,6 +581,7 @@ conf = ksapi.Configuration(
                     'host': {
                         'description': "No description provided",
                         'default_value': "knowledge-stack.example.com",
+                        'enum_values': []
                         }
                     }
             },

@@ -30,6 +30,7 @@ from ksapi.models.workflow_repo_response import WorkflowRepoResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class WorkflowRepositoryApi:
@@ -46,7 +47,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def download_workflow_repo_branch_bundle(
+    async def download_workflow_repo_branch_bundle(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -109,12 +110,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -122,7 +124,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def download_workflow_repo_branch_bundle_with_http_info(
+    async def download_workflow_repo_branch_bundle_with_http_info(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -185,12 +187,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -198,7 +201,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def download_workflow_repo_branch_bundle_without_preload_content(
+    async def download_workflow_repo_branch_bundle_without_preload_content(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -261,12 +264,127 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def download_workflow_repo_branch_bundle_sync(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        version_id: Annotated[Optional[UUID], Field(description="Retained branch version")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """Download Workflow Repo Branch Bundle Handler (synchronous)
+
+        Synchronous variant of :meth:`download_workflow_repo_branch_bundle`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_workflow_repo_branch_bundle(
+                definition_id=definition_id,
+                run_id=run_id,
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_workflow_repo_branch_bundle_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        version_id: Annotated[Optional[UUID], Field(description="Retained branch version")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """Download Workflow Repo Branch Bundle Handler (synchronous)
+
+        Synchronous variant of :meth:`download_workflow_repo_branch_bundle_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_workflow_repo_branch_bundle_with_http_info(
+                definition_id=definition_id,
+                run_id=run_id,
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_workflow_repo_branch_bundle_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        version_id: Annotated[Optional[UUID], Field(description="Retained branch version")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Download Workflow Repo Branch Bundle Handler (synchronous)
+
+        Synchronous variant of :meth:`download_workflow_repo_branch_bundle_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_workflow_repo_branch_bundle_without_preload_content(
+                definition_id=definition_id,
+                run_id=run_id,
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _download_workflow_repo_branch_bundle_serialize(
@@ -344,7 +462,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def download_workflow_repo_bundle(
+    async def download_workflow_repo_bundle(
         self,
         definition_id: UUID,
         version_id: Annotated[Optional[UUID], Field(description="Saved version; default: main")] = None,
@@ -403,12 +521,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -416,7 +535,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def download_workflow_repo_bundle_with_http_info(
+    async def download_workflow_repo_bundle_with_http_info(
         self,
         definition_id: UUID,
         version_id: Annotated[Optional[UUID], Field(description="Saved version; default: main")] = None,
@@ -475,12 +594,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -488,7 +608,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def download_workflow_repo_bundle_without_preload_content(
+    async def download_workflow_repo_bundle_without_preload_content(
         self,
         definition_id: UUID,
         version_id: Annotated[Optional[UUID], Field(description="Saved version; default: main")] = None,
@@ -547,12 +667,121 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def download_workflow_repo_bundle_sync(
+        self,
+        definition_id: UUID,
+        version_id: Annotated[Optional[UUID], Field(description="Saved version; default: main")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """Download Workflow Repo Bundle Handler (synchronous)
+
+        Synchronous variant of :meth:`download_workflow_repo_bundle`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_workflow_repo_bundle(
+                definition_id=definition_id,
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_workflow_repo_bundle_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        version_id: Annotated[Optional[UUID], Field(description="Saved version; default: main")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """Download Workflow Repo Bundle Handler (synchronous)
+
+        Synchronous variant of :meth:`download_workflow_repo_bundle_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_workflow_repo_bundle_with_http_info(
+                definition_id=definition_id,
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def download_workflow_repo_bundle_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        version_id: Annotated[Optional[UUID], Field(description="Saved version; default: main")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Download Workflow Repo Bundle Handler (synchronous)
+
+        Synchronous variant of :meth:`download_workflow_repo_bundle_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.download_workflow_repo_bundle_without_preload_content(
+                definition_id=definition_id,
+                version_id=version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _download_workflow_repo_bundle_serialize(
@@ -627,7 +856,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo(
+    async def get_workflow_repo(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -682,12 +911,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRepoResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -695,7 +925,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_with_http_info(
+    async def get_workflow_repo_with_http_info(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -750,12 +980,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRepoResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -763,7 +994,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_without_preload_content(
+    async def get_workflow_repo_without_preload_content(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -818,12 +1049,115 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRepoResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_repo_sync(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRepoResponse:
+        """Get Workflow Repo Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_repo_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRepoResponse]:
+        """Get Workflow Repo Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_with_http_info(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_repo_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Repo Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_without_preload_content(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_repo_serialize(
@@ -892,7 +1226,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_branch(
+    async def get_workflow_repo_branch(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -951,12 +1285,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RepoBranchResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -964,7 +1299,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_branch_with_http_info(
+    async def get_workflow_repo_branch_with_http_info(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -1023,12 +1358,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RepoBranchResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1036,7 +1372,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_branch_without_preload_content(
+    async def get_workflow_repo_branch_without_preload_content(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -1095,12 +1431,121 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RepoBranchResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_repo_branch_sync(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RepoBranchResponse:
+        """Get Workflow Repo Branch Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_branch`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_branch(
+                definition_id=definition_id,
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_repo_branch_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RepoBranchResponse]:
+        """Get Workflow Repo Branch Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_branch_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_branch_with_http_info(
+                definition_id=definition_id,
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_repo_branch_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Repo Branch Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_branch_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_branch_without_preload_content(
+                definition_id=definition_id,
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_repo_branch_serialize(
@@ -1172,7 +1617,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_tree(
+    async def get_workflow_repo_tree(
         self,
         definition_id: UUID,
         commit: Optional[Annotated[str, Field(strict=True)]] = None,
@@ -1231,12 +1676,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RepoTreeResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1244,7 +1690,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_tree_with_http_info(
+    async def get_workflow_repo_tree_with_http_info(
         self,
         definition_id: UUID,
         commit: Optional[Annotated[str, Field(strict=True)]] = None,
@@ -1303,12 +1749,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RepoTreeResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1316,7 +1763,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def get_workflow_repo_tree_without_preload_content(
+    async def get_workflow_repo_tree_without_preload_content(
         self,
         definition_id: UUID,
         commit: Optional[Annotated[str, Field(strict=True)]] = None,
@@ -1375,12 +1822,121 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RepoTreeResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_repo_tree_sync(
+        self,
+        definition_id: UUID,
+        commit: Optional[Annotated[str, Field(strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RepoTreeResponse:
+        """Get Workflow Repo Tree Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_tree`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_tree(
+                definition_id=definition_id,
+                commit=commit,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_repo_tree_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        commit: Optional[Annotated[str, Field(strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RepoTreeResponse]:
+        """Get Workflow Repo Tree Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_tree_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_tree_with_http_info(
+                definition_id=definition_id,
+                commit=commit,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_repo_tree_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        commit: Optional[Annotated[str, Field(strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Repo Tree Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_repo_tree_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_repo_tree_without_preload_content(
+                definition_id=definition_id,
+                commit=commit,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_repo_tree_serialize(
@@ -1454,7 +2010,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def list_workflow_repo_versions(
+    async def list_workflow_repo_versions(
         self,
         definition_id: UUID,
         run_id: Annotated[Optional[UUID], Field(description="Only versions saved by this run")] = None,
@@ -1521,12 +2077,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseRepoVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1534,7 +2091,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def list_workflow_repo_versions_with_http_info(
+    async def list_workflow_repo_versions_with_http_info(
         self,
         definition_id: UUID,
         run_id: Annotated[Optional[UUID], Field(description="Only versions saved by this run")] = None,
@@ -1601,12 +2158,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseRepoVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1614,7 +2172,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def list_workflow_repo_versions_without_preload_content(
+    async def list_workflow_repo_versions_without_preload_content(
         self,
         definition_id: UUID,
         run_id: Annotated[Optional[UUID], Field(description="Only versions saved by this run")] = None,
@@ -1681,12 +2239,133 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseRepoVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_workflow_repo_versions_sync(
+        self,
+        definition_id: UUID,
+        run_id: Annotated[Optional[UUID], Field(description="Only versions saved by this run")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseRepoVersionResponse:
+        """List Workflow Repo Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_repo_versions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_repo_versions(
+                definition_id=definition_id,
+                run_id=run_id,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_repo_versions_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        run_id: Annotated[Optional[UUID], Field(description="Only versions saved by this run")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseRepoVersionResponse]:
+        """List Workflow Repo Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_repo_versions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_repo_versions_with_http_info(
+                definition_id=definition_id,
+                run_id=run_id,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_repo_versions_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        run_id: Annotated[Optional[UUID], Field(description="Only versions saved by this run")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Workflow Repo Versions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_repo_versions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_repo_versions_without_preload_content(
+                definition_id=definition_id,
+                run_id=run_id,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_workflow_repo_versions_serialize(
@@ -1770,7 +2449,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def record_workflow_repo_skipped_save(
+    async def record_workflow_repo_skipped_save(
         self,
         definition_id: UUID,
         record_repo_save_skip_request: RecordRepoSaveSkipRequest,
@@ -1829,12 +2508,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "EventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1842,7 +2522,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def record_workflow_repo_skipped_save_with_http_info(
+    async def record_workflow_repo_skipped_save_with_http_info(
         self,
         definition_id: UUID,
         record_repo_save_skip_request: RecordRepoSaveSkipRequest,
@@ -1901,12 +2581,13 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "EventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1914,7 +2595,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def record_workflow_repo_skipped_save_without_preload_content(
+    async def record_workflow_repo_skipped_save_without_preload_content(
         self,
         definition_id: UUID,
         record_repo_save_skip_request: RecordRepoSaveSkipRequest,
@@ -1973,12 +2654,121 @@ class WorkflowRepositoryApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "EventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def record_workflow_repo_skipped_save_sync(
+        self,
+        definition_id: UUID,
+        record_repo_save_skip_request: RecordRepoSaveSkipRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EventResponse:
+        """Record Workflow Repo Skipped Save Handler (synchronous)
+
+        Synchronous variant of :meth:`record_workflow_repo_skipped_save`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.record_workflow_repo_skipped_save(
+                definition_id=definition_id,
+                record_repo_save_skip_request=record_repo_save_skip_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def record_workflow_repo_skipped_save_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        record_repo_save_skip_request: RecordRepoSaveSkipRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EventResponse]:
+        """Record Workflow Repo Skipped Save Handler (synchronous)
+
+        Synchronous variant of :meth:`record_workflow_repo_skipped_save_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.record_workflow_repo_skipped_save_with_http_info(
+                definition_id=definition_id,
+                record_repo_save_skip_request=record_repo_save_skip_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def record_workflow_repo_skipped_save_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        record_repo_save_skip_request: RecordRepoSaveSkipRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Record Workflow Repo Skipped Save Handler (synchronous)
+
+        Synchronous variant of :meth:`record_workflow_repo_skipped_save_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.record_workflow_repo_skipped_save_without_preload_content(
+                definition_id=definition_id,
+                record_repo_save_skip_request=record_repo_save_skip_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _record_workflow_repo_skipped_save_serialize(
@@ -2063,7 +2853,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def save_workflow_repo_branch(
+    async def save_workflow_repo_branch(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -2135,12 +2925,13 @@ class WorkflowRepositoryApi:
             '201': "RepoBranchResponse",
             '200': "RepoBranchResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2148,7 +2939,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def save_workflow_repo_branch_with_http_info(
+    async def save_workflow_repo_branch_with_http_info(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -2220,12 +3011,13 @@ class WorkflowRepositoryApi:
             '201': "RepoBranchResponse",
             '200': "RepoBranchResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2233,7 +3025,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def save_workflow_repo_branch_without_preload_content(
+    async def save_workflow_repo_branch_without_preload_content(
         self,
         definition_id: UUID,
         run_id: UUID,
@@ -2305,12 +3097,139 @@ class WorkflowRepositoryApi:
             '201': "RepoBranchResponse",
             '200': "RepoBranchResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def save_workflow_repo_branch_sync(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of runs/<run-id>")],
+        expected_version_id: Annotated[Optional[UUID], Field(description="Previous retained version of this run branch")] = None,
+        base_version_id: Annotated[Optional[UUID], Field(description="Accepted main version this branch started from")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RepoBranchResponse:
+        """Save Workflow Repo Branch Handler (synchronous)
+
+        Synchronous variant of :meth:`save_workflow_repo_branch`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.save_workflow_repo_branch(
+                definition_id=definition_id,
+                run_id=run_id,
+                bundle=bundle,
+                expected_version_id=expected_version_id,
+                base_version_id=base_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def save_workflow_repo_branch_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of runs/<run-id>")],
+        expected_version_id: Annotated[Optional[UUID], Field(description="Previous retained version of this run branch")] = None,
+        base_version_id: Annotated[Optional[UUID], Field(description="Accepted main version this branch started from")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RepoBranchResponse]:
+        """Save Workflow Repo Branch Handler (synchronous)
+
+        Synchronous variant of :meth:`save_workflow_repo_branch_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.save_workflow_repo_branch_with_http_info(
+                definition_id=definition_id,
+                run_id=run_id,
+                bundle=bundle,
+                expected_version_id=expected_version_id,
+                base_version_id=base_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def save_workflow_repo_branch_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        run_id: UUID,
+        bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of runs/<run-id>")],
+        expected_version_id: Annotated[Optional[UUID], Field(description="Previous retained version of this run branch")] = None,
+        base_version_id: Annotated[Optional[UUID], Field(description="Accepted main version this branch started from")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Save Workflow Repo Branch Handler (synchronous)
+
+        Synchronous variant of :meth:`save_workflow_repo_branch_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.save_workflow_repo_branch_without_preload_content(
+                definition_id=definition_id,
+                run_id=run_id,
+                bundle=bundle,
+                expected_version_id=expected_version_id,
+                base_version_id=base_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _save_workflow_repo_branch_serialize(
@@ -2404,7 +3323,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def save_workflow_repo_version(
+    async def save_workflow_repo_version(
         self,
         definition_id: UUID,
         bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of main")],
@@ -2476,12 +3395,13 @@ class WorkflowRepositoryApi:
             '201': "RepoVersionResponse",
             '200': "RepoVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2489,7 +3409,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def save_workflow_repo_version_with_http_info(
+    async def save_workflow_repo_version_with_http_info(
         self,
         definition_id: UUID,
         bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of main")],
@@ -2561,12 +3481,13 @@ class WorkflowRepositoryApi:
             '201': "RepoVersionResponse",
             '200': "RepoVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2574,7 +3495,7 @@ class WorkflowRepositoryApi:
 
 
     @validate_call
-    def save_workflow_repo_version_without_preload_content(
+    async def save_workflow_repo_version_without_preload_content(
         self,
         definition_id: UUID,
         bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of main")],
@@ -2646,12 +3567,139 @@ class WorkflowRepositoryApi:
             '201': "RepoVersionResponse",
             '200': "RepoVersionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def save_workflow_repo_version_sync(
+        self,
+        definition_id: UUID,
+        bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of main")],
+        run_id: Annotated[UUID, Field(description="The run saving this version")],
+        expected_version_id: Annotated[Optional[UUID], Field(description="The version this save is based on; omit for the first save")] = None,
+        candidate_version_id: Annotated[Optional[UUID], Field(description="Retained run branch being integrated")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RepoVersionResponse:
+        """Save Workflow Repo Version Handler (synchronous)
+
+        Synchronous variant of :meth:`save_workflow_repo_version`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.save_workflow_repo_version(
+                definition_id=definition_id,
+                bundle=bundle,
+                run_id=run_id,
+                expected_version_id=expected_version_id,
+                candidate_version_id=candidate_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def save_workflow_repo_version_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of main")],
+        run_id: Annotated[UUID, Field(description="The run saving this version")],
+        expected_version_id: Annotated[Optional[UUID], Field(description="The version this save is based on; omit for the first save")] = None,
+        candidate_version_id: Annotated[Optional[UUID], Field(description="Retained run branch being integrated")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RepoVersionResponse]:
+        """Save Workflow Repo Version Handler (synchronous)
+
+        Synchronous variant of :meth:`save_workflow_repo_version_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.save_workflow_repo_version_with_http_info(
+                definition_id=definition_id,
+                bundle=bundle,
+                run_id=run_id,
+                expected_version_id=expected_version_id,
+                candidate_version_id=candidate_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def save_workflow_repo_version_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        bundle: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Full git bundle of main")],
+        run_id: Annotated[UUID, Field(description="The run saving this version")],
+        expected_version_id: Annotated[Optional[UUID], Field(description="The version this save is based on; omit for the first save")] = None,
+        candidate_version_id: Annotated[Optional[UUID], Field(description="Retained run branch being integrated")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Save Workflow Repo Version Handler (synchronous)
+
+        Synchronous variant of :meth:`save_workflow_repo_version_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.save_workflow_repo_version_without_preload_content(
+                definition_id=definition_id,
+                bundle=bundle,
+                run_id=run_id,
+                expected_version_id=expected_version_id,
+                candidate_version_id=candidate_version_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _save_workflow_repo_version_serialize(

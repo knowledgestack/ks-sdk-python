@@ -25,6 +25,7 @@ from ksapi.models.user_response import UserResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class UsersApi:
@@ -41,7 +42,7 @@ class UsersApi:
 
 
     @validate_call
-    def delete_my_avatar(
+    async def delete_my_avatar(
         self,
         _request_timeout: Union[
             None,
@@ -91,12 +92,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -104,7 +106,7 @@ class UsersApi:
 
 
     @validate_call
-    def delete_my_avatar_with_http_info(
+    async def delete_my_avatar_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -154,12 +156,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -167,7 +170,7 @@ class UsersApi:
 
 
     @validate_call
-    def delete_my_avatar_without_preload_content(
+    async def delete_my_avatar_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -217,12 +220,109 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_my_avatar_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Delete My Avatar Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_my_avatar`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_my_avatar(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_my_avatar_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Delete My Avatar Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_my_avatar_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_my_avatar_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_my_avatar_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete My Avatar Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_my_avatar_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_my_avatar_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_my_avatar_serialize(
@@ -288,7 +388,7 @@ class UsersApi:
 
 
     @validate_call
-    def get_me(
+    async def get_me(
         self,
         _request_timeout: Union[
             None,
@@ -338,12 +438,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -351,7 +452,7 @@ class UsersApi:
 
 
     @validate_call
-    def get_me_with_http_info(
+    async def get_me_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -401,12 +502,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -414,7 +516,7 @@ class UsersApi:
 
 
     @validate_call
-    def get_me_without_preload_content(
+    async def get_me_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -464,12 +566,109 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_me_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Get Me Handler (synchronous)
+
+        Synchronous variant of :meth:`get_me`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_me(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_me_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Get Me Handler (synchronous)
+
+        Synchronous variant of :meth:`get_me_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_me_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_me_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Me Handler (synchronous)
+
+        Synchronous variant of :meth:`get_me_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_me_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_me_serialize(
@@ -535,7 +734,7 @@ class UsersApi:
 
 
     @validate_call
-    def request_access(
+    async def request_access(
         self,
         _request_timeout: Union[
             None,
@@ -585,12 +784,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AccessRequestResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -598,7 +798,7 @@ class UsersApi:
 
 
     @validate_call
-    def request_access_with_http_info(
+    async def request_access_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -648,12 +848,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AccessRequestResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -661,7 +862,7 @@ class UsersApi:
 
 
     @validate_call
-    def request_access_without_preload_content(
+    async def request_access_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -711,12 +912,109 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AccessRequestResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def request_access_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AccessRequestResponse:
+        """Request Access Handler (synchronous)
+
+        Synchronous variant of :meth:`request_access`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.request_access(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def request_access_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AccessRequestResponse]:
+        """Request Access Handler (synchronous)
+
+        Synchronous variant of :meth:`request_access_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.request_access_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def request_access_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Request Access Handler (synchronous)
+
+        Synchronous variant of :meth:`request_access_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.request_access_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _request_access_serialize(
@@ -782,7 +1080,7 @@ class UsersApi:
 
 
     @validate_call
-    def skip_onboarding(
+    async def skip_onboarding(
         self,
         _request_timeout: Union[
             None,
@@ -832,12 +1130,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -845,7 +1144,7 @@ class UsersApi:
 
 
     @validate_call
-    def skip_onboarding_with_http_info(
+    async def skip_onboarding_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -895,12 +1194,13 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -908,7 +1208,7 @@ class UsersApi:
 
 
     @validate_call
-    def skip_onboarding_without_preload_content(
+    async def skip_onboarding_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -958,12 +1258,109 @@ class UsersApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def skip_onboarding_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Skip Onboarding Handler (synchronous)
+
+        Synchronous variant of :meth:`skip_onboarding`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.skip_onboarding(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def skip_onboarding_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Skip Onboarding Handler (synchronous)
+
+        Synchronous variant of :meth:`skip_onboarding_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.skip_onboarding_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def skip_onboarding_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Skip Onboarding Handler (synchronous)
+
+        Synchronous variant of :meth:`skip_onboarding_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.skip_onboarding_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _skip_onboarding_serialize(
@@ -1029,7 +1426,7 @@ class UsersApi:
 
 
     @validate_call
-    def update_me(
+    async def update_me(
         self,
         update_user_request: UpdateUserRequest,
         _request_timeout: Union[
@@ -1084,12 +1481,13 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1097,7 +1495,7 @@ class UsersApi:
 
 
     @validate_call
-    def update_me_with_http_info(
+    async def update_me_with_http_info(
         self,
         update_user_request: UpdateUserRequest,
         _request_timeout: Union[
@@ -1152,12 +1550,13 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1165,7 +1564,7 @@ class UsersApi:
 
 
     @validate_call
-    def update_me_without_preload_content(
+    async def update_me_without_preload_content(
         self,
         update_user_request: UpdateUserRequest,
         _request_timeout: Union[
@@ -1220,12 +1619,115 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_me_sync(
+        self,
+        update_user_request: UpdateUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Update Me Handler (synchronous)
+
+        Synchronous variant of :meth:`update_me`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_me(
+                update_user_request=update_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_me_sync_with_http_info(
+        self,
+        update_user_request: UpdateUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Update Me Handler (synchronous)
+
+        Synchronous variant of :meth:`update_me_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_me_with_http_info(
+                update_user_request=update_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_me_sync_without_preload_content(
+        self,
+        update_user_request: UpdateUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Me Handler (synchronous)
+
+        Synchronous variant of :meth:`update_me_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_me_without_preload_content(
+                update_user_request=update_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_me_serialize(
@@ -1307,7 +1809,7 @@ class UsersApi:
 
 
     @validate_call
-    def update_onboarding_state(
+    async def update_onboarding_state(
         self,
         onboarding_state_update: OnboardingStateUpdate,
         _request_timeout: Union[
@@ -1361,12 +1863,13 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1374,7 +1877,7 @@ class UsersApi:
 
 
     @validate_call
-    def update_onboarding_state_with_http_info(
+    async def update_onboarding_state_with_http_info(
         self,
         onboarding_state_update: OnboardingStateUpdate,
         _request_timeout: Union[
@@ -1428,12 +1931,13 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1441,7 +1945,7 @@ class UsersApi:
 
 
     @validate_call
-    def update_onboarding_state_without_preload_content(
+    async def update_onboarding_state_without_preload_content(
         self,
         onboarding_state_update: OnboardingStateUpdate,
         _request_timeout: Union[
@@ -1495,12 +1999,115 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_onboarding_state_sync(
+        self,
+        onboarding_state_update: OnboardingStateUpdate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Update Onboarding State Handler (synchronous)
+
+        Synchronous variant of :meth:`update_onboarding_state`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_onboarding_state(
+                onboarding_state_update=onboarding_state_update,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_onboarding_state_sync_with_http_info(
+        self,
+        onboarding_state_update: OnboardingStateUpdate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Update Onboarding State Handler (synchronous)
+
+        Synchronous variant of :meth:`update_onboarding_state_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_onboarding_state_with_http_info(
+                onboarding_state_update=onboarding_state_update,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_onboarding_state_sync_without_preload_content(
+        self,
+        onboarding_state_update: OnboardingStateUpdate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Onboarding State Handler (synchronous)
+
+        Synchronous variant of :meth:`update_onboarding_state_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_onboarding_state_without_preload_content(
+                onboarding_state_update=onboarding_state_update,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_onboarding_state_serialize(
@@ -1582,7 +2189,7 @@ class UsersApi:
 
 
     @validate_call
-    def upload_my_avatar(
+    async def upload_my_avatar(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         _request_timeout: Union[
@@ -1637,12 +2244,13 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1650,7 +2258,7 @@ class UsersApi:
 
 
     @validate_call
-    def upload_my_avatar_with_http_info(
+    async def upload_my_avatar_with_http_info(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         _request_timeout: Union[
@@ -1705,12 +2313,13 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1718,7 +2327,7 @@ class UsersApi:
 
 
     @validate_call
-    def upload_my_avatar_without_preload_content(
+    async def upload_my_avatar_without_preload_content(
         self,
         file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
         _request_timeout: Union[
@@ -1773,12 +2382,115 @@ class UsersApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UserResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def upload_my_avatar_sync(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserResponse:
+        """Upload My Avatar Handler (synchronous)
+
+        Synchronous variant of :meth:`upload_my_avatar`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_my_avatar(
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def upload_my_avatar_sync_with_http_info(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserResponse]:
+        """Upload My Avatar Handler (synchronous)
+
+        Synchronous variant of :meth:`upload_my_avatar_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_my_avatar_with_http_info(
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def upload_my_avatar_sync_without_preload_content(
+        self,
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Upload My Avatar Handler (synchronous)
+
+        Synchronous variant of :meth:`upload_my_avatar_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.upload_my_avatar_without_preload_content(
+                file=file,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _upload_my_avatar_serialize(

@@ -30,6 +30,7 @@ from ksapi.models.workflow_run_summary_response import WorkflowRunSummaryRespons
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class AdminWorkflowsApi:
@@ -46,7 +47,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_by_hour(
+    async def get_admin_workflow_by_hour(
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
@@ -113,12 +114,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "HourHistogramResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -126,7 +128,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_by_hour_with_http_info(
+    async def get_admin_workflow_by_hour_with_http_info(
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
@@ -193,12 +195,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "HourHistogramResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -206,7 +209,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_by_hour_without_preload_content(
+    async def get_admin_workflow_by_hour_without_preload_content(
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
@@ -273,12 +276,133 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "HourHistogramResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_workflow_by_hour_sync(
+        self,
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> HourHistogramResponse:
+        """Get Admin Workflow By Hour Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_by_hour`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_by_hour(
+                timezone=timezone,
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_by_hour_sync_with_http_info(
+        self,
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[HourHistogramResponse]:
+        """Get Admin Workflow By Hour Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_by_hour_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_by_hour_with_http_info(
+                timezone=timezone,
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_by_hour_sync_without_preload_content(
+        self,
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Workflow By Hour Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_by_hour_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_by_hour_without_preload_content(
+                timezone=timezone,
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_workflow_by_hour_serialize(
@@ -382,7 +506,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_leaderboard(
+    async def get_admin_workflow_leaderboard(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
@@ -445,12 +569,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowLeaderboardResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -458,7 +583,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_leaderboard_with_http_info(
+    async def get_admin_workflow_leaderboard_with_http_info(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
@@ -521,12 +646,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowLeaderboardResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -534,7 +660,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_leaderboard_without_preload_content(
+    async def get_admin_workflow_leaderboard_without_preload_content(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
@@ -597,12 +723,127 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowLeaderboardResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_workflow_leaderboard_sync(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowLeaderboardResponse:
+        """Get Admin Workflow Leaderboard Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_leaderboard`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_leaderboard(
+                limit=limit,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_leaderboard_sync_with_http_info(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowLeaderboardResponse]:
+        """Get Admin Workflow Leaderboard Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_leaderboard_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_leaderboard_with_http_info(
+                limit=limit,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_leaderboard_sync_without_preload_content(
+        self,
+        limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Workflow Leaderboard Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_leaderboard_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_leaderboard_without_preload_content(
+                limit=limit,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_workflow_leaderboard_serialize(
@@ -701,7 +942,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_output_stats(
+    async def get_admin_workflow_output_stats(
         self,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
         until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
@@ -760,12 +1001,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowOutputStatsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -773,7 +1015,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_output_stats_with_http_info(
+    async def get_admin_workflow_output_stats_with_http_info(
         self,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
         until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
@@ -832,12 +1074,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowOutputStatsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -845,7 +1088,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_output_stats_without_preload_content(
+    async def get_admin_workflow_output_stats_without_preload_content(
         self,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
         until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
@@ -904,12 +1147,121 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowOutputStatsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_workflow_output_stats_sync(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowOutputStatsResponse:
+        """Get Admin Workflow Output Stats Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_output_stats`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_output_stats(
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_output_stats_sync_with_http_info(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowOutputStatsResponse]:
+        """Get Admin Workflow Output Stats Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_output_stats_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_output_stats_with_http_info(
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_output_stats_sync_without_preload_content(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Workflow Output Stats Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_output_stats_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_output_stats_without_preload_content(
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_workflow_output_stats_serialize(
@@ -1003,7 +1355,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_summary(
+    async def get_admin_workflow_summary(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
@@ -1066,12 +1418,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1079,7 +1432,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_summary_with_http_info(
+    async def get_admin_workflow_summary_with_http_info(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
@@ -1142,12 +1495,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1155,7 +1509,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_summary_without_preload_content(
+    async def get_admin_workflow_summary_without_preload_content(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
@@ -1218,12 +1572,127 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_workflow_summary_sync(
+        self,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunSummaryResponse:
+        """Get Admin Workflow Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_summary`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_summary(
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_summary_sync_with_http_info(
+        self,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunSummaryResponse]:
+        """Get Admin Workflow Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_summary_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_summary_with_http_info(
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_summary_sync_without_preload_content(
+        self,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Workflow Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_summary_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_summary_without_preload_content(
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_workflow_summary_serialize(
@@ -1322,7 +1791,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_timeseries(
+    async def get_admin_workflow_timeseries(
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
@@ -1393,12 +1862,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RunTimeseriesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1406,7 +1876,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_timeseries_with_http_info(
+    async def get_admin_workflow_timeseries_with_http_info(
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
@@ -1477,12 +1947,13 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RunTimeseriesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1490,7 +1961,7 @@ class AdminWorkflowsApi:
 
 
     @validate_call
-    def get_admin_workflow_timeseries_without_preload_content(
+    async def get_admin_workflow_timeseries_without_preload_content(
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
@@ -1561,12 +2032,139 @@ class AdminWorkflowsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "RunTimeseriesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_workflow_timeseries_sync(
+        self,
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RunTimeseriesResponse:
+        """Get Admin Workflow Timeseries Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_timeseries`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_timeseries(
+                timezone=timezone,
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                bucket=bucket,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_timeseries_sync_with_http_info(
+        self,
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RunTimeseriesResponse]:
+        """Get Admin Workflow Timeseries Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_timeseries_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_timeseries_with_http_info(
+                timezone=timezone,
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                bucket=bucket,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_workflow_timeseries_sync_without_preload_content(
+        self,
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Workflow Timeseries Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_workflow_timeseries_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_workflow_timeseries_without_preload_content(
+                timezone=timezone,
+                definition_id=definition_id,
+                since=since,
+                until=until,
+                bucket=bucket,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_workflow_timeseries_serialize(

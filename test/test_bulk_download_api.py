@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.bulk_download_api import BulkDownloadApi
 
 
-class TestBulkDownloadApi(unittest.TestCase):
+class TestBulkDownloadApi(unittest.IsolatedAsyncioTestCase):
     """BulkDownloadApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = BulkDownloadApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_start_bulk_download(self) -> None:
+        """Test case for start_bulk_download
+
+        Start Bulk Download Handler
+        """
         pass
 
-    def test_start_bulk_download(self) -> None:
-        """Test case for start_bulk_download
+    def test_start_bulk_download_sync(self) -> None:
+        """Test case for start_bulk_download (synchronous)
 
         Start Bulk Download Handler
         """

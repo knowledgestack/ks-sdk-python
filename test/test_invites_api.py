@@ -17,52 +17,94 @@ import unittest
 from ksapi.api.invites_api import InvitesApi
 
 
-class TestInvitesApi(unittest.TestCase):
+class TestInvitesApi(unittest.IsolatedAsyncioTestCase):
     """InvitesApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = InvitesApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_accept_invite(self) -> None:
+    async def test_accept_invite(self) -> None:
         """Test case for accept_invite
 
         Accept Invite
         """
         pass
 
-    def test_create_invite(self) -> None:
+    def test_accept_invite_sync(self) -> None:
+        """Test case for accept_invite (synchronous)
+
+        Accept Invite
+        """
+        pass
+
+    async def test_create_invite(self) -> None:
         """Test case for create_invite
 
         Create Invite
         """
         pass
 
-    def test_delete_invite(self) -> None:
+    def test_create_invite_sync(self) -> None:
+        """Test case for create_invite (synchronous)
+
+        Create Invite
+        """
+        pass
+
+    async def test_delete_invite(self) -> None:
         """Test case for delete_invite
 
         Delete Invite
         """
         pass
 
-    def test_list_invites(self) -> None:
+    def test_delete_invite_sync(self) -> None:
+        """Test case for delete_invite (synchronous)
+
+        Delete Invite
+        """
+        pass
+
+    async def test_list_invites(self) -> None:
         """Test case for list_invites
 
         List Invites Handler
         """
         pass
 
-    def test_preview_invite(self) -> None:
+    def test_list_invites_sync(self) -> None:
+        """Test case for list_invites (synchronous)
+
+        List Invites Handler
+        """
+        pass
+
+    async def test_preview_invite(self) -> None:
         """Test case for preview_invite
 
         Preview Invite Handler
         """
         pass
 
-    def test_update_invite(self) -> None:
+    def test_preview_invite_sync(self) -> None:
+        """Test case for preview_invite (synchronous)
+
+        Preview Invite Handler
+        """
+        pass
+
+    async def test_update_invite(self) -> None:
         """Test case for update_invite
+
+        Update Invite Handler
+        """
+        pass
+
+    def test_update_invite_sync(self) -> None:
+        """Test case for update_invite (synchronous)
 
         Update Invite Handler
         """

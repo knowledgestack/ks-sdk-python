@@ -23,6 +23,7 @@ from ksapi.models.tenant_subscription_response import TenantSubscriptionResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class SubscriptionsApi:
@@ -39,7 +40,7 @@ class SubscriptionsApi:
 
 
     @validate_call
-    def change_tenant_subscription(
+    async def change_tenant_subscription(
         self,
         tenant_id: UUID,
         change_subscription_request: ChangeSubscriptionRequest,
@@ -98,12 +99,13 @@ class SubscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "CheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -111,7 +113,7 @@ class SubscriptionsApi:
 
 
     @validate_call
-    def change_tenant_subscription_with_http_info(
+    async def change_tenant_subscription_with_http_info(
         self,
         tenant_id: UUID,
         change_subscription_request: ChangeSubscriptionRequest,
@@ -170,12 +172,13 @@ class SubscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "CheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -183,7 +186,7 @@ class SubscriptionsApi:
 
 
     @validate_call
-    def change_tenant_subscription_without_preload_content(
+    async def change_tenant_subscription_without_preload_content(
         self,
         tenant_id: UUID,
         change_subscription_request: ChangeSubscriptionRequest,
@@ -242,12 +245,121 @@ class SubscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "CheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def change_tenant_subscription_sync(
+        self,
+        tenant_id: UUID,
+        change_subscription_request: ChangeSubscriptionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CheckoutResponse:
+        """Change Tenant Subscription Handler (synchronous)
+
+        Synchronous variant of :meth:`change_tenant_subscription`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.change_tenant_subscription(
+                tenant_id=tenant_id,
+                change_subscription_request=change_subscription_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def change_tenant_subscription_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        change_subscription_request: ChangeSubscriptionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CheckoutResponse]:
+        """Change Tenant Subscription Handler (synchronous)
+
+        Synchronous variant of :meth:`change_tenant_subscription_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.change_tenant_subscription_with_http_info(
+                tenant_id=tenant_id,
+                change_subscription_request=change_subscription_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def change_tenant_subscription_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        change_subscription_request: ChangeSubscriptionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Change Tenant Subscription Handler (synchronous)
+
+        Synchronous variant of :meth:`change_tenant_subscription_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.change_tenant_subscription_without_preload_content(
+                tenant_id=tenant_id,
+                change_subscription_request=change_subscription_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _change_tenant_subscription_serialize(
@@ -332,7 +444,7 @@ class SubscriptionsApi:
 
 
     @validate_call
-    def get_tenant_subscription(
+    async def get_tenant_subscription(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -387,12 +499,13 @@ class SubscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantSubscriptionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -400,7 +513,7 @@ class SubscriptionsApi:
 
 
     @validate_call
-    def get_tenant_subscription_with_http_info(
+    async def get_tenant_subscription_with_http_info(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -455,12 +568,13 @@ class SubscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantSubscriptionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -468,7 +582,7 @@ class SubscriptionsApi:
 
 
     @validate_call
-    def get_tenant_subscription_without_preload_content(
+    async def get_tenant_subscription_without_preload_content(
         self,
         tenant_id: UUID,
         _request_timeout: Union[
@@ -523,12 +637,115 @@ class SubscriptionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TenantSubscriptionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_tenant_subscription_sync(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TenantSubscriptionResponse:
+        """Get Tenant Subscription Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_subscription`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_subscription(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_subscription_sync_with_http_info(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TenantSubscriptionResponse]:
+        """Get Tenant Subscription Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_subscription_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_subscription_with_http_info(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_subscription_sync_without_preload_content(
+        self,
+        tenant_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Tenant Subscription Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_subscription_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_subscription_without_preload_content(
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_tenant_subscription_serialize(

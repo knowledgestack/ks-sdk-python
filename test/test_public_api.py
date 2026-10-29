@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.public_api import PublicApi
 
 
-class TestPublicApi(unittest.TestCase):
+class TestPublicApi(unittest.IsolatedAsyncioTestCase):
     """PublicApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = PublicApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_list_public_subscriptions(self) -> None:
+        """Test case for list_public_subscriptions
+
+        List Public Subscriptions Handler
+        """
         pass
 
-    def test_list_public_subscriptions(self) -> None:
-        """Test case for list_public_subscriptions
+    def test_list_public_subscriptions_sync(self) -> None:
+        """Test case for list_public_subscriptions (synchronous)
 
         List Public Subscriptions Handler
         """

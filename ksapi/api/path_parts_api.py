@@ -40,6 +40,7 @@ from ksapi.models.transfer_owner_response import TransferOwnerResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class PathPartsApi:
@@ -56,7 +57,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def append_path_part_event(
+    async def append_path_part_event(
         self,
         path_part_id: UUID,
         append_event_request: AppendEventRequest,
@@ -115,12 +116,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "EventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -128,7 +130,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def append_path_part_event_with_http_info(
+    async def append_path_part_event_with_http_info(
         self,
         path_part_id: UUID,
         append_event_request: AppendEventRequest,
@@ -187,12 +189,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "EventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -200,7 +203,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def append_path_part_event_without_preload_content(
+    async def append_path_part_event_without_preload_content(
         self,
         path_part_id: UUID,
         append_event_request: AppendEventRequest,
@@ -259,12 +262,121 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "EventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def append_path_part_event_sync(
+        self,
+        path_part_id: UUID,
+        append_event_request: AppendEventRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EventResponse:
+        """Append Path Part Event Handler (synchronous)
+
+        Synchronous variant of :meth:`append_path_part_event`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.append_path_part_event(
+                path_part_id=path_part_id,
+                append_event_request=append_event_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def append_path_part_event_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        append_event_request: AppendEventRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EventResponse]:
+        """Append Path Part Event Handler (synchronous)
+
+        Synchronous variant of :meth:`append_path_part_event_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.append_path_part_event_with_http_info(
+                path_part_id=path_part_id,
+                append_event_request=append_event_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def append_path_part_event_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        append_event_request: AppendEventRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Append Path Part Event Handler (synchronous)
+
+        Synchronous variant of :meth:`append_path_part_event_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.append_path_part_event_without_preload_content(
+                path_part_id=path_part_id,
+                append_event_request=append_event_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _append_path_part_event_serialize(
@@ -349,7 +461,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def bulk_remove_path_part_tags(
+    async def bulk_remove_path_part_tags(
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
@@ -408,12 +520,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -421,7 +534,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def bulk_remove_path_part_tags_with_http_info(
+    async def bulk_remove_path_part_tags_with_http_info(
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
@@ -480,12 +593,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -493,7 +607,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def bulk_remove_path_part_tags_without_preload_content(
+    async def bulk_remove_path_part_tags_without_preload_content(
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
@@ -552,12 +666,121 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_remove_path_part_tags_sync(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartTagsResponse:
+        """Bulk Remove Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_remove_path_part_tags`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_remove_path_part_tags(
+                path_part_id=path_part_id,
+                bulk_tag_request=bulk_tag_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_remove_path_part_tags_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartTagsResponse]:
+        """Bulk Remove Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_remove_path_part_tags_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_remove_path_part_tags_with_http_info(
+                path_part_id=path_part_id,
+                bulk_tag_request=bulk_tag_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_remove_path_part_tags_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Remove Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_remove_path_part_tags_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_remove_path_part_tags_without_preload_content(
+                path_part_id=path_part_id,
+                bulk_tag_request=bulk_tag_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_remove_path_part_tags_serialize(
@@ -642,7 +865,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def check_path_part_access(
+    async def check_path_part_access(
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
@@ -705,12 +928,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AccessCheckResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -718,7 +942,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def check_path_part_access_with_http_info(
+    async def check_path_part_access_with_http_info(
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
@@ -781,12 +1005,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AccessCheckResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -794,7 +1019,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def check_path_part_access_without_preload_content(
+    async def check_path_part_access_without_preload_content(
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
@@ -857,12 +1082,127 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AccessCheckResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def check_path_part_access_sync(
+        self,
+        path_part_id: UUID,
+        user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
+        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AccessCheckResponse:
+        """Check Path Part Access Handler (synchronous)
+
+        Synchronous variant of :meth:`check_path_part_access`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.check_path_part_access(
+                path_part_id=path_part_id,
+                user_id=user_id,
+                capability=capability,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def check_path_part_access_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
+        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AccessCheckResponse]:
+        """Check Path Part Access Handler (synchronous)
+
+        Synchronous variant of :meth:`check_path_part_access_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.check_path_part_access_with_http_info(
+                path_part_id=path_part_id,
+                user_id=user_id,
+                capability=capability,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def check_path_part_access_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
+        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Check Path Part Access Handler (synchronous)
+
+        Synchronous variant of :meth:`check_path_part_access_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.check_path_part_access_without_preload_content(
+                path_part_id=path_part_id,
+                user_id=user_id,
+                capability=capability,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _check_path_part_access_serialize(
@@ -941,7 +1281,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part(
+    async def get_path_part(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -996,12 +1336,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1009,7 +1350,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_with_http_info(
+    async def get_path_part_with_http_info(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1064,12 +1405,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1077,7 +1419,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_without_preload_content(
+    async def get_path_part_without_preload_content(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1132,12 +1474,115 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_path_part_sync(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartResponse:
+        """Get Path Part Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartResponse]:
+        """Get Path Part Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Path Part Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_path_part_serialize(
@@ -1206,7 +1651,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_ancestry(
+    async def get_path_part_ancestry(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1261,12 +1706,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AncestryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1274,7 +1720,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_ancestry_with_http_info(
+    async def get_path_part_ancestry_with_http_info(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1329,12 +1775,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AncestryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1342,7 +1789,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_ancestry_without_preload_content(
+    async def get_path_part_ancestry_without_preload_content(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1397,12 +1844,115 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AncestryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_path_part_ancestry_sync(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AncestryResponse:
+        """Get Path Part Ancestry Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_ancestry`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_ancestry(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_ancestry_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AncestryResponse]:
+        """Get Path Part Ancestry Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_ancestry_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_ancestry_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_ancestry_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Path Part Ancestry Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_ancestry_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_ancestry_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_path_part_ancestry_serialize(
@@ -1471,7 +2021,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_subtree_chunks(
+    async def get_path_part_subtree_chunks(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1526,12 +2076,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SubtreeChunksResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1539,7 +2090,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_subtree_chunks_with_http_info(
+    async def get_path_part_subtree_chunks_with_http_info(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1594,12 +2145,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SubtreeChunksResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1607,7 +2159,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_subtree_chunks_without_preload_content(
+    async def get_path_part_subtree_chunks_without_preload_content(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -1662,12 +2214,115 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SubtreeChunksResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_path_part_subtree_chunks_sync(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SubtreeChunksResponse:
+        """Get Path Part Subtree Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_subtree_chunks`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_subtree_chunks(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_subtree_chunks_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SubtreeChunksResponse]:
+        """Get Path Part Subtree Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_subtree_chunks_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_subtree_chunks_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_subtree_chunks_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Path Part Subtree Chunks Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_subtree_chunks_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_subtree_chunks_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_path_part_subtree_chunks_serialize(
@@ -1736,7 +2391,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_tags(
+    async def get_path_part_tags(
         self,
         path_part_id: UUID,
         include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
@@ -1795,12 +2450,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1808,7 +2464,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_tags_with_http_info(
+    async def get_path_part_tags_with_http_info(
         self,
         path_part_id: UUID,
         include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
@@ -1867,12 +2523,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1880,7 +2537,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def get_path_part_tags_without_preload_content(
+    async def get_path_part_tags_without_preload_content(
         self,
         path_part_id: UUID,
         include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
@@ -1939,12 +2596,121 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_path_part_tags_sync(
+        self,
+        path_part_id: UUID,
+        include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartTagsResponse:
+        """Get Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_tags`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_tags(
+                path_part_id=path_part_id,
+                include_inherited=include_inherited,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_tags_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartTagsResponse]:
+        """Get Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_tags_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_tags_with_http_info(
+                path_part_id=path_part_id,
+                include_inherited=include_inherited,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_tags_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        include_inherited: Annotated[Optional[StrictBool], Field(description="Include tags inherited from ancestor path parts")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_tags_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_tags_without_preload_content(
+                path_part_id=path_part_id,
+                include_inherited=include_inherited,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_path_part_tags_serialize(
@@ -2018,7 +2784,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def list_path_part_events(
+    async def list_path_part_events(
         self,
         path_part_id: UUID,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
@@ -2101,12 +2867,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2114,7 +2881,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def list_path_part_events_with_http_info(
+    async def list_path_part_events_with_http_info(
         self,
         path_part_id: UUID,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
@@ -2197,12 +2964,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2210,7 +2978,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def list_path_part_events_without_preload_content(
+    async def list_path_part_events_without_preload_content(
         self,
         path_part_id: UUID,
         kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
@@ -2293,12 +3061,157 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseEventResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_path_part_events_sync(
+        self,
+        path_part_id: UUID,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseEventResponse:
+        """List Path Part Events Handler (synchronous)
+
+        Synchronous variant of :meth:`list_path_part_events`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_path_part_events(
+                path_part_id=path_part_id,
+                kind=kind,
+                since=since,
+                until=until,
+                recursive=recursive,
+                include_churn=include_churn,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_path_part_events_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseEventResponse]:
+        """List Path Part Events Handler (synchronous)
+
+        Synchronous variant of :meth:`list_path_part_events_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_path_part_events_with_http_info(
+                path_part_id=path_part_id,
+                kind=kind,
+                since=since,
+                until=until,
+                recursive=recursive,
+                include_churn=include_churn,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_path_part_events_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
+        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
+        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
+        include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Path Part Events Handler (synchronous)
+
+        Synchronous variant of :meth:`list_path_part_events_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_path_part_events_without_preload_content(
+                path_part_id=path_part_id,
+                kind=kind,
+                since=since,
+                until=until,
+                recursive=recursive,
+                include_churn=include_churn,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_path_part_events_serialize(
@@ -2420,7 +3333,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def list_path_parts(
+    async def list_path_parts(
         self,
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
@@ -2511,12 +3424,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2524,7 +3438,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def list_path_parts_with_http_info(
+    async def list_path_parts_with_http_info(
         self,
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
@@ -2615,12 +3529,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2628,7 +3543,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def list_path_parts_without_preload_content(
+    async def list_path_parts_without_preload_content(
         self,
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
@@ -2719,12 +3634,169 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_path_parts_sync(
+        self,
+        parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponsePathPartResponse:
+        """List Path Parts Handler (synchronous)
+
+        Synchronous variant of :meth:`list_path_parts`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_path_parts(
+                parent_path_id=parent_path_id,
+                max_depth=max_depth,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_path_parts_sync_with_http_info(
+        self,
+        parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponsePathPartResponse]:
+        """List Path Parts Handler (synchronous)
+
+        Synchronous variant of :meth:`list_path_parts_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_path_parts_with_http_info(
+                parent_path_id=parent_path_id,
+                max_depth=max_depth,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_path_parts_sync_without_preload_content(
+        self,
+        parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
+        max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Path Parts Handler (synchronous)
+
+        Synchronous variant of :meth:`list_path_parts_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_path_parts_without_preload_content(
+                parent_path_id=parent_path_id,
+                max_depth=max_depth,
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_path_parts_serialize(
@@ -2876,7 +3948,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def reorder_path_part(
+    async def reorder_path_part(
         self,
         path_part_id: UUID,
         reorder_path_part_request: ReorderPathPartRequest,
@@ -2935,12 +4007,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2948,7 +4021,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def reorder_path_part_with_http_info(
+    async def reorder_path_part_with_http_info(
         self,
         path_part_id: UUID,
         reorder_path_part_request: ReorderPathPartRequest,
@@ -3007,12 +4080,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3020,7 +4094,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def reorder_path_part_without_preload_content(
+    async def reorder_path_part_without_preload_content(
         self,
         path_part_id: UUID,
         reorder_path_part_request: ReorderPathPartRequest,
@@ -3079,12 +4153,121 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def reorder_path_part_sync(
+        self,
+        path_part_id: UUID,
+        reorder_path_part_request: ReorderPathPartRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartResponse:
+        """Reorder Path Part Handler (synchronous)
+
+        Synchronous variant of :meth:`reorder_path_part`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reorder_path_part(
+                path_part_id=path_part_id,
+                reorder_path_part_request=reorder_path_part_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reorder_path_part_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        reorder_path_part_request: ReorderPathPartRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartResponse]:
+        """Reorder Path Part Handler (synchronous)
+
+        Synchronous variant of :meth:`reorder_path_part_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reorder_path_part_with_http_info(
+                path_part_id=path_part_id,
+                reorder_path_part_request=reorder_path_part_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def reorder_path_part_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        reorder_path_part_request: ReorderPathPartRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reorder Path Part Handler (synchronous)
+
+        Synchronous variant of :meth:`reorder_path_part_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.reorder_path_part_without_preload_content(
+                path_part_id=path_part_id,
+                reorder_path_part_request=reorder_path_part_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _reorder_path_part_serialize(
@@ -3169,7 +4352,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def set_path_part_tags(
+    async def set_path_part_tags(
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
@@ -3228,12 +4411,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3241,7 +4425,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def set_path_part_tags_with_http_info(
+    async def set_path_part_tags_with_http_info(
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
@@ -3300,12 +4484,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3313,7 +4498,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def set_path_part_tags_without_preload_content(
+    async def set_path_part_tags_without_preload_content(
         self,
         path_part_id: UUID,
         bulk_tag_request: BulkTagRequest,
@@ -3372,12 +4557,121 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartTagsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def set_path_part_tags_sync(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartTagsResponse:
+        """Set Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`set_path_part_tags`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_path_part_tags(
+                path_part_id=path_part_id,
+                bulk_tag_request=bulk_tag_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def set_path_part_tags_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartTagsResponse]:
+        """Set Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`set_path_part_tags_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_path_part_tags_with_http_info(
+                path_part_id=path_part_id,
+                bulk_tag_request=bulk_tag_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def set_path_part_tags_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        bulk_tag_request: BulkTagRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Set Path Part Tags Handler (synchronous)
+
+        Synchronous variant of :meth:`set_path_part_tags_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_path_part_tags_without_preload_content(
+                path_part_id=path_part_id,
+                bulk_tag_request=bulk_tag_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _set_path_part_tags_serialize(
@@ -3462,7 +4756,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def transfer_path_part_owner(
+    async def transfer_path_part_owner(
         self,
         path_part_id: UUID,
         transfer_owner_request: TransferOwnerRequest,
@@ -3521,12 +4815,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TransferOwnerResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3534,7 +4829,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def transfer_path_part_owner_with_http_info(
+    async def transfer_path_part_owner_with_http_info(
         self,
         path_part_id: UUID,
         transfer_owner_request: TransferOwnerRequest,
@@ -3593,12 +4888,13 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TransferOwnerResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3606,7 +4902,7 @@ class PathPartsApi:
 
 
     @validate_call
-    def transfer_path_part_owner_without_preload_content(
+    async def transfer_path_part_owner_without_preload_content(
         self,
         path_part_id: UUID,
         transfer_owner_request: TransferOwnerRequest,
@@ -3665,12 +4961,121 @@ class PathPartsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TransferOwnerResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def transfer_path_part_owner_sync(
+        self,
+        path_part_id: UUID,
+        transfer_owner_request: TransferOwnerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TransferOwnerResponse:
+        """Transfer Path Part Owner Handler (synchronous)
+
+        Synchronous variant of :meth:`transfer_path_part_owner`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.transfer_path_part_owner(
+                path_part_id=path_part_id,
+                transfer_owner_request=transfer_owner_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def transfer_path_part_owner_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        transfer_owner_request: TransferOwnerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TransferOwnerResponse]:
+        """Transfer Path Part Owner Handler (synchronous)
+
+        Synchronous variant of :meth:`transfer_path_part_owner_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.transfer_path_part_owner_with_http_info(
+                path_part_id=path_part_id,
+                transfer_owner_request=transfer_owner_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def transfer_path_part_owner_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        transfer_owner_request: TransferOwnerRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Transfer Path Part Owner Handler (synchronous)
+
+        Synchronous variant of :meth:`transfer_path_part_owner_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.transfer_path_part_owner_without_preload_content(
+                path_part_id=path_part_id,
+                transfer_owner_request=transfer_owner_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _transfer_path_part_owner_serialize(

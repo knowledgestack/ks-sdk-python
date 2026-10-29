@@ -27,6 +27,7 @@ from ksapi.models.update_section_request import UpdateSectionRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class SectionsApi:
@@ -43,7 +44,7 @@ class SectionsApi:
 
 
     @validate_call
-    def create_section(
+    async def create_section(
         self,
         create_section_request: CreateSectionRequest,
         _request_timeout: Union[
@@ -98,12 +99,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -111,7 +113,7 @@ class SectionsApi:
 
 
     @validate_call
-    def create_section_with_http_info(
+    async def create_section_with_http_info(
         self,
         create_section_request: CreateSectionRequest,
         _request_timeout: Union[
@@ -166,12 +168,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -179,7 +182,7 @@ class SectionsApi:
 
 
     @validate_call
-    def create_section_without_preload_content(
+    async def create_section_without_preload_content(
         self,
         create_section_request: CreateSectionRequest,
         _request_timeout: Union[
@@ -234,12 +237,115 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_section_sync(
+        self,
+        create_section_request: CreateSectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SectionResponse:
+        """Create Section Handler (synchronous)
+
+        Synchronous variant of :meth:`create_section`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_section(
+                create_section_request=create_section_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_section_sync_with_http_info(
+        self,
+        create_section_request: CreateSectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SectionResponse]:
+        """Create Section Handler (synchronous)
+
+        Synchronous variant of :meth:`create_section_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_section_with_http_info(
+                create_section_request=create_section_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_section_sync_without_preload_content(
+        self,
+        create_section_request: CreateSectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Section Handler (synchronous)
+
+        Synchronous variant of :meth:`create_section_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_section_without_preload_content(
+                create_section_request=create_section_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_section_serialize(
@@ -321,7 +427,7 @@ class SectionsApi:
 
 
     @validate_call
-    def delete_section(
+    async def delete_section(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -376,12 +482,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -389,7 +496,7 @@ class SectionsApi:
 
 
     @validate_call
-    def delete_section_with_http_info(
+    async def delete_section_with_http_info(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -444,12 +551,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -457,7 +565,7 @@ class SectionsApi:
 
 
     @validate_call
-    def delete_section_without_preload_content(
+    async def delete_section_without_preload_content(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -512,12 +620,115 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_section_sync(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Section Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_section`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_section(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_section_sync_with_http_info(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Section Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_section_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_section_with_http_info(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_section_sync_without_preload_content(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Section Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_section_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_section_without_preload_content(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_section_serialize(
@@ -586,7 +797,7 @@ class SectionsApi:
 
 
     @validate_call
-    def dissolve_section(
+    async def dissolve_section(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -641,12 +852,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DissolveSectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -654,7 +866,7 @@ class SectionsApi:
 
 
     @validate_call
-    def dissolve_section_with_http_info(
+    async def dissolve_section_with_http_info(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -709,12 +921,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DissolveSectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -722,7 +935,7 @@ class SectionsApi:
 
 
     @validate_call
-    def dissolve_section_without_preload_content(
+    async def dissolve_section_without_preload_content(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -777,12 +990,115 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DissolveSectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def dissolve_section_sync(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DissolveSectionResponse:
+        """Dissolve Section Handler (synchronous)
+
+        Synchronous variant of :meth:`dissolve_section`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.dissolve_section(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def dissolve_section_sync_with_http_info(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DissolveSectionResponse]:
+        """Dissolve Section Handler (synchronous)
+
+        Synchronous variant of :meth:`dissolve_section_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.dissolve_section_with_http_info(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def dissolve_section_sync_without_preload_content(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Dissolve Section Handler (synchronous)
+
+        Synchronous variant of :meth:`dissolve_section_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.dissolve_section_without_preload_content(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _dissolve_section_serialize(
@@ -851,7 +1167,7 @@ class SectionsApi:
 
 
     @validate_call
-    def get_section(
+    async def get_section(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -906,12 +1222,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -919,7 +1236,7 @@ class SectionsApi:
 
 
     @validate_call
-    def get_section_with_http_info(
+    async def get_section_with_http_info(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -974,12 +1291,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -987,7 +1305,7 @@ class SectionsApi:
 
 
     @validate_call
-    def get_section_without_preload_content(
+    async def get_section_without_preload_content(
         self,
         section_id: UUID,
         _request_timeout: Union[
@@ -1042,12 +1360,115 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_section_sync(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SectionResponse:
+        """Get Section Handler (synchronous)
+
+        Synchronous variant of :meth:`get_section`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_section(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_section_sync_with_http_info(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SectionResponse]:
+        """Get Section Handler (synchronous)
+
+        Synchronous variant of :meth:`get_section_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_section_with_http_info(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_section_sync_without_preload_content(
+        self,
+        section_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Section Handler (synchronous)
+
+        Synchronous variant of :meth:`get_section_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_section_without_preload_content(
+                section_id=section_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_section_serialize(
@@ -1116,7 +1537,7 @@ class SectionsApi:
 
 
     @validate_call
-    def get_sections_bulk(
+    async def get_sections_bulk(
         self,
         section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
         _request_timeout: Union[
@@ -1171,12 +1592,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[SectionResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1184,7 +1606,7 @@ class SectionsApi:
 
 
     @validate_call
-    def get_sections_bulk_with_http_info(
+    async def get_sections_bulk_with_http_info(
         self,
         section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
         _request_timeout: Union[
@@ -1239,12 +1661,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[SectionResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1252,7 +1675,7 @@ class SectionsApi:
 
 
     @validate_call
-    def get_sections_bulk_without_preload_content(
+    async def get_sections_bulk_without_preload_content(
         self,
         section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
         _request_timeout: Union[
@@ -1307,12 +1730,115 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[SectionResponse]",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_sections_bulk_sync(
+        self,
+        section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[SectionResponse]:
+        """Get Sections Bulk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_sections_bulk`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_sections_bulk(
+                section_ids=section_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_sections_bulk_sync_with_http_info(
+        self,
+        section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[SectionResponse]]:
+        """Get Sections Bulk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_sections_bulk_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_sections_bulk_with_http_info(
+                section_ids=section_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_sections_bulk_sync_without_preload_content(
+        self,
+        section_ids: Annotated[Optional[List[UUID]], Field(description="Section IDs to fetch (max 200)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Sections Bulk Handler (synchronous)
+
+        Synchronous variant of :meth:`get_sections_bulk_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_sections_bulk_without_preload_content(
+                section_ids=section_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_sections_bulk_serialize(
@@ -1384,7 +1910,7 @@ class SectionsApi:
 
 
     @validate_call
-    def update_section(
+    async def update_section(
         self,
         section_id: UUID,
         update_section_request: UpdateSectionRequest,
@@ -1443,12 +1969,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1456,7 +1983,7 @@ class SectionsApi:
 
 
     @validate_call
-    def update_section_with_http_info(
+    async def update_section_with_http_info(
         self,
         section_id: UUID,
         update_section_request: UpdateSectionRequest,
@@ -1515,12 +2042,13 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1528,7 +2056,7 @@ class SectionsApi:
 
 
     @validate_call
-    def update_section_without_preload_content(
+    async def update_section_without_preload_content(
         self,
         section_id: UUID,
         update_section_request: UpdateSectionRequest,
@@ -1587,12 +2115,121 @@ class SectionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SectionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_section_sync(
+        self,
+        section_id: UUID,
+        update_section_request: UpdateSectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SectionResponse:
+        """Update Section Handler (synchronous)
+
+        Synchronous variant of :meth:`update_section`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_section(
+                section_id=section_id,
+                update_section_request=update_section_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_section_sync_with_http_info(
+        self,
+        section_id: UUID,
+        update_section_request: UpdateSectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SectionResponse]:
+        """Update Section Handler (synchronous)
+
+        Synchronous variant of :meth:`update_section_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_section_with_http_info(
+                section_id=section_id,
+                update_section_request=update_section_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_section_sync_without_preload_content(
+        self,
+        section_id: UUID,
+        update_section_request: UpdateSectionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Section Handler (synchronous)
+
+        Synchronous variant of :meth:`update_section_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_section_without_preload_content(
+                section_id=section_id,
+                update_section_request=update_section_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_section_serialize(

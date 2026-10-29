@@ -34,6 +34,7 @@ from ksapi.models.user_permission_order import UserPermissionOrder
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class UserPermissionsApi:
@@ -50,7 +51,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def bulk_grant_user_permissions(
+    async def bulk_grant_user_permissions(
         self,
         bulk_grant_request: BulkGrantRequest,
         _request_timeout: Union[
@@ -105,12 +106,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkGrantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -118,7 +120,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def bulk_grant_user_permissions_with_http_info(
+    async def bulk_grant_user_permissions_with_http_info(
         self,
         bulk_grant_request: BulkGrantRequest,
         _request_timeout: Union[
@@ -173,12 +175,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkGrantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -186,7 +189,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def bulk_grant_user_permissions_without_preload_content(
+    async def bulk_grant_user_permissions_without_preload_content(
         self,
         bulk_grant_request: BulkGrantRequest,
         _request_timeout: Union[
@@ -241,12 +244,115 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkGrantResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_grant_user_permissions_sync(
+        self,
+        bulk_grant_request: BulkGrantRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkGrantResponse:
+        """Bulk Grant User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_grant_user_permissions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_grant_user_permissions(
+                bulk_grant_request=bulk_grant_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_grant_user_permissions_sync_with_http_info(
+        self,
+        bulk_grant_request: BulkGrantRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkGrantResponse]:
+        """Bulk Grant User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_grant_user_permissions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_grant_user_permissions_with_http_info(
+                bulk_grant_request=bulk_grant_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_grant_user_permissions_sync_without_preload_content(
+        self,
+        bulk_grant_request: BulkGrantRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Grant User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_grant_user_permissions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_grant_user_permissions_without_preload_content(
+                bulk_grant_request=bulk_grant_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_grant_user_permissions_serialize(
@@ -328,7 +434,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def bulk_revoke_user_permissions(
+    async def bulk_revoke_user_permissions(
         self,
         bulk_revoke_request: BulkRevokeRequest,
         _request_timeout: Union[
@@ -383,12 +489,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -396,7 +503,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def bulk_revoke_user_permissions_with_http_info(
+    async def bulk_revoke_user_permissions_with_http_info(
         self,
         bulk_revoke_request: BulkRevokeRequest,
         _request_timeout: Union[
@@ -451,12 +558,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -464,7 +572,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def bulk_revoke_user_permissions_without_preload_content(
+    async def bulk_revoke_user_permissions_without_preload_content(
         self,
         bulk_revoke_request: BulkRevokeRequest,
         _request_timeout: Union[
@@ -519,12 +627,115 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_revoke_user_permissions_sync(
+        self,
+        bulk_revoke_request: BulkRevokeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkOperationResponse:
+        """Bulk Revoke User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_revoke_user_permissions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_revoke_user_permissions(
+                bulk_revoke_request=bulk_revoke_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_revoke_user_permissions_sync_with_http_info(
+        self,
+        bulk_revoke_request: BulkRevokeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkOperationResponse]:
+        """Bulk Revoke User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_revoke_user_permissions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_revoke_user_permissions_with_http_info(
+                bulk_revoke_request=bulk_revoke_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_revoke_user_permissions_sync_without_preload_content(
+        self,
+        bulk_revoke_request: BulkRevokeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Revoke User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_revoke_user_permissions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_revoke_user_permissions_without_preload_content(
+                bulk_revoke_request=bulk_revoke_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_revoke_user_permissions_serialize(
@@ -606,7 +817,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def create_user_permission(
+    async def create_user_permission(
         self,
         create_permission_request: CreatePermissionRequest,
         _request_timeout: Union[
@@ -661,12 +872,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "PermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -674,7 +886,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def create_user_permission_with_http_info(
+    async def create_user_permission_with_http_info(
         self,
         create_permission_request: CreatePermissionRequest,
         _request_timeout: Union[
@@ -729,12 +941,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "PermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -742,7 +955,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def create_user_permission_without_preload_content(
+    async def create_user_permission_without_preload_content(
         self,
         create_permission_request: CreatePermissionRequest,
         _request_timeout: Union[
@@ -797,12 +1010,115 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "PermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_user_permission_sync(
+        self,
+        create_permission_request: CreatePermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PermissionResponse:
+        """Create User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`create_user_permission`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_user_permission(
+                create_permission_request=create_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_user_permission_sync_with_http_info(
+        self,
+        create_permission_request: CreatePermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PermissionResponse]:
+        """Create User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`create_user_permission_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_user_permission_with_http_info(
+                create_permission_request=create_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_user_permission_sync_without_preload_content(
+        self,
+        create_permission_request: CreatePermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`create_user_permission_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_user_permission_without_preload_content(
+                create_permission_request=create_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_user_permission_serialize(
@@ -884,7 +1200,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def delete_user_permission(
+    async def delete_user_permission(
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
@@ -943,12 +1259,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -956,7 +1273,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def delete_user_permission_with_http_info(
+    async def delete_user_permission_with_http_info(
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
@@ -1015,12 +1332,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1028,7 +1346,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def delete_user_permission_without_preload_content(
+    async def delete_user_permission_without_preload_content(
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
@@ -1087,12 +1405,121 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_user_permission_sync(
+        self,
+        permission_id: UUID,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_user_permission`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_user_permission(
+                permission_id=permission_id,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_user_permission_sync_with_http_info(
+        self,
+        permission_id: UUID,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_user_permission_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_user_permission_with_http_info(
+                permission_id=permission_id,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_user_permission_sync_without_preload_content(
+        self,
+        permission_id: UUID,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_user_permission_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_user_permission_without_preload_content(
+                permission_id=permission_id,
+                tenant_id=tenant_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_user_permission_serialize(
@@ -1166,7 +1593,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def list_user_permissions(
+    async def list_user_permissions(
         self,
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
@@ -1245,12 +1672,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1258,7 +1686,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def list_user_permissions_with_http_info(
+    async def list_user_permissions_with_http_info(
         self,
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
@@ -1337,12 +1765,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1350,7 +1779,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def list_user_permissions_without_preload_content(
+    async def list_user_permissions_without_preload_content(
         self,
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
@@ -1429,12 +1858,151 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponsePermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_user_permissions_sync(
+        self,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
+        user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
+        sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponsePermissionResponse:
+        """List User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_user_permissions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_user_permissions(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                capability=capability,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_user_permissions_sync_with_http_info(
+        self,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
+        user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
+        sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponsePermissionResponse]:
+        """List User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_user_permissions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_user_permissions_with_http_info(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                capability=capability,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_user_permissions_sync_without_preload_content(
+        self,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
+        user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
+        sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List User Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_user_permissions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_user_permissions_without_preload_content(
+                tenant_id=tenant_id,
+                user_id=user_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                capability=capability,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_user_permissions_serialize(
@@ -1535,7 +2103,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def update_user_permission(
+    async def update_user_permission(
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
@@ -1598,12 +2166,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1611,7 +2180,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def update_user_permission_with_http_info(
+    async def update_user_permission_with_http_info(
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
@@ -1674,12 +2243,13 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1687,7 +2257,7 @@ class UserPermissionsApi:
 
 
     @validate_call
-    def update_user_permission_without_preload_content(
+    async def update_user_permission_without_preload_content(
         self,
         permission_id: UUID,
         tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
@@ -1750,12 +2320,127 @@ class UserPermissionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_user_permission_sync(
+        self,
+        permission_id: UUID,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
+        update_permission_request: UpdatePermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PermissionResponse:
+        """Update User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`update_user_permission`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_user_permission(
+                permission_id=permission_id,
+                tenant_id=tenant_id,
+                update_permission_request=update_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_user_permission_sync_with_http_info(
+        self,
+        permission_id: UUID,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
+        update_permission_request: UpdatePermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PermissionResponse]:
+        """Update User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`update_user_permission_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_user_permission_with_http_info(
+                permission_id=permission_id,
+                tenant_id=tenant_id,
+                update_permission_request=update_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_user_permission_sync_without_preload_content(
+        self,
+        permission_id: UUID,
+        tenant_id: Annotated[UUID, Field(description="Tenant ID the permission belongs to")],
+        update_permission_request: UpdatePermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update User Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`update_user_permission_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_user_permission_without_preload_content(
+                permission_id=permission_id,
+                tenant_id=tenant_id,
+                update_permission_request=update_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_user_permission_serialize(

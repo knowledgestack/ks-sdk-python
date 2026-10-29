@@ -27,6 +27,7 @@ from ksapi.models.time_bucket import TimeBucket
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class AdminKbApi:
@@ -43,7 +44,7 @@ class AdminKbApi:
 
 
     @validate_call
-    def get_admin_kb_summary(
+    async def get_admin_kb_summary(
         self,
         _request_timeout: Union[
             None,
@@ -93,12 +94,13 @@ class AdminKbApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "KbSummaryResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -106,7 +108,7 @@ class AdminKbApi:
 
 
     @validate_call
-    def get_admin_kb_summary_with_http_info(
+    async def get_admin_kb_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -156,12 +158,13 @@ class AdminKbApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "KbSummaryResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -169,7 +172,7 @@ class AdminKbApi:
 
 
     @validate_call
-    def get_admin_kb_summary_without_preload_content(
+    async def get_admin_kb_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -219,12 +222,109 @@ class AdminKbApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "KbSummaryResponse",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_kb_summary_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> KbSummaryResponse:
+        """Get Admin Kb Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_kb_summary`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_kb_summary(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_kb_summary_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[KbSummaryResponse]:
+        """Get Admin Kb Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_kb_summary_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_kb_summary_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_kb_summary_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Kb Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_kb_summary_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_kb_summary_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_kb_summary_serialize(
@@ -290,7 +390,7 @@ class AdminKbApi:
 
 
     @validate_call
-    def get_admin_kb_timeseries(
+    async def get_admin_kb_timeseries(
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
@@ -361,12 +461,13 @@ class AdminKbApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "KbTimeseriesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -374,7 +475,7 @@ class AdminKbApi:
 
 
     @validate_call
-    def get_admin_kb_timeseries_with_http_info(
+    async def get_admin_kb_timeseries_with_http_info(
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
@@ -445,12 +546,13 @@ class AdminKbApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "KbTimeseriesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -458,7 +560,7 @@ class AdminKbApi:
 
 
     @validate_call
-    def get_admin_kb_timeseries_without_preload_content(
+    async def get_admin_kb_timeseries_without_preload_content(
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
@@ -529,12 +631,139 @@ class AdminKbApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "KbTimeseriesResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_admin_kb_timeseries_sync(
+        self,
+        metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> KbTimeseriesResponse:
+        """Get Admin Kb Timeseries Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_kb_timeseries`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_kb_timeseries(
+                metric=metric,
+                timezone=timezone,
+                since=since,
+                until=until,
+                bucket=bucket,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_kb_timeseries_sync_with_http_info(
+        self,
+        metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[KbTimeseriesResponse]:
+        """Get Admin Kb Timeseries Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_kb_timeseries_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_kb_timeseries_with_http_info(
+                metric=metric,
+                timezone=timezone,
+                since=since,
+                until=until,
+                bucket=bucket,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_admin_kb_timeseries_sync_without_preload_content(
+        self,
+        metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
+        timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Admin Kb Timeseries Handler (synchronous)
+
+        Synchronous variant of :meth:`get_admin_kb_timeseries_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_admin_kb_timeseries_without_preload_content(
+                metric=metric,
+                timezone=timezone,
+                since=since,
+                until=until,
+                bucket=bucket,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_admin_kb_timeseries_serialize(

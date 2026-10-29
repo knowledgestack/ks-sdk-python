@@ -17,52 +17,94 @@ import unittest
 from ksapi.api.sections_api import SectionsApi
 
 
-class TestSectionsApi(unittest.TestCase):
+class TestSectionsApi(unittest.IsolatedAsyncioTestCase):
     """SectionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = SectionsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_section(self) -> None:
+    async def test_create_section(self) -> None:
         """Test case for create_section
 
         Create Section Handler
         """
         pass
 
-    def test_delete_section(self) -> None:
+    def test_create_section_sync(self) -> None:
+        """Test case for create_section (synchronous)
+
+        Create Section Handler
+        """
+        pass
+
+    async def test_delete_section(self) -> None:
         """Test case for delete_section
 
         Delete Section Handler
         """
         pass
 
-    def test_dissolve_section(self) -> None:
+    def test_delete_section_sync(self) -> None:
+        """Test case for delete_section (synchronous)
+
+        Delete Section Handler
+        """
+        pass
+
+    async def test_dissolve_section(self) -> None:
         """Test case for dissolve_section
 
         Dissolve Section Handler
         """
         pass
 
-    def test_get_section(self) -> None:
+    def test_dissolve_section_sync(self) -> None:
+        """Test case for dissolve_section (synchronous)
+
+        Dissolve Section Handler
+        """
+        pass
+
+    async def test_get_section(self) -> None:
         """Test case for get_section
 
         Get Section Handler
         """
         pass
 
-    def test_get_sections_bulk(self) -> None:
+    def test_get_section_sync(self) -> None:
+        """Test case for get_section (synchronous)
+
+        Get Section Handler
+        """
+        pass
+
+    async def test_get_sections_bulk(self) -> None:
         """Test case for get_sections_bulk
 
         Get Sections Bulk Handler
         """
         pass
 
-    def test_update_section(self) -> None:
+    def test_get_sections_bulk_sync(self) -> None:
+        """Test case for get_sections_bulk (synchronous)
+
+        Get Sections Bulk Handler
+        """
+        pass
+
+    async def test_update_section(self) -> None:
         """Test case for update_section
+
+        Update Section Handler
+        """
+        pass
+
+    def test_update_section_sync(self) -> None:
+        """Test case for update_section (synchronous)
 
         Update Section Handler
         """

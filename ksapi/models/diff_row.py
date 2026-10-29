@@ -81,15 +81,13 @@ class DiffRow(BaseModel):
         _items = []
         if self.left_spans:
             for _item_left_spans in self.left_spans:
-                if _item_left_spans:
-                    _items.append(_item_left_spans.to_dict())
+                _items.append(_item_left_spans.to_dict() if _item_left_spans is not None else None)
             _dict['left_spans'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in right_spans (list)
         _items = []
         if self.right_spans:
             for _item_right_spans in self.right_spans:
-                if _item_right_spans:
-                    _items.append(_item_right_spans.to_dict())
+                _items.append(_item_right_spans.to_dict() if _item_right_spans is not None else None)
             _dict['right_spans'] = _items
         # set to None if left_no (nullable) is None
         # and model_fields_set contains the field

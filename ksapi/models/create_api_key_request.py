@@ -29,8 +29,8 @@ class CreateApiKeyRequest(BaseModel):
     """
     Request to create a new API key.
     """ # noqa: E501
-    name: Annotated[str, Field(min_length=1, strict=True, max_length=100)]
-    expires_at: Optional[datetime] = Field(default=None, description="Optional absolute expiry. Null means the key never expires.")
+    name: Annotated[str, Field(min_length=1, strict=True, max_length=100)] = Field(json_schema_extra={"examples": ["rpa-invoice-bot"]})
+    expires_at: Optional[datetime] = Field(default=None, description="Optional absolute expiry. Null means the key never expires.", json_schema_extra={"examples": ["2026-12-31T23:59:59Z"]})
     __properties: ClassVar[List[str]] = ["name", "expires_at"]
 
     model_config = ConfigDict(

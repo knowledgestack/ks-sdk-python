@@ -17,52 +17,94 @@ import unittest
 from ksapi.api.user_permissions_api import UserPermissionsApi
 
 
-class TestUserPermissionsApi(unittest.TestCase):
+class TestUserPermissionsApi(unittest.IsolatedAsyncioTestCase):
     """UserPermissionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = UserPermissionsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_bulk_grant_user_permissions(self) -> None:
+    async def test_bulk_grant_user_permissions(self) -> None:
         """Test case for bulk_grant_user_permissions
 
         Bulk Grant User Permissions Handler
         """
         pass
 
-    def test_bulk_revoke_user_permissions(self) -> None:
+    def test_bulk_grant_user_permissions_sync(self) -> None:
+        """Test case for bulk_grant_user_permissions (synchronous)
+
+        Bulk Grant User Permissions Handler
+        """
+        pass
+
+    async def test_bulk_revoke_user_permissions(self) -> None:
         """Test case for bulk_revoke_user_permissions
 
         Bulk Revoke User Permissions Handler
         """
         pass
 
-    def test_create_user_permission(self) -> None:
+    def test_bulk_revoke_user_permissions_sync(self) -> None:
+        """Test case for bulk_revoke_user_permissions (synchronous)
+
+        Bulk Revoke User Permissions Handler
+        """
+        pass
+
+    async def test_create_user_permission(self) -> None:
         """Test case for create_user_permission
 
         Create User Permission Handler
         """
         pass
 
-    def test_delete_user_permission(self) -> None:
+    def test_create_user_permission_sync(self) -> None:
+        """Test case for create_user_permission (synchronous)
+
+        Create User Permission Handler
+        """
+        pass
+
+    async def test_delete_user_permission(self) -> None:
         """Test case for delete_user_permission
 
         Delete User Permission Handler
         """
         pass
 
-    def test_list_user_permissions(self) -> None:
+    def test_delete_user_permission_sync(self) -> None:
+        """Test case for delete_user_permission (synchronous)
+
+        Delete User Permission Handler
+        """
+        pass
+
+    async def test_list_user_permissions(self) -> None:
         """Test case for list_user_permissions
 
         List User Permissions Handler
         """
         pass
 
-    def test_update_user_permission(self) -> None:
+    def test_list_user_permissions_sync(self) -> None:
+        """Test case for list_user_permissions (synchronous)
+
+        List User Permissions Handler
+        """
+        pass
+
+    async def test_update_user_permission(self) -> None:
         """Test case for update_user_permission
+
+        Update User Permission Handler
+        """
+        pass
+
+    def test_update_user_permission_sync(self) -> None:
+        """Test case for update_user_permission (synchronous)
 
         Update User Permission Handler
         """

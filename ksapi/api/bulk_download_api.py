@@ -22,6 +22,7 @@ from ksapi.models.bulk_download_request import BulkDownloadRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class BulkDownloadApi:
@@ -38,7 +39,7 @@ class BulkDownloadApi:
 
 
     @validate_call
-    def start_bulk_download(
+    async def start_bulk_download(
         self,
         bulk_download_request: BulkDownloadRequest,
         _request_timeout: Union[
@@ -93,12 +94,13 @@ class BulkDownloadApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -106,7 +108,7 @@ class BulkDownloadApi:
 
 
     @validate_call
-    def start_bulk_download_with_http_info(
+    async def start_bulk_download_with_http_info(
         self,
         bulk_download_request: BulkDownloadRequest,
         _request_timeout: Union[
@@ -161,12 +163,13 @@ class BulkDownloadApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -174,7 +177,7 @@ class BulkDownloadApi:
 
 
     @validate_call
-    def start_bulk_download_without_preload_content(
+    async def start_bulk_download_without_preload_content(
         self,
         bulk_download_request: BulkDownloadRequest,
         _request_timeout: Union[
@@ -229,12 +232,115 @@ class BulkDownloadApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "bytes",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def start_bulk_download_sync(
+        self,
+        bulk_download_request: BulkDownloadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytes:
+        """Start Bulk Download Handler (synchronous)
+
+        Synchronous variant of :meth:`start_bulk_download`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.start_bulk_download(
+                bulk_download_request=bulk_download_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def start_bulk_download_sync_with_http_info(
+        self,
+        bulk_download_request: BulkDownloadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytes]:
+        """Start Bulk Download Handler (synchronous)
+
+        Synchronous variant of :meth:`start_bulk_download_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.start_bulk_download_with_http_info(
+                bulk_download_request=bulk_download_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def start_bulk_download_sync_without_preload_content(
+        self,
+        bulk_download_request: BulkDownloadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Start Bulk Download Handler (synchronous)
+
+        Synchronous variant of :meth:`start_bulk_download_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.start_bulk_download_without_preload_content(
+                bulk_download_request=bulk_download_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _start_bulk_download_serialize(

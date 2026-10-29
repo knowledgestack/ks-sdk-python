@@ -17,115 +17,220 @@ import unittest
 from ksapi.api.skills_api import SkillsApi
 
 
-class TestSkillsApi(unittest.TestCase):
+class TestSkillsApi(unittest.IsolatedAsyncioTestCase):
     """SkillsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = SkillsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_activate_skill_version(self) -> None:
+    async def test_activate_skill_version(self) -> None:
         """Test case for activate_skill_version
 
         Activate Skill Version Handler
         """
         pass
 
-    def test_checkin_skill(self) -> None:
+    def test_activate_skill_version_sync(self) -> None:
+        """Test case for activate_skill_version (synchronous)
+
+        Activate Skill Version Handler
+        """
+        pass
+
+    async def test_checkin_skill(self) -> None:
         """Test case for checkin_skill
 
         Checkin Skill Handler
         """
         pass
 
-    def test_checkout_skill(self) -> None:
+    def test_checkin_skill_sync(self) -> None:
+        """Test case for checkin_skill (synchronous)
+
+        Checkin Skill Handler
+        """
+        pass
+
+    async def test_checkout_skill(self) -> None:
         """Test case for checkout_skill
 
         Checkout Skill Handler
         """
         pass
 
-    def test_create_skill(self) -> None:
+    def test_checkout_skill_sync(self) -> None:
+        """Test case for checkout_skill (synchronous)
+
+        Checkout Skill Handler
+        """
+        pass
+
+    async def test_create_skill(self) -> None:
         """Test case for create_skill
 
         Create Skill Handler
         """
         pass
 
-    def test_delete_skill(self) -> None:
+    def test_create_skill_sync(self) -> None:
+        """Test case for create_skill (synchronous)
+
+        Create Skill Handler
+        """
+        pass
+
+    async def test_delete_skill(self) -> None:
         """Test case for delete_skill
 
         Delete Skill Handler
         """
         pass
 
-    def test_discard_skill_draft(self) -> None:
+    def test_delete_skill_sync(self) -> None:
+        """Test case for delete_skill (synchronous)
+
+        Delete Skill Handler
+        """
+        pass
+
+    async def test_discard_skill_draft(self) -> None:
         """Test case for discard_skill_draft
 
         Discard Skill Draft Handler
         """
         pass
 
-    def test_export_skill(self) -> None:
+    def test_discard_skill_draft_sync(self) -> None:
+        """Test case for discard_skill_draft (synchronous)
+
+        Discard Skill Draft Handler
+        """
+        pass
+
+    async def test_export_skill(self) -> None:
         """Test case for export_skill
 
         Export Skill Handler
         """
         pass
 
-    def test_export_skills(self) -> None:
+    def test_export_skill_sync(self) -> None:
+        """Test case for export_skill (synchronous)
+
+        Export Skill Handler
+        """
+        pass
+
+    async def test_export_skills(self) -> None:
         """Test case for export_skills
 
         Export Skills Handler
         """
         pass
 
-    def test_get_skill(self) -> None:
+    def test_export_skills_sync(self) -> None:
+        """Test case for export_skills (synchronous)
+
+        Export Skills Handler
+        """
+        pass
+
+    async def test_get_skill(self) -> None:
         """Test case for get_skill
 
         Get Skill Handler
         """
         pass
 
-    def test_import_skill(self) -> None:
+    def test_get_skill_sync(self) -> None:
+        """Test case for get_skill (synchronous)
+
+        Get Skill Handler
+        """
+        pass
+
+    async def test_import_skill(self) -> None:
         """Test case for import_skill
 
         Import Skill Handler
         """
         pass
 
-    def test_list_skill_versions(self) -> None:
+    def test_import_skill_sync(self) -> None:
+        """Test case for import_skill (synchronous)
+
+        Import Skill Handler
+        """
+        pass
+
+    async def test_list_skill_versions(self) -> None:
         """Test case for list_skill_versions
 
         List Skill Versions Handler
         """
         pass
 
-    def test_list_skills(self) -> None:
+    def test_list_skill_versions_sync(self) -> None:
+        """Test case for list_skill_versions (synchronous)
+
+        List Skill Versions Handler
+        """
+        pass
+
+    async def test_list_skills(self) -> None:
         """Test case for list_skills
 
         List Skills Handler
         """
         pass
 
-    def test_publish_skill_version(self) -> None:
+    def test_list_skills_sync(self) -> None:
+        """Test case for list_skills (synchronous)
+
+        List Skills Handler
+        """
+        pass
+
+    async def test_publish_skill_version(self) -> None:
         """Test case for publish_skill_version
 
         Publish Skill Version Handler
         """
         pass
 
-    def test_search_skills(self) -> None:
+    def test_publish_skill_version_sync(self) -> None:
+        """Test case for publish_skill_version (synchronous)
+
+        Publish Skill Version Handler
+        """
+        pass
+
+    async def test_search_skills(self) -> None:
         """Test case for search_skills
 
         Search Skills Handler
         """
         pass
 
-    def test_update_skill(self) -> None:
+    def test_search_skills_sync(self) -> None:
+        """Test case for search_skills (synchronous)
+
+        Search Skills Handler
+        """
+        pass
+
+    async def test_update_skill(self) -> None:
         """Test case for update_skill
+
+        Update Skill Handler
+        """
+        pass
+
+    def test_update_skill_sync(self) -> None:
+        """Test case for update_skill (synchronous)
 
         Update Skill Handler
         """

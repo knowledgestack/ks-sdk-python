@@ -17,24 +17,38 @@ import unittest
 from ksapi.api.diagnostics_api import DiagnosticsApi
 
 
-class TestDiagnosticsApi(unittest.TestCase):
+class TestDiagnosticsApi(unittest.IsolatedAsyncioTestCase):
     """DiagnosticsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DiagnosticsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_compute_thread_diagnostics(self) -> None:
+    async def test_compute_thread_diagnostics(self) -> None:
         """Test case for compute_thread_diagnostics
 
         Compute Thread Diagnostics Handler
         """
         pass
 
-    def test_compute_workflow_run_diagnostics(self) -> None:
+    def test_compute_thread_diagnostics_sync(self) -> None:
+        """Test case for compute_thread_diagnostics (synchronous)
+
+        Compute Thread Diagnostics Handler
+        """
+        pass
+
+    async def test_compute_workflow_run_diagnostics(self) -> None:
         """Test case for compute_workflow_run_diagnostics
+
+        Compute Workflow Run Diagnostics Handler
+        """
+        pass
+
+    def test_compute_workflow_run_diagnostics_sync(self) -> None:
+        """Test case for compute_workflow_run_diagnostics (synchronous)
 
         Compute Workflow Run Diagnostics Handler
         """

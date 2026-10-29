@@ -17,94 +17,178 @@ import unittest
 from ksapi.api.path_parts_api import PathPartsApi
 
 
-class TestPathPartsApi(unittest.TestCase):
+class TestPathPartsApi(unittest.IsolatedAsyncioTestCase):
     """PathPartsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = PathPartsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_append_path_part_event(self) -> None:
+    async def test_append_path_part_event(self) -> None:
         """Test case for append_path_part_event
 
         Append Path Part Event Handler
         """
         pass
 
-    def test_bulk_remove_path_part_tags(self) -> None:
+    def test_append_path_part_event_sync(self) -> None:
+        """Test case for append_path_part_event (synchronous)
+
+        Append Path Part Event Handler
+        """
+        pass
+
+    async def test_bulk_remove_path_part_tags(self) -> None:
         """Test case for bulk_remove_path_part_tags
 
         Bulk Remove Path Part Tags Handler
         """
         pass
 
-    def test_check_path_part_access(self) -> None:
+    def test_bulk_remove_path_part_tags_sync(self) -> None:
+        """Test case for bulk_remove_path_part_tags (synchronous)
+
+        Bulk Remove Path Part Tags Handler
+        """
+        pass
+
+    async def test_check_path_part_access(self) -> None:
         """Test case for check_path_part_access
 
         Check Path Part Access Handler
         """
         pass
 
-    def test_get_path_part(self) -> None:
+    def test_check_path_part_access_sync(self) -> None:
+        """Test case for check_path_part_access (synchronous)
+
+        Check Path Part Access Handler
+        """
+        pass
+
+    async def test_get_path_part(self) -> None:
         """Test case for get_path_part
 
         Get Path Part Handler
         """
         pass
 
-    def test_get_path_part_ancestry(self) -> None:
+    def test_get_path_part_sync(self) -> None:
+        """Test case for get_path_part (synchronous)
+
+        Get Path Part Handler
+        """
+        pass
+
+    async def test_get_path_part_ancestry(self) -> None:
         """Test case for get_path_part_ancestry
 
         Get Path Part Ancestry Handler
         """
         pass
 
-    def test_get_path_part_subtree_chunks(self) -> None:
+    def test_get_path_part_ancestry_sync(self) -> None:
+        """Test case for get_path_part_ancestry (synchronous)
+
+        Get Path Part Ancestry Handler
+        """
+        pass
+
+    async def test_get_path_part_subtree_chunks(self) -> None:
         """Test case for get_path_part_subtree_chunks
 
         Get Path Part Subtree Chunks Handler
         """
         pass
 
-    def test_get_path_part_tags(self) -> None:
+    def test_get_path_part_subtree_chunks_sync(self) -> None:
+        """Test case for get_path_part_subtree_chunks (synchronous)
+
+        Get Path Part Subtree Chunks Handler
+        """
+        pass
+
+    async def test_get_path_part_tags(self) -> None:
         """Test case for get_path_part_tags
 
         Get Path Part Tags Handler
         """
         pass
 
-    def test_list_path_part_events(self) -> None:
+    def test_get_path_part_tags_sync(self) -> None:
+        """Test case for get_path_part_tags (synchronous)
+
+        Get Path Part Tags Handler
+        """
+        pass
+
+    async def test_list_path_part_events(self) -> None:
         """Test case for list_path_part_events
 
         List Path Part Events Handler
         """
         pass
 
-    def test_list_path_parts(self) -> None:
+    def test_list_path_part_events_sync(self) -> None:
+        """Test case for list_path_part_events (synchronous)
+
+        List Path Part Events Handler
+        """
+        pass
+
+    async def test_list_path_parts(self) -> None:
         """Test case for list_path_parts
 
         List Path Parts Handler
         """
         pass
 
-    def test_reorder_path_part(self) -> None:
+    def test_list_path_parts_sync(self) -> None:
+        """Test case for list_path_parts (synchronous)
+
+        List Path Parts Handler
+        """
+        pass
+
+    async def test_reorder_path_part(self) -> None:
         """Test case for reorder_path_part
 
         Reorder Path Part Handler
         """
         pass
 
-    def test_set_path_part_tags(self) -> None:
+    def test_reorder_path_part_sync(self) -> None:
+        """Test case for reorder_path_part (synchronous)
+
+        Reorder Path Part Handler
+        """
+        pass
+
+    async def test_set_path_part_tags(self) -> None:
         """Test case for set_path_part_tags
 
         Set Path Part Tags Handler
         """
         pass
 
-    def test_transfer_path_part_owner(self) -> None:
+    def test_set_path_part_tags_sync(self) -> None:
+        """Test case for set_path_part_tags (synchronous)
+
+        Set Path Part Tags Handler
+        """
+        pass
+
+    async def test_transfer_path_part_owner(self) -> None:
         """Test case for transfer_path_part_owner
+
+        Transfer Path Part Owner Handler
+        """
+        pass
+
+    def test_transfer_path_part_owner_sync(self) -> None:
+        """Test case for transfer_path_part_owner (synchronous)
 
         Transfer Path Part Owner Handler
         """

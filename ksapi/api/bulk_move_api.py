@@ -21,6 +21,7 @@ from ksapi.models.bulk_operation_response import BulkOperationResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class BulkMoveApi:
@@ -37,7 +38,7 @@ class BulkMoveApi:
 
 
     @validate_call
-    def bulk_move(
+    async def bulk_move(
         self,
         bulk_move_request: BulkMoveRequest,
         _request_timeout: Union[
@@ -92,12 +93,13 @@ class BulkMoveApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -105,7 +107,7 @@ class BulkMoveApi:
 
 
     @validate_call
-    def bulk_move_with_http_info(
+    async def bulk_move_with_http_info(
         self,
         bulk_move_request: BulkMoveRequest,
         _request_timeout: Union[
@@ -160,12 +162,13 @@ class BulkMoveApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -173,7 +176,7 @@ class BulkMoveApi:
 
 
     @validate_call
-    def bulk_move_without_preload_content(
+    async def bulk_move_without_preload_content(
         self,
         bulk_move_request: BulkMoveRequest,
         _request_timeout: Union[
@@ -228,12 +231,115 @@ class BulkMoveApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_move_sync(
+        self,
+        bulk_move_request: BulkMoveRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkOperationResponse:
+        """Bulk Move Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_move`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_move(
+                bulk_move_request=bulk_move_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_move_sync_with_http_info(
+        self,
+        bulk_move_request: BulkMoveRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkOperationResponse]:
+        """Bulk Move Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_move_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_move_with_http_info(
+                bulk_move_request=bulk_move_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_move_sync_without_preload_content(
+        self,
+        bulk_move_request: BulkMoveRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Move Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_move_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_move_without_preload_content(
+                bulk_move_request=bulk_move_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_move_serialize(

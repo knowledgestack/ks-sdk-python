@@ -91,8 +91,7 @@ class KbSummaryResponse(BaseModel):
         _items = []
         if self.quota:
             for _item_quota in self.quota:
-                if _item_quota:
-                    _items.append(_item_quota.to_dict())
+                _items.append(_item_quota.to_dict() if _item_quota is not None else None)
             _dict['quota'] = _items
         return _dict
 

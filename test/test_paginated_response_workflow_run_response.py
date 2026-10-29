@@ -82,7 +82,8 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                                     name = '', 
                                     part_type = 'FOLDER', 
                                     materialized_path = '', 
-                                    approval_state = , )
+                                    approval_state = 'not_required', 
+                                    origin = 'DEFINITION_COMMON', )
                                 ], ), 
                         discussions = ksapi.models.run_folder_ref.RunFolderRef(
                             id = '', 
@@ -152,7 +153,8 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                                     name = '', 
                                     part_type = 'FOLDER', 
                                     materialized_path = '', 
-                                    approval_state = , )
+                                    approval_state = 'not_required', 
+                                    origin = 'DEFINITION_COMMON', )
                                 ], ), 
                         discussions = ksapi.models.run_folder_ref.RunFolderRef(
                             id = '', 

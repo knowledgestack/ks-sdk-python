@@ -33,13 +33,13 @@ class CreateTagRequest(BaseModel):
     description: Optional[Annotated[str, Field(strict=True, max_length=500)]] = Field(default=None, description="Optional tag description")
     __properties: ClassVar[List[str]] = ["name", "color", "description"]
 
-    @field_validator('color')
+    @field_validator('color', mode="before")
     def color_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^[0-9A-Fa-f]{6}$", value):
+        if isinstance(value, str) and not re.match(r"^[0-9A-Fa-f]{6}$", value):
             raise ValueError(r"must validate the regular expression /^[0-9A-Fa-f]{6}$/")
         return value
 

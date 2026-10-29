@@ -24,6 +24,7 @@ from ksapi.models.document_checkout_response import DocumentCheckoutResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class DocumentCheckoutApi:
@@ -40,7 +41,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def acquire_document_checkout(
+    async def acquire_document_checkout(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
@@ -99,12 +100,13 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentCheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -112,7 +114,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def acquire_document_checkout_with_http_info(
+    async def acquire_document_checkout_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
@@ -171,12 +173,13 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentCheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -184,7 +187,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def acquire_document_checkout_without_preload_content(
+    async def acquire_document_checkout_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
@@ -243,12 +246,121 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentCheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def acquire_document_checkout_sync(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentCheckoutResponse:
+        """Acquire Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`acquire_document_checkout`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.acquire_document_checkout(
+                document_id=document_id,
+                force=force,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def acquire_document_checkout_sync_with_http_info(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentCheckoutResponse]:
+        """Acquire Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`acquire_document_checkout_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.acquire_document_checkout_with_http_info(
+                document_id=document_id,
+                force=force,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def acquire_document_checkout_sync_without_preload_content(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        force: Annotated[Optional[StrictBool], Field(description="OWNER/ADMIN only — atomically take the checkout regardless of the current holder. Sealed docs are still refused.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Acquire Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`acquire_document_checkout_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.acquire_document_checkout_without_preload_content(
+                document_id=document_id,
+                force=force,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _acquire_document_checkout_serialize(
@@ -322,7 +434,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def get_document_checkout(
+    async def get_document_checkout(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -377,12 +489,13 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentCheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -390,7 +503,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def get_document_checkout_with_http_info(
+    async def get_document_checkout_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -445,12 +558,13 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentCheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -458,7 +572,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def get_document_checkout_without_preload_content(
+    async def get_document_checkout_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -513,12 +627,115 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DocumentCheckoutResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_document_checkout_sync(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DocumentCheckoutResponse:
+        """Get Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_checkout`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_checkout(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_checkout_sync_with_http_info(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DocumentCheckoutResponse]:
+        """Get Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_checkout_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_checkout_with_http_info(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_document_checkout_sync_without_preload_content(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`get_document_checkout_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_document_checkout_without_preload_content(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_document_checkout_serialize(
@@ -587,7 +804,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def release_document_checkout(
+    async def release_document_checkout(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -642,12 +859,13 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -655,7 +873,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def release_document_checkout_with_http_info(
+    async def release_document_checkout_with_http_info(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -710,12 +928,13 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -723,7 +942,7 @@ class DocumentCheckoutApi:
 
 
     @validate_call
-    def release_document_checkout_without_preload_content(
+    async def release_document_checkout_without_preload_content(
         self,
         document_id: Annotated[UUID, Field(description="Document ID")],
         _request_timeout: Union[
@@ -778,12 +997,115 @@ class DocumentCheckoutApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def release_document_checkout_sync(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Release Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`release_document_checkout`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.release_document_checkout(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def release_document_checkout_sync_with_http_info(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Release Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`release_document_checkout_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.release_document_checkout_with_http_info(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def release_document_checkout_sync_without_preload_content(
+        self,
+        document_id: Annotated[UUID, Field(description="Document ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Release Document Checkout Handler (synchronous)
+
+        Synchronous variant of :meth:`release_document_checkout_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.release_document_checkout_without_preload_content(
+                document_id=document_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _release_document_checkout_serialize(

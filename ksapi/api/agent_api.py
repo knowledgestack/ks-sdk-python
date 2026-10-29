@@ -23,6 +23,7 @@ from ksapi.models.extract_response import ExtractResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class AgentApi:
@@ -39,7 +40,7 @@ class AgentApi:
 
 
     @validate_call
-    def agent_ask(
+    async def agent_ask(
         self,
         ask_request: AskRequest,
         _request_timeout: Union[
@@ -94,12 +95,13 @@ class AgentApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AskResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -107,7 +109,7 @@ class AgentApi:
 
 
     @validate_call
-    def agent_ask_with_http_info(
+    async def agent_ask_with_http_info(
         self,
         ask_request: AskRequest,
         _request_timeout: Union[
@@ -162,12 +164,13 @@ class AgentApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AskResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -175,7 +178,7 @@ class AgentApi:
 
 
     @validate_call
-    def agent_ask_without_preload_content(
+    async def agent_ask_without_preload_content(
         self,
         ask_request: AskRequest,
         _request_timeout: Union[
@@ -230,12 +233,115 @@ class AgentApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AskResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def agent_ask_sync(
+        self,
+        ask_request: AskRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AskResponse:
+        """Agent Ask Handler (synchronous)
+
+        Synchronous variant of :meth:`agent_ask`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.agent_ask(
+                ask_request=ask_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def agent_ask_sync_with_http_info(
+        self,
+        ask_request: AskRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AskResponse]:
+        """Agent Ask Handler (synchronous)
+
+        Synchronous variant of :meth:`agent_ask_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.agent_ask_with_http_info(
+                ask_request=ask_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def agent_ask_sync_without_preload_content(
+        self,
+        ask_request: AskRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Agent Ask Handler (synchronous)
+
+        Synchronous variant of :meth:`agent_ask_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.agent_ask_without_preload_content(
+                ask_request=ask_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _agent_ask_serialize(
@@ -317,7 +423,7 @@ class AgentApi:
 
 
     @validate_call
-    def agent_extract(
+    async def agent_extract(
         self,
         extract_request: ExtractRequest,
         _request_timeout: Union[
@@ -372,12 +478,13 @@ class AgentApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ExtractResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -385,7 +492,7 @@ class AgentApi:
 
 
     @validate_call
-    def agent_extract_with_http_info(
+    async def agent_extract_with_http_info(
         self,
         extract_request: ExtractRequest,
         _request_timeout: Union[
@@ -440,12 +547,13 @@ class AgentApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ExtractResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -453,7 +561,7 @@ class AgentApi:
 
 
     @validate_call
-    def agent_extract_without_preload_content(
+    async def agent_extract_without_preload_content(
         self,
         extract_request: ExtractRequest,
         _request_timeout: Union[
@@ -508,12 +616,115 @@ class AgentApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ExtractResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def agent_extract_sync(
+        self,
+        extract_request: ExtractRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ExtractResponse:
+        """Agent Extract Handler (synchronous)
+
+        Synchronous variant of :meth:`agent_extract`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.agent_extract(
+                extract_request=extract_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def agent_extract_sync_with_http_info(
+        self,
+        extract_request: ExtractRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ExtractResponse]:
+        """Agent Extract Handler (synchronous)
+
+        Synchronous variant of :meth:`agent_extract_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.agent_extract_with_http_info(
+                extract_request=extract_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def agent_extract_sync_without_preload_content(
+        self,
+        extract_request: ExtractRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Agent Extract Handler (synchronous)
+
+        Synchronous variant of :meth:`agent_extract_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.agent_extract_without_preload_content(
+                extract_request=extract_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _agent_extract_serialize(

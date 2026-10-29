@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.bulk_move_api import BulkMoveApi
 
 
-class TestBulkMoveApi(unittest.TestCase):
+class TestBulkMoveApi(unittest.IsolatedAsyncioTestCase):
     """BulkMoveApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = BulkMoveApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_bulk_move(self) -> None:
+        """Test case for bulk_move
+
+        Bulk Move Handler
+        """
         pass
 
-    def test_bulk_move(self) -> None:
-        """Test case for bulk_move
+    def test_bulk_move_sync(self) -> None:
+        """Test case for bulk_move (synchronous)
 
         Bulk Move Handler
         """

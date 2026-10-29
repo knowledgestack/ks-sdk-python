@@ -79,8 +79,7 @@ class UploadConstraints(BaseModel):
         _items = []
         if self.formats:
             for _item_formats in self.formats:
-                if _item_formats:
-                    _items.append(_item_formats.to_dict())
+                _items.append(_item_formats.to_dict() if _item_formats is not None else None)
             _dict['formats'] = _items
         return _dict
 

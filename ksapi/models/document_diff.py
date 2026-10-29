@@ -82,8 +82,7 @@ class DocumentDiff(BaseModel):
         _items = []
         if self.blocks:
             for _item_blocks in self.blocks:
-                if _item_blocks:
-                    _items.append(_item_blocks.to_dict())
+                _items.append(_item_blocks.to_dict() if _item_blocks is not None else None)
             _dict['blocks'] = _items
         return _dict
 

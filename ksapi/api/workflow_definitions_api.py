@@ -34,6 +34,7 @@ from ksapi.models.workflow_run_response import WorkflowRunResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class WorkflowDefinitionsApi:
@@ -50,7 +51,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def create_workflow_definition(
+    async def create_workflow_definition(
         self,
         create_workflow_definition_request: CreateWorkflowDefinitionRequest,
         _request_timeout: Union[
@@ -104,12 +105,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -117,7 +119,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def create_workflow_definition_with_http_info(
+    async def create_workflow_definition_with_http_info(
         self,
         create_workflow_definition_request: CreateWorkflowDefinitionRequest,
         _request_timeout: Union[
@@ -171,12 +173,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -184,7 +187,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def create_workflow_definition_without_preload_content(
+    async def create_workflow_definition_without_preload_content(
         self,
         create_workflow_definition_request: CreateWorkflowDefinitionRequest,
         _request_timeout: Union[
@@ -238,12 +241,115 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_workflow_definition_sync(
+        self,
+        create_workflow_definition_request: CreateWorkflowDefinitionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowDefinitionResponse:
+        """Create Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`create_workflow_definition`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_workflow_definition(
+                create_workflow_definition_request=create_workflow_definition_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_workflow_definition_sync_with_http_info(
+        self,
+        create_workflow_definition_request: CreateWorkflowDefinitionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowDefinitionResponse]:
+        """Create Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`create_workflow_definition_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_workflow_definition_with_http_info(
+                create_workflow_definition_request=create_workflow_definition_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_workflow_definition_sync_without_preload_content(
+        self,
+        create_workflow_definition_request: CreateWorkflowDefinitionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`create_workflow_definition_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_workflow_definition_without_preload_content(
+                create_workflow_definition_request=create_workflow_definition_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_workflow_definition_serialize(
@@ -325,7 +431,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def create_workflow_run(
+    async def create_workflow_run(
         self,
         definition_id: UUID,
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
@@ -408,12 +514,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -421,7 +528,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def create_workflow_run_with_http_info(
+    async def create_workflow_run_with_http_info(
         self,
         definition_id: UUID,
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
@@ -504,12 +611,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -517,7 +625,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def create_workflow_run_without_preload_content(
+    async def create_workflow_run_without_preload_content(
         self,
         definition_id: UUID,
         files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
@@ -600,12 +708,157 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_workflow_run_sync(
+        self,
+        definition_id: UUID,
+        files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
+        input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
+        auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
+        user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
+        selected_skill_ids: Annotated[Optional[StrictStr], Field(description="JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Create Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`create_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_workflow_run(
+                definition_id=definition_id,
+                files=files,
+                input_scope=input_scope,
+                idempotency_key=idempotency_key,
+                auto_start=auto_start,
+                user_message=user_message,
+                name=name,
+                selected_skill_ids=selected_skill_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_workflow_run_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
+        input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
+        auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
+        user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
+        selected_skill_ids: Annotated[Optional[StrictStr], Field(description="JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Create Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`create_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_workflow_run_with_http_info(
+                definition_id=definition_id,
+                files=files,
+                input_scope=input_scope,
+                idempotency_key=idempotency_key,
+                auto_start=auto_start,
+                user_message=user_message,
+                name=name,
+                selected_skill_ids=selected_skill_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_workflow_run_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        files: Annotated[Optional[List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]]], Field(description="DEPRECATED — do not send files here. Carrying file bytes on run creation makes the call block on synchronous S3 upload (the ~30s 'Create run' wait). Instead create an empty draft (omit this field), then upload each file to the run's ``inputs/`` folder via ``POST /v1/documents/ingest`` with ``path_part_id`` set to the run's ``inputs_path_part_id``; that path ingests asynchronously and auto-syncs the run's state. This field will be removed once the FE has migrated.")] = None,
+        input_scope: Annotated[Optional[StrictStr], Field(description="JSON array of ``DOCUMENT`` or ``FOLDER`` path_part UUIDs referenced from the existing knowledge base, pinned onto the new draft's input scope. Optional — omit for an empty draft and add references later via PATCH.")] = None,
+        idempotency_key: Annotated[Optional[StrictStr], Field(description="Optional key to prevent duplicate runs from retries.")] = None,
+        auto_start: Annotated[Optional[StrictBool], Field(description="When true, the run starts itself once its ``inputs/`` uploads finish ingesting — eliminating the separate Start call. If an upload's ingestion fails, the run is marked FAILED. Default false (two-step flow). Arm only after all uploads are queued; a synchronously-completing first upload would otherwise start the run before later uploads are added.")] = None,
+        user_message: Annotated[Optional[StrictStr], Field(description="Optional note carried to the auto-start dispatch (the equivalent of the Start endpoint's ``user_message`` for a self-starting run). Applied only when ``auto_start`` fires.")] = None,
+        name: Annotated[Optional[StrictStr], Field(description="Optional display name for the run. Omit to default to the run's UUID; rename later via PATCH. Must be unique among sibling runs under this definition's ``runs/`` folder — a collision returns 409.")] = None,
+        selected_skill_ids: Annotated[Optional[StrictStr], Field(description="JSON array of SKILL PDO UUIDs to force-load into this run ON TOP of the definition's prefill — the run's skills are the definition's list plus these additions. Each must be a SKILL the caller can read (else 400/403). Optional; omit to run with just the definition's skills.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`create_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_workflow_run_without_preload_content(
+                definition_id=definition_id,
+                files=files,
+                input_scope=input_scope,
+                idempotency_key=idempotency_key,
+                auto_start=auto_start,
+                user_message=user_message,
+                name=name,
+                selected_skill_ids=selected_skill_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_workflow_run_serialize(
@@ -709,7 +962,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def delete_workflow_definition(
+    async def delete_workflow_definition(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -763,12 +1016,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -776,7 +1030,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def delete_workflow_definition_with_http_info(
+    async def delete_workflow_definition_with_http_info(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -830,12 +1084,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -843,7 +1098,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def delete_workflow_definition_without_preload_content(
+    async def delete_workflow_definition_without_preload_content(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -897,12 +1152,115 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_workflow_definition_sync(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_workflow_definition`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_workflow_definition(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_workflow_definition_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_workflow_definition_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_workflow_definition_with_http_info(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_workflow_definition_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_workflow_definition_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_workflow_definition_without_preload_content(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_workflow_definition_serialize(
@@ -971,7 +1329,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def get_workflow_definition(
+    async def get_workflow_definition(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -1025,12 +1383,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1038,7 +1397,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def get_workflow_definition_with_http_info(
+    async def get_workflow_definition_with_http_info(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -1092,12 +1451,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1105,7 +1465,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def get_workflow_definition_without_preload_content(
+    async def get_workflow_definition_without_preload_content(
         self,
         definition_id: UUID,
         _request_timeout: Union[
@@ -1159,12 +1519,115 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_definition_sync(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowDefinitionResponse:
+        """Get Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_definition`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_definition(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_definition_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowDefinitionResponse]:
+        """Get Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_definition_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_definition_with_http_info(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_definition_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_definition_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_definition_without_preload_content(
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_definition_serialize(
@@ -1233,7 +1696,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def instantiate_workflow_template(
+    async def instantiate_workflow_template(
         self,
         template_id: UUID,
         instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
@@ -1291,12 +1754,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1304,7 +1768,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def instantiate_workflow_template_with_http_info(
+    async def instantiate_workflow_template_with_http_info(
         self,
         template_id: UUID,
         instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
@@ -1362,12 +1826,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1375,7 +1840,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def instantiate_workflow_template_without_preload_content(
+    async def instantiate_workflow_template_without_preload_content(
         self,
         template_id: UUID,
         instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
@@ -1433,12 +1898,121 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def instantiate_workflow_template_sync(
+        self,
+        template_id: UUID,
+        instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowDefinitionResponse:
+        """Instantiate Workflow Template Handler (synchronous)
+
+        Synchronous variant of :meth:`instantiate_workflow_template`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.instantiate_workflow_template(
+                template_id=template_id,
+                instantiate_workflow_template_request=instantiate_workflow_template_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def instantiate_workflow_template_sync_with_http_info(
+        self,
+        template_id: UUID,
+        instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowDefinitionResponse]:
+        """Instantiate Workflow Template Handler (synchronous)
+
+        Synchronous variant of :meth:`instantiate_workflow_template_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.instantiate_workflow_template_with_http_info(
+                template_id=template_id,
+                instantiate_workflow_template_request=instantiate_workflow_template_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def instantiate_workflow_template_sync_without_preload_content(
+        self,
+        template_id: UUID,
+        instantiate_workflow_template_request: InstantiateWorkflowTemplateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Instantiate Workflow Template Handler (synchronous)
+
+        Synchronous variant of :meth:`instantiate_workflow_template_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.instantiate_workflow_template_without_preload_content(
+                template_id=template_id,
+                instantiate_workflow_template_request=instantiate_workflow_template_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _instantiate_workflow_template_serialize(
@@ -1523,7 +2097,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def list_workflow_definitions(
+    async def list_workflow_definitions(
         self,
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
@@ -1629,12 +2203,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1642,7 +2217,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def list_workflow_definitions_with_http_info(
+    async def list_workflow_definitions_with_http_info(
         self,
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
@@ -1748,12 +2323,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1761,7 +2337,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def list_workflow_definitions_without_preload_content(
+    async def list_workflow_definitions_without_preload_content(
         self,
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
@@ -1867,12 +2443,193 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_workflow_definitions_sync(
+        self,
+        mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
+        sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        is_template: Optional[StrictBool] = None,
+        needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseWorkflowDefinitionResponse:
+        """List Workflow Definitions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_definitions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_definitions(
+                mine=mine,
+                search=search,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                is_template=is_template,
+                needs_approval=needs_approval,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_definitions_sync_with_http_info(
+        self,
+        mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
+        sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        is_template: Optional[StrictBool] = None,
+        needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseWorkflowDefinitionResponse]:
+        """List Workflow Definitions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_definitions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_definitions_with_http_info(
+                mine=mine,
+                search=search,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                is_template=is_template,
+                needs_approval=needs_approval,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_definitions_sync_without_preload_content(
+        self,
+        mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
+        search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
+        sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        is_template: Optional[StrictBool] = None,
+        needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Workflow Definitions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_definitions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_definitions_without_preload_content(
+                mine=mine,
+                search=search,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                is_template=is_template,
+                needs_approval=needs_approval,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_workflow_definitions_serialize(
@@ -2046,7 +2803,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def list_workflow_runs(
+    async def list_workflow_runs(
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
@@ -2132,12 +2889,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2145,7 +2903,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def list_workflow_runs_with_http_info(
+    async def list_workflow_runs_with_http_info(
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
@@ -2231,12 +2989,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2244,7 +3003,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def list_workflow_runs_without_preload_content(
+    async def list_workflow_runs_without_preload_content(
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
@@ -2330,12 +3089,163 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_workflow_runs_sync(
+        self,
+        definition_id: UUID,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseWorkflowRunResponse:
+        """List Workflow Runs Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_runs`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_runs(
+                definition_id=definition_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_runs_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseWorkflowRunResponse]:
+        """List Workflow Runs Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_runs_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_runs_with_http_info(
+                definition_id=definition_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_runs_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Workflow Runs Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_runs_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_runs_without_preload_content(
+                definition_id=definition_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_workflow_runs_serialize(
@@ -2480,7 +3390,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def update_workflow_definition(
+    async def update_workflow_definition(
         self,
         definition_id: UUID,
         update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
@@ -2539,12 +3449,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2552,7 +3463,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def update_workflow_definition_with_http_info(
+    async def update_workflow_definition_with_http_info(
         self,
         definition_id: UUID,
         update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
@@ -2611,12 +3522,13 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2624,7 +3536,7 @@ class WorkflowDefinitionsApi:
 
 
     @validate_call
-    def update_workflow_definition_without_preload_content(
+    async def update_workflow_definition_without_preload_content(
         self,
         definition_id: UUID,
         update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
@@ -2683,12 +3595,121 @@ class WorkflowDefinitionsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowDefinitionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_workflow_definition_sync(
+        self,
+        definition_id: UUID,
+        update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowDefinitionResponse:
+        """Update Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`update_workflow_definition`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_workflow_definition(
+                definition_id=definition_id,
+                update_workflow_definition_request=update_workflow_definition_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_workflow_definition_sync_with_http_info(
+        self,
+        definition_id: UUID,
+        update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowDefinitionResponse]:
+        """Update Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`update_workflow_definition_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_workflow_definition_with_http_info(
+                definition_id=definition_id,
+                update_workflow_definition_request=update_workflow_definition_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_workflow_definition_sync_without_preload_content(
+        self,
+        definition_id: UUID,
+        update_workflow_definition_request: UpdateWorkflowDefinitionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Workflow Definition Handler (synchronous)
+
+        Synchronous variant of :meth:`update_workflow_definition_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_workflow_definition_without_preload_content(
+                definition_id=definition_id,
+                update_workflow_definition_request=update_workflow_definition_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_workflow_definition_serialize(

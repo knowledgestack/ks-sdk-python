@@ -17,66 +17,122 @@ import unittest
 from ksapi.api.workflow_definitions_api import WorkflowDefinitionsApi
 
 
-class TestWorkflowDefinitionsApi(unittest.TestCase):
+class TestWorkflowDefinitionsApi(unittest.IsolatedAsyncioTestCase):
     """WorkflowDefinitionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = WorkflowDefinitionsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_workflow_definition(self) -> None:
+    async def test_create_workflow_definition(self) -> None:
         """Test case for create_workflow_definition
 
         Create Workflow Definition Handler
         """
         pass
 
-    def test_create_workflow_run(self) -> None:
+    def test_create_workflow_definition_sync(self) -> None:
+        """Test case for create_workflow_definition (synchronous)
+
+        Create Workflow Definition Handler
+        """
+        pass
+
+    async def test_create_workflow_run(self) -> None:
         """Test case for create_workflow_run
 
         Create Workflow Run Handler
         """
         pass
 
-    def test_delete_workflow_definition(self) -> None:
+    def test_create_workflow_run_sync(self) -> None:
+        """Test case for create_workflow_run (synchronous)
+
+        Create Workflow Run Handler
+        """
+        pass
+
+    async def test_delete_workflow_definition(self) -> None:
         """Test case for delete_workflow_definition
 
         Delete Workflow Definition Handler
         """
         pass
 
-    def test_get_workflow_definition(self) -> None:
+    def test_delete_workflow_definition_sync(self) -> None:
+        """Test case for delete_workflow_definition (synchronous)
+
+        Delete Workflow Definition Handler
+        """
+        pass
+
+    async def test_get_workflow_definition(self) -> None:
         """Test case for get_workflow_definition
 
         Get Workflow Definition Handler
         """
         pass
 
-    def test_instantiate_workflow_template(self) -> None:
+    def test_get_workflow_definition_sync(self) -> None:
+        """Test case for get_workflow_definition (synchronous)
+
+        Get Workflow Definition Handler
+        """
+        pass
+
+    async def test_instantiate_workflow_template(self) -> None:
         """Test case for instantiate_workflow_template
 
         Instantiate Workflow Template Handler
         """
         pass
 
-    def test_list_workflow_definitions(self) -> None:
+    def test_instantiate_workflow_template_sync(self) -> None:
+        """Test case for instantiate_workflow_template (synchronous)
+
+        Instantiate Workflow Template Handler
+        """
+        pass
+
+    async def test_list_workflow_definitions(self) -> None:
         """Test case for list_workflow_definitions
 
         List Workflow Definitions Handler
         """
         pass
 
-    def test_list_workflow_runs(self) -> None:
+    def test_list_workflow_definitions_sync(self) -> None:
+        """Test case for list_workflow_definitions (synchronous)
+
+        List Workflow Definitions Handler
+        """
+        pass
+
+    async def test_list_workflow_runs(self) -> None:
         """Test case for list_workflow_runs
 
         List Workflow Runs Handler
         """
         pass
 
-    def test_update_workflow_definition(self) -> None:
+    def test_list_workflow_runs_sync(self) -> None:
+        """Test case for list_workflow_runs (synchronous)
+
+        List Workflow Runs Handler
+        """
+        pass
+
+    async def test_update_workflow_definition(self) -> None:
         """Test case for update_workflow_definition
+
+        Update Workflow Definition Handler
+        """
+        pass
+
+    def test_update_workflow_definition_sync(self) -> None:
+        """Test case for update_workflow_definition (synchronous)
 
         Update Workflow Definition Handler
         """

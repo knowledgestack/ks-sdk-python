@@ -17,66 +17,122 @@ import unittest
 from ksapi.api.system_jobs_api import SystemJobsApi
 
 
-class TestSystemJobsApi(unittest.TestCase):
+class TestSystemJobsApi(unittest.IsolatedAsyncioTestCase):
     """SystemJobsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = SystemJobsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_bulk_rerun_dv_workflows(self) -> None:
+    async def test_bulk_rerun_dv_workflows(self) -> None:
         """Test case for bulk_rerun_dv_workflows
 
         Bulk Rerun Dv Workflows Handler
         """
         pass
 
-    def test_cancel_temporal_workflow(self) -> None:
+    def test_bulk_rerun_dv_workflows_sync(self) -> None:
+        """Test case for bulk_rerun_dv_workflows (synchronous)
+
+        Bulk Rerun Dv Workflows Handler
+        """
+        pass
+
+    async def test_cancel_temporal_workflow(self) -> None:
         """Test case for cancel_temporal_workflow
 
         Cancel Temporal Workflow Handler
         """
         pass
 
-    def test_dv_workflow_rerun(self) -> None:
+    def test_cancel_temporal_workflow_sync(self) -> None:
+        """Test case for cancel_temporal_workflow (synchronous)
+
+        Cancel Temporal Workflow Handler
+        """
+        pass
+
+    async def test_dv_workflow_rerun(self) -> None:
         """Test case for dv_workflow_rerun
 
         Dv Workflow Rerun Handler
         """
         pass
 
-    def test_get_dv_workflow(self) -> None:
+    def test_dv_workflow_rerun_sync(self) -> None:
+        """Test case for dv_workflow_rerun (synchronous)
+
+        Dv Workflow Rerun Handler
+        """
+        pass
+
+    async def test_get_dv_workflow(self) -> None:
         """Test case for get_dv_workflow
 
         Get Dv Workflow Handler
         """
         pass
 
-    def test_get_temporal_workflow_status(self) -> None:
+    def test_get_dv_workflow_sync(self) -> None:
+        """Test case for get_dv_workflow (synchronous)
+
+        Get Dv Workflow Handler
+        """
+        pass
+
+    async def test_get_temporal_workflow_status(self) -> None:
         """Test case for get_temporal_workflow_status
 
         Get Temporal Workflow Status Handler
         """
         pass
 
-    def test_get_zip_ingestion_status(self) -> None:
+    def test_get_temporal_workflow_status_sync(self) -> None:
+        """Test case for get_temporal_workflow_status (synchronous)
+
+        Get Temporal Workflow Status Handler
+        """
+        pass
+
+    async def test_get_zip_ingestion_status(self) -> None:
         """Test case for get_zip_ingestion_status
 
         Get Zip Ingestion Status Handler
         """
         pass
 
-    def test_list_dv_workflow_uploaders(self) -> None:
+    def test_get_zip_ingestion_status_sync(self) -> None:
+        """Test case for get_zip_ingestion_status (synchronous)
+
+        Get Zip Ingestion Status Handler
+        """
+        pass
+
+    async def test_list_dv_workflow_uploaders(self) -> None:
         """Test case for list_dv_workflow_uploaders
 
         List Dv Workflow Uploaders Handler
         """
         pass
 
-    def test_list_dv_workflows(self) -> None:
+    def test_list_dv_workflow_uploaders_sync(self) -> None:
+        """Test case for list_dv_workflow_uploaders (synchronous)
+
+        List Dv Workflow Uploaders Handler
+        """
+        pass
+
+    async def test_list_dv_workflows(self) -> None:
         """Test case for list_dv_workflows
+
+        List Dv Workflows Handler
+        """
+        pass
+
+    def test_list_dv_workflows_sync(self) -> None:
+        """Test case for list_dv_workflows (synchronous)
 
         List Dv Workflows Handler
         """

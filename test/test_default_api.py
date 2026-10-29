@@ -17,24 +17,38 @@ import unittest
 from ksapi.api.default_api import DefaultApi
 
 
-class TestDefaultApi(unittest.TestCase):
+class TestDefaultApi(unittest.IsolatedAsyncioTestCase):
     """DefaultApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DefaultApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_health_check(self) -> None:
+    async def test_health_check(self) -> None:
         """Test case for health_check
 
         Health Check Handler
         """
         pass
 
-    def test_hello(self) -> None:
+    def test_health_check_sync(self) -> None:
+        """Test case for health_check (synchronous)
+
+        Health Check Handler
+        """
+        pass
+
+    async def test_hello(self) -> None:
         """Test case for hello
+
+        Root Handler
+        """
+        pass
+
+    def test_hello_sync(self) -> None:
+        """Test case for hello (synchronous)
 
         Root Handler
         """

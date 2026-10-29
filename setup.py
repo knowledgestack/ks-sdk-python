@@ -19,11 +19,11 @@ from setuptools import setup, find_packages  # noqa: H301
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 NAME = "ksapi"
-VERSION = "3.19.4"
-PYTHON_REQUIRES = ">= 3.9"
+VERSION = "3.20.0"
+PYTHON_REQUIRES = ">= 3.10"
 REQUIRES = [
-    "urllib3 >= 2.1.0, < 3.0.0",
     "python-dateutil >= 2.8.2",
+    "httpx2 >= 2.13.0, < 3",
     "pydantic >= 2.11",
     "typing-extensions >= 4.7.1",
 ]

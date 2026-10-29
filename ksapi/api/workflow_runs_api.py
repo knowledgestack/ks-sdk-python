@@ -37,6 +37,7 @@ from ksapi.models.workflow_run_summary_response import WorkflowRunSummaryRespons
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class WorkflowRunsApi:
@@ -53,7 +54,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def clone_workflow_run(
+    async def clone_workflow_run(
         self,
         run_id: UUID,
         clone_workflow_run_request: CloneWorkflowRunRequest,
@@ -112,12 +113,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -125,7 +127,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def clone_workflow_run_with_http_info(
+    async def clone_workflow_run_with_http_info(
         self,
         run_id: UUID,
         clone_workflow_run_request: CloneWorkflowRunRequest,
@@ -184,12 +186,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -197,7 +200,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def clone_workflow_run_without_preload_content(
+    async def clone_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         clone_workflow_run_request: CloneWorkflowRunRequest,
@@ -256,12 +259,121 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def clone_workflow_run_sync(
+        self,
+        run_id: UUID,
+        clone_workflow_run_request: CloneWorkflowRunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Clone Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`clone_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.clone_workflow_run(
+                run_id=run_id,
+                clone_workflow_run_request=clone_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def clone_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        clone_workflow_run_request: CloneWorkflowRunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Clone Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`clone_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.clone_workflow_run_with_http_info(
+                run_id=run_id,
+                clone_workflow_run_request=clone_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def clone_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        clone_workflow_run_request: CloneWorkflowRunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Clone Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`clone_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.clone_workflow_run_without_preload_content(
+                run_id=run_id,
+                clone_workflow_run_request=clone_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _clone_workflow_run_serialize(
@@ -346,7 +458,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def delete_workflow_run(
+    async def delete_workflow_run(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -400,12 +512,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -413,7 +526,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def delete_workflow_run_with_http_info(
+    async def delete_workflow_run_with_http_info(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -467,12 +580,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -480,7 +594,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def delete_workflow_run_without_preload_content(
+    async def delete_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -534,12 +648,115 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_workflow_run_sync(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_workflow_run(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_workflow_run_with_http_info(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_workflow_run_without_preload_content(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_workflow_run_serialize(
@@ -608,7 +825,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def get_workflow_run(
+    async def get_workflow_run(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -662,12 +879,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -675,7 +893,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def get_workflow_run_with_http_info(
+    async def get_workflow_run_with_http_info(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -729,12 +947,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -742,7 +961,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def get_workflow_run_without_preload_content(
+    async def get_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -796,12 +1015,115 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_run_sync(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Get Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_run(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Get Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_run_with_http_info(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_run_without_preload_content(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_run_serialize(
@@ -870,7 +1192,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def get_workflow_runs_summary(
+    async def get_workflow_runs_summary(
         self,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
         until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
@@ -933,12 +1255,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -946,7 +1269,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def get_workflow_runs_summary_with_http_info(
+    async def get_workflow_runs_summary_with_http_info(
         self,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
         until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
@@ -1009,12 +1332,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1022,7 +1346,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def get_workflow_runs_summary_without_preload_content(
+    async def get_workflow_runs_summary_without_preload_content(
         self,
         since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
         until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
@@ -1085,12 +1409,127 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunSummaryResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_workflow_runs_summary_sync(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunSummaryResponse:
+        """Get Workflow Runs Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_runs_summary`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_runs_summary(
+                since=since,
+                until=until,
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_runs_summary_sync_with_http_info(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunSummaryResponse]:
+        """Get Workflow Runs Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_runs_summary_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_runs_summary_with_http_info(
+                since=since,
+                until=until,
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_workflow_runs_summary_sync_without_preload_content(
+        self,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Workflow Runs Summary Handler (synchronous)
+
+        Synchronous variant of :meth:`get_workflow_runs_summary_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_workflow_runs_summary_without_preload_content(
+                since=since,
+                until=until,
+                definition_id=definition_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_workflow_runs_summary_serialize(
@@ -1189,7 +1628,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def list_workflow_runs_for_tenant(
+    async def list_workflow_runs_for_tenant(
         self,
         state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
         mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
@@ -1304,12 +1743,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1317,7 +1757,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def list_workflow_runs_for_tenant_with_http_info(
+    async def list_workflow_runs_for_tenant_with_http_info(
         self,
         state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
         mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
@@ -1432,12 +1872,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1445,7 +1886,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def list_workflow_runs_for_tenant_without_preload_content(
+    async def list_workflow_runs_for_tenant_without_preload_content(
         self,
         state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
         mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
@@ -1560,12 +2001,205 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseWorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_workflow_runs_for_tenant_sync(
+        self,
+        state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
+        approvable_by_me: Annotated[Optional[StrictBool], Field(description="Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseWorkflowRunResponse:
+        """List Workflow Runs For Tenant Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_runs_for_tenant`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_runs_for_tenant(
+                state=state,
+                mine=mine,
+                approvable_by_me=approvable_by_me,
+                definition_id=definition_id,
+                owner_id=owner_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                approval_state=approval_state,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_runs_for_tenant_sync_with_http_info(
+        self,
+        state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
+        approvable_by_me: Annotated[Optional[StrictBool], Field(description="Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseWorkflowRunResponse]:
+        """List Workflow Runs For Tenant Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_runs_for_tenant_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_runs_for_tenant_with_http_info(
+                state=state,
+                mine=mine,
+                approvable_by_me=approvable_by_me,
+                definition_id=definition_id,
+                owner_id=owner_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                approval_state=approval_state,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_workflow_runs_for_tenant_sync_without_preload_content(
+        self,
+        state: Annotated[Optional[List[WorkflowExecutionState]], Field(description="Keep only runs in these execution states (repeatable).")] = None,
+        mine: Annotated[Optional[StrictBool], Field(description="Only runs the caller created (owner). Overrides owner_id.")] = None,
+        approvable_by_me: Annotated[Optional[StrictBool], Field(description="Only runs the caller may approve (approve-path scoped). Compose with approval_state=pending for the approval worklist.")] = None,
+        definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
+        sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
+        include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
+        exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Workflow Runs For Tenant Handler (synchronous)
+
+        Synchronous variant of :meth:`list_workflow_runs_for_tenant_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_workflow_runs_for_tenant_without_preload_content(
+                state=state,
+                mine=mine,
+                approvable_by_me=approvable_by_me,
+                definition_id=definition_id,
+                owner_id=owner_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                approval_state=approval_state,
+                include_tag_ids=include_tag_ids,
+                exclude_tag_ids=exclude_tag_ids,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_workflow_runs_for_tenant_serialize(
@@ -1751,7 +2385,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def resume_workflow_run(
+    async def resume_workflow_run(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -1806,12 +2440,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1819,7 +2454,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def resume_workflow_run_with_http_info(
+    async def resume_workflow_run_with_http_info(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -1874,12 +2509,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1887,7 +2523,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def resume_workflow_run_without_preload_content(
+    async def resume_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -1942,12 +2578,115 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def resume_workflow_run_sync(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Resume Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`resume_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.resume_workflow_run(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def resume_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Resume Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`resume_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.resume_workflow_run_with_http_info(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def resume_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Resume Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`resume_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.resume_workflow_run_without_preload_content(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _resume_workflow_run_serialize(
@@ -2016,7 +2755,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def retry_workflow_run(
+    async def retry_workflow_run(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -2071,12 +2810,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2084,7 +2824,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def retry_workflow_run_with_http_info(
+    async def retry_workflow_run_with_http_info(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -2139,12 +2879,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2152,7 +2893,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def retry_workflow_run_without_preload_content(
+    async def retry_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -2207,12 +2948,115 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def retry_workflow_run_sync(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Retry Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`retry_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.retry_workflow_run(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def retry_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Retry Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`retry_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.retry_workflow_run_with_http_info(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def retry_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Retry Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`retry_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.retry_workflow_run_without_preload_content(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _retry_workflow_run_serialize(
@@ -2281,7 +3125,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def set_workflow_run_approval(
+    async def set_workflow_run_approval(
         self,
         run_id: UUID,
         set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
@@ -2340,12 +3184,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2353,7 +3198,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def set_workflow_run_approval_with_http_info(
+    async def set_workflow_run_approval_with_http_info(
         self,
         run_id: UUID,
         set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
@@ -2412,12 +3257,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2425,7 +3271,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def set_workflow_run_approval_without_preload_content(
+    async def set_workflow_run_approval_without_preload_content(
         self,
         run_id: UUID,
         set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
@@ -2484,12 +3330,121 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def set_workflow_run_approval_sync(
+        self,
+        run_id: UUID,
+        set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Set Workflow Run Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`set_workflow_run_approval`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_workflow_run_approval(
+                run_id=run_id,
+                set_workflow_run_approval_request=set_workflow_run_approval_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def set_workflow_run_approval_sync_with_http_info(
+        self,
+        run_id: UUID,
+        set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Set Workflow Run Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`set_workflow_run_approval_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_workflow_run_approval_with_http_info(
+                run_id=run_id,
+                set_workflow_run_approval_request=set_workflow_run_approval_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def set_workflow_run_approval_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        set_workflow_run_approval_request: SetWorkflowRunApprovalRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Set Workflow Run Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`set_workflow_run_approval_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_workflow_run_approval_without_preload_content(
+                run_id=run_id,
+                set_workflow_run_approval_request=set_workflow_run_approval_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _set_workflow_run_approval_serialize(
@@ -2574,7 +3529,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def start_workflow_run(
+    async def start_workflow_run(
         self,
         run_id: UUID,
         start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
@@ -2633,12 +3588,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2646,7 +3602,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def start_workflow_run_with_http_info(
+    async def start_workflow_run_with_http_info(
         self,
         run_id: UUID,
         start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
@@ -2705,12 +3661,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2718,7 +3675,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def start_workflow_run_without_preload_content(
+    async def start_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
@@ -2777,12 +3734,121 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def start_workflow_run_sync(
+        self,
+        run_id: UUID,
+        start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Start Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`start_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.start_workflow_run(
+                run_id=run_id,
+                start_workflow_run_request=start_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def start_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Start Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`start_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.start_workflow_run_with_http_info(
+                run_id=run_id,
+                start_workflow_run_request=start_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def start_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        start_workflow_run_request: Optional[StartWorkflowRunRequest] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Start Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`start_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.start_workflow_run_without_preload_content(
+                run_id=run_id,
+                start_workflow_run_request=start_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _start_workflow_run_serialize(
@@ -2867,7 +3933,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def stop_workflow_run(
+    async def stop_workflow_run(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -2922,12 +3988,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2935,7 +4002,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def stop_workflow_run_with_http_info(
+    async def stop_workflow_run_with_http_info(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -2990,12 +4057,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3003,7 +4071,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def stop_workflow_run_without_preload_content(
+    async def stop_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -3058,12 +4126,115 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def stop_workflow_run_sync(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Stop Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`stop_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.stop_workflow_run(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def stop_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Stop Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`stop_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.stop_workflow_run_with_http_info(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def stop_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stop Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`stop_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.stop_workflow_run_without_preload_content(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _stop_workflow_run_serialize(
@@ -3132,7 +4303,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def update_workflow_run(
+    async def update_workflow_run(
         self,
         run_id: UUID,
         update_workflow_run_request: UpdateWorkflowRunRequest,
@@ -3191,12 +4362,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3204,7 +4376,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def update_workflow_run_with_http_info(
+    async def update_workflow_run_with_http_info(
         self,
         run_id: UUID,
         update_workflow_run_request: UpdateWorkflowRunRequest,
@@ -3263,12 +4435,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3276,7 +4449,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def update_workflow_run_without_preload_content(
+    async def update_workflow_run_without_preload_content(
         self,
         run_id: UUID,
         update_workflow_run_request: UpdateWorkflowRunRequest,
@@ -3335,12 +4508,121 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowRunResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_workflow_run_sync(
+        self,
+        run_id: UUID,
+        update_workflow_run_request: UpdateWorkflowRunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowRunResponse:
+        """Update Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`update_workflow_run`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_workflow_run(
+                run_id=run_id,
+                update_workflow_run_request=update_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_workflow_run_sync_with_http_info(
+        self,
+        run_id: UUID,
+        update_workflow_run_request: UpdateWorkflowRunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowRunResponse]:
+        """Update Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`update_workflow_run_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_workflow_run_with_http_info(
+                run_id=run_id,
+                update_workflow_run_request=update_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_workflow_run_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        update_workflow_run_request: UpdateWorkflowRunRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Workflow Run Handler (synchronous)
+
+        Synchronous variant of :meth:`update_workflow_run_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_workflow_run_without_preload_content(
+                run_id=run_id,
+                update_workflow_run_request=update_workflow_run_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_workflow_run_serialize(
@@ -3425,7 +4707,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def workflow_run_callback(
+    async def workflow_run_callback(
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
@@ -3484,12 +4766,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowCallbackResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3497,7 +4780,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def workflow_run_callback_with_http_info(
+    async def workflow_run_callback_with_http_info(
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
@@ -3556,12 +4839,13 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowCallbackResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3569,7 +4853,7 @@ class WorkflowRunsApi:
 
 
     @validate_call
-    def workflow_run_callback_without_preload_content(
+    async def workflow_run_callback_without_preload_content(
         self,
         run_id: UUID,
         workflow_run_callback_request: WorkflowRunCallbackRequest,
@@ -3628,12 +4912,121 @@ class WorkflowRunsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "WorkflowCallbackResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def workflow_run_callback_sync(
+        self,
+        run_id: UUID,
+        workflow_run_callback_request: WorkflowRunCallbackRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> WorkflowCallbackResponse:
+        """Workflow Run Callback Handler (synchronous)
+
+        Synchronous variant of :meth:`workflow_run_callback`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.workflow_run_callback(
+                run_id=run_id,
+                workflow_run_callback_request=workflow_run_callback_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def workflow_run_callback_sync_with_http_info(
+        self,
+        run_id: UUID,
+        workflow_run_callback_request: WorkflowRunCallbackRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[WorkflowCallbackResponse]:
+        """Workflow Run Callback Handler (synchronous)
+
+        Synchronous variant of :meth:`workflow_run_callback_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.workflow_run_callback_with_http_info(
+                run_id=run_id,
+                workflow_run_callback_request=workflow_run_callback_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def workflow_run_callback_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        workflow_run_callback_request: WorkflowRunCallbackRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Workflow Run Callback Handler (synchronous)
+
+        Synchronous variant of :meth:`workflow_run_callback_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.workflow_run_callback_without_preload_content(
+                run_id=run_id,
+                workflow_run_callback_request=workflow_run_callback_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _workflow_run_callback_serialize(

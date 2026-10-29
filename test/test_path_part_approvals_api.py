@@ -17,24 +17,38 @@ import unittest
 from ksapi.api.path_part_approvals_api import PathPartApprovalsApi
 
 
-class TestPathPartApprovalsApi(unittest.TestCase):
+class TestPathPartApprovalsApi(unittest.IsolatedAsyncioTestCase):
     """PathPartApprovalsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = PathPartApprovalsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_get_path_part_approval(self) -> None:
+    async def test_get_path_part_approval(self) -> None:
         """Test case for get_path_part_approval
 
         Get Path Part Approval Handler
         """
         pass
 
-    def test_set_path_part_approval(self) -> None:
+    def test_get_path_part_approval_sync(self) -> None:
+        """Test case for get_path_part_approval (synchronous)
+
+        Get Path Part Approval Handler
+        """
+        pass
+
+    async def test_set_path_part_approval(self) -> None:
         """Test case for set_path_part_approval
+
+        Set Path Part Approval Handler
+        """
+        pass
+
+    def test_set_path_part_approval_sync(self) -> None:
+        """Test case for set_path_part_approval (synchronous)
 
         Set Path Part Approval Handler
         """

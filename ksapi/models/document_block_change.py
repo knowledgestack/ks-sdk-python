@@ -99,36 +99,31 @@ class DocumentBlockChange(BaseModel):
         _items = []
         if self.old_spans:
             for _item_old_spans in self.old_spans:
-                if _item_old_spans:
-                    _items.append(_item_old_spans.to_dict())
+                _items.append(_item_old_spans.to_dict() if _item_old_spans is not None else None)
             _dict['old_spans'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in new_spans (list)
         _items = []
         if self.new_spans:
             for _item_new_spans in self.new_spans:
-                if _item_new_spans:
-                    _items.append(_item_new_spans.to_dict())
+                _items.append(_item_new_spans.to_dict() if _item_new_spans is not None else None)
             _dict['new_spans'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in cell_changes (list)
         _items = []
         if self.cell_changes:
             for _item_cell_changes in self.cell_changes:
-                if _item_cell_changes:
-                    _items.append(_item_cell_changes.to_dict())
+                _items.append(_item_cell_changes.to_dict() if _item_cell_changes is not None else None)
             _dict['cell_changes'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in revisions (list)
         _items = []
         if self.revisions:
             for _item_revisions in self.revisions:
-                if _item_revisions:
-                    _items.append(_item_revisions.to_dict())
+                _items.append(_item_revisions.to_dict() if _item_revisions is not None else None)
             _dict['revisions'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in image_regions (list)
         _items = []
         if self.image_regions:
             for _item_image_regions in self.image_regions:
-                if _item_image_regions:
-                    _items.append(_item_image_regions.to_dict())
+                _items.append(_item_image_regions.to_dict() if _item_image_regions is not None else None)
             _dict['image_regions'] = _items
         # set to None if from_paragraph_index (nullable) is None
         # and model_fields_set contains the field

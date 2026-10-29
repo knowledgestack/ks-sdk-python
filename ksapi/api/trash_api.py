@@ -31,6 +31,7 @@ from ksapi.models.trash_item_detail_response import TrashItemDetailResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class TrashApi:
@@ -47,7 +48,7 @@ class TrashApi:
 
 
     @validate_call
-    def bulk_permanently_delete_trash(
+    async def bulk_permanently_delete_trash(
         self,
         bulk_trash_request: BulkTrashRequest,
         _request_timeout: Union[
@@ -102,12 +103,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -115,7 +117,7 @@ class TrashApi:
 
 
     @validate_call
-    def bulk_permanently_delete_trash_with_http_info(
+    async def bulk_permanently_delete_trash_with_http_info(
         self,
         bulk_trash_request: BulkTrashRequest,
         _request_timeout: Union[
@@ -170,12 +172,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -183,7 +186,7 @@ class TrashApi:
 
 
     @validate_call
-    def bulk_permanently_delete_trash_without_preload_content(
+    async def bulk_permanently_delete_trash_without_preload_content(
         self,
         bulk_trash_request: BulkTrashRequest,
         _request_timeout: Union[
@@ -238,12 +241,115 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_permanently_delete_trash_sync(
+        self,
+        bulk_trash_request: BulkTrashRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkOperationResponse:
+        """Bulk Permanently Delete Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_permanently_delete_trash`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_permanently_delete_trash(
+                bulk_trash_request=bulk_trash_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_permanently_delete_trash_sync_with_http_info(
+        self,
+        bulk_trash_request: BulkTrashRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkOperationResponse]:
+        """Bulk Permanently Delete Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_permanently_delete_trash_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_permanently_delete_trash_with_http_info(
+                bulk_trash_request=bulk_trash_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_permanently_delete_trash_sync_without_preload_content(
+        self,
+        bulk_trash_request: BulkTrashRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Permanently Delete Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_permanently_delete_trash_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_permanently_delete_trash_without_preload_content(
+                bulk_trash_request=bulk_trash_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_permanently_delete_trash_serialize(
@@ -325,7 +431,7 @@ class TrashApi:
 
 
     @validate_call
-    def bulk_restore_trash(
+    async def bulk_restore_trash(
         self,
         bulk_trash_request: BulkTrashRequest,
         _request_timeout: Union[
@@ -380,12 +486,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -393,7 +500,7 @@ class TrashApi:
 
 
     @validate_call
-    def bulk_restore_trash_with_http_info(
+    async def bulk_restore_trash_with_http_info(
         self,
         bulk_trash_request: BulkTrashRequest,
         _request_timeout: Union[
@@ -448,12 +555,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -461,7 +569,7 @@ class TrashApi:
 
 
     @validate_call
-    def bulk_restore_trash_without_preload_content(
+    async def bulk_restore_trash_without_preload_content(
         self,
         bulk_trash_request: BulkTrashRequest,
         _request_timeout: Union[
@@ -516,12 +624,115 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "BulkOperationResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def bulk_restore_trash_sync(
+        self,
+        bulk_trash_request: BulkTrashRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BulkOperationResponse:
+        """Bulk Restore Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_restore_trash`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_restore_trash(
+                bulk_trash_request=bulk_trash_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_restore_trash_sync_with_http_info(
+        self,
+        bulk_trash_request: BulkTrashRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BulkOperationResponse]:
+        """Bulk Restore Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_restore_trash_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_restore_trash_with_http_info(
+                bulk_trash_request=bulk_trash_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def bulk_restore_trash_sync_without_preload_content(
+        self,
+        bulk_trash_request: BulkTrashRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Bulk Restore Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`bulk_restore_trash_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.bulk_restore_trash_without_preload_content(
+                bulk_trash_request=bulk_trash_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _bulk_restore_trash_serialize(
@@ -603,7 +814,7 @@ class TrashApi:
 
 
     @validate_call
-    def get_trash_item(
+    async def get_trash_item(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -658,12 +869,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TrashItemDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -671,7 +883,7 @@ class TrashApi:
 
 
     @validate_call
-    def get_trash_item_with_http_info(
+    async def get_trash_item_with_http_info(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -726,12 +938,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TrashItemDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -739,7 +952,7 @@ class TrashApi:
 
 
     @validate_call
-    def get_trash_item_without_preload_content(
+    async def get_trash_item_without_preload_content(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -794,12 +1007,115 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "TrashItemDetailResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_trash_item_sync(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TrashItemDetailResponse:
+        """Get Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`get_trash_item`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_trash_item(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_trash_item_sync_with_http_info(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TrashItemDetailResponse]:
+        """Get Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`get_trash_item_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_trash_item_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_trash_item_sync_without_preload_content(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`get_trash_item_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_trash_item_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_trash_item_serialize(
@@ -868,7 +1184,7 @@ class TrashApi:
 
 
     @validate_call
-    def list_trash(
+    async def list_trash(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
@@ -963,12 +1279,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTrashItemResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -976,7 +1293,7 @@ class TrashApi:
 
 
     @validate_call
-    def list_trash_with_http_info(
+    async def list_trash_with_http_info(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
@@ -1071,12 +1388,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTrashItemResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1084,7 +1402,7 @@ class TrashApi:
 
 
     @validate_call
-    def list_trash_without_preload_content(
+    async def list_trash_without_preload_content(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
@@ -1179,12 +1497,175 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseTrashItemResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_trash_sync(
+        self,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
+        part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseTrashItemResponse:
+        """List Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`list_trash`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_trash(
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                deleted_by=deleted_by,
+                part_type=part_type,
+                owner_id=owner_id,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_trash_sync_with_http_info(
+        self,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
+        part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseTrashItemResponse]:
+        """List Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`list_trash_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_trash_with_http_info(
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                deleted_by=deleted_by,
+                part_type=part_type,
+                owner_id=owner_id,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_trash_sync_without_preload_content(
+        self,
+        sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
+        deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
+        part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
+        owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Trash Handler (synchronous)
+
+        Synchronous variant of :meth:`list_trash_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_trash_without_preload_content(
+                sort_order=sort_order,
+                sort_dir=sort_dir,
+                deleted_by=deleted_by,
+                part_type=part_type,
+                owner_id=owner_id,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_trash_serialize(
@@ -1342,7 +1823,7 @@ class TrashApi:
 
 
     @validate_call
-    def permanently_delete_trash_item(
+    async def permanently_delete_trash_item(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -1397,12 +1878,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1410,7 +1892,7 @@ class TrashApi:
 
 
     @validate_call
-    def permanently_delete_trash_item_with_http_info(
+    async def permanently_delete_trash_item_with_http_info(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -1465,12 +1947,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1478,7 +1961,7 @@ class TrashApi:
 
 
     @validate_call
-    def permanently_delete_trash_item_without_preload_content(
+    async def permanently_delete_trash_item_without_preload_content(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -1533,12 +2016,115 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def permanently_delete_trash_item_sync(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Permanently Delete Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`permanently_delete_trash_item`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.permanently_delete_trash_item(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def permanently_delete_trash_item_sync_with_http_info(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Permanently Delete Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`permanently_delete_trash_item_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.permanently_delete_trash_item_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def permanently_delete_trash_item_sync_without_preload_content(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Permanently Delete Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`permanently_delete_trash_item_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.permanently_delete_trash_item_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _permanently_delete_trash_item_serialize(
@@ -1607,7 +2193,7 @@ class TrashApi:
 
 
     @validate_call
-    def restore_trash_item(
+    async def restore_trash_item(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -1662,12 +2248,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1675,7 +2262,7 @@ class TrashApi:
 
 
     @validate_call
-    def restore_trash_item_with_http_info(
+    async def restore_trash_item_with_http_info(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -1730,12 +2317,13 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1743,7 +2331,7 @@ class TrashApi:
 
 
     @validate_call
-    def restore_trash_item_without_preload_content(
+    async def restore_trash_item_without_preload_content(
         self,
         path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
         _request_timeout: Union[
@@ -1798,12 +2386,115 @@ class TrashApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def restore_trash_item_sync(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Restore Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`restore_trash_item`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.restore_trash_item(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def restore_trash_item_sync_with_http_info(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Restore Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`restore_trash_item_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.restore_trash_item_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def restore_trash_item_sync_without_preload_content(
+        self,
+        path_part_id: Annotated[UUID, Field(description="Trashed PathPart ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Restore Trash Item Handler (synchronous)
+
+        Synchronous variant of :meth:`restore_trash_item_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.restore_trash_item_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _restore_trash_item_serialize(

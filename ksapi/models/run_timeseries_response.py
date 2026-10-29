@@ -77,8 +77,7 @@ class RunTimeseriesResponse(BaseModel):
         _items = []
         if self.points:
             for _item_points in self.points:
-                if _item_points:
-                    _items.append(_item_points.to_dict())
+                _items.append(_item_points.to_dict() if _item_points is not None else None)
             _dict['points'] = _items
         return _dict
 

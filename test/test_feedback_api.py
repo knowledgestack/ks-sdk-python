@@ -17,31 +17,52 @@ import unittest
 from ksapi.api.feedback_api import FeedbackApi
 
 
-class TestFeedbackApi(unittest.TestCase):
+class TestFeedbackApi(unittest.IsolatedAsyncioTestCase):
     """FeedbackApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = FeedbackApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_delete_feedback(self) -> None:
+    async def test_delete_feedback(self) -> None:
         """Test case for delete_feedback
 
         Delete Feedback Handler
         """
         pass
 
-    def test_list_feedback(self) -> None:
+    def test_delete_feedback_sync(self) -> None:
+        """Test case for delete_feedback (synchronous)
+
+        Delete Feedback Handler
+        """
+        pass
+
+    async def test_list_feedback(self) -> None:
         """Test case for list_feedback
 
         List Feedback Handler
         """
         pass
 
-    def test_submit_feedback(self) -> None:
+    def test_list_feedback_sync(self) -> None:
+        """Test case for list_feedback (synchronous)
+
+        List Feedback Handler
+        """
+        pass
+
+    async def test_submit_feedback(self) -> None:
         """Test case for submit_feedback
+
+        Submit Feedback Handler
+        """
+        pass
+
+    def test_submit_feedback_sync(self) -> None:
+        """Test case for submit_feedback (synchronous)
 
         Submit Feedback Handler
         """

@@ -34,6 +34,7 @@ from ksapi.models.update_invite_request import UpdateInviteRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class InvitesApi:
@@ -50,7 +51,7 @@ class InvitesApi:
 
 
     @validate_call
-    def accept_invite(
+    async def accept_invite(
         self,
         invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
         _request_timeout: Union[
@@ -105,12 +106,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AcceptInviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -118,7 +120,7 @@ class InvitesApi:
 
 
     @validate_call
-    def accept_invite_with_http_info(
+    async def accept_invite_with_http_info(
         self,
         invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
         _request_timeout: Union[
@@ -173,12 +175,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AcceptInviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -186,7 +189,7 @@ class InvitesApi:
 
 
     @validate_call
-    def accept_invite_without_preload_content(
+    async def accept_invite_without_preload_content(
         self,
         invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
         _request_timeout: Union[
@@ -241,12 +244,115 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AcceptInviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def accept_invite_sync(
+        self,
+        invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AcceptInviteResponse:
+        """Accept Invite (synchronous)
+
+        Synchronous variant of :meth:`accept_invite`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.accept_invite(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def accept_invite_sync_with_http_info(
+        self,
+        invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AcceptInviteResponse]:
+        """Accept Invite (synchronous)
+
+        Synchronous variant of :meth:`accept_invite_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.accept_invite_with_http_info(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def accept_invite_sync_without_preload_content(
+        self,
+        invite_id: Annotated[UUID, Field(description="Either an Invite ID (traditional per-email invite) OR a Tenant ID (when the tenant has ``invite_link.enabled``). Tenant lookup is tried first.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Accept Invite (synchronous)
+
+        Synchronous variant of :meth:`accept_invite_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.accept_invite_without_preload_content(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _accept_invite_serialize(
@@ -315,7 +421,7 @@ class InvitesApi:
 
 
     @validate_call
-    def create_invite(
+    async def create_invite(
         self,
         invite_user_request: InviteUserRequest,
         _request_timeout: Union[
@@ -370,12 +476,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "InviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -383,7 +490,7 @@ class InvitesApi:
 
 
     @validate_call
-    def create_invite_with_http_info(
+    async def create_invite_with_http_info(
         self,
         invite_user_request: InviteUserRequest,
         _request_timeout: Union[
@@ -438,12 +545,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "InviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -451,7 +559,7 @@ class InvitesApi:
 
 
     @validate_call
-    def create_invite_without_preload_content(
+    async def create_invite_without_preload_content(
         self,
         invite_user_request: InviteUserRequest,
         _request_timeout: Union[
@@ -506,12 +614,115 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "InviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_invite_sync(
+        self,
+        invite_user_request: InviteUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> InviteResponse:
+        """Create Invite (synchronous)
+
+        Synchronous variant of :meth:`create_invite`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_invite(
+                invite_user_request=invite_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_invite_sync_with_http_info(
+        self,
+        invite_user_request: InviteUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[InviteResponse]:
+        """Create Invite (synchronous)
+
+        Synchronous variant of :meth:`create_invite_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_invite_with_http_info(
+                invite_user_request=invite_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_invite_sync_without_preload_content(
+        self,
+        invite_user_request: InviteUserRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Invite (synchronous)
+
+        Synchronous variant of :meth:`create_invite_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_invite_without_preload_content(
+                invite_user_request=invite_user_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_invite_serialize(
@@ -593,7 +804,7 @@ class InvitesApi:
 
 
     @validate_call
-    def delete_invite(
+    async def delete_invite(
         self,
         invite_id: UUID,
         _request_timeout: Union[
@@ -648,12 +859,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -661,7 +873,7 @@ class InvitesApi:
 
 
     @validate_call
-    def delete_invite_with_http_info(
+    async def delete_invite_with_http_info(
         self,
         invite_id: UUID,
         _request_timeout: Union[
@@ -716,12 +928,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -729,7 +942,7 @@ class InvitesApi:
 
 
     @validate_call
-    def delete_invite_without_preload_content(
+    async def delete_invite_without_preload_content(
         self,
         invite_id: UUID,
         _request_timeout: Union[
@@ -784,12 +997,115 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_invite_sync(
+        self,
+        invite_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Invite (synchronous)
+
+        Synchronous variant of :meth:`delete_invite`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_invite(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_invite_sync_with_http_info(
+        self,
+        invite_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Invite (synchronous)
+
+        Synchronous variant of :meth:`delete_invite_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_invite_with_http_info(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_invite_sync_without_preload_content(
+        self,
+        invite_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Invite (synchronous)
+
+        Synchronous variant of :meth:`delete_invite_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_invite_without_preload_content(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_invite_serialize(
@@ -858,7 +1174,7 @@ class InvitesApi:
 
 
     @validate_call
-    def list_invites(
+    async def list_invites(
         self,
         email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
@@ -957,12 +1273,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseInviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -970,7 +1287,7 @@ class InvitesApi:
 
 
     @validate_call
-    def list_invites_with_http_info(
+    async def list_invites_with_http_info(
         self,
         email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
@@ -1069,12 +1386,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseInviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1082,7 +1400,7 @@ class InvitesApi:
 
 
     @validate_call
-    def list_invites_without_preload_content(
+    async def list_invites_without_preload_content(
         self,
         email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
         status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
@@ -1181,12 +1499,181 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseInviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_invites_sync(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
+        status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter by invite role")] = None,
+        invited_by: Annotated[Optional[UUID], Field(description="Filter to invites sent by this user")] = None,
+        sort_by: Annotated[Optional[InviteOrder], Field(description="Field to sort invites by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseInviteResponse:
+        """List Invites Handler (synchronous)
+
+        Synchronous variant of :meth:`list_invites`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_invites(
+                email=email,
+                status=status,
+                role=role,
+                invited_by=invited_by,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_invites_sync_with_http_info(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
+        status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter by invite role")] = None,
+        invited_by: Annotated[Optional[UUID], Field(description="Filter to invites sent by this user")] = None,
+        sort_by: Annotated[Optional[InviteOrder], Field(description="Field to sort invites by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseInviteResponse]:
+        """List Invites Handler (synchronous)
+
+        Synchronous variant of :meth:`list_invites_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_invites_with_http_info(
+                email=email,
+                status=status,
+                role=role,
+                invited_by=invited_by,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_invites_sync_without_preload_content(
+        self,
+        email: Annotated[Optional[StrictStr], Field(description="Filter by email (case-insensitive partial match)")] = None,
+        status: Annotated[Optional[InviteStatus], Field(description="Filter by invite status (pending, accepted, expired)")] = None,
+        role: Annotated[Optional[TenantUserRole], Field(description="Filter by invite role")] = None,
+        invited_by: Annotated[Optional[UUID], Field(description="Filter to invites sent by this user")] = None,
+        sort_by: Annotated[Optional[InviteOrder], Field(description="Field to sort invites by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Invites Handler (synchronous)
+
+        Synchronous variant of :meth:`list_invites_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_invites_without_preload_content(
+                email=email,
+                status=status,
+                role=role,
+                invited_by=invited_by,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_invites_serialize(
@@ -1348,7 +1835,7 @@ class InvitesApi:
 
 
     @validate_call
-    def preview_invite(
+    async def preview_invite(
         self,
         invite_id: UUID,
         _request_timeout: Union[
@@ -1403,12 +1890,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "InvitePreviewResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1416,7 +1904,7 @@ class InvitesApi:
 
 
     @validate_call
-    def preview_invite_with_http_info(
+    async def preview_invite_with_http_info(
         self,
         invite_id: UUID,
         _request_timeout: Union[
@@ -1471,12 +1959,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "InvitePreviewResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1484,7 +1973,7 @@ class InvitesApi:
 
 
     @validate_call
-    def preview_invite_without_preload_content(
+    async def preview_invite_without_preload_content(
         self,
         invite_id: UUID,
         _request_timeout: Union[
@@ -1539,12 +2028,115 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "InvitePreviewResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def preview_invite_sync(
+        self,
+        invite_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> InvitePreviewResponse:
+        """Preview Invite Handler (synchronous)
+
+        Synchronous variant of :meth:`preview_invite`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.preview_invite(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def preview_invite_sync_with_http_info(
+        self,
+        invite_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[InvitePreviewResponse]:
+        """Preview Invite Handler (synchronous)
+
+        Synchronous variant of :meth:`preview_invite_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.preview_invite_with_http_info(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def preview_invite_sync_without_preload_content(
+        self,
+        invite_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Preview Invite Handler (synchronous)
+
+        Synchronous variant of :meth:`preview_invite_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.preview_invite_without_preload_content(
+                invite_id=invite_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _preview_invite_serialize(
@@ -1611,7 +2203,7 @@ class InvitesApi:
 
 
     @validate_call
-    def update_invite(
+    async def update_invite(
         self,
         invite_id: UUID,
         update_invite_request: UpdateInviteRequest,
@@ -1670,12 +2262,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "InviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1683,7 +2276,7 @@ class InvitesApi:
 
 
     @validate_call
-    def update_invite_with_http_info(
+    async def update_invite_with_http_info(
         self,
         invite_id: UUID,
         update_invite_request: UpdateInviteRequest,
@@ -1742,12 +2335,13 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "InviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1755,7 +2349,7 @@ class InvitesApi:
 
 
     @validate_call
-    def update_invite_without_preload_content(
+    async def update_invite_without_preload_content(
         self,
         invite_id: UUID,
         update_invite_request: UpdateInviteRequest,
@@ -1814,12 +2408,121 @@ class InvitesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "InviteResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_invite_sync(
+        self,
+        invite_id: UUID,
+        update_invite_request: UpdateInviteRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> InviteResponse:
+        """Update Invite Handler (synchronous)
+
+        Synchronous variant of :meth:`update_invite`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_invite(
+                invite_id=invite_id,
+                update_invite_request=update_invite_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_invite_sync_with_http_info(
+        self,
+        invite_id: UUID,
+        update_invite_request: UpdateInviteRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[InviteResponse]:
+        """Update Invite Handler (synchronous)
+
+        Synchronous variant of :meth:`update_invite_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_invite_with_http_info(
+                invite_id=invite_id,
+                update_invite_request=update_invite_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_invite_sync_without_preload_content(
+        self,
+        invite_id: UUID,
+        update_invite_request: UpdateInviteRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Invite Handler (synchronous)
+
+        Synchronous variant of :meth:`update_invite_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_invite_without_preload_content(
+                invite_id=invite_id,
+                update_invite_request=update_invite_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_invite_serialize(

@@ -28,7 +28,7 @@ class AskRequest(BaseModel):
     """
     Request body for POST /v1/agent/ask.
     """ # noqa: E501
-    prompt: StrictStr = Field(description="User prompt passed directly to the agent")
+    prompt: StrictStr = Field(description="User prompt passed directly to the agent", json_schema_extra={"examples": ["Summarize the latest version of the Q3 vendor contract."]})
     output_language: Optional[SupportedLanguage] = None
     __properties: ClassVar[List[str]] = ["prompt", "output_language"]
 

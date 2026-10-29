@@ -21,6 +21,7 @@ from ksapi.models.diagnostics_response import DiagnosticsResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class DiagnosticsApi:
@@ -37,7 +38,7 @@ class DiagnosticsApi:
 
 
     @validate_call
-    def compute_thread_diagnostics(
+    async def compute_thread_diagnostics(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -92,12 +93,13 @@ class DiagnosticsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DiagnosticsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -105,7 +107,7 @@ class DiagnosticsApi:
 
 
     @validate_call
-    def compute_thread_diagnostics_with_http_info(
+    async def compute_thread_diagnostics_with_http_info(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -160,12 +162,13 @@ class DiagnosticsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DiagnosticsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -173,7 +176,7 @@ class DiagnosticsApi:
 
 
     @validate_call
-    def compute_thread_diagnostics_without_preload_content(
+    async def compute_thread_diagnostics_without_preload_content(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -228,12 +231,115 @@ class DiagnosticsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DiagnosticsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def compute_thread_diagnostics_sync(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DiagnosticsResponse:
+        """Compute Thread Diagnostics Handler (synchronous)
+
+        Synchronous variant of :meth:`compute_thread_diagnostics`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.compute_thread_diagnostics(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def compute_thread_diagnostics_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DiagnosticsResponse]:
+        """Compute Thread Diagnostics Handler (synchronous)
+
+        Synchronous variant of :meth:`compute_thread_diagnostics_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.compute_thread_diagnostics_with_http_info(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def compute_thread_diagnostics_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Compute Thread Diagnostics Handler (synchronous)
+
+        Synchronous variant of :meth:`compute_thread_diagnostics_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.compute_thread_diagnostics_without_preload_content(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _compute_thread_diagnostics_serialize(
@@ -302,7 +408,7 @@ class DiagnosticsApi:
 
 
     @validate_call
-    def compute_workflow_run_diagnostics(
+    async def compute_workflow_run_diagnostics(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -357,12 +463,13 @@ class DiagnosticsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DiagnosticsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -370,7 +477,7 @@ class DiagnosticsApi:
 
 
     @validate_call
-    def compute_workflow_run_diagnostics_with_http_info(
+    async def compute_workflow_run_diagnostics_with_http_info(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -425,12 +532,13 @@ class DiagnosticsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DiagnosticsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -438,7 +546,7 @@ class DiagnosticsApi:
 
 
     @validate_call
-    def compute_workflow_run_diagnostics_without_preload_content(
+    async def compute_workflow_run_diagnostics_without_preload_content(
         self,
         run_id: UUID,
         _request_timeout: Union[
@@ -493,12 +601,115 @@ class DiagnosticsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "DiagnosticsResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def compute_workflow_run_diagnostics_sync(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DiagnosticsResponse:
+        """Compute Workflow Run Diagnostics Handler (synchronous)
+
+        Synchronous variant of :meth:`compute_workflow_run_diagnostics`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.compute_workflow_run_diagnostics(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def compute_workflow_run_diagnostics_sync_with_http_info(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DiagnosticsResponse]:
+        """Compute Workflow Run Diagnostics Handler (synchronous)
+
+        Synchronous variant of :meth:`compute_workflow_run_diagnostics_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.compute_workflow_run_diagnostics_with_http_info(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def compute_workflow_run_diagnostics_sync_without_preload_content(
+        self,
+        run_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Compute Workflow Run Diagnostics Handler (synchronous)
+
+        Synchronous variant of :meth:`compute_workflow_run_diagnostics_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.compute_workflow_run_diagnostics_without_preload_content(
+                run_id=run_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _compute_workflow_run_diagnostics_serialize(

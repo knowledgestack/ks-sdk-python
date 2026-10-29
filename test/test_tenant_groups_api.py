@@ -17,101 +17,192 @@ import unittest
 from ksapi.api.tenant_groups_api import TenantGroupsApi
 
 
-class TestTenantGroupsApi(unittest.TestCase):
+class TestTenantGroupsApi(unittest.IsolatedAsyncioTestCase):
     """TenantGroupsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = TenantGroupsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_add_group_member(self) -> None:
+    async def test_add_group_member(self) -> None:
         """Test case for add_group_member
 
         Add Group Member Handler
         """
         pass
 
-    def test_create_group_permission(self) -> None:
+    def test_add_group_member_sync(self) -> None:
+        """Test case for add_group_member (synchronous)
+
+        Add Group Member Handler
+        """
+        pass
+
+    async def test_create_group_permission(self) -> None:
         """Test case for create_group_permission
 
         Create Group Permission Handler
         """
         pass
 
-    def test_create_tenant_group(self) -> None:
+    def test_create_group_permission_sync(self) -> None:
+        """Test case for create_group_permission (synchronous)
+
+        Create Group Permission Handler
+        """
+        pass
+
+    async def test_create_tenant_group(self) -> None:
         """Test case for create_tenant_group
 
         Create Tenant Group Handler
         """
         pass
 
-    def test_delete_group_permission(self) -> None:
+    def test_create_tenant_group_sync(self) -> None:
+        """Test case for create_tenant_group (synchronous)
+
+        Create Tenant Group Handler
+        """
+        pass
+
+    async def test_delete_group_permission(self) -> None:
         """Test case for delete_group_permission
 
         Delete Group Permission Handler
         """
         pass
 
-    def test_delete_tenant_group(self) -> None:
+    def test_delete_group_permission_sync(self) -> None:
+        """Test case for delete_group_permission (synchronous)
+
+        Delete Group Permission Handler
+        """
+        pass
+
+    async def test_delete_tenant_group(self) -> None:
         """Test case for delete_tenant_group
 
         Delete Tenant Group Handler
         """
         pass
 
-    def test_get_tenant_group(self) -> None:
+    def test_delete_tenant_group_sync(self) -> None:
+        """Test case for delete_tenant_group (synchronous)
+
+        Delete Tenant Group Handler
+        """
+        pass
+
+    async def test_get_tenant_group(self) -> None:
         """Test case for get_tenant_group
 
         Get Tenant Group Handler
         """
         pass
 
-    def test_list_group_members(self) -> None:
+    def test_get_tenant_group_sync(self) -> None:
+        """Test case for get_tenant_group (synchronous)
+
+        Get Tenant Group Handler
+        """
+        pass
+
+    async def test_list_group_members(self) -> None:
         """Test case for list_group_members
 
         List Group Members Handler
         """
         pass
 
-    def test_list_group_permissions(self) -> None:
+    def test_list_group_members_sync(self) -> None:
+        """Test case for list_group_members (synchronous)
+
+        List Group Members Handler
+        """
+        pass
+
+    async def test_list_group_permissions(self) -> None:
         """Test case for list_group_permissions
 
         List Group Permissions Handler
         """
         pass
 
-    def test_list_my_groups(self) -> None:
+    def test_list_group_permissions_sync(self) -> None:
+        """Test case for list_group_permissions (synchronous)
+
+        List Group Permissions Handler
+        """
+        pass
+
+    async def test_list_my_groups(self) -> None:
         """Test case for list_my_groups
 
         List My Groups Handler
         """
         pass
 
-    def test_list_tenant_groups(self) -> None:
+    def test_list_my_groups_sync(self) -> None:
+        """Test case for list_my_groups (synchronous)
+
+        List My Groups Handler
+        """
+        pass
+
+    async def test_list_tenant_groups(self) -> None:
         """Test case for list_tenant_groups
 
         List Tenant Groups Handler
         """
         pass
 
-    def test_remove_group_member(self) -> None:
+    def test_list_tenant_groups_sync(self) -> None:
+        """Test case for list_tenant_groups (synchronous)
+
+        List Tenant Groups Handler
+        """
+        pass
+
+    async def test_remove_group_member(self) -> None:
         """Test case for remove_group_member
 
         Remove Group Member Handler
         """
         pass
 
-    def test_update_group_permission(self) -> None:
+    def test_remove_group_member_sync(self) -> None:
+        """Test case for remove_group_member (synchronous)
+
+        Remove Group Member Handler
+        """
+        pass
+
+    async def test_update_group_permission(self) -> None:
         """Test case for update_group_permission
 
         Update Group Permission Handler
         """
         pass
 
-    def test_update_tenant_group(self) -> None:
+    def test_update_group_permission_sync(self) -> None:
+        """Test case for update_group_permission (synchronous)
+
+        Update Group Permission Handler
+        """
+        pass
+
+    async def test_update_tenant_group(self) -> None:
         """Test case for update_tenant_group
+
+        Update Tenant Group Handler
+        """
+        pass
+
+    def test_update_tenant_group_sync(self) -> None:
+        """Test case for update_tenant_group (synchronous)
 
         Update Tenant Group Handler
         """

@@ -40,6 +40,7 @@ from ksapi.models.update_group_request import UpdateGroupRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class TenantGroupsApi:
@@ -56,7 +57,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def add_group_member(
+    async def add_group_member(
         self,
         group_id: UUID,
         add_member_request: AddMemberRequest,
@@ -115,12 +116,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "MembershipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -128,7 +130,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def add_group_member_with_http_info(
+    async def add_group_member_with_http_info(
         self,
         group_id: UUID,
         add_member_request: AddMemberRequest,
@@ -187,12 +189,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "MembershipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -200,7 +203,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def add_group_member_without_preload_content(
+    async def add_group_member_without_preload_content(
         self,
         group_id: UUID,
         add_member_request: AddMemberRequest,
@@ -259,12 +262,121 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "MembershipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def add_group_member_sync(
+        self,
+        group_id: UUID,
+        add_member_request: AddMemberRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MembershipResponse:
+        """Add Group Member Handler (synchronous)
+
+        Synchronous variant of :meth:`add_group_member`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.add_group_member(
+                group_id=group_id,
+                add_member_request=add_member_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def add_group_member_sync_with_http_info(
+        self,
+        group_id: UUID,
+        add_member_request: AddMemberRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MembershipResponse]:
+        """Add Group Member Handler (synchronous)
+
+        Synchronous variant of :meth:`add_group_member_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.add_group_member_with_http_info(
+                group_id=group_id,
+                add_member_request=add_member_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def add_group_member_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        add_member_request: AddMemberRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Add Group Member Handler (synchronous)
+
+        Synchronous variant of :meth:`add_group_member_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.add_group_member_without_preload_content(
+                group_id=group_id,
+                add_member_request=add_member_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _add_group_member_serialize(
@@ -349,7 +461,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def create_group_permission(
+    async def create_group_permission(
         self,
         group_id: UUID,
         create_group_permission_request: CreateGroupPermissionRequest,
@@ -408,12 +520,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "GroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -421,7 +534,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def create_group_permission_with_http_info(
+    async def create_group_permission_with_http_info(
         self,
         group_id: UUID,
         create_group_permission_request: CreateGroupPermissionRequest,
@@ -480,12 +593,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "GroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -493,7 +607,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def create_group_permission_without_preload_content(
+    async def create_group_permission_without_preload_content(
         self,
         group_id: UUID,
         create_group_permission_request: CreateGroupPermissionRequest,
@@ -552,12 +666,121 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "GroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_group_permission_sync(
+        self,
+        group_id: UUID,
+        create_group_permission_request: CreateGroupPermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GroupPermissionResponse:
+        """Create Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`create_group_permission`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_group_permission(
+                group_id=group_id,
+                create_group_permission_request=create_group_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_group_permission_sync_with_http_info(
+        self,
+        group_id: UUID,
+        create_group_permission_request: CreateGroupPermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GroupPermissionResponse]:
+        """Create Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`create_group_permission_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_group_permission_with_http_info(
+                group_id=group_id,
+                create_group_permission_request=create_group_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_group_permission_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        create_group_permission_request: CreateGroupPermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`create_group_permission_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_group_permission_without_preload_content(
+                group_id=group_id,
+                create_group_permission_request=create_group_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_group_permission_serialize(
@@ -642,7 +865,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def create_tenant_group(
+    async def create_tenant_group(
         self,
         create_group_request: CreateGroupRequest,
         _request_timeout: Union[
@@ -697,12 +920,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -710,7 +934,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def create_tenant_group_with_http_info(
+    async def create_tenant_group_with_http_info(
         self,
         create_group_request: CreateGroupRequest,
         _request_timeout: Union[
@@ -765,12 +989,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -778,7 +1003,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def create_tenant_group_without_preload_content(
+    async def create_tenant_group_without_preload_content(
         self,
         create_group_request: CreateGroupRequest,
         _request_timeout: Union[
@@ -833,12 +1058,115 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_tenant_group_sync(
+        self,
+        create_group_request: CreateGroupRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GroupResponse:
+        """Create Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`create_tenant_group`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_tenant_group(
+                create_group_request=create_group_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_tenant_group_sync_with_http_info(
+        self,
+        create_group_request: CreateGroupRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GroupResponse]:
+        """Create Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`create_tenant_group_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_tenant_group_with_http_info(
+                create_group_request=create_group_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_tenant_group_sync_without_preload_content(
+        self,
+        create_group_request: CreateGroupRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`create_tenant_group_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_tenant_group_without_preload_content(
+                create_group_request=create_group_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_tenant_group_serialize(
@@ -920,7 +1248,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def delete_group_permission(
+    async def delete_group_permission(
         self,
         group_id: UUID,
         permission_id: UUID,
@@ -979,12 +1307,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -992,7 +1321,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def delete_group_permission_with_http_info(
+    async def delete_group_permission_with_http_info(
         self,
         group_id: UUID,
         permission_id: UUID,
@@ -1051,12 +1380,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1064,7 +1394,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def delete_group_permission_without_preload_content(
+    async def delete_group_permission_without_preload_content(
         self,
         group_id: UUID,
         permission_id: UUID,
@@ -1123,12 +1453,121 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_group_permission_sync(
+        self,
+        group_id: UUID,
+        permission_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_group_permission`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_group_permission(
+                group_id=group_id,
+                permission_id=permission_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_group_permission_sync_with_http_info(
+        self,
+        group_id: UUID,
+        permission_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_group_permission_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_group_permission_with_http_info(
+                group_id=group_id,
+                permission_id=permission_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_group_permission_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        permission_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_group_permission_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_group_permission_without_preload_content(
+                group_id=group_id,
+                permission_id=permission_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_group_permission_serialize(
@@ -1200,7 +1639,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def delete_tenant_group(
+    async def delete_tenant_group(
         self,
         group_id: UUID,
         _request_timeout: Union[
@@ -1255,12 +1694,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1268,7 +1708,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def delete_tenant_group_with_http_info(
+    async def delete_tenant_group_with_http_info(
         self,
         group_id: UUID,
         _request_timeout: Union[
@@ -1323,12 +1763,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1336,7 +1777,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def delete_tenant_group_without_preload_content(
+    async def delete_tenant_group_without_preload_content(
         self,
         group_id: UUID,
         _request_timeout: Union[
@@ -1391,12 +1832,115 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_tenant_group_sync(
+        self,
+        group_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_group`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_group(
+                group_id=group_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_group_sync_with_http_info(
+        self,
+        group_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_group_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_group_with_http_info(
+                group_id=group_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_tenant_group_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_tenant_group_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_tenant_group_without_preload_content(
+                group_id=group_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_tenant_group_serialize(
@@ -1465,7 +2009,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def get_tenant_group(
+    async def get_tenant_group(
         self,
         group_id: UUID,
         _request_timeout: Union[
@@ -1520,12 +2064,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1533,7 +2078,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def get_tenant_group_with_http_info(
+    async def get_tenant_group_with_http_info(
         self,
         group_id: UUID,
         _request_timeout: Union[
@@ -1588,12 +2133,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1601,7 +2147,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def get_tenant_group_without_preload_content(
+    async def get_tenant_group_without_preload_content(
         self,
         group_id: UUID,
         _request_timeout: Union[
@@ -1656,12 +2202,115 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_tenant_group_sync(
+        self,
+        group_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GroupResponse:
+        """Get Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_group`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_group(
+                group_id=group_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_group_sync_with_http_info(
+        self,
+        group_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GroupResponse]:
+        """Get Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_group_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_group_with_http_info(
+                group_id=group_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_tenant_group_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`get_tenant_group_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_tenant_group_without_preload_content(
+                group_id=group_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_tenant_group_serialize(
@@ -1730,7 +2379,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_group_members(
+    async def list_group_members(
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
@@ -1805,12 +2454,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseMembershipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1818,7 +2468,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_group_members_with_http_info(
+    async def list_group_members_with_http_info(
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
@@ -1893,12 +2543,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseMembershipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1906,7 +2557,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_group_members_without_preload_content(
+    async def list_group_members_without_preload_content(
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
@@ -1981,12 +2632,145 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseMembershipResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_group_members_sync(
+        self,
+        group_id: UUID,
+        sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseMembershipResponse:
+        """List Group Members Handler (synchronous)
+
+        Synchronous variant of :meth:`list_group_members`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_group_members(
+                group_id=group_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                username_like=username_like,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_group_members_sync_with_http_info(
+        self,
+        group_id: UUID,
+        sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseMembershipResponse]:
+        """List Group Members Handler (synchronous)
+
+        Synchronous variant of :meth:`list_group_members_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_group_members_with_http_info(
+                group_id=group_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                username_like=username_like,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_group_members_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Group Members Handler (synchronous)
+
+        Synchronous variant of :meth:`list_group_members_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_group_members_without_preload_content(
+                group_id=group_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                username_like=username_like,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_group_members_serialize(
@@ -2080,7 +2864,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_group_permissions(
+    async def list_group_permissions(
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
@@ -2155,12 +2939,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseGroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2168,7 +2953,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_group_permissions_with_http_info(
+    async def list_group_permissions_with_http_info(
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
@@ -2243,12 +3028,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseGroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2256,7 +3042,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_group_permissions_without_preload_content(
+    async def list_group_permissions_without_preload_content(
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
@@ -2331,12 +3117,145 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseGroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_group_permissions_sync(
+        self,
+        group_id: UUID,
+        sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseGroupPermissionResponse:
+        """List Group Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_group_permissions`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_group_permissions(
+                group_id=group_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                capability=capability,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_group_permissions_sync_with_http_info(
+        self,
+        group_id: UUID,
+        sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseGroupPermissionResponse]:
+        """List Group Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_group_permissions_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_group_permissions_with_http_info(
+                group_id=group_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                capability=capability,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_group_permissions_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Group Permissions Handler (synchronous)
+
+        Synchronous variant of :meth:`list_group_permissions_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_group_permissions_without_preload_content(
+                group_id=group_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                capability=capability,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_group_permissions_serialize(
@@ -2430,7 +3349,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_my_groups(
+    async def list_my_groups(
         self,
         _request_timeout: Union[
             None,
@@ -2480,12 +3399,13 @@ class TenantGroupsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[GroupResponse]",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2493,7 +3413,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_my_groups_with_http_info(
+    async def list_my_groups_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2543,12 +3463,13 @@ class TenantGroupsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[GroupResponse]",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2556,7 +3477,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_my_groups_without_preload_content(
+    async def list_my_groups_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2606,12 +3527,109 @@ class TenantGroupsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[GroupResponse]",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_my_groups_sync(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[GroupResponse]:
+        """List My Groups Handler (synchronous)
+
+        Synchronous variant of :meth:`list_my_groups`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_my_groups(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_my_groups_sync_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[GroupResponse]]:
+        """List My Groups Handler (synchronous)
+
+        Synchronous variant of :meth:`list_my_groups_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_my_groups_with_http_info(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_my_groups_sync_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List My Groups Handler (synchronous)
+
+        Synchronous variant of :meth:`list_my_groups_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_my_groups_without_preload_content(
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_my_groups_serialize(
@@ -2677,7 +3695,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_tenant_groups(
+    async def list_tenant_groups(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
@@ -2768,12 +3786,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseGroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2781,7 +3800,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_tenant_groups_with_http_info(
+    async def list_tenant_groups_with_http_info(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
@@ -2872,12 +3891,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseGroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2885,7 +3905,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def list_tenant_groups_without_preload_content(
+    async def list_tenant_groups_without_preload_content(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
@@ -2976,12 +3996,169 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseGroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_tenant_groups_sync(
+        self,
+        sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
+        has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseGroupResponse:
+        """List Tenant Groups Handler (synchronous)
+
+        Synchronous variant of :meth:`list_tenant_groups`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenant_groups(
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                name_like=name_like,
+                has_user_ids=has_user_ids,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_tenant_groups_sync_with_http_info(
+        self,
+        sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
+        has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseGroupResponse]:
+        """List Tenant Groups Handler (synchronous)
+
+        Synchronous variant of :meth:`list_tenant_groups_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenant_groups_with_http_info(
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                name_like=name_like,
+                has_user_ids=has_user_ids,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_tenant_groups_sync_without_preload_content(
+        self,
+        sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
+        has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Tenant Groups Handler (synchronous)
+
+        Synchronous variant of :meth:`list_tenant_groups_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_tenant_groups_without_preload_content(
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                name_like=name_like,
+                has_user_ids=has_user_ids,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_tenant_groups_serialize(
@@ -3134,7 +4311,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def remove_group_member(
+    async def remove_group_member(
         self,
         group_id: UUID,
         user_id: UUID,
@@ -3193,12 +4370,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3206,7 +4384,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def remove_group_member_with_http_info(
+    async def remove_group_member_with_http_info(
         self,
         group_id: UUID,
         user_id: UUID,
@@ -3265,12 +4443,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3278,7 +4457,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def remove_group_member_without_preload_content(
+    async def remove_group_member_without_preload_content(
         self,
         group_id: UUID,
         user_id: UUID,
@@ -3337,12 +4516,121 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def remove_group_member_sync(
+        self,
+        group_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Remove Group Member Handler (synchronous)
+
+        Synchronous variant of :meth:`remove_group_member`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.remove_group_member(
+                group_id=group_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def remove_group_member_sync_with_http_info(
+        self,
+        group_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Remove Group Member Handler (synchronous)
+
+        Synchronous variant of :meth:`remove_group_member_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.remove_group_member_with_http_info(
+                group_id=group_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def remove_group_member_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        user_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Remove Group Member Handler (synchronous)
+
+        Synchronous variant of :meth:`remove_group_member_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.remove_group_member_without_preload_content(
+                group_id=group_id,
+                user_id=user_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _remove_group_member_serialize(
@@ -3414,7 +4702,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def update_group_permission(
+    async def update_group_permission(
         self,
         group_id: UUID,
         permission_id: UUID,
@@ -3477,12 +4765,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3490,7 +4779,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def update_group_permission_with_http_info(
+    async def update_group_permission_with_http_info(
         self,
         group_id: UUID,
         permission_id: UUID,
@@ -3553,12 +4842,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3566,7 +4856,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def update_group_permission_without_preload_content(
+    async def update_group_permission_without_preload_content(
         self,
         group_id: UUID,
         permission_id: UUID,
@@ -3629,12 +4919,127 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupPermissionResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_group_permission_sync(
+        self,
+        group_id: UUID,
+        permission_id: UUID,
+        update_group_permission_request: UpdateGroupPermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GroupPermissionResponse:
+        """Update Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`update_group_permission`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_group_permission(
+                group_id=group_id,
+                permission_id=permission_id,
+                update_group_permission_request=update_group_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_group_permission_sync_with_http_info(
+        self,
+        group_id: UUID,
+        permission_id: UUID,
+        update_group_permission_request: UpdateGroupPermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GroupPermissionResponse]:
+        """Update Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`update_group_permission_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_group_permission_with_http_info(
+                group_id=group_id,
+                permission_id=permission_id,
+                update_group_permission_request=update_group_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_group_permission_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        permission_id: UUID,
+        update_group_permission_request: UpdateGroupPermissionRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Group Permission Handler (synchronous)
+
+        Synchronous variant of :meth:`update_group_permission_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_group_permission_without_preload_content(
+                group_id=group_id,
+                permission_id=permission_id,
+                update_group_permission_request=update_group_permission_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_group_permission_serialize(
@@ -3722,7 +5127,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def update_tenant_group(
+    async def update_tenant_group(
         self,
         group_id: UUID,
         update_group_request: UpdateGroupRequest,
@@ -3781,12 +5186,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3794,7 +5200,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def update_tenant_group_with_http_info(
+    async def update_tenant_group_with_http_info(
         self,
         group_id: UUID,
         update_group_request: UpdateGroupRequest,
@@ -3853,12 +5259,13 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -3866,7 +5273,7 @@ class TenantGroupsApi:
 
 
     @validate_call
-    def update_tenant_group_without_preload_content(
+    async def update_tenant_group_without_preload_content(
         self,
         group_id: UUID,
         update_group_request: UpdateGroupRequest,
@@ -3925,12 +5332,121 @@ class TenantGroupsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GroupResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_tenant_group_sync(
+        self,
+        group_id: UUID,
+        update_group_request: UpdateGroupRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GroupResponse:
+        """Update Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_group`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_group(
+                group_id=group_id,
+                update_group_request=update_group_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_tenant_group_sync_with_http_info(
+        self,
+        group_id: UUID,
+        update_group_request: UpdateGroupRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GroupResponse]:
+        """Update Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_group_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_group_with_http_info(
+                group_id=group_id,
+                update_group_request=update_group_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_tenant_group_sync_without_preload_content(
+        self,
+        group_id: UUID,
+        update_group_request: UpdateGroupRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Tenant Group Handler (synchronous)
+
+        Synchronous variant of :meth:`update_tenant_group_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_tenant_group_without_preload_content(
+                group_id=group_id,
+                update_group_request=update_group_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_tenant_group_serialize(

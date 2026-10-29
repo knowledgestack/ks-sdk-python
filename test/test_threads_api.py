@@ -17,59 +17,108 @@ import unittest
 from ksapi.api.threads_api import ThreadsApi
 
 
-class TestThreadsApi(unittest.TestCase):
+class TestThreadsApi(unittest.IsolatedAsyncioTestCase):
     """ThreadsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ThreadsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_thread(self) -> None:
+    async def test_create_thread(self) -> None:
         """Test case for create_thread
 
         Create Thread Handler
         """
         pass
 
-    def test_delete_thread(self) -> None:
+    def test_create_thread_sync(self) -> None:
+        """Test case for create_thread (synchronous)
+
+        Create Thread Handler
+        """
+        pass
+
+    async def test_delete_thread(self) -> None:
         """Test case for delete_thread
 
         Delete Thread Handler
         """
         pass
 
-    def test_get_thread(self) -> None:
+    def test_delete_thread_sync(self) -> None:
+        """Test case for delete_thread (synchronous)
+
+        Delete Thread Handler
+        """
+        pass
+
+    async def test_get_thread(self) -> None:
         """Test case for get_thread
 
         Get Thread Handler
         """
         pass
 
-    def test_list_threads(self) -> None:
+    def test_get_thread_sync(self) -> None:
+        """Test case for get_thread (synchronous)
+
+        Get Thread Handler
+        """
+        pass
+
+    async def test_list_threads(self) -> None:
         """Test case for list_threads
 
         List Threads Handler
         """
         pass
 
-    def test_send_user_message(self) -> None:
+    def test_list_threads_sync(self) -> None:
+        """Test case for list_threads (synchronous)
+
+        List Threads Handler
+        """
+        pass
+
+    async def test_send_user_message(self) -> None:
         """Test case for send_user_message
 
         Send User Message Handler
         """
         pass
 
-    def test_stream_thread(self) -> None:
+    def test_send_user_message_sync(self) -> None:
+        """Test case for send_user_message (synchronous)
+
+        Send User Message Handler
+        """
+        pass
+
+    async def test_stream_thread(self) -> None:
         """Test case for stream_thread
 
         Stream Thread Handler
         """
         pass
 
-    def test_update_thread(self) -> None:
+    def test_stream_thread_sync(self) -> None:
+        """Test case for stream_thread (synchronous)
+
+        Stream Thread Handler
+        """
+        pass
+
+    async def test_update_thread(self) -> None:
         """Test case for update_thread
+
+        Update Thread Handler
+        """
+        pass
+
+    def test_update_thread_sync(self) -> None:
+        """Test case for update_thread (synchronous)
 
         Update Thread Handler
         """

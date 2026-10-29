@@ -17,45 +17,80 @@ import unittest
 from ksapi.api.memory_api import MemoryApi
 
 
-class TestMemoryApi(unittest.TestCase):
+class TestMemoryApi(unittest.IsolatedAsyncioTestCase):
     """MemoryApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = MemoryApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_approve_memory_proposal(self) -> None:
+    async def test_approve_memory_proposal(self) -> None:
         """Test case for approve_memory_proposal
 
         Approve Memory Proposal Handler
         """
         pass
 
-    def test_get_memory_body(self) -> None:
+    def test_approve_memory_proposal_sync(self) -> None:
+        """Test case for approve_memory_proposal (synchronous)
+
+        Approve Memory Proposal Handler
+        """
+        pass
+
+    async def test_get_memory_body(self) -> None:
         """Test case for get_memory_body
 
         Get Memory Body Handler
         """
         pass
 
-    def test_list_memory_proposals(self) -> None:
+    def test_get_memory_body_sync(self) -> None:
+        """Test case for get_memory_body (synchronous)
+
+        Get Memory Body Handler
+        """
+        pass
+
+    async def test_list_memory_proposals(self) -> None:
         """Test case for list_memory_proposals
 
         List Memory Proposals Handler
         """
         pass
 
-    def test_propose_memory_chunk(self) -> None:
+    def test_list_memory_proposals_sync(self) -> None:
+        """Test case for list_memory_proposals (synchronous)
+
+        List Memory Proposals Handler
+        """
+        pass
+
+    async def test_propose_memory_chunk(self) -> None:
         """Test case for propose_memory_chunk
 
         Propose Memory Chunk Handler
         """
         pass
 
-    def test_reject_memory_proposal(self) -> None:
+    def test_propose_memory_chunk_sync(self) -> None:
+        """Test case for propose_memory_chunk (synchronous)
+
+        Propose Memory Chunk Handler
+        """
+        pass
+
+    async def test_reject_memory_proposal(self) -> None:
         """Test case for reject_memory_proposal
+
+        Reject Memory Proposal Handler
+        """
+        pass
+
+    def test_reject_memory_proposal_sync(self) -> None:
+        """Test case for reject_memory_proposal (synchronous)
 
         Reject Memory Proposal Handler
         """

@@ -82,8 +82,7 @@ class ThreadMessageDetails(BaseModel):
         _items = []
         if self.parts:
             for _item_parts in self.parts:
-                if _item_parts:
-                    _items.append(_item_parts.to_dict())
+                _items.append(_item_parts.to_dict() if _item_parts is not None else None)
             _dict['parts'] = _items
         # override the default output from pydantic by calling `to_dict()` of usage
         if self.usage:
@@ -92,8 +91,7 @@ class ThreadMessageDetails(BaseModel):
         _items = []
         if self.steps:
             for _item_steps in self.steps:
-                if _item_steps:
-                    _items.append(_item_steps.to_dict())
+                _items.append(_item_steps.to_dict() if _item_steps is not None else None)
             _dict['steps'] = _items
         # override the default output from pydantic by calling `to_dict()` of checkpoint
         if self.checkpoint:

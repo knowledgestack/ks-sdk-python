@@ -32,6 +32,7 @@ from ksapi.models.user_message_response import UserMessageResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class ThreadsApi:
@@ -48,7 +49,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def create_thread(
+    async def create_thread(
         self,
         create_thread_request: CreateThreadRequest,
         _request_timeout: Union[
@@ -103,12 +104,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -116,7 +118,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def create_thread_with_http_info(
+    async def create_thread_with_http_info(
         self,
         create_thread_request: CreateThreadRequest,
         _request_timeout: Union[
@@ -171,12 +173,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -184,7 +187,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def create_thread_without_preload_content(
+    async def create_thread_without_preload_content(
         self,
         create_thread_request: CreateThreadRequest,
         _request_timeout: Union[
@@ -239,12 +242,115 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_thread_sync(
+        self,
+        create_thread_request: CreateThreadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ThreadResponse:
+        """Create Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`create_thread`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_thread(
+                create_thread_request=create_thread_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_thread_sync_with_http_info(
+        self,
+        create_thread_request: CreateThreadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ThreadResponse]:
+        """Create Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`create_thread_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_thread_with_http_info(
+                create_thread_request=create_thread_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_thread_sync_without_preload_content(
+        self,
+        create_thread_request: CreateThreadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`create_thread_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_thread_without_preload_content(
+                create_thread_request=create_thread_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_thread_serialize(
@@ -326,7 +432,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def delete_thread(
+    async def delete_thread(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -381,12 +487,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -394,7 +501,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def delete_thread_with_http_info(
+    async def delete_thread_with_http_info(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -449,12 +556,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -462,7 +570,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def delete_thread_without_preload_content(
+    async def delete_thread_without_preload_content(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -517,12 +625,115 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def delete_thread_sync(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_thread`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_thread(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_thread_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_thread_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_thread_with_http_info(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def delete_thread_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`delete_thread_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.delete_thread_without_preload_content(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _delete_thread_serialize(
@@ -591,7 +802,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def get_thread(
+    async def get_thread(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -646,12 +857,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -659,7 +871,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def get_thread_with_http_info(
+    async def get_thread_with_http_info(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -714,12 +926,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -727,7 +940,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def get_thread_without_preload_content(
+    async def get_thread_without_preload_content(
         self,
         thread_id: UUID,
         _request_timeout: Union[
@@ -782,12 +995,115 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_thread_sync(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ThreadResponse:
+        """Get Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`get_thread`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_thread(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_thread_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ThreadResponse]:
+        """Get Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`get_thread_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_thread_with_http_info(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_thread_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`get_thread_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_thread_without_preload_content(
+                thread_id=thread_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_thread_serialize(
@@ -856,7 +1172,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def list_threads(
+    async def list_threads(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
@@ -947,12 +1263,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -960,7 +1277,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def list_threads_with_http_info(
+    async def list_threads_with_http_info(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
@@ -1051,12 +1368,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1064,7 +1382,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def list_threads_without_preload_content(
+    async def list_threads_without_preload_content(
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
@@ -1155,12 +1473,169 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_threads_sync(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
+        sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseThreadResponse:
+        """List Threads Handler (synchronous)
+
+        Synchronous variant of :meth:`list_threads`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_threads(
+                parent_path_part_id=parent_path_part_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                title_like=title_like,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_threads_sync_with_http_info(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
+        sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseThreadResponse]:
+        """List Threads Handler (synchronous)
+
+        Synchronous variant of :meth:`list_threads_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_threads_with_http_info(
+                parent_path_part_id=parent_path_part_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                title_like=title_like,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_threads_sync_without_preload_content(
+        self,
+        parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
+        sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
+        title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
+        created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
+        updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
+        updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Threads Handler (synchronous)
+
+        Synchronous variant of :meth:`list_threads_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_threads_without_preload_content(
+                parent_path_part_id=parent_path_part_id,
+                sort_by=sort_by,
+                sort_dir=sort_dir,
+                title_like=title_like,
+                limit=limit,
+                offset=offset,
+                created_after=created_after,
+                created_before=created_before,
+                updated_after=updated_after,
+                updated_before=updated_before,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_threads_serialize(
@@ -1312,7 +1787,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def send_user_message(
+    async def send_user_message(
         self,
         thread_id: UUID,
         user_message_request: UserMessageRequest,
@@ -1371,12 +1846,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "UserMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1384,7 +1860,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def send_user_message_with_http_info(
+    async def send_user_message_with_http_info(
         self,
         thread_id: UUID,
         user_message_request: UserMessageRequest,
@@ -1443,12 +1919,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "UserMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1456,7 +1933,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def send_user_message_without_preload_content(
+    async def send_user_message_without_preload_content(
         self,
         thread_id: UUID,
         user_message_request: UserMessageRequest,
@@ -1515,12 +1992,121 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '202': "UserMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def send_user_message_sync(
+        self,
+        thread_id: UUID,
+        user_message_request: UserMessageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UserMessageResponse:
+        """Send User Message Handler (synchronous)
+
+        Synchronous variant of :meth:`send_user_message`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.send_user_message(
+                thread_id=thread_id,
+                user_message_request=user_message_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def send_user_message_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        user_message_request: UserMessageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UserMessageResponse]:
+        """Send User Message Handler (synchronous)
+
+        Synchronous variant of :meth:`send_user_message_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.send_user_message_with_http_info(
+                thread_id=thread_id,
+                user_message_request=user_message_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def send_user_message_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        user_message_request: UserMessageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Send User Message Handler (synchronous)
+
+        Synchronous variant of :meth:`send_user_message_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.send_user_message_without_preload_content(
+                thread_id=thread_id,
+                user_message_request=user_message_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _send_user_message_serialize(
@@ -1605,7 +2191,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def stream_thread(
+    async def stream_thread(
         self,
         thread_id: UUID,
         last_message_id: Optional[UUID] = None,
@@ -1668,12 +2254,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1681,7 +2268,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def stream_thread_with_http_info(
+    async def stream_thread_with_http_info(
         self,
         thread_id: UUID,
         last_message_id: Optional[UUID] = None,
@@ -1744,12 +2331,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1757,7 +2345,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def stream_thread_without_preload_content(
+    async def stream_thread_without_preload_content(
         self,
         thread_id: UUID,
         last_message_id: Optional[UUID] = None,
@@ -1820,12 +2408,127 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def stream_thread_sync(
+        self,
+        thread_id: UUID,
+        last_message_id: Optional[UUID] = None,
+        last_entry_id: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Stream Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`stream_thread`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.stream_thread(
+                thread_id=thread_id,
+                last_message_id=last_message_id,
+                last_entry_id=last_entry_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def stream_thread_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        last_message_id: Optional[UUID] = None,
+        last_entry_id: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Stream Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`stream_thread_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.stream_thread_with_http_info(
+                thread_id=thread_id,
+                last_message_id=last_message_id,
+                last_entry_id=last_entry_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def stream_thread_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        last_message_id: Optional[UUID] = None,
+        last_entry_id: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stream Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`stream_thread_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.stream_thread_without_preload_content(
+                thread_id=thread_id,
+                last_message_id=last_message_id,
+                last_entry_id=last_entry_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _stream_thread_serialize(
@@ -1904,7 +2607,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def update_thread(
+    async def update_thread(
         self,
         thread_id: UUID,
         update_thread_request: UpdateThreadRequest,
@@ -1963,12 +2666,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -1976,7 +2680,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def update_thread_with_http_info(
+    async def update_thread_with_http_info(
         self,
         thread_id: UUID,
         update_thread_request: UpdateThreadRequest,
@@ -2035,12 +2739,13 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -2048,7 +2753,7 @@ class ThreadsApi:
 
 
     @validate_call
-    def update_thread_without_preload_content(
+    async def update_thread_without_preload_content(
         self,
         thread_id: UUID,
         update_thread_request: UpdateThreadRequest,
@@ -2107,12 +2812,121 @@ class ThreadsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def update_thread_sync(
+        self,
+        thread_id: UUID,
+        update_thread_request: UpdateThreadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ThreadResponse:
+        """Update Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`update_thread`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_thread(
+                thread_id=thread_id,
+                update_thread_request=update_thread_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_thread_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        update_thread_request: UpdateThreadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ThreadResponse]:
+        """Update Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`update_thread_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_thread_with_http_info(
+                thread_id=thread_id,
+                update_thread_request=update_thread_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def update_thread_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        update_thread_request: UpdateThreadRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update Thread Handler (synchronous)
+
+        Synchronous variant of :meth:`update_thread_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.update_thread_without_preload_content(
+                thread_id=thread_id,
+                update_thread_request=update_thread_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _update_thread_serialize(

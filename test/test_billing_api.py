@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.billing_api import BillingApi
 
 
-class TestBillingApi(unittest.TestCase):
+class TestBillingApi(unittest.IsolatedAsyncioTestCase):
     """BillingApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = BillingApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_list_billing_payments(self) -> None:
+        """Test case for list_billing_payments
+
+        List Billing Payments Handler
+        """
         pass
 
-    def test_list_billing_payments(self) -> None:
-        """Test case for list_billing_payments
+    def test_list_billing_payments_sync(self) -> None:
+        """Test case for list_billing_payments (synchronous)
 
         List Billing Payments Handler
         """

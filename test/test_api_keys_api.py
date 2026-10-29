@@ -17,38 +17,66 @@ import unittest
 from ksapi.api.api_keys_api import ApiKeysApi
 
 
-class TestApiKeysApi(unittest.TestCase):
+class TestApiKeysApi(unittest.IsolatedAsyncioTestCase):
     """ApiKeysApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ApiKeysApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_api_key(self) -> None:
+    async def test_create_api_key(self) -> None:
         """Test case for create_api_key
 
         Create Api Key Handler
         """
         pass
 
-    def test_delete_api_key(self) -> None:
+    def test_create_api_key_sync(self) -> None:
+        """Test case for create_api_key (synchronous)
+
+        Create Api Key Handler
+        """
+        pass
+
+    async def test_delete_api_key(self) -> None:
         """Test case for delete_api_key
 
         Delete Api Key Handler
         """
         pass
 
-    def test_get_api_key(self) -> None:
+    def test_delete_api_key_sync(self) -> None:
+        """Test case for delete_api_key (synchronous)
+
+        Delete Api Key Handler
+        """
+        pass
+
+    async def test_get_api_key(self) -> None:
         """Test case for get_api_key
 
         Get Api Key Handler
         """
         pass
 
-    def test_list_api_keys(self) -> None:
+    def test_get_api_key_sync(self) -> None:
+        """Test case for get_api_key (synchronous)
+
+        Get Api Key Handler
+        """
+        pass
+
+    async def test_list_api_keys(self) -> None:
         """Test case for list_api_keys
+
+        List Api Keys Handler
+        """
+        pass
+
+    def test_list_api_keys_sync(self) -> None:
+        """Test case for list_api_keys (synchronous)
 
         List Api Keys Handler
         """

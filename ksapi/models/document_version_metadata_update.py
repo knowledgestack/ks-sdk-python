@@ -106,8 +106,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
         _items = []
         if self.citation_anchors:
             for _item_citation_anchors in self.citation_anchors:
-                if _item_citation_anchors:
-                    _items.append(_item_citation_anchors.to_dict())
+                _items.append(_item_citation_anchors.to_dict() if _item_citation_anchors is not None else None)
             _dict['citation_anchors'] = _items
         # override the default output from pydantic by calling `to_dict()` of information_statistics
         if self.information_statistics:

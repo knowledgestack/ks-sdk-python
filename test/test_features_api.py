@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.features_api import FeaturesApi
 
 
-class TestFeaturesApi(unittest.TestCase):
+class TestFeaturesApi(unittest.IsolatedAsyncioTestCase):
     """FeaturesApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = FeaturesApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_get_features(self) -> None:
+        """Test case for get_features
+
+        Get Features Handler
+        """
         pass
 
-    def test_get_features(self) -> None:
-        """Test case for get_features
+    def test_get_features_sync(self) -> None:
+        """Test case for get_features (synchronous)
 
         Get Features Handler
         """

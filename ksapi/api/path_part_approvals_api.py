@@ -22,6 +22,7 @@ from ksapi.models.set_approval_state_request import SetApprovalStateRequest
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class PathPartApprovalsApi:
@@ -38,7 +39,7 @@ class PathPartApprovalsApi:
 
 
     @validate_call
-    def get_path_part_approval(
+    async def get_path_part_approval(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -93,12 +94,13 @@ class PathPartApprovalsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartApprovalResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -106,7 +108,7 @@ class PathPartApprovalsApi:
 
 
     @validate_call
-    def get_path_part_approval_with_http_info(
+    async def get_path_part_approval_with_http_info(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -161,12 +163,13 @@ class PathPartApprovalsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartApprovalResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -174,7 +177,7 @@ class PathPartApprovalsApi:
 
 
     @validate_call
-    def get_path_part_approval_without_preload_content(
+    async def get_path_part_approval_without_preload_content(
         self,
         path_part_id: UUID,
         _request_timeout: Union[
@@ -229,12 +232,115 @@ class PathPartApprovalsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartApprovalResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_path_part_approval_sync(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartApprovalResponse:
+        """Get Path Part Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_approval`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_approval(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_approval_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartApprovalResponse]:
+        """Get Path Part Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_approval_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_approval_with_http_info(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_path_part_approval_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Path Part Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`get_path_part_approval_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_path_part_approval_without_preload_content(
+                path_part_id=path_part_id,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_path_part_approval_serialize(
@@ -303,7 +409,7 @@ class PathPartApprovalsApi:
 
 
     @validate_call
-    def set_path_part_approval(
+    async def set_path_part_approval(
         self,
         path_part_id: UUID,
         set_approval_state_request: SetApprovalStateRequest,
@@ -362,12 +468,13 @@ class PathPartApprovalsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartApprovalResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -375,7 +482,7 @@ class PathPartApprovalsApi:
 
 
     @validate_call
-    def set_path_part_approval_with_http_info(
+    async def set_path_part_approval_with_http_info(
         self,
         path_part_id: UUID,
         set_approval_state_request: SetApprovalStateRequest,
@@ -434,12 +541,13 @@ class PathPartApprovalsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartApprovalResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -447,7 +555,7 @@ class PathPartApprovalsApi:
 
 
     @validate_call
-    def set_path_part_approval_without_preload_content(
+    async def set_path_part_approval_without_preload_content(
         self,
         path_part_id: UUID,
         set_approval_state_request: SetApprovalStateRequest,
@@ -506,12 +614,121 @@ class PathPartApprovalsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PathPartApprovalResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def set_path_part_approval_sync(
+        self,
+        path_part_id: UUID,
+        set_approval_state_request: SetApprovalStateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PathPartApprovalResponse:
+        """Set Path Part Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`set_path_part_approval`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_path_part_approval(
+                path_part_id=path_part_id,
+                set_approval_state_request=set_approval_state_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def set_path_part_approval_sync_with_http_info(
+        self,
+        path_part_id: UUID,
+        set_approval_state_request: SetApprovalStateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PathPartApprovalResponse]:
+        """Set Path Part Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`set_path_part_approval_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_path_part_approval_with_http_info(
+                path_part_id=path_part_id,
+                set_approval_state_request=set_approval_state_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def set_path_part_approval_sync_without_preload_content(
+        self,
+        path_part_id: UUID,
+        set_approval_state_request: SetApprovalStateRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Set Path Part Approval Handler (synchronous)
+
+        Synchronous variant of :meth:`set_path_part_approval_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.set_path_part_approval_without_preload_content(
+                path_part_id=path_part_id,
+                set_approval_state_request=set_approval_state_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _set_path_part_approval_serialize(

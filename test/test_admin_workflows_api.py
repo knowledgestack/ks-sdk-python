@@ -17,45 +17,80 @@ import unittest
 from ksapi.api.admin_workflows_api import AdminWorkflowsApi
 
 
-class TestAdminWorkflowsApi(unittest.TestCase):
+class TestAdminWorkflowsApi(unittest.IsolatedAsyncioTestCase):
     """AdminWorkflowsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = AdminWorkflowsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_get_admin_workflow_by_hour(self) -> None:
+    async def test_get_admin_workflow_by_hour(self) -> None:
         """Test case for get_admin_workflow_by_hour
 
         Get Admin Workflow By Hour Handler
         """
         pass
 
-    def test_get_admin_workflow_leaderboard(self) -> None:
+    def test_get_admin_workflow_by_hour_sync(self) -> None:
+        """Test case for get_admin_workflow_by_hour (synchronous)
+
+        Get Admin Workflow By Hour Handler
+        """
+        pass
+
+    async def test_get_admin_workflow_leaderboard(self) -> None:
         """Test case for get_admin_workflow_leaderboard
 
         Get Admin Workflow Leaderboard Handler
         """
         pass
 
-    def test_get_admin_workflow_output_stats(self) -> None:
+    def test_get_admin_workflow_leaderboard_sync(self) -> None:
+        """Test case for get_admin_workflow_leaderboard (synchronous)
+
+        Get Admin Workflow Leaderboard Handler
+        """
+        pass
+
+    async def test_get_admin_workflow_output_stats(self) -> None:
         """Test case for get_admin_workflow_output_stats
 
         Get Admin Workflow Output Stats Handler
         """
         pass
 
-    def test_get_admin_workflow_summary(self) -> None:
+    def test_get_admin_workflow_output_stats_sync(self) -> None:
+        """Test case for get_admin_workflow_output_stats (synchronous)
+
+        Get Admin Workflow Output Stats Handler
+        """
+        pass
+
+    async def test_get_admin_workflow_summary(self) -> None:
         """Test case for get_admin_workflow_summary
 
         Get Admin Workflow Summary Handler
         """
         pass
 
-    def test_get_admin_workflow_timeseries(self) -> None:
+    def test_get_admin_workflow_summary_sync(self) -> None:
+        """Test case for get_admin_workflow_summary (synchronous)
+
+        Get Admin Workflow Summary Handler
+        """
+        pass
+
+    async def test_get_admin_workflow_timeseries(self) -> None:
         """Test case for get_admin_workflow_timeseries
+
+        Get Admin Workflow Timeseries Handler
+        """
+        pass
+
+    def test_get_admin_workflow_timeseries_sync(self) -> None:
+        """Test case for get_admin_workflow_timeseries (synchronous)
 
         Get Admin Workflow Timeseries Handler
         """

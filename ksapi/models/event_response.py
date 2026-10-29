@@ -91,8 +91,7 @@ class EventResponse(BaseModel):
         _field_dict = {}
         if self.references:
             for _key_references in self.references:
-                if self.references[_key_references]:
-                    _field_dict[_key_references] = self.references[_key_references].to_dict()
+                _field_dict[_key_references] = self.references[_key_references].to_dict() if self.references[_key_references] is not None else None
             _dict['references'] = _field_dict
         # set to None if actor_user_id (nullable) is None
         # and model_fields_set contains the field

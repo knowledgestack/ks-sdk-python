@@ -29,6 +29,7 @@ from ksapi.models.thread_message_response import ThreadMessageResponse
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
 from ksapi.rest import RESTResponseType
+from ksapi.sync_helper import run_sync
 
 
 class ThreadMessagesApi:
@@ -45,7 +46,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def create_thread_message(
+    async def create_thread_message(
         self,
         thread_id: UUID,
         create_thread_message_request: CreateThreadMessageRequest,
@@ -104,12 +105,13 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -117,7 +119,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def create_thread_message_with_http_info(
+    async def create_thread_message_with_http_info(
         self,
         thread_id: UUID,
         create_thread_message_request: CreateThreadMessageRequest,
@@ -176,12 +178,13 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -189,7 +192,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def create_thread_message_without_preload_content(
+    async def create_thread_message_without_preload_content(
         self,
         thread_id: UUID,
         create_thread_message_request: CreateThreadMessageRequest,
@@ -248,12 +251,121 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "ThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def create_thread_message_sync(
+        self,
+        thread_id: UUID,
+        create_thread_message_request: CreateThreadMessageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ThreadMessageResponse:
+        """Create Thread Message Handler (synchronous)
+
+        Synchronous variant of :meth:`create_thread_message`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_thread_message(
+                thread_id=thread_id,
+                create_thread_message_request=create_thread_message_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_thread_message_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        create_thread_message_request: CreateThreadMessageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ThreadMessageResponse]:
+        """Create Thread Message Handler (synchronous)
+
+        Synchronous variant of :meth:`create_thread_message_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_thread_message_with_http_info(
+                thread_id=thread_id,
+                create_thread_message_request=create_thread_message_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def create_thread_message_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        create_thread_message_request: CreateThreadMessageRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Thread Message Handler (synchronous)
+
+        Synchronous variant of :meth:`create_thread_message_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.create_thread_message_without_preload_content(
+                thread_id=thread_id,
+                create_thread_message_request=create_thread_message_request,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _create_thread_message_serialize(
@@ -338,7 +450,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def get_thread_message(
+    async def get_thread_message(
         self,
         thread_id: UUID,
         message_id: UUID,
@@ -401,12 +513,13 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -414,7 +527,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def get_thread_message_with_http_info(
+    async def get_thread_message_with_http_info(
         self,
         thread_id: UUID,
         message_id: UUID,
@@ -477,12 +590,13 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -490,7 +604,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def get_thread_message_without_preload_content(
+    async def get_thread_message_without_preload_content(
         self,
         thread_id: UUID,
         message_id: UUID,
@@ -553,12 +667,127 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def get_thread_message_sync(
+        self,
+        thread_id: UUID,
+        message_id: UUID,
+        with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ThreadMessageResponse:
+        """Get Thread Message Handler (synchronous)
+
+        Synchronous variant of :meth:`get_thread_message`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_thread_message(
+                thread_id=thread_id,
+                message_id=message_id,
+                with_details=with_details,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_thread_message_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        message_id: UUID,
+        with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ThreadMessageResponse]:
+        """Get Thread Message Handler (synchronous)
+
+        Synchronous variant of :meth:`get_thread_message_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_thread_message_with_http_info(
+                thread_id=thread_id,
+                message_id=message_id,
+                with_details=with_details,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def get_thread_message_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        message_id: UUID,
+        with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get Thread Message Handler (synchronous)
+
+        Synchronous variant of :meth:`get_thread_message_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.get_thread_message_without_preload_content(
+                thread_id=thread_id,
+                message_id=message_id,
+                with_details=with_details,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _get_thread_message_serialize(
@@ -635,7 +864,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def list_thread_messages(
+    async def list_thread_messages(
         self,
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
@@ -714,12 +943,13 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -727,7 +957,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def list_thread_messages_with_http_info(
+    async def list_thread_messages_with_http_info(
         self,
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
@@ -806,12 +1036,13 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
-        response_data.read()
+        await response_data.read()
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
@@ -819,7 +1050,7 @@ class ThreadMessagesApi:
 
 
     @validate_call
-    def list_thread_messages_without_preload_content(
+    async def list_thread_messages_without_preload_content(
         self,
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
@@ -898,12 +1129,151 @@ class ThreadMessagesApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "PaginatedResponseThreadMessageResponse",
             '422': "HTTPValidationError",
+            'default': "ErrorResponse",
         }
-        response_data = self.api_client.call_api(
+        response_data = await self.api_client.call_api(
             *_param,
             _request_timeout=_request_timeout
         )
         return response_data.response
+
+
+    @validate_call
+    def list_thread_messages_sync(
+        self,
+        thread_id: UUID,
+        before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
+        role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
+        with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaginatedResponseThreadMessageResponse:
+        """List Thread Messages Handler (synchronous)
+
+        Synchronous variant of :meth:`list_thread_messages`. It calls the asynchronous
+        method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_thread_messages(
+                thread_id=thread_id,
+                before=before,
+                role=role,
+                sort_dir=sort_dir,
+                with_details=with_details,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_thread_messages_sync_with_http_info(
+        self,
+        thread_id: UUID,
+        before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
+        role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
+        with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaginatedResponseThreadMessageResponse]:
+        """List Thread Messages Handler (synchronous)
+
+        Synchronous variant of :meth:`list_thread_messages_with_http_info`. It calls the
+        asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_thread_messages_with_http_info(
+                thread_id=thread_id,
+                before=before,
+                role=role,
+                sort_dir=sort_dir,
+                with_details=with_details,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
+
+
+    @validate_call
+    def list_thread_messages_sync_without_preload_content(
+        self,
+        thread_id: UUID,
+        before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
+        role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
+        with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
+        limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
+        offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List Thread Messages Handler (synchronous)
+
+        Synchronous variant of :meth:`list_thread_messages_without_preload_content`. It calls
+        the asynchronous method and blocks until it completes.
+        """ # noqa: E501
+        return run_sync(
+            self.list_thread_messages_without_preload_content(
+                thread_id=thread_id,
+                before=before,
+                role=role,
+                sort_dir=sort_dir,
+                with_details=with_details,
+                limit=limit,
+                offset=offset,
+                _request_timeout=_request_timeout,
+                _request_auth=_request_auth,
+                _content_type=_content_type,
+                _headers=_headers,
+                _host_index=_host_index,
+            )
+        )
 
 
     def _list_thread_messages_serialize(

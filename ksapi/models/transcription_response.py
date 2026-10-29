@@ -27,8 +27,8 @@ class TranscriptionResponse(BaseModel):
     """
     A spoken clip rendered as text, ready to send as a chat message.
     """ # noqa: E501
-    text: StrictStr = Field(description="The transcript. Empty when the clip contained no speech, which is a success, not an error.")
-    language: Optional[StrictStr] = Field(default=None, description="The language ASR detected, or the one the caller pinned. Null when the backend reports none; the text is still valid.")
+    text: StrictStr = Field(description="The transcript. Empty when the clip contained no speech, which is a success, not an error.", json_schema_extra={"examples": ["请帮我总结这份文档"]})
+    language: Optional[StrictStr] = Field(default=None, description="The language ASR detected, or the one the caller pinned. Null when the backend reports none; the text is still valid.", json_schema_extra={"examples": ["zh"]})
     __properties: ClassVar[List[str]] = ["text", "language"]
 
     model_config = ConfigDict(

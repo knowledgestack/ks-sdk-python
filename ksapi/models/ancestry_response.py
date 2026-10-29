@@ -74,8 +74,7 @@ class AncestryResponse(BaseModel):
         _items = []
         if self.ancestors:
             for _item_ancestors in self.ancestors:
-                if _item_ancestors:
-                    _items.append(_item_ancestors.to_dict())
+                _items.append(_item_ancestors.to_dict() if _item_ancestors is not None else None)
             _dict['ancestors'] = _items
         return _dict
 

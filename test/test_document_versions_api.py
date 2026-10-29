@@ -17,87 +17,164 @@ import unittest
 from ksapi.api.document_versions_api import DocumentVersionsApi
 
 
-class TestDocumentVersionsApi(unittest.TestCase):
+class TestDocumentVersionsApi(unittest.IsolatedAsyncioTestCase):
     """DocumentVersionsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DocumentVersionsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_attach_cited_asset(self) -> None:
+    async def test_attach_cited_asset(self) -> None:
         """Test case for attach_cited_asset
 
         Attach Cited Asset Handler
         """
         pass
 
-    def test_clear_document_version_contents(self) -> None:
+    def test_attach_cited_asset_sync(self) -> None:
+        """Test case for attach_cited_asset (synchronous)
+
+        Attach Cited Asset Handler
+        """
+        pass
+
+    async def test_clear_document_version_contents(self) -> None:
         """Test case for clear_document_version_contents
 
         Clear Document Version Contents Handler
         """
         pass
 
-    def test_create_document_version(self) -> None:
+    def test_clear_document_version_contents_sync(self) -> None:
+        """Test case for clear_document_version_contents (synchronous)
+
+        Clear Document Version Contents Handler
+        """
+        pass
+
+    async def test_create_document_version(self) -> None:
         """Test case for create_document_version
 
         Create Document Version Handler
         """
         pass
 
-    def test_delete_document_version(self) -> None:
+    def test_create_document_version_sync(self) -> None:
+        """Test case for create_document_version (synchronous)
+
+        Create Document Version Handler
+        """
+        pass
+
+    async def test_delete_document_version(self) -> None:
         """Test case for delete_document_version
 
         Delete Document Version Handler
         """
         pass
 
-    def test_document_version_action(self) -> None:
+    def test_delete_document_version_sync(self) -> None:
+        """Test case for delete_document_version (synchronous)
+
+        Delete Document Version Handler
+        """
+        pass
+
+    async def test_document_version_action(self) -> None:
         """Test case for document_version_action
 
         Document Version Action Handler
         """
         pass
 
-    def test_download_document_version(self) -> None:
+    def test_document_version_action_sync(self) -> None:
+        """Test case for document_version_action (synchronous)
+
+        Document Version Action Handler
+        """
+        pass
+
+    async def test_download_document_version(self) -> None:
         """Test case for download_document_version
 
         Download Document Version Handler
         """
         pass
 
-    def test_get_document_version(self) -> None:
+    def test_download_document_version_sync(self) -> None:
+        """Test case for download_document_version (synchronous)
+
+        Download Document Version Handler
+        """
+        pass
+
+    async def test_get_document_version(self) -> None:
         """Test case for get_document_version
 
         Get Document Version Handler
         """
         pass
 
-    def test_get_document_version_contents(self) -> None:
+    def test_get_document_version_sync(self) -> None:
+        """Test case for get_document_version (synchronous)
+
+        Get Document Version Handler
+        """
+        pass
+
+    async def test_get_document_version_contents(self) -> None:
         """Test case for get_document_version_contents
 
         Get Document Version Contents Handler
         """
         pass
 
-    def test_get_document_version_diff(self) -> None:
+    def test_get_document_version_contents_sync(self) -> None:
+        """Test case for get_document_version_contents (synchronous)
+
+        Get Document Version Contents Handler
+        """
+        pass
+
+    async def test_get_document_version_diff(self) -> None:
         """Test case for get_document_version_diff
 
         Get Document Version Diff Handler
         """
         pass
 
-    def test_list_document_versions(self) -> None:
+    def test_get_document_version_diff_sync(self) -> None:
+        """Test case for get_document_version_diff (synchronous)
+
+        Get Document Version Diff Handler
+        """
+        pass
+
+    async def test_list_document_versions(self) -> None:
         """Test case for list_document_versions
 
         List Document Versions Handler
         """
         pass
 
-    def test_update_document_version_metadata(self) -> None:
+    def test_list_document_versions_sync(self) -> None:
+        """Test case for list_document_versions (synchronous)
+
+        List Document Versions Handler
+        """
+        pass
+
+    async def test_update_document_version_metadata(self) -> None:
         """Test case for update_document_version_metadata
+
+        Update Document Version Metadata Handler
+        """
+        pass
+
+    def test_update_document_version_metadata_sync(self) -> None:
+        """Test case for update_document_version_metadata (synchronous)
 
         Update Document Version Metadata Handler
         """

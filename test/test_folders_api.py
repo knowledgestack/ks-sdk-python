@@ -17,66 +17,122 @@ import unittest
 from ksapi.api.folders_api import FoldersApi
 
 
-class TestFoldersApi(unittest.TestCase):
+class TestFoldersApi(unittest.IsolatedAsyncioTestCase):
     """FoldersApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = FoldersApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_create_folder(self) -> None:
+    async def test_create_folder(self) -> None:
         """Test case for create_folder
 
         Create Folder Handler
         """
         pass
 
-    def test_delete_folder(self) -> None:
+    def test_create_folder_sync(self) -> None:
+        """Test case for create_folder (synchronous)
+
+        Create Folder Handler
+        """
+        pass
+
+    async def test_delete_folder(self) -> None:
         """Test case for delete_folder
 
         Delete Folder Handler
         """
         pass
 
-    def test_folder_action(self) -> None:
+    def test_delete_folder_sync(self) -> None:
+        """Test case for delete_folder (synchronous)
+
+        Delete Folder Handler
+        """
+        pass
+
+    async def test_folder_action(self) -> None:
         """Test case for folder_action
 
         Folder Action Handler
         """
         pass
 
-    def test_get_folder(self) -> None:
+    def test_folder_action_sync(self) -> None:
+        """Test case for folder_action (synchronous)
+
+        Folder Action Handler
+        """
+        pass
+
+    async def test_get_folder(self) -> None:
         """Test case for get_folder
 
         Get Folder Handler
         """
         pass
 
-    def test_list_folder_contents(self) -> None:
+    def test_get_folder_sync(self) -> None:
+        """Test case for get_folder (synchronous)
+
+        Get Folder Handler
+        """
+        pass
+
+    async def test_list_folder_contents(self) -> None:
         """Test case for list_folder_contents
 
         List Folder Contents Handler
         """
         pass
 
-    def test_list_folders(self) -> None:
+    def test_list_folder_contents_sync(self) -> None:
+        """Test case for list_folder_contents (synchronous)
+
+        List Folder Contents Handler
+        """
+        pass
+
+    async def test_list_folders(self) -> None:
         """Test case for list_folders
 
         List Folders Handler
         """
         pass
 
-    def test_search_items(self) -> None:
+    def test_list_folders_sync(self) -> None:
+        """Test case for list_folders (synchronous)
+
+        List Folders Handler
+        """
+        pass
+
+    async def test_search_items(self) -> None:
         """Test case for search_items
 
         Search Items Handler
         """
         pass
 
-    def test_update_folder(self) -> None:
+    def test_search_items_sync(self) -> None:
+        """Test case for search_items (synchronous)
+
+        Search Items Handler
+        """
+        pass
+
+    async def test_update_folder(self) -> None:
         """Test case for update_folder
+
+        Update Folder Handler
+        """
+        pass
+
+    def test_update_folder_sync(self) -> None:
+        """Test case for update_folder (synchronous)
 
         Update Folder Handler
         """

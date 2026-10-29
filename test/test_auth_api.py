@@ -17,136 +17,262 @@ import unittest
 from ksapi.api.auth_api import AuthApi
 
 
-class TestAuthApi(unittest.TestCase):
+class TestAuthApi(unittest.IsolatedAsyncioTestCase):
     """AuthApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = AuthApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_change_phone_number(self) -> None:
+    async def test_change_phone_number(self) -> None:
         """Test case for change_phone_number
 
         Change Phone Number Handler
         """
         pass
 
-    def test_create_password_user(self) -> None:
+    def test_change_phone_number_sync(self) -> None:
+        """Test case for change_phone_number (synchronous)
+
+        Change Phone Number Handler
+        """
+        pass
+
+    async def test_create_password_user(self) -> None:
         """Test case for create_password_user
 
         Create Password User Handler
         """
         pass
 
-    def test_create_phone_password_user(self) -> None:
+    def test_create_password_user_sync(self) -> None:
+        """Test case for create_password_user (synchronous)
+
+        Create Password User Handler
+        """
+        pass
+
+    async def test_create_phone_password_user(self) -> None:
         """Test case for create_phone_password_user
 
         Create Phone Password User Handler
         """
         pass
 
-    def test_fanwei_directory_sync(self) -> None:
+    def test_create_phone_password_user_sync(self) -> None:
+        """Test case for create_phone_password_user (synchronous)
+
+        Create Phone Password User Handler
+        """
+        pass
+
+    async def test_fanwei_directory_sync(self) -> None:
         """Test case for fanwei_directory_sync
 
         Directory Sync Handler
         """
         pass
 
-    def test_fanwei_directory_sync_0(self) -> None:
+    def test_fanwei_directory_sync_sync(self) -> None:
+        """Test case for fanwei_directory_sync (synchronous)
+
+        Directory Sync Handler
+        """
+        pass
+
+    async def test_fanwei_directory_sync_0(self) -> None:
         """Test case for fanwei_directory_sync_0
 
         Directory Sync Handler
         """
         pass
 
-    def test_initiate_sso(self) -> None:
+    def test_fanwei_directory_sync_0_sync(self) -> None:
+        """Test case for fanwei_directory_sync_0 (synchronous)
+
+        Directory Sync Handler
+        """
+        pass
+
+    async def test_initiate_sso(self) -> None:
         """Test case for initiate_sso
 
         Initiate Sso Handler
         """
         pass
 
-    def test_oauth2_callback(self) -> None:
+    def test_initiate_sso_sync(self) -> None:
+        """Test case for initiate_sso (synchronous)
+
+        Initiate Sso Handler
+        """
+        pass
+
+    async def test_oauth2_callback(self) -> None:
         """Test case for oauth2_callback
 
         Oauth2 Callback Handler
         """
         pass
 
-    def test_pw_email_verification(self) -> None:
+    def test_oauth2_callback_sync(self) -> None:
+        """Test case for oauth2_callback (synchronous)
+
+        Oauth2 Callback Handler
+        """
+        pass
+
+    async def test_pw_email_verification(self) -> None:
         """Test case for pw_email_verification
 
         Pw Email Verification Handler
         """
         pass
 
-    def test_pw_phone_verification(self) -> None:
+    def test_pw_email_verification_sync(self) -> None:
+        """Test case for pw_email_verification (synchronous)
+
+        Pw Email Verification Handler
+        """
+        pass
+
+    async def test_pw_phone_verification(self) -> None:
         """Test case for pw_phone_verification
 
         Pw Phone Verification Handler
         """
         pass
 
-    def test_pw_signin(self) -> None:
+    def test_pw_phone_verification_sync(self) -> None:
+        """Test case for pw_phone_verification (synchronous)
+
+        Pw Phone Verification Handler
+        """
+        pass
+
+    async def test_pw_signin(self) -> None:
         """Test case for pw_signin
 
         Signin Handler
         """
         pass
 
-    def test_refresh_uat(self) -> None:
+    def test_pw_signin_sync(self) -> None:
+        """Test case for pw_signin (synchronous)
+
+        Signin Handler
+        """
+        pass
+
+    async def test_refresh_uat(self) -> None:
         """Test case for refresh_uat
 
         Refresh Uat Handler
         """
         pass
 
-    def test_request_phone_change(self) -> None:
+    def test_refresh_uat_sync(self) -> None:
+        """Test case for refresh_uat (synchronous)
+
+        Refresh Uat Handler
+        """
+        pass
+
+    async def test_request_phone_change(self) -> None:
         """Test case for request_phone_change
 
         Request Phone Change Handler
         """
         pass
 
-    def test_reset_password(self) -> None:
+    def test_request_phone_change_sync(self) -> None:
+        """Test case for request_phone_change (synchronous)
+
+        Request Phone Change Handler
+        """
+        pass
+
+    async def test_reset_password(self) -> None:
         """Test case for reset_password
 
         Reset Password Handler
         """
         pass
 
-    def test_reset_password_with_token(self) -> None:
+    def test_reset_password_sync(self) -> None:
+        """Test case for reset_password (synchronous)
+
+        Reset Password Handler
+        """
+        pass
+
+    async def test_reset_password_with_token(self) -> None:
         """Test case for reset_password_with_token
 
         Reset Password With Token Handler
         """
         pass
 
-    def test_send_pw_reset_email(self) -> None:
+    def test_reset_password_with_token_sync(self) -> None:
+        """Test case for reset_password_with_token (synchronous)
+
+        Reset Password With Token Handler
+        """
+        pass
+
+    async def test_send_pw_reset_email(self) -> None:
         """Test case for send_pw_reset_email
 
         Send Pw Reset Email Handler
         """
         pass
 
-    def test_signout(self) -> None:
+    def test_send_pw_reset_email_sync(self) -> None:
+        """Test case for send_pw_reset_email (synchronous)
+
+        Send Pw Reset Email Handler
+        """
+        pass
+
+    async def test_signout(self) -> None:
         """Test case for signout
 
         Signout Handler
         """
         pass
 
-    def test_sso_signin(self) -> None:
+    def test_signout_sync(self) -> None:
+        """Test case for signout (synchronous)
+
+        Signout Handler
+        """
+        pass
+
+    async def test_sso_signin(self) -> None:
         """Test case for sso_signin
 
         Sso Login Handler
         """
         pass
 
-    def test_validate_pw_reset_code(self) -> None:
+    def test_sso_signin_sync(self) -> None:
+        """Test case for sso_signin (synchronous)
+
+        Sso Login Handler
+        """
+        pass
+
+    async def test_validate_pw_reset_code(self) -> None:
         """Test case for validate_pw_reset_code
+
+        Validate Reset Code Handler
+        """
+        pass
+
+    def test_validate_pw_reset_code_sync(self) -> None:
+        """Test case for validate_pw_reset_code (synchronous)
 
         Validate Reset Code Handler
         """

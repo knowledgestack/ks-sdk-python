@@ -17,94 +17,178 @@ import unittest
 from ksapi.api.workflow_runs_api import WorkflowRunsApi
 
 
-class TestWorkflowRunsApi(unittest.TestCase):
+class TestWorkflowRunsApi(unittest.IsolatedAsyncioTestCase):
     """WorkflowRunsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = WorkflowRunsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_clone_workflow_run(self) -> None:
+    async def test_clone_workflow_run(self) -> None:
         """Test case for clone_workflow_run
 
         Clone Workflow Run Handler
         """
         pass
 
-    def test_delete_workflow_run(self) -> None:
+    def test_clone_workflow_run_sync(self) -> None:
+        """Test case for clone_workflow_run (synchronous)
+
+        Clone Workflow Run Handler
+        """
+        pass
+
+    async def test_delete_workflow_run(self) -> None:
         """Test case for delete_workflow_run
 
         Delete Workflow Run Handler
         """
         pass
 
-    def test_get_workflow_run(self) -> None:
+    def test_delete_workflow_run_sync(self) -> None:
+        """Test case for delete_workflow_run (synchronous)
+
+        Delete Workflow Run Handler
+        """
+        pass
+
+    async def test_get_workflow_run(self) -> None:
         """Test case for get_workflow_run
 
         Get Workflow Run Handler
         """
         pass
 
-    def test_get_workflow_runs_summary(self) -> None:
+    def test_get_workflow_run_sync(self) -> None:
+        """Test case for get_workflow_run (synchronous)
+
+        Get Workflow Run Handler
+        """
+        pass
+
+    async def test_get_workflow_runs_summary(self) -> None:
         """Test case for get_workflow_runs_summary
 
         Get Workflow Runs Summary Handler
         """
         pass
 
-    def test_list_workflow_runs_for_tenant(self) -> None:
+    def test_get_workflow_runs_summary_sync(self) -> None:
+        """Test case for get_workflow_runs_summary (synchronous)
+
+        Get Workflow Runs Summary Handler
+        """
+        pass
+
+    async def test_list_workflow_runs_for_tenant(self) -> None:
         """Test case for list_workflow_runs_for_tenant
 
         List Workflow Runs For Tenant Handler
         """
         pass
 
-    def test_resume_workflow_run(self) -> None:
+    def test_list_workflow_runs_for_tenant_sync(self) -> None:
+        """Test case for list_workflow_runs_for_tenant (synchronous)
+
+        List Workflow Runs For Tenant Handler
+        """
+        pass
+
+    async def test_resume_workflow_run(self) -> None:
         """Test case for resume_workflow_run
 
         Resume Workflow Run Handler
         """
         pass
 
-    def test_retry_workflow_run(self) -> None:
+    def test_resume_workflow_run_sync(self) -> None:
+        """Test case for resume_workflow_run (synchronous)
+
+        Resume Workflow Run Handler
+        """
+        pass
+
+    async def test_retry_workflow_run(self) -> None:
         """Test case for retry_workflow_run
 
         Retry Workflow Run Handler
         """
         pass
 
-    def test_set_workflow_run_approval(self) -> None:
+    def test_retry_workflow_run_sync(self) -> None:
+        """Test case for retry_workflow_run (synchronous)
+
+        Retry Workflow Run Handler
+        """
+        pass
+
+    async def test_set_workflow_run_approval(self) -> None:
         """Test case for set_workflow_run_approval
 
         Set Workflow Run Approval Handler
         """
         pass
 
-    def test_start_workflow_run(self) -> None:
+    def test_set_workflow_run_approval_sync(self) -> None:
+        """Test case for set_workflow_run_approval (synchronous)
+
+        Set Workflow Run Approval Handler
+        """
+        pass
+
+    async def test_start_workflow_run(self) -> None:
         """Test case for start_workflow_run
 
         Start Workflow Run Handler
         """
         pass
 
-    def test_stop_workflow_run(self) -> None:
+    def test_start_workflow_run_sync(self) -> None:
+        """Test case for start_workflow_run (synchronous)
+
+        Start Workflow Run Handler
+        """
+        pass
+
+    async def test_stop_workflow_run(self) -> None:
         """Test case for stop_workflow_run
 
         Stop Workflow Run Handler
         """
         pass
 
-    def test_update_workflow_run(self) -> None:
+    def test_stop_workflow_run_sync(self) -> None:
+        """Test case for stop_workflow_run (synchronous)
+
+        Stop Workflow Run Handler
+        """
+        pass
+
+    async def test_update_workflow_run(self) -> None:
         """Test case for update_workflow_run
 
         Update Workflow Run Handler
         """
         pass
 
-    def test_workflow_run_callback(self) -> None:
+    def test_update_workflow_run_sync(self) -> None:
+        """Test case for update_workflow_run (synchronous)
+
+        Update Workflow Run Handler
+        """
+        pass
+
+    async def test_workflow_run_callback(self) -> None:
         """Test case for workflow_run_callback
+
+        Workflow Run Callback Handler
+        """
+        pass
+
+    def test_workflow_run_callback_sync(self) -> None:
+        """Test case for workflow_run_callback (synchronous)
 
         Workflow Run Callback Handler
         """

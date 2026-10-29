@@ -75,15 +75,13 @@ class WorkflowLeaderboardResponse(BaseModel):
         _items = []
         if self.top_workflows:
             for _item_top_workflows in self.top_workflows:
-                if _item_top_workflows:
-                    _items.append(_item_top_workflows.to_dict())
+                _items.append(_item_top_workflows.to_dict() if _item_top_workflows is not None else None)
             _dict['top_workflows'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in top_users (list)
         _items = []
         if self.top_users:
             for _item_top_users in self.top_users:
-                if _item_top_users:
-                    _items.append(_item_top_users.to_dict())
+                _items.append(_item_top_users.to_dict() if _item_top_users is not None else None)
             _dict['top_users'] = _items
         return _dict
 

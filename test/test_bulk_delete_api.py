@@ -17,17 +17,24 @@ import unittest
 from ksapi.api.bulk_delete_api import BulkDeleteApi
 
 
-class TestBulkDeleteApi(unittest.TestCase):
+class TestBulkDeleteApi(unittest.IsolatedAsyncioTestCase):
     """BulkDeleteApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = BulkDeleteApi()
 
-    def tearDown(self) -> None:
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
+
+    async def test_bulk_delete(self) -> None:
+        """Test case for bulk_delete
+
+        Bulk Delete Handler
+        """
         pass
 
-    def test_bulk_delete(self) -> None:
-        """Test case for bulk_delete
+    def test_bulk_delete_sync(self) -> None:
+        """Test case for bulk_delete (synchronous)
 
         Bulk Delete Handler
         """

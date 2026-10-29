@@ -80,15 +80,13 @@ class CellDiff(BaseModel):
         _items = []
         if self.changes:
             for _item_changes in self.changes:
-                if _item_changes:
-                    _items.append(_item_changes.to_dict())
+                _items.append(_item_changes.to_dict() if _item_changes is not None else None)
             _dict['changes'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in sheet_visibility_changes (list)
         _items = []
         if self.sheet_visibility_changes:
             for _item_sheet_visibility_changes in self.sheet_visibility_changes:
-                if _item_sheet_visibility_changes:
-                    _items.append(_item_sheet_visibility_changes.to_dict())
+                _items.append(_item_sheet_visibility_changes.to_dict() if _item_sheet_visibility_changes is not None else None)
             _dict['sheet_visibility_changes'] = _items
         return _dict
 

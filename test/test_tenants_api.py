@@ -17,94 +17,178 @@ import unittest
 from ksapi.api.tenants_api import TenantsApi
 
 
-class TestTenantsApi(unittest.TestCase):
+class TestTenantsApi(unittest.IsolatedAsyncioTestCase):
     """TenantsApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = TenantsApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_activate_tenant_user(self) -> None:
+    async def test_activate_tenant_user(self) -> None:
         """Test case for activate_tenant_user
 
         Activate Tenant User Handler
         """
         pass
 
-    def test_deactivate_tenant_user(self) -> None:
+    def test_activate_tenant_user_sync(self) -> None:
+        """Test case for activate_tenant_user (synchronous)
+
+        Activate Tenant User Handler
+        """
+        pass
+
+    async def test_deactivate_tenant_user(self) -> None:
         """Test case for deactivate_tenant_user
 
         Deactivate Tenant User Handler
         """
         pass
 
-    def test_delete_tenant(self) -> None:
+    def test_deactivate_tenant_user_sync(self) -> None:
+        """Test case for deactivate_tenant_user (synchronous)
+
+        Deactivate Tenant User Handler
+        """
+        pass
+
+    async def test_delete_tenant(self) -> None:
         """Test case for delete_tenant
 
         Delete Tenant
         """
         pass
 
-    def test_delete_tenant_logo(self) -> None:
+    def test_delete_tenant_sync(self) -> None:
+        """Test case for delete_tenant (synchronous)
+
+        Delete Tenant
+        """
+        pass
+
+    async def test_delete_tenant_logo(self) -> None:
         """Test case for delete_tenant_logo
 
         Delete Tenant Logo
         """
         pass
 
-    def test_delete_tenant_user(self) -> None:
+    def test_delete_tenant_logo_sync(self) -> None:
+        """Test case for delete_tenant_logo (synchronous)
+
+        Delete Tenant Logo
+        """
+        pass
+
+    async def test_delete_tenant_user(self) -> None:
         """Test case for delete_tenant_user
 
         Delete Tenant User Handler
         """
         pass
 
-    def test_get_tenant(self) -> None:
+    def test_delete_tenant_user_sync(self) -> None:
+        """Test case for delete_tenant_user (synchronous)
+
+        Delete Tenant User Handler
+        """
+        pass
+
+    async def test_get_tenant(self) -> None:
         """Test case for get_tenant
 
         Get Tenant
         """
         pass
 
-    def test_get_tenant_quota_state(self) -> None:
+    def test_get_tenant_sync(self) -> None:
+        """Test case for get_tenant (synchronous)
+
+        Get Tenant
+        """
+        pass
+
+    async def test_get_tenant_quota_state(self) -> None:
         """Test case for get_tenant_quota_state
 
         Get Tenant Quota State Handler
         """
         pass
 
-    def test_list_tenant_users(self) -> None:
+    def test_get_tenant_quota_state_sync(self) -> None:
+        """Test case for get_tenant_quota_state (synchronous)
+
+        Get Tenant Quota State Handler
+        """
+        pass
+
+    async def test_list_tenant_users(self) -> None:
         """Test case for list_tenant_users
 
         List Tenant Users
         """
         pass
 
-    def test_list_tenants(self) -> None:
+    def test_list_tenant_users_sync(self) -> None:
+        """Test case for list_tenant_users (synchronous)
+
+        List Tenant Users
+        """
+        pass
+
+    async def test_list_tenants(self) -> None:
         """Test case for list_tenants
 
         List Tenants
         """
         pass
 
-    def test_update_tenant(self) -> None:
+    def test_list_tenants_sync(self) -> None:
+        """Test case for list_tenants (synchronous)
+
+        List Tenants
+        """
+        pass
+
+    async def test_update_tenant(self) -> None:
         """Test case for update_tenant
 
         Update Tenant
         """
         pass
 
-    def test_update_tenant_user(self) -> None:
+    def test_update_tenant_sync(self) -> None:
+        """Test case for update_tenant (synchronous)
+
+        Update Tenant
+        """
+        pass
+
+    async def test_update_tenant_user(self) -> None:
         """Test case for update_tenant_user
 
         Update Tenant User
         """
         pass
 
-    def test_upload_tenant_logo(self) -> None:
+    def test_update_tenant_user_sync(self) -> None:
+        """Test case for update_tenant_user (synchronous)
+
+        Update Tenant User
+        """
+        pass
+
+    async def test_upload_tenant_logo(self) -> None:
         """Test case for upload_tenant_logo
+
+        Upload Tenant Logo
+        """
+        pass
+
+    def test_upload_tenant_logo_sync(self) -> None:
+        """Test case for upload_tenant_logo (synchronous)
 
         Upload Tenant Logo
         """

@@ -69,7 +69,7 @@ class TestDocumentDiff(unittest.TestCase):
                             ], 
                         revisions = [
                             ksapi.models.revision_edit.RevisionEdit(
-                                type = , 
+                                type = 'added', 
                                 author = '', 
                                 date = '', 
                                 text = '', )
@@ -132,7 +132,7 @@ class TestDocumentDiff(unittest.TestCase):
                             ], 
                         revisions = [
                             ksapi.models.revision_edit.RevisionEdit(
-                                type = , 
+                                type = 'added', 
                                 author = '', 
                                 date = '', 
                                 text = '', )

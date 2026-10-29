@@ -75,8 +75,7 @@ class IngestZipResponse(BaseModel):
         _items = []
         if self.skipped:
             for _item_skipped in self.skipped:
-                if _item_skipped:
-                    _items.append(_item_skipped.to_dict())
+                _items.append(_item_skipped.to_dict() if _item_skipped is not None else None)
             _dict['skipped'] = _items
         # set to None if workflow_id (nullable) is None
         # and model_fields_set contains the field

@@ -89,15 +89,13 @@ class WorkflowRunSnapshot(BaseModel):
         _items = []
         if self.inputs:
             for _item_inputs in self.inputs:
-                if _item_inputs:
-                    _items.append(_item_inputs.to_dict())
+                _items.append(_item_inputs.to_dict() if _item_inputs is not None else None)
             _dict['inputs'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in excluded_common_files (list)
         _items = []
         if self.excluded_common_files:
             for _item_excluded_common_files in self.excluded_common_files:
-                if _item_excluded_common_files:
-                    _items.append(_item_excluded_common_files.to_dict())
+                _items.append(_item_excluded_common_files.to_dict() if _item_excluded_common_files is not None else None)
             _dict['excluded_common_files'] = _items
         # override the default output from pydantic by calling `to_dict()` of repo
         if self.repo:

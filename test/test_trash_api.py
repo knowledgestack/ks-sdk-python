@@ -17,52 +17,94 @@ import unittest
 from ksapi.api.trash_api import TrashApi
 
 
-class TestTrashApi(unittest.TestCase):
+class TestTrashApi(unittest.IsolatedAsyncioTestCase):
     """TrashApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = TrashApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_bulk_permanently_delete_trash(self) -> None:
+    async def test_bulk_permanently_delete_trash(self) -> None:
         """Test case for bulk_permanently_delete_trash
 
         Bulk Permanently Delete Trash Handler
         """
         pass
 
-    def test_bulk_restore_trash(self) -> None:
+    def test_bulk_permanently_delete_trash_sync(self) -> None:
+        """Test case for bulk_permanently_delete_trash (synchronous)
+
+        Bulk Permanently Delete Trash Handler
+        """
+        pass
+
+    async def test_bulk_restore_trash(self) -> None:
         """Test case for bulk_restore_trash
 
         Bulk Restore Trash Handler
         """
         pass
 
-    def test_get_trash_item(self) -> None:
+    def test_bulk_restore_trash_sync(self) -> None:
+        """Test case for bulk_restore_trash (synchronous)
+
+        Bulk Restore Trash Handler
+        """
+        pass
+
+    async def test_get_trash_item(self) -> None:
         """Test case for get_trash_item
 
         Get Trash Item Handler
         """
         pass
 
-    def test_list_trash(self) -> None:
+    def test_get_trash_item_sync(self) -> None:
+        """Test case for get_trash_item (synchronous)
+
+        Get Trash Item Handler
+        """
+        pass
+
+    async def test_list_trash(self) -> None:
         """Test case for list_trash
 
         List Trash Handler
         """
         pass
 
-    def test_permanently_delete_trash_item(self) -> None:
+    def test_list_trash_sync(self) -> None:
+        """Test case for list_trash (synchronous)
+
+        List Trash Handler
+        """
+        pass
+
+    async def test_permanently_delete_trash_item(self) -> None:
         """Test case for permanently_delete_trash_item
 
         Permanently Delete Trash Item Handler
         """
         pass
 
-    def test_restore_trash_item(self) -> None:
+    def test_permanently_delete_trash_item_sync(self) -> None:
+        """Test case for permanently_delete_trash_item (synchronous)
+
+        Permanently Delete Trash Item Handler
+        """
+        pass
+
+    async def test_restore_trash_item(self) -> None:
         """Test case for restore_trash_item
+
+        Restore Trash Item Handler
+        """
+        pass
+
+    def test_restore_trash_item_sync(self) -> None:
+        """Test case for restore_trash_item (synchronous)
 
         Restore Trash Item Handler
         """
