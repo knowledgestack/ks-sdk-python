@@ -55,7 +55,7 @@ class UserResponse(BaseModel):
     onboarding_state: Optional[OnboardingState] = Field(default=None, description="Resume step and guide progress for the current membership.")
     invited_by: Optional[UserInfo] = Field(default=None, description="Who sent the accepted invite that created the current membership. NULL when the membership did not come from an email invite, and on the sign-in and sign-up responses; read it from GET /v1/users/me.")
     added_by: Optional[AddedBy] = None
-    idp_managed_fields: Optional[List[StrictStr]] = Field(default=None, description="Profile fields the identity provider overwrites on every sync, so clients render them read-only. Empty unless directory-managed.")
+    idp_managed_fields: Optional[List[StrictStr]] = Field(default=None, description="Profile fields the identity provider owns, so clients render them read-only and updates to them are refused. Empty unless directory-managed.")
     onboarding_enabled: Optional[StrictBool] = Field(default=None, description="The current tenant's onboarding switch: true forces the flow on, false hides it, NULL follows the deployment default.")
     __properties: ClassVar[List[str]] = ["id", "email", "phone_number", "first_name", "last_name", "idp_type", "current_tenant_id", "current_tenant_role", "default_tenant_id", "job_title", "department", "bio", "avatar_url", "language_preference", "onboarding_completed_at", "join_method", "onboarding_state", "invited_by", "added_by", "idp_managed_fields", "onboarding_enabled"]
 

@@ -31,7 +31,7 @@ class UpdateUserRequest(BaseModel):
     UpdateUserRequest
     """ # noqa: E501
     default_tenant_id: Optional[UUID] = Field(default=None, description="Default tenant ID the user shall be logged into")
-    first_name: Optional[Annotated[str, Field(strict=True, max_length=255)]] = Field(default=None, description="First name of the user")
+    first_name: Optional[Annotated[str, Field(strict=True, max_length=255)]] = Field(default=None, description="First name of the user. Directory-synced users cannot set it.")
     last_name: Optional[Annotated[str, Field(strict=True, max_length=255)]] = Field(default=None, description="Last name of the user. Directory-synced users cannot set it.")
     job_title: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Job title at the current tenant; omit to leave unchanged, empty string to clear. Directory-synced users cannot set it.")
     department: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Department at the current tenant; omit to leave unchanged, empty string to clear. Directory-synced users cannot set it.")
