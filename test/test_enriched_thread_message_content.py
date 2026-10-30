@@ -40,13 +40,17 @@ class TestEnrichedThreadMessageContent(unittest.TestCase):
                 citations = [
                     ksapi.models.enriched_citation.EnrichedCitation(
                         chunk_id = '', 
+                        document_version_id = '', 
+                        sheet_name = '', 
+                        cell_ranges = [
+                            ''
+                            ], 
                         quote = '', 
                         start_char = 0.0, 
-                        length = 56, 
+                        length = 0.0, 
                         start_ms = 56, 
                         end_ms = 56, 
                         document_id = '', 
-                        document_version_id = '', 
                         document_name = '', 
                         version_number = 56, 
                         path_part_id = '', 

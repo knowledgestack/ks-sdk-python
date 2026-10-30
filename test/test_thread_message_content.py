@@ -40,9 +40,14 @@ class TestThreadMessageContent(unittest.TestCase):
                 citations = [
                     ksapi.models.citation.Citation(
                         chunk_id = '', 
+                        document_version_id = '', 
+                        sheet_name = '', 
+                        cell_ranges = [
+                            ''
+                            ], 
                         quote = '', 
                         start_char = 0.0, 
-                        length = 56, 
+                        length = 0.0, 
                         start_ms = 56, 
                         end_ms = 56, )
                     ],

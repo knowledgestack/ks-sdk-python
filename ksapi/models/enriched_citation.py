@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from typing import Optional, Set
@@ -29,19 +29,21 @@ class EnrichedCitation(BaseModel):
     """
     Citation with optional document context, populated at read time.
     """ # noqa: E501
-    chunk_id: UUID
-    quote: StrictStr = Field(description="The quote from the chunk")
-    start_char: Annotated[int, Field(strict=True, ge=0)] = Field(description="The 0-based start character of the quote in the chunk")
-    length: StrictInt = Field(description="The length of the quote")
+    chunk_id: Optional[UUID] = Field(default=None, description="Chunk source; absent for Excel selections")
+    document_version_id: Optional[UUID] = None
+    sheet_name: Optional[StrictStr] = Field(default=None, description="Exact Excel worksheet name")
+    cell_ranges: Optional[List[StrictStr]] = Field(default=None, description="Ordered A1 cells/rectangles on one worksheet")
+    quote: Optional[StrictStr] = Field(default='', description="The quote from the chunk; empty for Excel")
+    start_char: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="The 0-based start character of the quote in the chunk")
+    length: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="Quote length; positive for chunks, zero for Excel")
     start_ms: Optional[StrictInt] = Field(default=None, description="Start time (ms) of the cited chunk in the source media, for AUDIO/VIDEO — lets the client deep-link playback to the moment. None for non-media chunks.")
     end_ms: Optional[StrictInt] = Field(default=None, description="End time (ms) of the cited chunk in the source media (AUDIO/VIDEO); None for non-media chunks.")
     document_id: Optional[UUID] = None
-    document_version_id: Optional[UUID] = None
     document_name: Optional[StrictStr] = None
     version_number: Optional[StrictInt] = None
     path_part_id: Optional[UUID] = None
     materialized_path: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["chunk_id", "quote", "start_char", "length", "start_ms", "end_ms", "document_id", "document_version_id", "document_name", "version_number", "path_part_id", "materialized_path"]
+    __properties: ClassVar[List[str]] = ["chunk_id", "document_version_id", "sheet_name", "cell_ranges", "quote", "start_char", "length", "start_ms", "end_ms", "document_id", "document_name", "version_number", "path_part_id", "materialized_path"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,6 +84,26 @@ class EnrichedCitation(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if chunk_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.chunk_id is None and "chunk_id" in self.model_fields_set:
+            _dict['chunk_id'] = None
+
+        # set to None if document_version_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_version_id is None and "document_version_id" in self.model_fields_set:
+            _dict['document_version_id'] = None
+
+        # set to None if sheet_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.sheet_name is None and "sheet_name" in self.model_fields_set:
+            _dict['sheet_name'] = None
+
+        # set to None if cell_ranges (nullable) is None
+        # and model_fields_set contains the field
+        if self.cell_ranges is None and "cell_ranges" in self.model_fields_set:
+            _dict['cell_ranges'] = None
+
         # set to None if start_ms (nullable) is None
         # and model_fields_set contains the field
         if self.start_ms is None and "start_ms" in self.model_fields_set:
@@ -96,11 +118,6 @@ class EnrichedCitation(BaseModel):
         # and model_fields_set contains the field
         if self.document_id is None and "document_id" in self.model_fields_set:
             _dict['document_id'] = None
-
-        # set to None if document_version_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_version_id is None and "document_version_id" in self.model_fields_set:
-            _dict['document_version_id'] = None
 
         # set to None if document_name (nullable) is None
         # and model_fields_set contains the field
@@ -135,13 +152,15 @@ class EnrichedCitation(BaseModel):
 
         _obj = cls.model_validate({
             "chunk_id": obj.get("chunk_id"),
-            "quote": obj.get("quote"),
-            "start_char": obj.get("start_char"),
-            "length": obj.get("length"),
+            "document_version_id": obj.get("document_version_id"),
+            "sheet_name": obj.get("sheet_name"),
+            "cell_ranges": obj.get("cell_ranges"),
+            "quote": obj.get("quote") if obj.get("quote") is not None else '',
+            "start_char": obj.get("start_char") if obj.get("start_char") is not None else 0,
+            "length": obj.get("length") if obj.get("length") is not None else 0,
             "start_ms": obj.get("start_ms"),
             "end_ms": obj.get("end_ms"),
             "document_id": obj.get("document_id"),
-            "document_version_id": obj.get("document_version_id"),
             "document_name": obj.get("document_name"),
             "version_number": obj.get("version_number"),
             "path_part_id": obj.get("path_part_id"),
