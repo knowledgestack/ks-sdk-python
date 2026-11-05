@@ -23,6 +23,7 @@ from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.connection_config import ConnectionConfig
 from ksapi.models.data_source_engine import DataSourceEngine
+from ksapi.models.email_sync_config import EmailSyncConfig
 from ksapi.models.source_type import SourceType
 from ksapi.models.yiding_config import YidingConfig
 from typing import Optional, Set
@@ -31,15 +32,17 @@ from pydantic_core import to_jsonable_python
 
 class CreateDataSourceRequest(BaseModel):
     """
-    Create a connector under a folder the caller can write to.
+    Create a connector under a folder the caller can write to.  ``name`` is the one thing a mailbox does not take: it is named after the address it syncs, because a second name for it would only ever disagree with the mailbox. Where it goes is still the caller's, as it is for every other connector — the folder a connector hangs in is what decides who can read what hangs under it, so a personal mailbox and an organization's belong in different places.
     """ # noqa: E501
-    name: Annotated[str, Field(strict=True, max_length=255)]
+    name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = Field(default=None, description="What to call this connector. Required. On a mailbox it is a label of the caller's choosing — the address itself is read back from the consent and reported separately.")
     parent_path_part_id: UUID
     source_type: Optional[SourceType] = None
     engine: Optional[DataSourceEngine] = None
     connection_config: Optional[ConnectionConfig] = None
     source_config: Optional[YidingConfig] = None
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "source_type", "engine", "connection_config", "source_config"]
+    mail_credential_id: Optional[UUID] = Field(default=None, description="On EMAIL, **required**: the registration this mailbox will consent against, chosen from ``GET /v1/mail-credentials``. Only OWNER/ADMIN can put one there, which is the point — creating a connector needs folder write, and that is not enough to be handed a client secret. Set at creation and never changed: the stored grant is a refresh token issued to one client, so repointing it would leave a mailbox that can never refresh")
+    email_config: Optional[EmailSyncConfig] = Field(default=None, description="Optional on EMAIL, refused otherwise. Only carries the recurrence, which has a default.")
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "source_type", "engine", "connection_config", "source_config", "mail_credential_id", "email_config"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,6 +89,14 @@ class CreateDataSourceRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of source_config
         if self.source_config:
             _dict['source_config'] = self.source_config.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of email_config
+        if self.email_config:
+            _dict['email_config'] = self.email_config.to_dict()
+        # set to None if name (nullable) is None
+        # and model_fields_set contains the field
+        if self.name is None and "name" in self.model_fields_set:
+            _dict['name'] = None
+
         # set to None if connection_config (nullable) is None
         # and model_fields_set contains the field
         if self.connection_config is None and "connection_config" in self.model_fields_set:
@@ -95,6 +106,16 @@ class CreateDataSourceRequest(BaseModel):
         # and model_fields_set contains the field
         if self.source_config is None and "source_config" in self.model_fields_set:
             _dict['source_config'] = None
+
+        # set to None if mail_credential_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.mail_credential_id is None and "mail_credential_id" in self.model_fields_set:
+            _dict['mail_credential_id'] = None
+
+        # set to None if email_config (nullable) is None
+        # and model_fields_set contains the field
+        if self.email_config is None and "email_config" in self.model_fields_set:
+            _dict['email_config'] = None
 
         return _dict
 
@@ -113,7 +134,9 @@ class CreateDataSourceRequest(BaseModel):
             "source_type": obj.get("source_type"),
             "engine": obj.get("engine"),
             "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None,
-            "source_config": YidingConfig.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None
+            "source_config": YidingConfig.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
+            "mail_credential_id": obj.get("mail_credential_id"),
+            "email_config": EmailSyncConfig.from_dict(obj["email_config"]) if obj.get("email_config") is not None else None
         })
         return _obj
 

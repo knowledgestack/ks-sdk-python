@@ -77,7 +77,7 @@ class DataSourcesApi:
     ) -> DataSourceResponse:
         """Create Data Source Handler
 
-        Create a connector under a writable folder; test the connection first.
+        Create a connector under a writable folder; test the connection first.  A mailbox is placed like any other connector and named like one: ``name`` is required for every kind, and on a mailbox it is a label of the caller's choosing — the address comes back from the consent and is reported beside it rather than used as the name.
 
         :param create_data_source_request: (required)
         :type create_data_source_request: CreateDataSourceRequest
@@ -146,7 +146,7 @@ class DataSourcesApi:
     ) -> ApiResponse[DataSourceResponse]:
         """Create Data Source Handler
 
-        Create a connector under a writable folder; test the connection first.
+        Create a connector under a writable folder; test the connection first.  A mailbox is placed like any other connector and named like one: ``name`` is required for every kind, and on a mailbox it is a label of the caller's choosing — the address comes back from the consent and is reported beside it rather than used as the name.
 
         :param create_data_source_request: (required)
         :type create_data_source_request: CreateDataSourceRequest
@@ -215,7 +215,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Create Data Source Handler
 
-        Create a connector under a writable folder; test the connection first.
+        Create a connector under a writable folder; test the connection first.  A mailbox is placed like any other connector and named like one: ``name`` is required for every kind, and on a mailbox it is a label of the caller's choosing — the address comes back from the consent and is reported beside it rather than used as the name.
 
         :param create_data_source_request: (required)
         :type create_data_source_request: CreateDataSourceRequest
@@ -460,7 +460,7 @@ class DataSourcesApi:
     ) -> None:
         """Delete Data Source Handler
 
-        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A YIDINGSYNC connector also owns a daily crawl schedule, which is removed here: left behind, it would fire every night at a connector that is gone. The check is not redundant — unlike the best-effort trash sync above, ``delete_connector_schedule`` re-raises anything that is not NOT_FOUND, so calling it for a DIRECT connector would put a Temporal outage in the way of a delete that never needed Temporal at all.
+        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A crawler-fed connector also owns a crawl schedule, which is removed here: left behind, it would keep firing at a connector that is gone. Which kinds own one is ``has_crawl_schedule``, the same question asked when arming it — a mailbox arms its recurrence from the OAuth callback, so keying this on one source type would leave mailbox schedules behind.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -529,7 +529,7 @@ class DataSourcesApi:
     ) -> ApiResponse[None]:
         """Delete Data Source Handler
 
-        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A YIDINGSYNC connector also owns a daily crawl schedule, which is removed here: left behind, it would fire every night at a connector that is gone. The check is not redundant — unlike the best-effort trash sync above, ``delete_connector_schedule`` re-raises anything that is not NOT_FOUND, so calling it for a DIRECT connector would put a Temporal outage in the way of a delete that never needed Temporal at all.
+        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A crawler-fed connector also owns a crawl schedule, which is removed here: left behind, it would keep firing at a connector that is gone. Which kinds own one is ``has_crawl_schedule``, the same question asked when arming it — a mailbox arms its recurrence from the OAuth callback, so keying this on one source type would leave mailbox schedules behind.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -598,7 +598,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Delete Data Source Handler
 
-        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A YIDINGSYNC connector also owns a daily crawl schedule, which is removed here: left behind, it would fire every night at a connector that is gone. The check is not redundant — unlike the best-effort trash sync above, ``delete_connector_schedule`` re-raises anything that is not NOT_FOUND, so calling it for a DIRECT connector would put a Temporal outage in the way of a delete that never needed Temporal at all.
+        Move a connector and its schemas/tables to trash.  Soft-delete via the path_part subtree (schemas + tables are children, so they trash with it). Each modeled table's summary Qdrant point carries that table's path_part, so the set-trashed workflow flips it to trashed too — keeping trashed tables out of the agent's table search (best-effort, mirrors the document delete path).  A crawler-fed connector also owns a crawl schedule, which is removed here: left behind, it would keep firing at a connector that is gone. Which kinds own one is ``has_crawl_schedule``, the same question asked when arming it — a mailbox arms its recurrence from the OAuth callback, so keying this on one source type would leave mailbox schedules behind.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -5840,7 +5840,7 @@ class DataSourcesApi:
     ) -> DataSourceResponse:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move). A fresh ``connection_config`` takes that same write access and no tenant role. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -5913,7 +5913,7 @@ class DataSourcesApi:
     ) -> ApiResponse[DataSourceResponse]:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move). A fresh ``connection_config`` takes that same write access and no tenant role. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
 
         :param data_source_id: (required)
         :type data_source_id: UUID
@@ -5986,7 +5986,7 @@ class DataSourcesApi:
     ) -> RESTResponseType:
         """Update Data Source Handler
 
-        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move); supplying ``connection_config`` additionally requires OWNER/ADMIN. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
+        Rename, move, and/or re-credential a connector.  Requires ``can_write`` on the connector (and on the destination folder for a move). A fresh ``connection_config`` takes that same write access and no tenant role. Fresh ``connection_config`` is re-validated against the DB before persisting (bad creds → 400, consistent with create); creds are never echoed back. ``engine`` is immutable. A fresh ``source_config`` re-arms the crawl schedule, so changing ``cron`` takes effect immediately rather than at the next provisioning.
 
         :param data_source_id: (required)
         :type data_source_id: UUID

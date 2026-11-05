@@ -35,7 +35,7 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
         model = FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR()
         if include_optional:
             return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR(
-                part_type = 'SKILL',
+                part_type = 'EMAIL_MESSAGE',
                 id = '',
                 path_part_id = '',
                 name = '',
@@ -65,7 +65,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     can_read = True, 
                     can_write = True, 
                     can_delete = True, 
-                    can_approve = True, ),
+                    can_approve = True, 
+                    can_grant_permissions = True, ),
                 document_type = 'PDF',
                 document_origin = 'SOURCE',
                 active_version_id = '',
@@ -243,8 +244,21 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     username = '0', 
                     business_id = '0', 
                     start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    cron = '0', 
                     base_url = 'https://admin.zhidianfan.com/seller_resv_sys', ),
+                email_config = ksapi.models.email_config_summary.EmailConfigSummary(
+                    folders = {
+                        'key' : ''
+                        }, ),
+                mailbox_address = '',
+                mail_credential = ksapi.models.mail_credential_option.MailCredentialOption(
+                    id = '', 
+                    name = '', 
+                    provider = '', ),
+                email_progress = ksapi.models.email_sync_progress.EmailSyncProgress(
+                    last_sync_finished_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
+                sync_status = 'NO_SYNC',
+                sync_cron = '',
+                last_sync_error = '',
                 data_source_id = '',
                 schema_name = '',
                 is_default = True,
@@ -268,7 +282,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                             can_read = True, 
                             can_write = True, 
                             can_delete = True, 
-                            can_approve = True, ), 
+                            can_approve = True, 
+                            can_grant_permissions = True, ), 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
@@ -298,11 +313,48 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                         path = '', 
                         document_id = '', )
                     ],
-                has_unpublished_changes = True
+                has_unpublished_changes = True,
+                source_conversation_id = '',
+                title = '',
+                message_count = 56,
+                participants = [
+                    ''
+                    ],
+                has_attachments = True,
+                attachment_names = [
+                    ''
+                    ],
+                attachment_count = 56,
+                last_message_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                last_message = ksapi.models.email_thread_last_message.EmailThreadLastMessage(
+                    email_message_id = '', 
+                    sender = '', 
+                    sent_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    title = '', 
+                    external_source_folder = '', 
+                    preview = '', 
+                    recipients = [
+                        ''
+                        ], 
+                    recipient_count = 56, ),
+                external_message_id = '',
+                external_source_folder = '',
+                preview = '',
+                sent_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                sender = '',
+                recipients = [
+                    ''
+                    ],
+                cc_recipients = [
+                    ''
+                    ],
+                bcc_recipients = [
+                    ''
+                    ]
             )
         else:
             return FolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflowRunResponseOrDataSourceResponseOrDataSourceSchemaR(
-                part_type = 'SKILL',
+                part_type = 'EMAIL_MESSAGE',
                 id = '',
                 path_part_id = '',
                 name = '',
@@ -318,7 +370,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     can_read = True, 
                     can_write = True, 
                     can_delete = True, 
-                    can_approve = True, ),
+                    can_approve = True, 
+                    can_grant_permissions = True, ),
                 document_type = 'PDF',
                 document_origin = 'SOURCE',
                 active_version_id = '',
@@ -451,8 +504,8 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                     id = '', 
                     path_part_id = '', 
                     materialized_path = '', ),
-                engine = 'MYSQL',
                 source_type = 'DIRECT',
+                sync_status = 'NO_SYNC',
                 data_source_id = '',
                 schema_name = '',
                 is_default = True,
@@ -467,6 +520,21 @@ class TestFolderResponseOrDocumentResponseOrWorkflowDefinitionResponseOrWorkflow
                 api_docs = '',
                 disclaimer_accepted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 disclaimer_accepted_by = '',
+                source_conversation_id = '',
+                title = '',
+                external_message_id = '',
+                external_source_folder = '',
+                sent_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                sender = '',
+                recipients = [
+                    ''
+                    ],
+                cc_recipients = [
+                    ''
+                    ],
+                bcc_recipients = [
+                    ''
+                    ],
         )
         """
 

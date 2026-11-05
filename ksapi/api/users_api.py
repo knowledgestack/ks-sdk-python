@@ -18,9 +18,9 @@ from typing_extensions import Annotated
 from pydantic import StrictBytes, StrictStr
 from typing import Tuple, Union
 from ksapi.models.access_request_response import AccessRequestResponse
+from ksapi.models.current_user_response import CurrentUserResponse
 from ksapi.models.onboarding_state_update import OnboardingStateUpdate
 from ksapi.models.update_user_request import UpdateUserRequest
-from ksapi.models.user_response import UserResponse
 
 from ksapi.api_client import ApiClient, RequestSerialized
 from ksapi.api_response import ApiResponse
@@ -56,7 +56,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Delete My Avatar Handler
 
         Remove the profile photo for the current tenant. No photo is a no-op.
@@ -91,7 +91,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -120,7 +120,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Delete My Avatar Handler
 
         Remove the profile photo for the current tenant. No photo is a no-op.
@@ -155,7 +155,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -219,7 +219,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -244,7 +244,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Delete My Avatar Handler (synchronous)
 
         Synchronous variant of :meth:`delete_my_avatar`. It calls the asynchronous
@@ -276,7 +276,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Delete My Avatar Handler (synchronous)
 
         Synchronous variant of :meth:`delete_my_avatar_with_http_info`. It calls the
@@ -402,7 +402,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Get Me Handler
 
         Get current user information including current tenant context.  Returns the authenticated user's profile along with their current tenant ID (from the UAT token) and default tenant ID (from user record).
@@ -437,7 +437,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -466,7 +466,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Get Me Handler
 
         Get current user information including current tenant context.  Returns the authenticated user's profile along with their current tenant ID (from the UAT token) and default tenant ID (from user record).
@@ -501,7 +501,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -565,7 +565,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -590,7 +590,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Get Me Handler (synchronous)
 
         Synchronous variant of :meth:`get_me`. It calls the asynchronous
@@ -622,7 +622,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Get Me Handler (synchronous)
 
         Synchronous variant of :meth:`get_me_with_http_info`. It calls the
@@ -1094,7 +1094,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Skip Onboarding Handler
 
         Mark onboarding complete without writing any profile/company fields.  Idempotent — calling this after onboarding is already complete returns the current state unchanged (the CRUD only stamps the timestamp when it is NULL).
@@ -1129,7 +1129,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -1158,7 +1158,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Skip Onboarding Handler
 
         Mark onboarding complete without writing any profile/company fields.  Idempotent — calling this after onboarding is already complete returns the current state unchanged (the CRUD only stamps the timestamp when it is NULL).
@@ -1193,7 +1193,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -1257,7 +1257,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             'default': "ErrorResponse",
         }
         response_data = await self.api_client.call_api(
@@ -1282,7 +1282,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Skip Onboarding Handler (synchronous)
 
         Synchronous variant of :meth:`skip_onboarding`. It calls the asynchronous
@@ -1314,7 +1314,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Skip Onboarding Handler (synchronous)
 
         Synchronous variant of :meth:`skip_onboarding_with_http_info`. It calls the
@@ -1441,7 +1441,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Update Me Handler
 
         Update the user's name and default tenant, and the membership's profile.  When updating default_tenant_id, the user must belong to the specified tenant.
@@ -1479,7 +1479,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -1510,7 +1510,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Update Me Handler
 
         Update the user's name and default tenant, and the membership's profile.  When updating default_tenant_id, the user must belong to the specified tenant.
@@ -1548,7 +1548,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -1617,7 +1617,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -1644,7 +1644,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Update Me Handler (synchronous)
 
         Synchronous variant of :meth:`update_me`. It calls the asynchronous
@@ -1678,7 +1678,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Update Me Handler (synchronous)
 
         Synchronous variant of :meth:`update_me_with_http_info`. It calls the
@@ -1824,7 +1824,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Update Onboarding State Handler
 
 
@@ -1861,7 +1861,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -1892,7 +1892,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Update Onboarding State Handler
 
 
@@ -1929,7 +1929,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -1997,7 +1997,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -2024,7 +2024,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Update Onboarding State Handler (synchronous)
 
         Synchronous variant of :meth:`update_onboarding_state`. It calls the asynchronous
@@ -2058,7 +2058,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Update Onboarding State Handler (synchronous)
 
         Synchronous variant of :meth:`update_onboarding_state_with_http_info`. It calls the
@@ -2204,7 +2204,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Upload My Avatar Handler
 
         Set the profile photo for the current tenant. PNG, JPEG, WebP or GIF, at most 2 MB and 4096 px per side; the format is read from the bytes, not the content type.
@@ -2242,7 +2242,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -2273,7 +2273,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Upload My Avatar Handler
 
         Set the profile photo for the current tenant. PNG, JPEG, WebP or GIF, at most 2 MB and 4096 px per side; the format is read from the bytes, not the content type.
@@ -2311,7 +2311,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -2380,7 +2380,7 @@ class UsersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserResponse",
+            '200': "CurrentUserResponse",
             '422': "HTTPValidationError",
             'default': "ErrorResponse",
         }
@@ -2407,7 +2407,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserResponse:
+    ) -> CurrentUserResponse:
         """Upload My Avatar Handler (synchronous)
 
         Synchronous variant of :meth:`upload_my_avatar`. It calls the asynchronous
@@ -2441,7 +2441,7 @@ class UsersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserResponse]:
+    ) -> ApiResponse[CurrentUserResponse]:
         """Upload My Avatar Handler (synchronous)
 
         Synchronous variant of :meth:`upload_my_avatar_with_http_info`. It calls the

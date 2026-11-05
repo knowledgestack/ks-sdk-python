@@ -25,13 +25,14 @@ from pydantic_core import to_jsonable_python
 
 class ItemPermissions(BaseModel):
     """
-    Caller's authorization on an item: whether an action is permitted.  Authorization only — not whether it will currently succeed. An authorized write/delete can still be refused by transient state on the same response: a run's ``execution_state`` (e.g. not IN_PROGRESS to delete), a ``system_managed`` item, or a document that is ``approval_state``-sealed or checked out by another user (see authorization.md §5.6). Ladder: ``can_delete`` ⟹ ``can_write`` ⟹ ``can_read``; ``can_approve`` is orthogonal and always false for agents.
+    Caller's authorization on an item: whether an action is permitted.  Authorization only — not whether it will currently succeed. An authorized write/delete can still be refused by transient state on the same response: a run's ``execution_state`` (e.g. not IN_PROGRESS to delete), a ``system_managed`` item, or a document that is ``approval_state``-sealed or checked out by another user. Stored path grants require delete → write → read; approval requires read independently of write/delete. Workflow-run permissions also use ownership rules. ``can_approve`` is always false for agents.
     """ # noqa: E501
-    can_read: StrictBool = Field(description="False only on a navigation-ancestor row (visible to traverse, not open).")
+    can_read: StrictBool = Field(description="Authorized to read content; navigation visibility alone does not grant read.")
     can_write: StrictBool = Field(description="Authorized to create/update. Run: triggerer-or-admin, not path-based.")
     can_delete: StrictBool = Field(description="Authorized to delete. Run: triggerer-or-admin.")
     can_approve: StrictBool = Field(description="Authorized to approve/unapprove. Always false for agents (assumed).")
-    __properties: ClassVar[List[str]] = ["can_read", "can_write", "can_delete", "can_approve"]
+    can_grant_permissions: StrictBool = Field(description="Authorized to manage user and group grants on this subtree.")
+    __properties: ClassVar[List[str]] = ["can_read", "can_write", "can_delete", "can_approve", "can_grant_permissions"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,7 +88,8 @@ class ItemPermissions(BaseModel):
             "can_read": obj.get("can_read"),
             "can_write": obj.get("can_write"),
             "can_delete": obj.get("can_delete"),
-            "can_approve": obj.get("can_approve")
+            "can_approve": obj.get("can_approve"),
+            "can_grant_permissions": obj.get("can_grant_permissions")
         })
         return _obj
 

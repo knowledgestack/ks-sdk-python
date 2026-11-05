@@ -49,7 +49,10 @@ class TestUpdateDataSourceRequest(unittest.TestCase):
                     password = '0', ),
                 sync_state = ksapi.models.yiding_cursor.YidingCursor(
                     last_synced_order_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                    last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
+                    last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                    last_sync_error = '', ),
+                email_config = ksapi.models.email_config_change.EmailConfigChange(
+                    cron = '', )
             )
         else:
             return UpdateDataSourceRequest(

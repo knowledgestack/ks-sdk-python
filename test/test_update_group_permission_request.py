@@ -35,9 +35,12 @@ class TestUpdateGroupPermissionRequest(unittest.TestCase):
         model = UpdateGroupPermissionRequest()
         if include_optional:
             return UpdateGroupPermissionRequest(
-                path_part_id = '',
-                capability = 'READ_ONLY',
-                can_approve = True
+                can_read = True,
+                can_write = True,
+                can_delete = True,
+                can_approve = True,
+                can_grant_permissions = True,
+                path_part_id = ''
             )
         else:
             return UpdateGroupPermissionRequest(

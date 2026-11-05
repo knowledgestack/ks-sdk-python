@@ -27,7 +27,7 @@ from pydantic_core import to_jsonable_python
 
 class BulkGrantRequest(BaseModel):
     """
-    Grant many (user, object, capability) permissions in one request.
+    Grant many (user, object, flags) permissions in one request.
     """ # noqa: E501
     tenant_id: UUID
     grants: Optional[List[BulkGrantItem]] = None

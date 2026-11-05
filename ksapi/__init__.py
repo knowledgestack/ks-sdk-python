@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.21.1"
+__version__ = "3.25.2"
 
 # Define package exports
 __all__ = [
@@ -47,9 +47,13 @@ __all__ = [
     "DocumentCheckoutApi",
     "DocumentVersionsApi",
     "DocumentsApi",
+    "EmailConnectorsApi",
+    "EmailMessagesApi",
+    "EmailThreadsApi",
     "FeaturesApi",
     "FoldersApi",
     "InvitesApi",
+    "MailCredentialsApi",
     "PathPartApprovalsApi",
     "PathPartsApi",
     "PublicApi",
@@ -140,9 +144,12 @@ __all__ = [
     "ColumnConfig",
     "ColumnReference",
     "CommonFileExclusionReason",
+    "CompleteAuthorizationRequest",
+    "CompleteAuthorizationResponse",
     "CompleteUploadRequest",
     "ConnectionConfig",
     "ConnectionSummary",
+    "ConnectorSyncStatus",
     "ContentsSortOrder",
     "CreateApiConnectionRequest",
     "CreateApiKeyRequest",
@@ -151,9 +158,12 @@ __all__ = [
     "CreateChunkRequest",
     "CreateDataSourceRequest",
     "CreateDocumentRequest",
+    "CreateEmailMessageResponse",
+    "CreateEmailThreadRequest",
     "CreateFolderRequest",
     "CreateGroupPermissionRequest",
     "CreateGroupRequest",
+    "CreateMailCredentialRequest",
     "CreatePasswordUserRequest",
     "CreatePermissionRequest",
     "CreatePhonePasswordUserRequest",
@@ -165,6 +175,7 @@ __all__ = [
     "CreateUploadRequest",
     "CreateUploadResponse",
     "CreateWorkflowDefinitionRequest",
+    "CurrentUserResponse",
     "DataSourceCatalogResponse",
     "DataSourceDescribeResponse",
     "DataSourceDetailResponse",
@@ -208,7 +219,26 @@ __all__ = [
     "DocxParagraphAnchorOutput",
     "DownloadArtifact",
     "EditMemoryChunkRequest",
+    "EmailAccessToken",
+    "EmailAttachmentError",
+    "EmailAttachmentResponse",
+    "EmailConfigChange",
+    "EmailConfigSummary",
+    "EmailDeltaLinkRequest",
+    "EmailMessageDetailResponse",
+    "EmailMessageOrder",
+    "EmailMessageResponse",
+    "EmailRemovedRequest",
+    "EmailRemovedResponse",
     "EmailSentResponse",
+    "EmailStoredIdsRequest",
+    "EmailStoredIdsResponse",
+    "EmailSyncConfig",
+    "EmailSyncProgress",
+    "EmailThreadLastMessage",
+    "EmailThreadOrder",
+    "EmailThreadResponse",
+    "EmailUnfinishedRequest",
     "EmailVerificationRequest",
     "EnrichedCitation",
     "EnrichedThreadMessageContent",
@@ -271,6 +301,9 @@ __all__ = [
     "LineageGraphResponse",
     "LineageNodeResponse",
     "LocationInner",
+    "MailCredentialListResponse",
+    "MailCredentialOption",
+    "MailCredentialResponse",
     "MembershipResponse",
     "MemoryBodyResponse",
     "MemoryEntryResponse",
@@ -291,6 +324,8 @@ __all__ = [
     "PaginatedResponseBillingPaymentResponse",
     "PaginatedResponseDocumentResponse",
     "PaginatedResponseDocumentVersionResponse",
+    "PaginatedResponseEmailMessageResponse",
+    "PaginatedResponseEmailThreadResponse",
     "PaginatedResponseEventResponse",
     "PaginatedResponseFeedbackEventResponse",
     "PaginatedResponseFolderResponse",
@@ -326,7 +361,7 @@ __all__ = [
     "PathPartResponse",
     "PathPartTagsResponse",
     "PendingMemoryChunkResponse",
-    "PermissionCapability",
+    "PermissionAction",
     "PermissionResponse",
     "PhoneValidationResponse",
     "PhoneVerificationRequest",
@@ -352,8 +387,11 @@ __all__ = [
     "ResolvedReferenceInput",
     "ResolvedReferenceOutput",
     "ResponseSendPwResetEmail",
+    "RetireMailCredentialResponse",
     "RevisionEdit",
     "RootResponse",
+    "RotateMailCredentialRequest",
+    "RotateMailCredentialResponse",
     "RunFolder",
     "RunFolderRef",
     "RunTimeseriesResponse",
@@ -389,6 +427,7 @@ __all__ = [
     "SortDirection",
     "SourceConfigSummary",
     "SourceType",
+    "StartAuthorizationResponse",
     "StartWorkflowRunRequest",
     "Step",
     "StepKind",
@@ -439,15 +478,19 @@ __all__ = [
     "TransferOwnerResponse",
     "TrashItemDetailResponse",
     "TrashItemResponse",
+    "UnfinishedMail",
     "UpdateApiConnectionRequest",
     "UpdateChunkContentRequest",
     "UpdateChunkMetadataRequest",
     "UpdateDataSourceRequest",
     "UpdateDocumentRequest",
+    "UpdateEmailMessageRequest",
+    "UpdateEmailThreadRequest",
     "UpdateFolderRequest",
     "UpdateGroupPermissionRequest",
     "UpdateGroupRequest",
     "UpdateInviteRequest",
+    "UpdateMailCredentialRequest",
     "UpdatePermissionRequest",
     "UpdateSectionRequest",
     "UpdateSkillRequest",
@@ -532,9 +575,13 @@ from ksapi.api.default_api import DefaultApi as DefaultApi
 from ksapi.api.document_checkout_api import DocumentCheckoutApi as DocumentCheckoutApi
 from ksapi.api.document_versions_api import DocumentVersionsApi as DocumentVersionsApi
 from ksapi.api.documents_api import DocumentsApi as DocumentsApi
+from ksapi.api.email_connectors_api import EmailConnectorsApi as EmailConnectorsApi
+from ksapi.api.email_messages_api import EmailMessagesApi as EmailMessagesApi
+from ksapi.api.email_threads_api import EmailThreadsApi as EmailThreadsApi
 from ksapi.api.features_api import FeaturesApi as FeaturesApi
 from ksapi.api.folders_api import FoldersApi as FoldersApi
 from ksapi.api.invites_api import InvitesApi as InvitesApi
+from ksapi.api.mail_credentials_api import MailCredentialsApi as MailCredentialsApi
 from ksapi.api.path_part_approvals_api import PathPartApprovalsApi as PathPartApprovalsApi
 from ksapi.api.path_parts_api import PathPartsApi as PathPartsApi
 from ksapi.api.public_api import PublicApi as PublicApi
@@ -629,9 +676,12 @@ from ksapi.models.clone_workflow_run_request import CloneWorkflowRunRequest as C
 from ksapi.models.column_config import ColumnConfig as ColumnConfig
 from ksapi.models.column_reference import ColumnReference as ColumnReference
 from ksapi.models.common_file_exclusion_reason import CommonFileExclusionReason as CommonFileExclusionReason
+from ksapi.models.complete_authorization_request import CompleteAuthorizationRequest as CompleteAuthorizationRequest
+from ksapi.models.complete_authorization_response import CompleteAuthorizationResponse as CompleteAuthorizationResponse
 from ksapi.models.complete_upload_request import CompleteUploadRequest as CompleteUploadRequest
 from ksapi.models.connection_config import ConnectionConfig as ConnectionConfig
 from ksapi.models.connection_summary import ConnectionSummary as ConnectionSummary
+from ksapi.models.connector_sync_status import ConnectorSyncStatus as ConnectorSyncStatus
 from ksapi.models.contents_sort_order import ContentsSortOrder as ContentsSortOrder
 from ksapi.models.create_api_connection_request import CreateApiConnectionRequest as CreateApiConnectionRequest
 from ksapi.models.create_api_key_request import CreateApiKeyRequest as CreateApiKeyRequest
@@ -640,9 +690,12 @@ from ksapi.models.create_chunk_lineage_request import CreateChunkLineageRequest 
 from ksapi.models.create_chunk_request import CreateChunkRequest as CreateChunkRequest
 from ksapi.models.create_data_source_request import CreateDataSourceRequest as CreateDataSourceRequest
 from ksapi.models.create_document_request import CreateDocumentRequest as CreateDocumentRequest
+from ksapi.models.create_email_message_response import CreateEmailMessageResponse as CreateEmailMessageResponse
+from ksapi.models.create_email_thread_request import CreateEmailThreadRequest as CreateEmailThreadRequest
 from ksapi.models.create_folder_request import CreateFolderRequest as CreateFolderRequest
 from ksapi.models.create_group_permission_request import CreateGroupPermissionRequest as CreateGroupPermissionRequest
 from ksapi.models.create_group_request import CreateGroupRequest as CreateGroupRequest
+from ksapi.models.create_mail_credential_request import CreateMailCredentialRequest as CreateMailCredentialRequest
 from ksapi.models.create_password_user_request import CreatePasswordUserRequest as CreatePasswordUserRequest
 from ksapi.models.create_permission_request import CreatePermissionRequest as CreatePermissionRequest
 from ksapi.models.create_phone_password_user_request import CreatePhonePasswordUserRequest as CreatePhonePasswordUserRequest
@@ -654,6 +707,7 @@ from ksapi.models.create_thread_request import CreateThreadRequest as CreateThre
 from ksapi.models.create_upload_request import CreateUploadRequest as CreateUploadRequest
 from ksapi.models.create_upload_response import CreateUploadResponse as CreateUploadResponse
 from ksapi.models.create_workflow_definition_request import CreateWorkflowDefinitionRequest as CreateWorkflowDefinitionRequest
+from ksapi.models.current_user_response import CurrentUserResponse as CurrentUserResponse
 from ksapi.models.data_source_catalog_response import DataSourceCatalogResponse as DataSourceCatalogResponse
 from ksapi.models.data_source_describe_response import DataSourceDescribeResponse as DataSourceDescribeResponse
 from ksapi.models.data_source_detail_response import DataSourceDetailResponse as DataSourceDetailResponse
@@ -697,7 +751,26 @@ from ksapi.models.docx_paragraph_anchor_input import DocxParagraphAnchorInput as
 from ksapi.models.docx_paragraph_anchor_output import DocxParagraphAnchorOutput as DocxParagraphAnchorOutput
 from ksapi.models.download_artifact import DownloadArtifact as DownloadArtifact
 from ksapi.models.edit_memory_chunk_request import EditMemoryChunkRequest as EditMemoryChunkRequest
+from ksapi.models.email_access_token import EmailAccessToken as EmailAccessToken
+from ksapi.models.email_attachment_error import EmailAttachmentError as EmailAttachmentError
+from ksapi.models.email_attachment_response import EmailAttachmentResponse as EmailAttachmentResponse
+from ksapi.models.email_config_change import EmailConfigChange as EmailConfigChange
+from ksapi.models.email_config_summary import EmailConfigSummary as EmailConfigSummary
+from ksapi.models.email_delta_link_request import EmailDeltaLinkRequest as EmailDeltaLinkRequest
+from ksapi.models.email_message_detail_response import EmailMessageDetailResponse as EmailMessageDetailResponse
+from ksapi.models.email_message_order import EmailMessageOrder as EmailMessageOrder
+from ksapi.models.email_message_response import EmailMessageResponse as EmailMessageResponse
+from ksapi.models.email_removed_request import EmailRemovedRequest as EmailRemovedRequest
+from ksapi.models.email_removed_response import EmailRemovedResponse as EmailRemovedResponse
 from ksapi.models.email_sent_response import EmailSentResponse as EmailSentResponse
+from ksapi.models.email_stored_ids_request import EmailStoredIdsRequest as EmailStoredIdsRequest
+from ksapi.models.email_stored_ids_response import EmailStoredIdsResponse as EmailStoredIdsResponse
+from ksapi.models.email_sync_config import EmailSyncConfig as EmailSyncConfig
+from ksapi.models.email_sync_progress import EmailSyncProgress as EmailSyncProgress
+from ksapi.models.email_thread_last_message import EmailThreadLastMessage as EmailThreadLastMessage
+from ksapi.models.email_thread_order import EmailThreadOrder as EmailThreadOrder
+from ksapi.models.email_thread_response import EmailThreadResponse as EmailThreadResponse
+from ksapi.models.email_unfinished_request import EmailUnfinishedRequest as EmailUnfinishedRequest
 from ksapi.models.email_verification_request import EmailVerificationRequest as EmailVerificationRequest
 from ksapi.models.enriched_citation import EnrichedCitation as EnrichedCitation
 from ksapi.models.enriched_thread_message_content import EnrichedThreadMessageContent as EnrichedThreadMessageContent
@@ -760,6 +833,9 @@ from ksapi.models.lineage_edge_response import LineageEdgeResponse as LineageEdg
 from ksapi.models.lineage_graph_response import LineageGraphResponse as LineageGraphResponse
 from ksapi.models.lineage_node_response import LineageNodeResponse as LineageNodeResponse
 from ksapi.models.location_inner import LocationInner as LocationInner
+from ksapi.models.mail_credential_list_response import MailCredentialListResponse as MailCredentialListResponse
+from ksapi.models.mail_credential_option import MailCredentialOption as MailCredentialOption
+from ksapi.models.mail_credential_response import MailCredentialResponse as MailCredentialResponse
 from ksapi.models.membership_response import MembershipResponse as MembershipResponse
 from ksapi.models.memory_body_response import MemoryBodyResponse as MemoryBodyResponse
 from ksapi.models.memory_entry_response import MemoryEntryResponse as MemoryEntryResponse
@@ -780,6 +856,8 @@ from ksapi.models.paginated_response_annotated_union_section_content_item_chunk_
 from ksapi.models.paginated_response_billing_payment_response import PaginatedResponseBillingPaymentResponse as PaginatedResponseBillingPaymentResponse
 from ksapi.models.paginated_response_document_response import PaginatedResponseDocumentResponse as PaginatedResponseDocumentResponse
 from ksapi.models.paginated_response_document_version_response import PaginatedResponseDocumentVersionResponse as PaginatedResponseDocumentVersionResponse
+from ksapi.models.paginated_response_email_message_response import PaginatedResponseEmailMessageResponse as PaginatedResponseEmailMessageResponse
+from ksapi.models.paginated_response_email_thread_response import PaginatedResponseEmailThreadResponse as PaginatedResponseEmailThreadResponse
 from ksapi.models.paginated_response_event_response import PaginatedResponseEventResponse as PaginatedResponseEventResponse
 from ksapi.models.paginated_response_feedback_event_response import PaginatedResponseFeedbackEventResponse as PaginatedResponseFeedbackEventResponse
 from ksapi.models.paginated_response_folder_response import PaginatedResponseFolderResponse as PaginatedResponseFolderResponse
@@ -815,7 +893,7 @@ from ksapi.models.path_part_approval_state import PathPartApprovalState as PathP
 from ksapi.models.path_part_response import PathPartResponse as PathPartResponse
 from ksapi.models.path_part_tags_response import PathPartTagsResponse as PathPartTagsResponse
 from ksapi.models.pending_memory_chunk_response import PendingMemoryChunkResponse as PendingMemoryChunkResponse
-from ksapi.models.permission_capability import PermissionCapability as PermissionCapability
+from ksapi.models.permission_action import PermissionAction as PermissionAction
 from ksapi.models.permission_response import PermissionResponse as PermissionResponse
 from ksapi.models.phone_validation_response import PhoneValidationResponse as PhoneValidationResponse
 from ksapi.models.phone_verification_request import PhoneVerificationRequest as PhoneVerificationRequest
@@ -841,8 +919,11 @@ from ksapi.models.resolved_ref import ResolvedRef as ResolvedRef
 from ksapi.models.resolved_reference_input import ResolvedReferenceInput as ResolvedReferenceInput
 from ksapi.models.resolved_reference_output import ResolvedReferenceOutput as ResolvedReferenceOutput
 from ksapi.models.response_send_pw_reset_email import ResponseSendPwResetEmail as ResponseSendPwResetEmail
+from ksapi.models.retire_mail_credential_response import RetireMailCredentialResponse as RetireMailCredentialResponse
 from ksapi.models.revision_edit import RevisionEdit as RevisionEdit
 from ksapi.models.root_response import RootResponse as RootResponse
+from ksapi.models.rotate_mail_credential_request import RotateMailCredentialRequest as RotateMailCredentialRequest
+from ksapi.models.rotate_mail_credential_response import RotateMailCredentialResponse as RotateMailCredentialResponse
 from ksapi.models.run_folder import RunFolder as RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef as RunFolderRef
 from ksapi.models.run_timeseries_response import RunTimeseriesResponse as RunTimeseriesResponse
@@ -878,6 +959,7 @@ from ksapi.models.skill_version_response import SkillVersionResponse as SkillVer
 from ksapi.models.sort_direction import SortDirection as SortDirection
 from ksapi.models.source_config_summary import SourceConfigSummary as SourceConfigSummary
 from ksapi.models.source_type import SourceType as SourceType
+from ksapi.models.start_authorization_response import StartAuthorizationResponse as StartAuthorizationResponse
 from ksapi.models.start_workflow_run_request import StartWorkflowRunRequest as StartWorkflowRunRequest
 from ksapi.models.step import Step as Step
 from ksapi.models.step_kind import StepKind as StepKind
@@ -928,15 +1010,19 @@ from ksapi.models.transfer_owner_request import TransferOwnerRequest as Transfer
 from ksapi.models.transfer_owner_response import TransferOwnerResponse as TransferOwnerResponse
 from ksapi.models.trash_item_detail_response import TrashItemDetailResponse as TrashItemDetailResponse
 from ksapi.models.trash_item_response import TrashItemResponse as TrashItemResponse
+from ksapi.models.unfinished_mail import UnfinishedMail as UnfinishedMail
 from ksapi.models.update_api_connection_request import UpdateApiConnectionRequest as UpdateApiConnectionRequest
 from ksapi.models.update_chunk_content_request import UpdateChunkContentRequest as UpdateChunkContentRequest
 from ksapi.models.update_chunk_metadata_request import UpdateChunkMetadataRequest as UpdateChunkMetadataRequest
 from ksapi.models.update_data_source_request import UpdateDataSourceRequest as UpdateDataSourceRequest
 from ksapi.models.update_document_request import UpdateDocumentRequest as UpdateDocumentRequest
+from ksapi.models.update_email_message_request import UpdateEmailMessageRequest as UpdateEmailMessageRequest
+from ksapi.models.update_email_thread_request import UpdateEmailThreadRequest as UpdateEmailThreadRequest
 from ksapi.models.update_folder_request import UpdateFolderRequest as UpdateFolderRequest
 from ksapi.models.update_group_permission_request import UpdateGroupPermissionRequest as UpdateGroupPermissionRequest
 from ksapi.models.update_group_request import UpdateGroupRequest as UpdateGroupRequest
 from ksapi.models.update_invite_request import UpdateInviteRequest as UpdateInviteRequest
+from ksapi.models.update_mail_credential_request import UpdateMailCredentialRequest as UpdateMailCredentialRequest
 from ksapi.models.update_permission_request import UpdatePermissionRequest as UpdatePermissionRequest
 from ksapi.models.update_section_request import UpdateSectionRequest as UpdateSectionRequest
 from ksapi.models.update_skill_request import UpdateSkillRequest as UpdateSkillRequest

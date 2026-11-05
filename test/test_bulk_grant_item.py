@@ -35,16 +35,18 @@ class TestBulkGrantItem(unittest.TestCase):
         model = BulkGrantItem()
         if include_optional:
             return BulkGrantItem(
+                can_read = True,
+                can_write = True,
+                can_delete = True,
+                can_approve = True,
+                can_grant_permissions = True,
                 user_id = '',
-                object_id = '',
-                capability = 'READ_ONLY',
-                can_approve = True
+                object_id = ''
             )
         else:
             return BulkGrantItem(
                 user_id = '',
                 object_id = '',
-                capability = 'READ_ONLY',
         )
         """
 

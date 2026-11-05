@@ -22,6 +22,7 @@ from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
 from uuid import UUID
 from ksapi.models.connection_config import ConnectionConfig
+from ksapi.models.email_config_change import EmailConfigChange
 from ksapi.models.yiding_config_change import YidingConfigChange
 from ksapi.models.yiding_cursor import YidingCursor
 from typing import Optional, Set
@@ -33,11 +34,12 @@ class UpdateDataSourceRequest(BaseModel):
     Rename, move, and/or re-credential a connector (PATCH). All optional.  A body with every field ``None`` is rejected as a no-op 400. ``name`` renames the connector path_part; ``parent_path_part_id`` moves it under a new FOLDER (the move cascades ``materialized_path`` to the modeled-table children). ``connection_config`` supplies a full, fresh credential set (never a partial patch — the stored password is never read back or echoed); it is re-validated before persisting. ``engine`` stays immutable: changing it would invalidate every modeled table's dialect assumptions.
     """ # noqa: E501
     name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]] = None
-    parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent FOLDER path_part to move the connector under.")
+    parent_path_part_id: Optional[UUID] = Field(default=None, description="New parent FOLDER path_part to move the connector under. A mailbox may be moved too — that is how one goes from a personal folder to a shared one; only its name is fixed.")
     connection_config: Optional[ConnectionConfig] = Field(default=None, description="Fresh, whole-object credentials to replace the stored ones.")
     source_config: Optional[YidingConfigChange] = Field(default=None, description="What a YIDINGSYNC connector's crawler config may still change: the panel password and the crawl recurrence, each optional and each merged into the stored config rather than replacing it. Which shop and from when are fixed at creation. Rejected on a DIRECT connector. Changing ``cron`` re-arms the schedule. connection_config stays server-managed for YIDINGSYNC.")
     sync_state: Optional[YidingCursor] = Field(default=None, description="The crawl cursor, replaced whole. Written by the sync itself (the worker acts as the connector's owner) after each batch, so it records what has already been read. Moving it forward by hand makes the next run skip those days for good — the increment only re-scans what the cursor points at.")
-    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "connection_config", "source_config", "sync_state"]
+    email_config: Optional[EmailConfigChange] = Field(default=None, description="An EMAIL connector's crawl recurrence, merged into the stored config. Changing ``cron`` re-arms the schedule. Which mailbox and which folders are fixed at creation. Rejected on any other connector kind, which has no mailbox to sync.")
+    __properties: ClassVar[List[str]] = ["name", "parent_path_part_id", "connection_config", "source_config", "sync_state", "email_config"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,6 +89,9 @@ class UpdateDataSourceRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of sync_state
         if self.sync_state:
             _dict['sync_state'] = self.sync_state.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of email_config
+        if self.email_config:
+            _dict['email_config'] = self.email_config.to_dict()
         # set to None if name (nullable) is None
         # and model_fields_set contains the field
         if self.name is None and "name" in self.model_fields_set:
@@ -112,6 +117,11 @@ class UpdateDataSourceRequest(BaseModel):
         if self.sync_state is None and "sync_state" in self.model_fields_set:
             _dict['sync_state'] = None
 
+        # set to None if email_config (nullable) is None
+        # and model_fields_set contains the field
+        if self.email_config is None and "email_config" in self.model_fields_set:
+            _dict['email_config'] = None
+
         return _dict
 
     @classmethod
@@ -128,7 +138,8 @@ class UpdateDataSourceRequest(BaseModel):
             "parent_path_part_id": obj.get("parent_path_part_id"),
             "connection_config": ConnectionConfig.from_dict(obj["connection_config"]) if obj.get("connection_config") is not None else None,
             "source_config": YidingConfigChange.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
-            "sync_state": YidingCursor.from_dict(obj["sync_state"]) if obj.get("sync_state") is not None else None
+            "sync_state": YidingCursor.from_dict(obj["sync_state"]) if obj.get("sync_state") is not None else None,
+            "email_config": EmailConfigChange.from_dict(obj["email_config"]) if obj.get("email_config") is not None else None
         })
         return _obj
 

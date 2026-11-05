@@ -40,8 +40,11 @@ class TestBulkGrantResponse(unittest.TestCase):
                         user_id = '', 
                         object_id = '', 
                         permission_id = '', 
-                        capability = 'READ_ONLY', 
-                        can_approve = True, )
+                        can_read = True, 
+                        can_write = True, 
+                        can_delete = True, 
+                        can_approve = True, 
+                        can_grant_permissions = True, )
                     ],
                 failed = [
                     ksapi.models.bulk_grant_item_failure.BulkGrantItemFailure(

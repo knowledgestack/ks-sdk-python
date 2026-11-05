@@ -14,10 +14,10 @@
 
 import unittest
 
-from ksapi.models.permission_capability import PermissionCapability
+from ksapi.models.email_message_order import EmailMessageOrder
 
-class TestPermissionCapability(unittest.TestCase):
-    """PermissionCapability unit test stubs"""
+class TestEmailMessageOrder(unittest.TestCase):
+    """EmailMessageOrder unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,9 +25,9 @@ class TestPermissionCapability(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testPermissionCapability(self):
-        """Test PermissionCapability"""
-        # inst = PermissionCapability()
+    def testEmailMessageOrder(self):
+        """Test EmailMessageOrder"""
+        # inst = EmailMessageOrder()
 
 if __name__ == '__main__':
     unittest.main()

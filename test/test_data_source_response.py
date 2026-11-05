@@ -53,8 +53,21 @@ class TestDataSourceResponse(unittest.TestCase):
                     username = '0', 
                     business_id = '0', 
                     start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    cron = '0', 
                     base_url = 'https://admin.zhidianfan.com/seller_resv_sys', ),
+                email_config = ksapi.models.email_config_summary.EmailConfigSummary(
+                    folders = {
+                        'key' : ''
+                        }, ),
+                mailbox_address = '',
+                mail_credential = ksapi.models.mail_credential_option.MailCredentialOption(
+                    id = '', 
+                    name = '', 
+                    provider = '', ),
+                email_progress = ksapi.models.email_sync_progress.EmailSyncProgress(
+                    last_sync_finished_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
+                sync_status = 'NO_SYNC',
+                sync_cron = '',
+                last_sync_error = '',
                 approval_state = 'not_required',
                 owner = ksapi.models.user_info.UserInfo(
                     user_id = '', 
@@ -64,7 +77,8 @@ class TestDataSourceResponse(unittest.TestCase):
                     can_read = True, 
                     can_write = True, 
                     can_delete = True, 
-                    can_approve = True, ),
+                    can_approve = True, 
+                    can_grant_permissions = True, ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
             )
@@ -76,14 +90,15 @@ class TestDataSourceResponse(unittest.TestCase):
                 materialized_path = '',
                 tenant_id = '',
                 name = '',
-                engine = 'MYSQL',
                 source_type = 'DIRECT',
+                sync_status = 'NO_SYNC',
                 approval_state = 'not_required',
                 permissions = ksapi.models.item_permissions.ItemPermissions(
                     can_read = True, 
                     can_write = True, 
                     can_delete = True, 
-                    can_approve = True, ),
+                    can_approve = True, 
+                    can_grant_permissions = True, ),
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

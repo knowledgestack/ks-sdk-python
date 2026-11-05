@@ -30,7 +30,7 @@ from ksapi.models.paginated_response_path_part_response import PaginatedResponse
 from ksapi.models.path_order import PathOrder
 from ksapi.models.path_part_response import PathPartResponse
 from ksapi.models.path_part_tags_response import PathPartTagsResponse
-from ksapi.models.permission_capability import PermissionCapability
+from ksapi.models.permission_action import PermissionAction
 from ksapi.models.reorder_path_part_request import ReorderPathPartRequest
 from ksapi.models.sort_direction import SortDirection
 from ksapi.models.subtree_chunks_response import SubtreeChunksResponse
@@ -869,7 +869,7 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
-        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        action: Annotated[Optional[PermissionAction], Field(description="Independent action to check: read, write, delete, approve, or grant_permissions")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -885,14 +885,14 @@ class PathPartsApi:
     ) -> AccessCheckResponse:
         """Check Path Part Access Handler
 
-        Explain whether ``user_id`` has ``capability`` on a path part.  ADMIN/OWNER-only introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
+        Explain whether ``user_id`` has ``action`` on a path part.  ADMIN/OWNER or scoped-manager introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
         :param user_id: The user whose access is being explained (required)
         :type user_id: UUID
-        :param capability: Capability to check (READ_ONLY or READ_WRITE)
-        :type capability: PermissionCapability
+        :param action: Independent action to check: read, write, delete, approve, or grant_permissions
+        :type action: PermissionAction
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -918,7 +918,7 @@ class PathPartsApi:
         _param = self._check_path_part_access_serialize(
             path_part_id=path_part_id,
             user_id=user_id,
-            capability=capability,
+            action=action,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -946,7 +946,7 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
-        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        action: Annotated[Optional[PermissionAction], Field(description="Independent action to check: read, write, delete, approve, or grant_permissions")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -962,14 +962,14 @@ class PathPartsApi:
     ) -> ApiResponse[AccessCheckResponse]:
         """Check Path Part Access Handler
 
-        Explain whether ``user_id`` has ``capability`` on a path part.  ADMIN/OWNER-only introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
+        Explain whether ``user_id`` has ``action`` on a path part.  ADMIN/OWNER or scoped-manager introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
         :param user_id: The user whose access is being explained (required)
         :type user_id: UUID
-        :param capability: Capability to check (READ_ONLY or READ_WRITE)
-        :type capability: PermissionCapability
+        :param action: Independent action to check: read, write, delete, approve, or grant_permissions
+        :type action: PermissionAction
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -995,7 +995,7 @@ class PathPartsApi:
         _param = self._check_path_part_access_serialize(
             path_part_id=path_part_id,
             user_id=user_id,
-            capability=capability,
+            action=action,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1023,7 +1023,7 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
-        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        action: Annotated[Optional[PermissionAction], Field(description="Independent action to check: read, write, delete, approve, or grant_permissions")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1039,14 +1039,14 @@ class PathPartsApi:
     ) -> RESTResponseType:
         """Check Path Part Access Handler
 
-        Explain whether ``user_id`` has ``capability`` on a path part.  ADMIN/OWNER-only introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
+        Explain whether ``user_id`` has ``action`` on a path part.  ADMIN/OWNER or scoped-manager introspection: resolves the target user's effective permissions and reports the decision plus the reason (the matching grant path, or a role bypass). OWNER/ADMIN targets bypass path checks by role, so they are always allowed.  404 if the path part does not exist or the target user is not a member of this tenant.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
         :param user_id: The user whose access is being explained (required)
         :type user_id: UUID
-        :param capability: Capability to check (READ_ONLY or READ_WRITE)
-        :type capability: PermissionCapability
+        :param action: Independent action to check: read, write, delete, approve, or grant_permissions
+        :type action: PermissionAction
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1072,7 +1072,7 @@ class PathPartsApi:
         _param = self._check_path_part_access_serialize(
             path_part_id=path_part_id,
             user_id=user_id,
-            capability=capability,
+            action=action,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1096,7 +1096,7 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
-        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        action: Annotated[Optional[PermissionAction], Field(description="Independent action to check: read, write, delete, approve, or grant_permissions")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1119,7 +1119,7 @@ class PathPartsApi:
             self.check_path_part_access(
                 path_part_id=path_part_id,
                 user_id=user_id,
-                capability=capability,
+                action=action,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1134,7 +1134,7 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
-        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        action: Annotated[Optional[PermissionAction], Field(description="Independent action to check: read, write, delete, approve, or grant_permissions")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1157,7 +1157,7 @@ class PathPartsApi:
             self.check_path_part_access_with_http_info(
                 path_part_id=path_part_id,
                 user_id=user_id,
-                capability=capability,
+                action=action,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1172,7 +1172,7 @@ class PathPartsApi:
         self,
         path_part_id: UUID,
         user_id: Annotated[UUID, Field(description="The user whose access is being explained")],
-        capability: Annotated[Optional[PermissionCapability], Field(description="Capability to check (READ_ONLY or READ_WRITE)")] = None,
+        action: Annotated[Optional[PermissionAction], Field(description="Independent action to check: read, write, delete, approve, or grant_permissions")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1195,7 +1195,7 @@ class PathPartsApi:
             self.check_path_part_access_without_preload_content(
                 path_part_id=path_part_id,
                 user_id=user_id,
-                capability=capability,
+                action=action,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1209,7 +1209,7 @@ class PathPartsApi:
         self,
         path_part_id,
         user_id,
-        capability,
+        action,
         _request_auth,
         _content_type,
         _headers,
@@ -1238,9 +1238,9 @@ class PathPartsApi:
             
             _query_params.append(('user_id', user_id))
             
-        if capability is not None:
+        if action is not None:
             
-            _query_params.append(('capability', capability.value))
+            _query_params.append(('action', action.value))
             
         # process the header parameters
         # process the form parameters

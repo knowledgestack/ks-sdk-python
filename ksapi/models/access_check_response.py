@@ -27,7 +27,7 @@ class AccessCheckResponse(BaseModel):
     """
     Result of an admin access-check for a target user on a path part.
     """ # noqa: E501
-    allowed: StrictBool = Field(description="Whether the user has the capability")
+    allowed: StrictBool = Field(description="Whether the user has the requested action")
     reason: StrictStr = Field(description="Why access was granted or denied")
     matched_path: Optional[StrictStr] = Field(default=None, description="The permission path that granted access (None if denied or role bypass)")
     __properties: ClassVar[List[str]] = ["allowed", "reason", "matched_path"]

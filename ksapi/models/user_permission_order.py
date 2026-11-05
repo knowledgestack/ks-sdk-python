@@ -27,7 +27,11 @@ class UserPermissionOrder(str, Enum):
     allowed enum values
     """
     CREATED_AT = 'CREATED_AT'
-    CAPABILITY = 'CAPABILITY'
+    CAN_READ = 'CAN_READ'
+    CAN_WRITE = 'CAN_WRITE'
+    CAN_DELETE = 'CAN_DELETE'
+    CAN_APPROVE = 'CAN_APPROVE'
+    CAN_GRANT_PERMISSIONS = 'CAN_GRANT_PERMISSIONS'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

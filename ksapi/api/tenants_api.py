@@ -2752,7 +2752,7 @@ class TenantsApi:
     ) -> PaginatedResponseTenantUserResponse:
         """List Tenant Users
 
-        List members of a tenant with pagination.  Requires OWNER or ADMIN membership in the tenant.
+        List members of a tenant with pagination.  Requires OWNER, ADMIN, or a path management grant in the tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
@@ -2849,7 +2849,7 @@ class TenantsApi:
     ) -> ApiResponse[PaginatedResponseTenantUserResponse]:
         """List Tenant Users
 
-        List members of a tenant with pagination.  Requires OWNER or ADMIN membership in the tenant.
+        List members of a tenant with pagination.  Requires OWNER, ADMIN, or a path management grant in the tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
@@ -2946,7 +2946,7 @@ class TenantsApi:
     ) -> RESTResponseType:
         """List Tenant Users
 
-        List members of a tenant with pagination.  Requires OWNER or ADMIN membership in the tenant.
+        List members of a tenant with pagination.  Requires OWNER, ADMIN, or a path management grant in the tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID

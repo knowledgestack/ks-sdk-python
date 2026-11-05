@@ -22,8 +22,12 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
 from ksapi.models.connection_summary import ConnectionSummary
+from ksapi.models.connector_sync_status import ConnectorSyncStatus
 from ksapi.models.data_source_engine import DataSourceEngine
+from ksapi.models.email_config_summary import EmailConfigSummary
+from ksapi.models.email_sync_progress import EmailSyncProgress
 from ksapi.models.item_permissions import ItemPermissions
+from ksapi.models.mail_credential_option import MailCredentialOption
 from ksapi.models.path_part_approval_state import PathPartApprovalState
 from ksapi.models.source_config_summary import SourceConfigSummary
 from ksapi.models.source_type import SourceType
@@ -43,16 +47,23 @@ class DataSourceResponse(BaseModel):
     materialized_path: StrictStr = Field(description="Full materialized path from root")
     tenant_id: UUID
     name: StrictStr
-    engine: DataSourceEngine
+    engine: Optional[DataSourceEngine] = None
     source_type: SourceType
     connection_summary: Optional[ConnectionSummary] = Field(default=None, description="Where the connector points, without the password. Null on a YIDINGSYNC connector until provisioning has built its database, so polling this is how the UI learns the sync is ready.")
-    source_config: Optional[SourceConfigSummary] = Field(default=None, description="A YIDINGSYNC connector's crawler config without the password: which shop, from when, and the crawl recurrence. Null on DIRECT.")
+    source_config: Optional[SourceConfigSummary] = Field(default=None, description="A YIDINGSYNC connector's crawler config without the password: which shop, from when, and the crawl recurrence. Null on DIRECT and on EMAIL, which reports through email_config.")
+    email_config: Optional[EmailConfigSummary] = Field(default=None, description="An EMAIL connector's folder list and cron; null otherwise")
+    mailbox_address: Optional[StrictStr] = Field(default=None, description="The mailbox an EMAIL connector syncs; null otherwise, and null on a mailbox connector until its first consent lands, because the address is read out of the id token rather than typed. From then on it is fixed: a later sign-in as another account is refused rather than stored, so this is the mailbox whose mail is in the tree. The connector's own ``name`` is a separate label of the caller's choosing; show both.")
+    mail_credential: Optional[MailCredentialOption] = Field(default=None, description="The app registration this mailbox authenticates with; null on a connector that is not a mailbox. Name and provider only: the ids are the admin's business and the secret is nobody's")
+    email_progress: Optional[EmailSyncProgress] = Field(default=None, description="When an EMAIL connector last reported in; null otherwise. Read with sync_status, which says whether it is healthy rather than whether it is still moving.")
+    sync_status: ConnectorSyncStatus
+    sync_cron: Optional[StrictStr] = Field(default=None, description="How often this connector is crawled, as a cron expression in the tenant's timezone. Absent on a source nothing crawls.")
+    last_sync_error: Optional[StrictStr] = Field(default=None, description="Why the last crawl ended badly")
     approval_state: PathPartApprovalState
     owner: Optional[UserInfo] = Field(default=None, description="Current owner (creator) of the connector, or null if unowned.")
     permissions: ItemPermissions
     created_at: datetime
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "source_type", "connection_summary", "source_config", "approval_state", "owner", "permissions", "created_at", "updated_at"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "engine", "source_type", "connection_summary", "source_config", "email_config", "mailbox_address", "mail_credential", "email_progress", "sync_status", "sync_cron", "last_sync_error", "approval_state", "owner", "permissions", "created_at", "updated_at"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -109,6 +120,15 @@ class DataSourceResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of source_config
         if self.source_config:
             _dict['source_config'] = self.source_config.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of email_config
+        if self.email_config:
+            _dict['email_config'] = self.email_config.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of mail_credential
+        if self.mail_credential:
+            _dict['mail_credential'] = self.mail_credential.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of email_progress
+        if self.email_progress:
+            _dict['email_progress'] = self.email_progress.to_dict()
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict['owner'] = self.owner.to_dict()
@@ -129,6 +149,36 @@ class DataSourceResponse(BaseModel):
         # and model_fields_set contains the field
         if self.source_config is None and "source_config" in self.model_fields_set:
             _dict['source_config'] = None
+
+        # set to None if email_config (nullable) is None
+        # and model_fields_set contains the field
+        if self.email_config is None and "email_config" in self.model_fields_set:
+            _dict['email_config'] = None
+
+        # set to None if mailbox_address (nullable) is None
+        # and model_fields_set contains the field
+        if self.mailbox_address is None and "mailbox_address" in self.model_fields_set:
+            _dict['mailbox_address'] = None
+
+        # set to None if mail_credential (nullable) is None
+        # and model_fields_set contains the field
+        if self.mail_credential is None and "mail_credential" in self.model_fields_set:
+            _dict['mail_credential'] = None
+
+        # set to None if email_progress (nullable) is None
+        # and model_fields_set contains the field
+        if self.email_progress is None and "email_progress" in self.model_fields_set:
+            _dict['email_progress'] = None
+
+        # set to None if sync_cron (nullable) is None
+        # and model_fields_set contains the field
+        if self.sync_cron is None and "sync_cron" in self.model_fields_set:
+            _dict['sync_cron'] = None
+
+        # set to None if last_sync_error (nullable) is None
+        # and model_fields_set contains the field
+        if self.last_sync_error is None and "last_sync_error" in self.model_fields_set:
+            _dict['last_sync_error'] = None
 
         # set to None if owner (nullable) is None
         # and model_fields_set contains the field
@@ -158,6 +208,13 @@ class DataSourceResponse(BaseModel):
             "source_type": obj.get("source_type"),
             "connection_summary": ConnectionSummary.from_dict(obj["connection_summary"]) if obj.get("connection_summary") is not None else None,
             "source_config": SourceConfigSummary.from_dict(obj["source_config"]) if obj.get("source_config") is not None else None,
+            "email_config": EmailConfigSummary.from_dict(obj["email_config"]) if obj.get("email_config") is not None else None,
+            "mailbox_address": obj.get("mailbox_address"),
+            "mail_credential": MailCredentialOption.from_dict(obj["mail_credential"]) if obj.get("mail_credential") is not None else None,
+            "email_progress": EmailSyncProgress.from_dict(obj["email_progress"]) if obj.get("email_progress") is not None else None,
+            "sync_status": obj.get("sync_status"),
+            "sync_cron": obj.get("sync_cron"),
+            "last_sync_error": obj.get("last_sync_error"),
             "approval_state": obj.get("approval_state"),
             "owner": UserInfo.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
             "permissions": ItemPermissions.from_dict(obj["permissions"]) if obj.get("permissions") is not None else None,

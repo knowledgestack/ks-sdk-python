@@ -20,7 +20,6 @@ import json
 from pydantic import BaseModel, ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict
 from uuid import UUID
-from ksapi.models.permission_capability import PermissionCapability
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -32,9 +31,12 @@ class BulkGrantSuccess(BaseModel):
     user_id: UUID
     object_id: UUID
     permission_id: UUID
-    capability: PermissionCapability
+    can_read: StrictBool
+    can_write: StrictBool
+    can_delete: StrictBool
     can_approve: StrictBool
-    __properties: ClassVar[List[str]] = ["user_id", "object_id", "permission_id", "capability", "can_approve"]
+    can_grant_permissions: StrictBool
+    __properties: ClassVar[List[str]] = ["user_id", "object_id", "permission_id", "can_read", "can_write", "can_delete", "can_approve", "can_grant_permissions"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -90,8 +92,11 @@ class BulkGrantSuccess(BaseModel):
             "user_id": obj.get("user_id"),
             "object_id": obj.get("object_id"),
             "permission_id": obj.get("permission_id"),
-            "capability": obj.get("capability"),
-            "can_approve": obj.get("can_approve")
+            "can_read": obj.get("can_read"),
+            "can_write": obj.get("can_write"),
+            "can_delete": obj.get("can_delete"),
+            "can_approve": obj.get("can_approve"),
+            "can_grant_permissions": obj.get("can_grant_permissions")
         })
         return _obj
 

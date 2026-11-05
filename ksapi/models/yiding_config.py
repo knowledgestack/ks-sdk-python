@@ -27,16 +27,16 @@ from pydantic_core import to_jsonable_python
 
 class YidingConfig(BaseModel):
     """
-    What a customer supplies for a YiDing sync: the summary plus the secret.
+    What a customer supplies for a YiDing sync.  The stored summary, plus the two things a caller supplies that are not part of it: the secret, and the recurrence — which is a ``data_source`` column now rather than a key in this config.
     """ # noqa: E501
     username: Annotated[str, Field(min_length=1, strict=True)] = Field(description="The account the crawler signs in to the panel as")
     business_id: Annotated[str, Field(min_length=1, strict=True)] = Field(description="The panel's own id for the shop. Only the customer list is scoped by it — orders follow the logged-in account — but it answers a wrong one with a 500, so an empty value fails the crawl, not just that page.")
     start_date: date = Field(description="First dining day to sync; earlier orders are not fetched")
-    cron: Annotated[str, Field(min_length=1, strict=True)] = Field(description="Crawl recurrence, in the tenant's timezone")
     base_url: Optional[Annotated[str, Field(strict=True, max_length=2048)]] = Field(default='https://admin.zhidianfan.com/seller_resv_sys', description="Root of the YiDing admin panel the crawler signs in to")
     password: Annotated[str, Field(min_length=1, strict=True)] = Field(description="Write-only: the settings panel never reads it back")
+    cron: Annotated[str, Field(min_length=1, strict=True)] = Field(description="Crawl recurrence, in the tenant's timezone")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["username", "business_id", "start_date", "cron", "base_url", "password"]
+    __properties: ClassVar[List[str]] = ["username", "business_id", "start_date", "base_url", "password", "cron"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -99,9 +99,9 @@ class YidingConfig(BaseModel):
             "username": obj.get("username"),
             "business_id": obj.get("business_id"),
             "start_date": obj.get("start_date"),
-            "cron": obj.get("cron"),
             "base_url": obj.get("base_url") if obj.get("base_url") is not None else 'https://admin.zhidianfan.com/seller_resv_sys',
-            "password": obj.get("password")
+            "password": obj.get("password"),
+            "cron": obj.get("cron")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

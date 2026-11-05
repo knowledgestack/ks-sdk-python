@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field
+from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -25,7 +25,6 @@ from ksapi.models.bulk_operation_response import BulkOperationResponse
 from ksapi.models.bulk_revoke_request import BulkRevokeRequest
 from ksapi.models.create_permission_request import CreatePermissionRequest
 from ksapi.models.paginated_response_permission_response import PaginatedResponsePermissionResponse
-from ksapi.models.permission_capability import PermissionCapability
 from ksapi.models.permission_response import PermissionResponse
 from ksapi.models.sort_direction import SortDirection
 from ksapi.models.update_permission_request import UpdatePermissionRequest
@@ -69,7 +68,7 @@ class UserPermissionsApi:
     ) -> BulkGrantResponse:
         """Bulk Grant User Permissions Handler
 
-        Grant many (user, object, capability) permissions (admin/owner only).  Each grant is applied in its own transaction, reporting a per-item outcome keyed on the (user_id, object_id) pair: a missing/trashed object or a user not in the tenant is ``not_found``, hitting the per-user cap is ``permission_limit``, and an already-covered grant is ``subsumed``.
+        Grant many (user, object, flags) permissions (admin/owner or scoped permission manager).  Each grant is applied in its own transaction, reporting a per-item outcome keyed on the (user_id, object_id) pair: a missing/trashed object or a user not in the tenant is ``not_found``, hitting the per-user cap is ``permission_limit``, and an already-covered grant is ``subsumed``.
 
         :param bulk_grant_request: (required)
         :type bulk_grant_request: BulkGrantRequest
@@ -138,7 +137,7 @@ class UserPermissionsApi:
     ) -> ApiResponse[BulkGrantResponse]:
         """Bulk Grant User Permissions Handler
 
-        Grant many (user, object, capability) permissions (admin/owner only).  Each grant is applied in its own transaction, reporting a per-item outcome keyed on the (user_id, object_id) pair: a missing/trashed object or a user not in the tenant is ``not_found``, hitting the per-user cap is ``permission_limit``, and an already-covered grant is ``subsumed``.
+        Grant many (user, object, flags) permissions (admin/owner or scoped permission manager).  Each grant is applied in its own transaction, reporting a per-item outcome keyed on the (user_id, object_id) pair: a missing/trashed object or a user not in the tenant is ``not_found``, hitting the per-user cap is ``permission_limit``, and an already-covered grant is ``subsumed``.
 
         :param bulk_grant_request: (required)
         :type bulk_grant_request: BulkGrantRequest
@@ -207,7 +206,7 @@ class UserPermissionsApi:
     ) -> RESTResponseType:
         """Bulk Grant User Permissions Handler
 
-        Grant many (user, object, capability) permissions (admin/owner only).  Each grant is applied in its own transaction, reporting a per-item outcome keyed on the (user_id, object_id) pair: a missing/trashed object or a user not in the tenant is ``not_found``, hitting the per-user cap is ``permission_limit``, and an already-covered grant is ``subsumed``.
+        Grant many (user, object, flags) permissions (admin/owner or scoped permission manager).  Each grant is applied in its own transaction, reporting a per-item outcome keyed on the (user_id, object_id) pair: a missing/trashed object or a user not in the tenant is ``not_found``, hitting the per-user cap is ``permission_limit``, and an already-covered grant is ``subsumed``.
 
         :param bulk_grant_request: (required)
         :type bulk_grant_request: BulkGrantRequest
@@ -452,7 +451,7 @@ class UserPermissionsApi:
     ) -> BulkOperationResponse:
         """Bulk Revoke User Permissions Handler
 
-        Revoke many permissions by their ids (admin/owner only), per item.  A permission id not found in the tenant lands in ``failed`` as ``not_found``.
+        Revoke many permissions by their ids (admin/owner or scoped permission manager), per item.  A permission id not found in the tenant lands in ``failed`` as ``not_found``.
 
         :param bulk_revoke_request: (required)
         :type bulk_revoke_request: BulkRevokeRequest
@@ -521,7 +520,7 @@ class UserPermissionsApi:
     ) -> ApiResponse[BulkOperationResponse]:
         """Bulk Revoke User Permissions Handler
 
-        Revoke many permissions by their ids (admin/owner only), per item.  A permission id not found in the tenant lands in ``failed`` as ``not_found``.
+        Revoke many permissions by their ids (admin/owner or scoped permission manager), per item.  A permission id not found in the tenant lands in ``failed`` as ``not_found``.
 
         :param bulk_revoke_request: (required)
         :type bulk_revoke_request: BulkRevokeRequest
@@ -590,7 +589,7 @@ class UserPermissionsApi:
     ) -> RESTResponseType:
         """Bulk Revoke User Permissions Handler
 
-        Revoke many permissions by their ids (admin/owner only), per item.  A permission id not found in the tenant lands in ``failed`` as ``not_found``.
+        Revoke many permissions by their ids (admin/owner or scoped permission manager), per item.  A permission id not found in the tenant lands in ``failed`` as ``not_found``.
 
         :param bulk_revoke_request: (required)
         :type bulk_revoke_request: BulkRevokeRequest
@@ -835,7 +834,7 @@ class UserPermissionsApi:
     ) -> PermissionResponse:
         """Create User Permission Handler
 
-        Create a path permission for a user in a tenant (admin/owner only).
+        Create a path permission for a user in a tenant (admin/owner or scoped permission manager).
 
         :param create_permission_request: (required)
         :type create_permission_request: CreatePermissionRequest
@@ -904,7 +903,7 @@ class UserPermissionsApi:
     ) -> ApiResponse[PermissionResponse]:
         """Create User Permission Handler
 
-        Create a path permission for a user in a tenant (admin/owner only).
+        Create a path permission for a user in a tenant (admin/owner or scoped permission manager).
 
         :param create_permission_request: (required)
         :type create_permission_request: CreatePermissionRequest
@@ -973,7 +972,7 @@ class UserPermissionsApi:
     ) -> RESTResponseType:
         """Create User Permission Handler
 
-        Create a path permission for a user in a tenant (admin/owner only).
+        Create a path permission for a user in a tenant (admin/owner or scoped permission manager).
 
         :param create_permission_request: (required)
         :type create_permission_request: CreatePermissionRequest
@@ -1219,7 +1218,7 @@ class UserPermissionsApi:
     ) -> None:
         """Delete User Permission Handler
 
-        Delete a path permission (admin/owner only).
+        Delete a path permission (admin/owner or scoped permission manager).
 
         :param permission_id: (required)
         :type permission_id: UUID
@@ -1292,7 +1291,7 @@ class UserPermissionsApi:
     ) -> ApiResponse[None]:
         """Delete User Permission Handler
 
-        Delete a path permission (admin/owner only).
+        Delete a path permission (admin/owner or scoped permission manager).
 
         :param permission_id: (required)
         :type permission_id: UUID
@@ -1365,7 +1364,7 @@ class UserPermissionsApi:
     ) -> RESTResponseType:
         """Delete User Permission Handler
 
-        Delete a path permission (admin/owner only).
+        Delete a path permission (admin/owner or scoped permission manager).
 
         :param permission_id: (required)
         :type permission_id: UUID
@@ -1599,7 +1598,11 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1617,7 +1620,7 @@ class UserPermissionsApi:
     ) -> PaginatedResponsePermissionResponse:
         """List User Permissions Handler
 
-        List path permissions for a user in a tenant (admin/owner only).
+        List path permissions for a user in a tenant (admin/owner or scoped permission manager).
 
         :param tenant_id: Tenant ID to list permissions for (required)
         :type tenant_id: UUID
@@ -1627,8 +1630,16 @@ class UserPermissionsApi:
         :type sort_by: UserPermissionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param capability: Filter to a single capability level
-        :type capability: PermissionCapability
+        :param can_read: Filter grants by can_read
+        :type can_read: bool
+        :param can_write: Filter grants by can_write
+        :type can_write: bool
+        :param can_delete: Filter grants by can_delete
+        :type can_delete: bool
+        :param can_approve: Filter grants by can_approve
+        :type can_approve: bool
+        :param can_grant_permissions: Filter grants by can_grant_permissions
+        :type can_grant_permissions: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1660,7 +1671,11 @@ class UserPermissionsApi:
             user_id=user_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            capability=capability,
+            can_read=can_read,
+            can_write=can_write,
+            can_delete=can_delete,
+            can_approve=can_approve,
+            can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -1692,7 +1707,11 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1710,7 +1729,7 @@ class UserPermissionsApi:
     ) -> ApiResponse[PaginatedResponsePermissionResponse]:
         """List User Permissions Handler
 
-        List path permissions for a user in a tenant (admin/owner only).
+        List path permissions for a user in a tenant (admin/owner or scoped permission manager).
 
         :param tenant_id: Tenant ID to list permissions for (required)
         :type tenant_id: UUID
@@ -1720,8 +1739,16 @@ class UserPermissionsApi:
         :type sort_by: UserPermissionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param capability: Filter to a single capability level
-        :type capability: PermissionCapability
+        :param can_read: Filter grants by can_read
+        :type can_read: bool
+        :param can_write: Filter grants by can_write
+        :type can_write: bool
+        :param can_delete: Filter grants by can_delete
+        :type can_delete: bool
+        :param can_approve: Filter grants by can_approve
+        :type can_approve: bool
+        :param can_grant_permissions: Filter grants by can_grant_permissions
+        :type can_grant_permissions: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1753,7 +1780,11 @@ class UserPermissionsApi:
             user_id=user_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            capability=capability,
+            can_read=can_read,
+            can_write=can_write,
+            can_delete=can_delete,
+            can_approve=can_approve,
+            can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -1785,7 +1816,11 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1803,7 +1838,7 @@ class UserPermissionsApi:
     ) -> RESTResponseType:
         """List User Permissions Handler
 
-        List path permissions for a user in a tenant (admin/owner only).
+        List path permissions for a user in a tenant (admin/owner or scoped permission manager).
 
         :param tenant_id: Tenant ID to list permissions for (required)
         :type tenant_id: UUID
@@ -1813,8 +1848,16 @@ class UserPermissionsApi:
         :type sort_by: UserPermissionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param capability: Filter to a single capability level
-        :type capability: PermissionCapability
+        :param can_read: Filter grants by can_read
+        :type can_read: bool
+        :param can_write: Filter grants by can_write
+        :type can_write: bool
+        :param can_delete: Filter grants by can_delete
+        :type can_delete: bool
+        :param can_approve: Filter grants by can_approve
+        :type can_approve: bool
+        :param can_grant_permissions: Filter grants by can_grant_permissions
+        :type can_grant_permissions: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1846,7 +1889,11 @@ class UserPermissionsApi:
             user_id=user_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            capability=capability,
+            can_read=can_read,
+            can_write=can_write,
+            can_delete=can_delete,
+            can_approve=can_approve,
+            can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -1874,7 +1921,11 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1901,7 +1952,11 @@ class UserPermissionsApi:
                 user_id=user_id,
                 sort_by=sort_by,
                 sort_dir=sort_dir,
-                capability=capability,
+                can_read=can_read,
+                can_write=can_write,
+                can_delete=can_delete,
+                can_approve=can_approve,
+                can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
                 _request_timeout=_request_timeout,
@@ -1920,7 +1975,11 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1947,7 +2006,11 @@ class UserPermissionsApi:
                 user_id=user_id,
                 sort_by=sort_by,
                 sort_dir=sort_dir,
-                capability=capability,
+                can_read=can_read,
+                can_write=can_write,
+                can_delete=can_delete,
+                can_approve=can_approve,
+                can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
                 _request_timeout=_request_timeout,
@@ -1966,7 +2029,11 @@ class UserPermissionsApi:
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to a single capability level")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -1993,7 +2060,11 @@ class UserPermissionsApi:
                 user_id=user_id,
                 sort_by=sort_by,
                 sort_dir=sort_dir,
-                capability=capability,
+                can_read=can_read,
+                can_write=can_write,
+                can_delete=can_delete,
+                can_approve=can_approve,
+                can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
                 _request_timeout=_request_timeout,
@@ -2011,7 +2082,11 @@ class UserPermissionsApi:
         user_id,
         sort_by,
         sort_dir,
-        capability,
+        can_read,
+        can_write,
+        can_delete,
+        can_approve,
+        can_grant_permissions,
         limit,
         offset,
         _request_auth,
@@ -2052,9 +2127,25 @@ class UserPermissionsApi:
             
             _query_params.append(('sort_dir', sort_dir.value))
             
-        if capability is not None:
+        if can_read is not None:
             
-            _query_params.append(('capability', capability.value))
+            _query_params.append(('can_read', can_read))
+            
+        if can_write is not None:
+            
+            _query_params.append(('can_write', can_write))
+            
+        if can_delete is not None:
+            
+            _query_params.append(('can_delete', can_delete))
+            
+        if can_approve is not None:
+            
+            _query_params.append(('can_approve', can_approve))
+            
+        if can_grant_permissions is not None:
+            
+            _query_params.append(('can_grant_permissions', can_grant_permissions))
             
         if limit is not None:
             
@@ -2123,7 +2214,7 @@ class UserPermissionsApi:
     ) -> PermissionResponse:
         """Update User Permission Handler
 
-        Update a path permission (admin/owner only).
+        Update a path permission (admin/owner or scoped permission manager).
 
         :param permission_id: (required)
         :type permission_id: UUID
@@ -2200,7 +2291,7 @@ class UserPermissionsApi:
     ) -> ApiResponse[PermissionResponse]:
         """Update User Permission Handler
 
-        Update a path permission (admin/owner only).
+        Update a path permission (admin/owner or scoped permission manager).
 
         :param permission_id: (required)
         :type permission_id: UUID
@@ -2277,7 +2368,7 @@ class UserPermissionsApi:
     ) -> RESTResponseType:
         """Update User Permission Handler
 
-        Update a path permission (admin/owner only).
+        Update a path permission (admin/owner or scoped permission manager).
 
         :param permission_id: (required)
         :type permission_id: UUID

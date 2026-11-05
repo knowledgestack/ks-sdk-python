@@ -40,6 +40,8 @@ class ReferenceType(str, Enum):
     DATA_SOURCE_TABLE = 'DATA_SOURCE_TABLE'
     API_CONNECTION = 'API_CONNECTION'
     SKILL = 'SKILL'
+    EMAIL_THREAD = 'EMAIL_THREAD'
+    EMAIL_MESSAGE = 'EMAIL_MESSAGE'
     IMAGE = 'image'
     MEMORY = 'memory'
     TAG = 'tag'

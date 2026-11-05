@@ -20,7 +20,7 @@ from typing_extensions import Self
 
 class SourceType(str, Enum):
     """
-    Extra connector config for data sync model direct connect or automatic login/copy method.
+    How a connector gets at its data: read on demand, or crawled on a schedule.
     """
 
     """
@@ -28,6 +28,7 @@ class SourceType(str, Enum):
     """
     DIRECT = 'DIRECT'
     YIDINGSYNC = 'YIDINGSYNC'
+    EMAIL = 'EMAIL'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

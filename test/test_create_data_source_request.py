@@ -35,7 +35,7 @@ class TestCreateDataSourceRequest(unittest.TestCase):
         model = CreateDataSourceRequest()
         if include_optional:
             return CreateDataSourceRequest(
-                name = '',
+                name = '0',
                 parent_path_part_id = '',
                 source_type = 'DIRECT',
                 engine = 'MYSQL',
@@ -50,13 +50,15 @@ class TestCreateDataSourceRequest(unittest.TestCase):
                     username = '0', 
                     business_id = '0', 
                     start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    cron = '0', 
                     base_url = 'https://admin.zhidianfan.com/seller_resv_sys', 
-                    password = '0', )
+                    password = '0', 
+                    cron = '0', ),
+                mail_credential_id = '',
+                email_config = ksapi.models.email_sync_config.EmailSyncConfig(
+                    cron = '*/15 * * * *', )
             )
         else:
             return CreateDataSourceRequest(
-                name = '',
                 parent_path_part_id = '',
         )
         """

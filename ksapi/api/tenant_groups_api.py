@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from datetime import datetime
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictBool, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -31,7 +31,6 @@ from ksapi.models.membership_response import MembershipResponse
 from ksapi.models.paginated_response_group_permission_response import PaginatedResponseGroupPermissionResponse
 from ksapi.models.paginated_response_group_response import PaginatedResponseGroupResponse
 from ksapi.models.paginated_response_membership_response import PaginatedResponseMembershipResponse
-from ksapi.models.permission_capability import PermissionCapability
 from ksapi.models.sort_direction import SortDirection
 from ksapi.models.tenant_group_order import TenantGroupOrder
 from ksapi.models.update_group_permission_request import UpdateGroupPermissionRequest
@@ -480,7 +479,7 @@ class TenantGroupsApi:
     ) -> GroupPermissionResponse:
         """Create Group Permission Handler
 
-        Create a path permission for a group (admin/owner only).
+        Create a path permission for a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -553,7 +552,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[GroupPermissionResponse]:
         """Create Group Permission Handler
 
-        Create a path permission for a group (admin/owner only).
+        Create a path permission for a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -626,7 +625,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """Create Group Permission Handler
 
-        Create a path permission for a group (admin/owner only).
+        Create a path permission for a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -1267,7 +1266,7 @@ class TenantGroupsApi:
     ) -> None:
         """Delete Group Permission Handler
 
-        Delete a path permission from a group (admin/owner only).
+        Delete a path permission from a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -1340,7 +1339,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[None]:
         """Delete Group Permission Handler
 
-        Delete a path permission from a group (admin/owner only).
+        Delete a path permission from a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -1413,7 +1412,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """Delete Group Permission Handler
 
-        Delete a path permission from a group (admin/owner only).
+        Delete a path permission from a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2027,7 +2026,7 @@ class TenantGroupsApi:
     ) -> GroupResponse:
         """Get Tenant Group Handler
 
-        Get a tenant group by ID (group member or admin/owner).
+        Get a tenant group (member, admin/owner, or permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2096,7 +2095,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[GroupResponse]:
         """Get Tenant Group Handler
 
-        Get a tenant group by ID (group member or admin/owner).
+        Get a tenant group (member, admin/owner, or permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2165,7 +2164,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """Get Tenant Group Handler
 
-        Get a tenant group by ID (group member or admin/owner).
+        Get a tenant group (member, admin/owner, or permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2402,7 +2401,7 @@ class TenantGroupsApi:
     ) -> PaginatedResponseMembershipResponse:
         """List Group Members Handler
 
-        List members of a group (group members or admin/owner).
+        List group members (member, admin/owner, or permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2491,7 +2490,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[PaginatedResponseMembershipResponse]:
         """List Group Members Handler
 
-        List members of a group (group members or admin/owner).
+        List group members (member, admin/owner, or permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2580,7 +2579,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """List Group Members Handler
 
-        List members of a group (group members or admin/owner).
+        List group members (member, admin/owner, or permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2869,7 +2868,11 @@ class TenantGroupsApi:
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2887,7 +2890,7 @@ class TenantGroupsApi:
     ) -> PaginatedResponseGroupPermissionResponse:
         """List Group Permissions Handler
 
-        List path permissions for a group (group member or admin/owner).
+        List group grants; non-member managers see only their managed subtrees.
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2895,8 +2898,16 @@ class TenantGroupsApi:
         :type sort_by: GroupPermissionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param capability: Filter to permissions with this capability
-        :type capability: PermissionCapability
+        :param can_read: Filter grants by can_read
+        :type can_read: bool
+        :param can_write: Filter grants by can_write
+        :type can_write: bool
+        :param can_delete: Filter grants by can_delete
+        :type can_delete: bool
+        :param can_approve: Filter grants by can_approve
+        :type can_approve: bool
+        :param can_grant_permissions: Filter grants by can_grant_permissions
+        :type can_grant_permissions: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2927,7 +2938,11 @@ class TenantGroupsApi:
             group_id=group_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            capability=capability,
+            can_read=can_read,
+            can_write=can_write,
+            can_delete=can_delete,
+            can_approve=can_approve,
+            can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -2958,7 +2973,11 @@ class TenantGroupsApi:
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -2976,7 +2995,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[PaginatedResponseGroupPermissionResponse]:
         """List Group Permissions Handler
 
-        List path permissions for a group (group member or admin/owner).
+        List group grants; non-member managers see only their managed subtrees.
 
         :param group_id: (required)
         :type group_id: UUID
@@ -2984,8 +3003,16 @@ class TenantGroupsApi:
         :type sort_by: GroupPermissionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param capability: Filter to permissions with this capability
-        :type capability: PermissionCapability
+        :param can_read: Filter grants by can_read
+        :type can_read: bool
+        :param can_write: Filter grants by can_write
+        :type can_write: bool
+        :param can_delete: Filter grants by can_delete
+        :type can_delete: bool
+        :param can_approve: Filter grants by can_approve
+        :type can_approve: bool
+        :param can_grant_permissions: Filter grants by can_grant_permissions
+        :type can_grant_permissions: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -3016,7 +3043,11 @@ class TenantGroupsApi:
             group_id=group_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            capability=capability,
+            can_read=can_read,
+            can_write=can_write,
+            can_delete=can_delete,
+            can_approve=can_approve,
+            can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -3047,7 +3078,11 @@ class TenantGroupsApi:
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -3065,7 +3100,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """List Group Permissions Handler
 
-        List path permissions for a group (group member or admin/owner).
+        List group grants; non-member managers see only their managed subtrees.
 
         :param group_id: (required)
         :type group_id: UUID
@@ -3073,8 +3108,16 @@ class TenantGroupsApi:
         :type sort_by: GroupPermissionOrder
         :param sort_dir: Sort direction; overrides the field's natural default
         :type sort_dir: SortDirection
-        :param capability: Filter to permissions with this capability
-        :type capability: PermissionCapability
+        :param can_read: Filter grants by can_read
+        :type can_read: bool
+        :param can_write: Filter grants by can_write
+        :type can_write: bool
+        :param can_delete: Filter grants by can_delete
+        :type can_delete: bool
+        :param can_approve: Filter grants by can_approve
+        :type can_approve: bool
+        :param can_grant_permissions: Filter grants by can_grant_permissions
+        :type can_grant_permissions: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -3105,7 +3148,11 @@ class TenantGroupsApi:
             group_id=group_id,
             sort_by=sort_by,
             sort_dir=sort_dir,
-            capability=capability,
+            can_read=can_read,
+            can_write=can_write,
+            can_delete=can_delete,
+            can_approve=can_approve,
+            can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -3132,7 +3179,11 @@ class TenantGroupsApi:
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -3158,7 +3209,11 @@ class TenantGroupsApi:
                 group_id=group_id,
                 sort_by=sort_by,
                 sort_dir=sort_dir,
-                capability=capability,
+                can_read=can_read,
+                can_write=can_write,
+                can_delete=can_delete,
+                can_approve=can_approve,
+                can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
                 _request_timeout=_request_timeout,
@@ -3176,7 +3231,11 @@ class TenantGroupsApi:
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -3202,7 +3261,11 @@ class TenantGroupsApi:
                 group_id=group_id,
                 sort_by=sort_by,
                 sort_dir=sort_dir,
-                capability=capability,
+                can_read=can_read,
+                can_write=can_write,
+                can_delete=can_delete,
+                can_approve=can_approve,
+                can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
                 _request_timeout=_request_timeout,
@@ -3220,7 +3283,11 @@ class TenantGroupsApi:
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
         sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
-        capability: Annotated[Optional[PermissionCapability], Field(description="Filter to permissions with this capability")] = None,
+        can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
+        can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
+        can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
+        can_approve: Annotated[Optional[StrictBool], Field(description="Filter grants by can_approve")] = None,
+        can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         _request_timeout: Union[
@@ -3246,7 +3313,11 @@ class TenantGroupsApi:
                 group_id=group_id,
                 sort_by=sort_by,
                 sort_dir=sort_dir,
-                capability=capability,
+                can_read=can_read,
+                can_write=can_write,
+                can_delete=can_delete,
+                can_approve=can_approve,
+                can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
                 _request_timeout=_request_timeout,
@@ -3263,7 +3334,11 @@ class TenantGroupsApi:
         group_id,
         sort_by,
         sort_dir,
-        capability,
+        can_read,
+        can_write,
+        can_delete,
+        can_approve,
+        can_grant_permissions,
         limit,
         offset,
         _request_auth,
@@ -3298,9 +3373,25 @@ class TenantGroupsApi:
             
             _query_params.append(('sort_dir', sort_dir.value))
             
-        if capability is not None:
+        if can_read is not None:
             
-            _query_params.append(('capability', capability.value))
+            _query_params.append(('can_read', can_read))
+            
+        if can_write is not None:
+            
+            _query_params.append(('can_write', can_write))
+            
+        if can_delete is not None:
+            
+            _query_params.append(('can_delete', can_delete))
+            
+        if can_approve is not None:
+            
+            _query_params.append(('can_approve', can_approve))
+            
+        if can_grant_permissions is not None:
+            
+            _query_params.append(('can_grant_permissions', can_grant_permissions))
             
         if limit is not None:
             
@@ -3722,7 +3813,7 @@ class TenantGroupsApi:
     ) -> PaginatedResponseGroupResponse:
         """List Tenant Groups Handler
 
-        List tenant groups.  Admin/owner see all groups; other members see only groups they belong to.
+        List tenant groups.  Admin/owner and permission managers see all groups; other members see their own.
 
         :param sort_by: Field to sort groups by (default: NAME)
         :type sort_by: TenantGroupOrder
@@ -3827,7 +3918,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[PaginatedResponseGroupResponse]:
         """List Tenant Groups Handler
 
-        List tenant groups.  Admin/owner see all groups; other members see only groups they belong to.
+        List tenant groups.  Admin/owner and permission managers see all groups; other members see their own.
 
         :param sort_by: Field to sort groups by (default: NAME)
         :type sort_by: TenantGroupOrder
@@ -3932,7 +4023,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """List Tenant Groups Handler
 
-        List tenant groups.  Admin/owner see all groups; other members see only groups they belong to.
+        List tenant groups.  Admin/owner and permission managers see all groups; other members see their own.
 
         :param sort_by: Field to sort groups by (default: NAME)
         :type sort_by: TenantGroupOrder
@@ -4722,7 +4813,7 @@ class TenantGroupsApi:
     ) -> GroupPermissionResponse:
         """Update Group Permission Handler
 
-        Update a path permission for a group (admin/owner only).
+        Update a path permission for a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -4799,7 +4890,7 @@ class TenantGroupsApi:
     ) -> ApiResponse[GroupPermissionResponse]:
         """Update Group Permission Handler
 
-        Update a path permission for a group (admin/owner only).
+        Update a path permission for a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID
@@ -4876,7 +4967,7 @@ class TenantGroupsApi:
     ) -> RESTResponseType:
         """Update Group Permission Handler
 
-        Update a path permission for a group (admin/owner only).
+        Update a path permission for a group (admin/owner or scoped permission manager).
 
         :param group_id: (required)
         :type group_id: UUID

@@ -38,10 +38,13 @@ class TestBulkGrantRequest(unittest.TestCase):
                 tenant_id = '',
                 grants = [
                     ksapi.models.bulk_grant_item.BulkGrantItem(
+                        can_read = True, 
+                        can_write = True, 
+                        can_delete = True, 
+                        can_approve = True, 
+                        can_grant_permissions = True, 
                         user_id = '', 
-                        object_id = '', 
-                        capability = 'READ_ONLY', 
-                        can_approve = True, )
+                        object_id = '', )
                     ]
             )
         else:

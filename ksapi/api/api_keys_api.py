@@ -401,7 +401,8 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'cookieAuth'
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -770,7 +771,8 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'cookieAuth'
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1139,7 +1141,8 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'cookieAuth'
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1484,7 +1487,8 @@ class ApiKeysApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'cookieAuth'
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

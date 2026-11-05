@@ -36,7 +36,8 @@ class TestYidingCursor(unittest.TestCase):
         if include_optional:
             return YidingCursor(
                 last_synced_order_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
+                last_synced_user_ts = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                last_sync_error = ''
             )
         else:
             return YidingCursor(

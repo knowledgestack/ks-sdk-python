@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,8 +30,9 @@ class YidingCursor(BaseModel):
     """ # noqa: E501
     last_synced_order_ts: Optional[datetime] = Field(default=None, description="Seating time of the last order read")
     last_synced_user_ts: Optional[datetime] = Field(default=None, description="When the customer list was last refreshed")
+    last_sync_error: Optional[StrictStr] = Field(default=None, description="What the last crawl had to report, in the source's own words. Not only failures — a run that connected and worked but could not store everything it saw reports success with this set.")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["last_synced_order_ts", "last_synced_user_ts"]
+    __properties: ClassVar[List[str]] = ["last_synced_order_ts", "last_synced_user_ts", "last_sync_error"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -89,6 +90,11 @@ class YidingCursor(BaseModel):
         if self.last_synced_user_ts is None and "last_synced_user_ts" in self.model_fields_set:
             _dict['last_synced_user_ts'] = None
 
+        # set to None if last_sync_error (nullable) is None
+        # and model_fields_set contains the field
+        if self.last_sync_error is None and "last_sync_error" in self.model_fields_set:
+            _dict['last_sync_error'] = None
+
         return _dict
 
     @classmethod
@@ -102,7 +108,8 @@ class YidingCursor(BaseModel):
 
         _obj = cls.model_validate({
             "last_synced_order_ts": obj.get("last_synced_order_ts"),
-            "last_synced_user_ts": obj.get("last_synced_user_ts")
+            "last_synced_user_ts": obj.get("last_synced_user_ts"),
+            "last_sync_error": obj.get("last_sync_error")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

@@ -30,9 +30,13 @@ from ksapi.api.default_api import DefaultApi
 from ksapi.api.document_checkout_api import DocumentCheckoutApi
 from ksapi.api.document_versions_api import DocumentVersionsApi
 from ksapi.api.documents_api import DocumentsApi
+from ksapi.api.email_connectors_api import EmailConnectorsApi
+from ksapi.api.email_messages_api import EmailMessagesApi
+from ksapi.api.email_threads_api import EmailThreadsApi
 from ksapi.api.features_api import FeaturesApi
 from ksapi.api.folders_api import FoldersApi
 from ksapi.api.invites_api import InvitesApi
+from ksapi.api.mail_credentials_api import MailCredentialsApi
 from ksapi.api.path_part_approvals_api import PathPartApprovalsApi
 from ksapi.api.path_parts_api import PathPartsApi
 from ksapi.api.public_api import PublicApi

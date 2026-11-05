@@ -17,23 +17,25 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
-from ksapi.models.permission_capability import PermissionCapability
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class BulkGrantItem(BaseModel):
     """
-    One requested grant: a capability on an object (PDO id) for a user.
+    One requested grant: permission flags on an object (PDO id) for a user.
     """ # noqa: E501
+    can_read: Optional[StrictBool] = Field(default=False, description="Grant read access to the target subtree.")
+    can_write: Optional[StrictBool] = Field(default=False, description="Grant write access; requires can_read=true.")
+    can_delete: Optional[StrictBool] = Field(default=False, description="Grant delete access; requires can_read=true and can_write=true.")
+    can_approve: Optional[StrictBool] = Field(default=False, description="Grant approval access; requires can_read=true, independently of write and delete.")
+    can_grant_permissions: Optional[StrictBool] = Field(default=False, description="Manage subtree permissions; requires all four content flags.")
     user_id: UUID
     object_id: UUID
-    capability: PermissionCapability
-    can_approve: Optional[StrictBool] = False
-    __properties: ClassVar[List[str]] = ["user_id", "object_id", "capability", "can_approve"]
+    __properties: ClassVar[List[str]] = ["can_read", "can_write", "can_delete", "can_approve", "can_grant_permissions", "user_id", "object_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -86,10 +88,13 @@ class BulkGrantItem(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "can_read": obj.get("can_read") if obj.get("can_read") is not None else False,
+            "can_write": obj.get("can_write") if obj.get("can_write") is not None else False,
+            "can_delete": obj.get("can_delete") if obj.get("can_delete") is not None else False,
+            "can_approve": obj.get("can_approve") if obj.get("can_approve") is not None else False,
+            "can_grant_permissions": obj.get("can_grant_permissions") if obj.get("can_grant_permissions") is not None else False,
             "user_id": obj.get("user_id"),
-            "object_id": obj.get("object_id"),
-            "capability": obj.get("capability"),
-            "can_approve": obj.get("can_approve") if obj.get("can_approve") is not None else False
+            "object_id": obj.get("object_id")
         })
         return _obj
 

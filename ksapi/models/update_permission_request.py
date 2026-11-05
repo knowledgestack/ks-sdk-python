@@ -17,10 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, Optional
 from uuid import UUID
-from ksapi.models.permission_capability import PermissionCapability
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -29,10 +28,13 @@ class UpdatePermissionRequest(BaseModel):
     """
     UpdatePermissionRequest
     """ # noqa: E501
+    can_read: Optional[StrictBool] = Field(default=None, description="Set read access; omitted or null leaves the stored flag unchanged.")
+    can_write: Optional[StrictBool] = Field(default=None, description="Set write access; requires read in the resulting grant. Omitted or null leaves the stored flag unchanged.")
+    can_delete: Optional[StrictBool] = Field(default=None, description="Set delete access; requires read and write in the resulting grant. Omitted or null leaves the stored flag unchanged.")
+    can_approve: Optional[StrictBool] = Field(default=None, description="Set approval access; requires read in the resulting grant. Omitted or null leaves the stored flag unchanged.")
+    can_grant_permissions: Optional[StrictBool] = Field(default=None, description="Set subtree permission management; requires all four flags. Omitted or null retains the stored value.")
     path_part_id: Optional[UUID] = None
-    capability: Optional[PermissionCapability] = None
-    can_approve: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["path_part_id", "capability", "can_approve"]
+    __properties: ClassVar[List[str]] = ["can_read", "can_write", "can_delete", "can_approve", "can_grant_permissions", "path_part_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -73,15 +75,35 @@ class UpdatePermissionRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if path_part_id (nullable) is None
+        # set to None if can_read (nullable) is None
         # and model_fields_set contains the field
-        if self.path_part_id is None and "path_part_id" in self.model_fields_set:
-            _dict['path_part_id'] = None
+        if self.can_read is None and "can_read" in self.model_fields_set:
+            _dict['can_read'] = None
+
+        # set to None if can_write (nullable) is None
+        # and model_fields_set contains the field
+        if self.can_write is None and "can_write" in self.model_fields_set:
+            _dict['can_write'] = None
+
+        # set to None if can_delete (nullable) is None
+        # and model_fields_set contains the field
+        if self.can_delete is None and "can_delete" in self.model_fields_set:
+            _dict['can_delete'] = None
 
         # set to None if can_approve (nullable) is None
         # and model_fields_set contains the field
         if self.can_approve is None and "can_approve" in self.model_fields_set:
             _dict['can_approve'] = None
+
+        # set to None if can_grant_permissions (nullable) is None
+        # and model_fields_set contains the field
+        if self.can_grant_permissions is None and "can_grant_permissions" in self.model_fields_set:
+            _dict['can_grant_permissions'] = None
+
+        # set to None if path_part_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.path_part_id is None and "path_part_id" in self.model_fields_set:
+            _dict['path_part_id'] = None
 
         return _dict
 
@@ -95,9 +117,12 @@ class UpdatePermissionRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "path_part_id": obj.get("path_part_id"),
-            "capability": obj.get("capability"),
-            "can_approve": obj.get("can_approve")
+            "can_read": obj.get("can_read"),
+            "can_write": obj.get("can_write"),
+            "can_delete": obj.get("can_delete"),
+            "can_approve": obj.get("can_approve"),
+            "can_grant_permissions": obj.get("can_grant_permissions"),
+            "path_part_id": obj.get("path_part_id")
         })
         return _obj
 

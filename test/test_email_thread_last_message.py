@@ -12,27 +12,53 @@
 """  # noqa: E501
 
 
-from __future__ import annotations
-import json
-from enum import Enum
-from typing_extensions import Self
+import unittest
 
+from ksapi.models.email_thread_last_message import EmailThreadLastMessage
 
-class PermissionCapability(str, Enum):
-    """
-    Path access capability, a strict ladder: read < write < delete.
-    """
+class TestEmailThreadLastMessage(unittest.TestCase):
+    """EmailThreadLastMessage unit test stubs"""
 
-    """
-    allowed enum values
-    """
-    READ_ONLY = 'READ_ONLY'
-    READ_WRITE = 'READ_WRITE'
-    READ_WRITE_DELETE = 'READ_WRITE_DELETE'
+    def setUp(self):
+        pass
 
-    @classmethod
-    def from_json(cls, json_str: str) -> Self:
-        """Create an instance of PermissionCapability from a JSON string"""
-        return cls(json.loads(json_str))
+    def tearDown(self):
+        pass
 
+    def make_instance(self, include_optional) -> EmailThreadLastMessage:
+        """Test EmailThreadLastMessage
+            include_optional is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # uncomment below to create an instance of `EmailThreadLastMessage`
+        """
+        model = EmailThreadLastMessage()
+        if include_optional:
+            return EmailThreadLastMessage(
+                email_message_id = '',
+                sender = '',
+                sent_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                title = '',
+                external_source_folder = '',
+                preview = '',
+                recipients = [
+                    ''
+                    ],
+                recipient_count = 56
+            )
+        else:
+            return EmailThreadLastMessage(
+                email_message_id = '',
+                sender = '',
+                sent_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                title = '',
+        )
+        """
 
+    def testEmailThreadLastMessage(self):
+        """Test EmailThreadLastMessage"""
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+
+if __name__ == '__main__':
+    unittest.main()
