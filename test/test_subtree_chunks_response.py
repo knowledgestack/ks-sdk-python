@@ -40,6 +40,9 @@ class TestSubtreeChunksResponse(unittest.TestCase):
                         chunk_ids = [
                             ''
                             ], 
+                        point_ids = [
+                            ''
+                            ], 
                         path_part_ids = [
                             ''
                             ], 
@@ -53,6 +56,9 @@ class TestSubtreeChunksResponse(unittest.TestCase):
                 groups = [
                     ksapi.models.subtree_chunk_group.SubtreeChunkGroup(
                         chunk_ids = [
+                            ''
+                            ], 
+                        point_ids = [
                             ''
                             ], 
                         path_part_ids = [

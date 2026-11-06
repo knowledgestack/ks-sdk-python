@@ -5091,7 +5091,7 @@ class SkillsApi:
     ) -> SearchSkillsResponse:
         """Search Skills Handler
 
-        Find skills by the meaning of their routing card (agent discovery).  Dense semantic search over each skill's ``name + description`` card, scoped to the tenant. Fail-closed: hits are re-loaded tenant-scoped from Postgres (the authority — a mis-scoped Qdrant hit can't leak another tenant's skill) and any the caller cannot read are dropped.
+        Find skills by the meaning of their routing card (agent discovery).  Dense semantic search over readable ``/agents/skills`` subtrees, with read permissions applied before ranking. Hits are re-loaded tenant-scoped from Postgres (the authority — a mis-scoped Qdrant hit can't leak another tenant's skill) and any the caller cannot read are dropped.
 
         :param search_skills_request: (required)
         :type search_skills_request: SearchSkillsRequest
@@ -5160,7 +5160,7 @@ class SkillsApi:
     ) -> ApiResponse[SearchSkillsResponse]:
         """Search Skills Handler
 
-        Find skills by the meaning of their routing card (agent discovery).  Dense semantic search over each skill's ``name + description`` card, scoped to the tenant. Fail-closed: hits are re-loaded tenant-scoped from Postgres (the authority — a mis-scoped Qdrant hit can't leak another tenant's skill) and any the caller cannot read are dropped.
+        Find skills by the meaning of their routing card (agent discovery).  Dense semantic search over readable ``/agents/skills`` subtrees, with read permissions applied before ranking. Hits are re-loaded tenant-scoped from Postgres (the authority — a mis-scoped Qdrant hit can't leak another tenant's skill) and any the caller cannot read are dropped.
 
         :param search_skills_request: (required)
         :type search_skills_request: SearchSkillsRequest
@@ -5229,7 +5229,7 @@ class SkillsApi:
     ) -> RESTResponseType:
         """Search Skills Handler
 
-        Find skills by the meaning of their routing card (agent discovery).  Dense semantic search over each skill's ``name + description`` card, scoped to the tenant. Fail-closed: hits are re-loaded tenant-scoped from Postgres (the authority — a mis-scoped Qdrant hit can't leak another tenant's skill) and any the caller cannot read are dropped.
+        Find skills by the meaning of their routing card (agent discovery).  Dense semantic search over readable ``/agents/skills`` subtrees, with read permissions applied before ranking. Hits are re-loaded tenant-scoped from Postgres (the authority — a mis-scoped Qdrant hit can't leak another tenant's skill) and any the caller cannot read are dropped.
 
         :param search_skills_request: (required)
         :type search_skills_request: SearchSkillsRequest

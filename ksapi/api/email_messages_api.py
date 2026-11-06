@@ -1406,7 +1406,7 @@ class EmailMessagesApi:
     ) -> PaginatedResponseEmailMessageResponse:
         """List Email Messages Handler
 
-        List mail under one node, or anywhere under one subtree, oldest first.  The metadata filters are matched exactly, in SQL. A chunk's text never holds the sender or the send time, so no amount of vector search reaches them; bodies and attachments stay with ``POST /v1/chunks/search``, where ``hybrid_profile=sparse`` matches exact tokens and ``dense`` matches meaning. Scope that search to one mailbox or one folder by passing its path part id as ``parent_path_ids``.
+        List mail under one node, or anywhere under one subtree, oldest first.  The metadata filters are matched exactly, in SQL. A chunk's text never holds the sender or the send time, so no amount of vector search reaches them; bodies and attachments stay with ``POST /v1/chunks/search``, where ``hybrid_profile=sparse`` matches exact tokens and ``dense`` matches meaning. Scope that search to one mailbox or one folder by passing its path part id as ``parent_path_ids``.  Nonempty subject or metadata filters limit every role to readable /shared and personal paths. Empty string filters are inactive. Unfiltered browsing and direct ID reads retain ordinary read access.
 
         :param parent_path_part_id: Conversation or folder whose direct messages are listed. Exactly one of this and ``ancestor_path_part_id``.
         :type parent_path_part_id: UUID
@@ -1515,7 +1515,7 @@ class EmailMessagesApi:
     ) -> ApiResponse[PaginatedResponseEmailMessageResponse]:
         """List Email Messages Handler
 
-        List mail under one node, or anywhere under one subtree, oldest first.  The metadata filters are matched exactly, in SQL. A chunk's text never holds the sender or the send time, so no amount of vector search reaches them; bodies and attachments stay with ``POST /v1/chunks/search``, where ``hybrid_profile=sparse`` matches exact tokens and ``dense`` matches meaning. Scope that search to one mailbox or one folder by passing its path part id as ``parent_path_ids``.
+        List mail under one node, or anywhere under one subtree, oldest first.  The metadata filters are matched exactly, in SQL. A chunk's text never holds the sender or the send time, so no amount of vector search reaches them; bodies and attachments stay with ``POST /v1/chunks/search``, where ``hybrid_profile=sparse`` matches exact tokens and ``dense`` matches meaning. Scope that search to one mailbox or one folder by passing its path part id as ``parent_path_ids``.  Nonempty subject or metadata filters limit every role to readable /shared and personal paths. Empty string filters are inactive. Unfiltered browsing and direct ID reads retain ordinary read access.
 
         :param parent_path_part_id: Conversation or folder whose direct messages are listed. Exactly one of this and ``ancestor_path_part_id``.
         :type parent_path_part_id: UUID
@@ -1624,7 +1624,7 @@ class EmailMessagesApi:
     ) -> RESTResponseType:
         """List Email Messages Handler
 
-        List mail under one node, or anywhere under one subtree, oldest first.  The metadata filters are matched exactly, in SQL. A chunk's text never holds the sender or the send time, so no amount of vector search reaches them; bodies and attachments stay with ``POST /v1/chunks/search``, where ``hybrid_profile=sparse`` matches exact tokens and ``dense`` matches meaning. Scope that search to one mailbox or one folder by passing its path part id as ``parent_path_ids``.
+        List mail under one node, or anywhere under one subtree, oldest first.  The metadata filters are matched exactly, in SQL. A chunk's text never holds the sender or the send time, so no amount of vector search reaches them; bodies and attachments stay with ``POST /v1/chunks/search``, where ``hybrid_profile=sparse`` matches exact tokens and ``dense`` matches meaning. Scope that search to one mailbox or one folder by passing its path part id as ``parent_path_ids``.  Nonempty subject or metadata filters limit every role to readable /shared and personal paths. Empty string filters are inactive. Unfiltered browsing and direct ID reads retain ordinary read access.
 
         :param parent_path_part_id: Conversation or folder whose direct messages are listed. Exactly one of this and ``ancestor_path_part_id``.
         :type parent_path_part_id: UUID

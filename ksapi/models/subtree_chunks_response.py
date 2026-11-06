@@ -26,7 +26,7 @@ from pydantic_core import to_jsonable_python
 
 class SubtreeChunksResponse(BaseModel):
     """
-    Response for subtree resolution.
+    Chunk and table point groups; legacy endpoint/model names are retained.
     """ # noqa: E501
     groups: List[SubtreeChunkGroup]
     __properties: ClassVar[List[str]] = ["groups"]

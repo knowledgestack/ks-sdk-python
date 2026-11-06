@@ -1625,7 +1625,7 @@ class FoldersApi:
     ) -> PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  Name, owner, timestamp, tag or approval filters restrict discovery to readable /shared and personal paths for every role, including counts and pagination. Unfiltered browsing retains ordinary read access.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1754,7 +1754,7 @@ class FoldersApi:
     ) -> ApiResponse[PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat]:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  Name, owner, timestamp, tag or approval filters restrict discovery to readable /shared and personal paths for every role, including counts and pagination. Unfiltered browsing retains ordinary read access.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -1883,7 +1883,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """List Folder Contents Handler
 
-        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
+        List all contents (folders and documents) under a folder.  Returns a discriminated union of FolderResponse and DocumentResponse items, distinguished by the `part_type` field (\"FOLDER\" or \"DOCUMENT\").  When with_tags=true, each item includes a tags field with the full tag objects.  ``approval_state`` / ``include_tag_ids`` / ``exclude_tag_ids`` filter the result at the path_part layer: approval state on the item, tags matched by self-or-ancestor inheritance (include = OR, exclude wins).  ``sort_dir``, ``owner_id``, ``name_like``, the created_at/updated_at range filters, and the STATUS/OWNER/TAGS sorts apply to the direct-children listing only (``max_depth=1``); combining them with a deeper traversal is a 400.  Name, owner, timestamp, tag or approval filters restrict discovery to readable /shared and personal paths for every role, including counts and pagination. Unfiltered browsing retains ordinary read access.  This is the preferred way to list folder contents when you need document metadata. For generic path traversal of folders only, use GET /path-parts.
 
         :param folder_id: (required)
         :type folder_id: UUID
@@ -2374,7 +2374,7 @@ class FoldersApi:
     ) -> PaginatedResponseFolderResponse:
         """List Folders Handler
 
-        List child folders of a parent folder.  Returns only direct child folders (depth=1) of the specified parent. If parent_path_part_id is not provided, lists top-level folders.  At root level, the /users folder is hidden and replaced with the current user's personal folder (/users/{user_id}) displayed as \"Private\".
+        List child folders of a parent folder.  Returns only direct child folders (depth=1) of the specified parent. If parent_path_part_id is not provided, lists top-level folders.  At root level, the /users folder is hidden and replaced with the current user's personal folder (/users/{user_id}) displayed as \"Private\".  Owner or timestamp filters restrict discovery to readable /shared and personal paths for every role. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_part_id: Parent PathPart ID (defaults to root)
         :type parent_path_part_id: UUID
@@ -2483,7 +2483,7 @@ class FoldersApi:
     ) -> ApiResponse[PaginatedResponseFolderResponse]:
         """List Folders Handler
 
-        List child folders of a parent folder.  Returns only direct child folders (depth=1) of the specified parent. If parent_path_part_id is not provided, lists top-level folders.  At root level, the /users folder is hidden and replaced with the current user's personal folder (/users/{user_id}) displayed as \"Private\".
+        List child folders of a parent folder.  Returns only direct child folders (depth=1) of the specified parent. If parent_path_part_id is not provided, lists top-level folders.  At root level, the /users folder is hidden and replaced with the current user's personal folder (/users/{user_id}) displayed as \"Private\".  Owner or timestamp filters restrict discovery to readable /shared and personal paths for every role. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_part_id: Parent PathPart ID (defaults to root)
         :type parent_path_part_id: UUID
@@ -2592,7 +2592,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """List Folders Handler
 
-        List child folders of a parent folder.  Returns only direct child folders (depth=1) of the specified parent. If parent_path_part_id is not provided, lists top-level folders.  At root level, the /users folder is hidden and replaced with the current user's personal folder (/users/{user_id}) displayed as \"Private\".
+        List child folders of a parent folder.  Returns only direct child folders (depth=1) of the specified parent. If parent_path_part_id is not provided, lists top-level folders.  At root level, the /users folder is hidden and replaced with the current user's personal folder (/users/{user_id}) displayed as \"Private\".  Owner or timestamp filters restrict discovery to readable /shared and personal paths for every role. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_part_id: Parent PathPart ID (defaults to root)
         :type parent_path_part_id: UUID
@@ -3016,7 +3016,7 @@ class FoldersApi:
     ) -> SearchItemsResponse:
         """Search Items Handler
 
-        Search for folders, documents, connectors, workflows and skills.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
+        Search for folders, documents, connectors and workflows.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions and limited to /shared and the caller's personal folder for every role. An explicit parent scope only narrows those discovery roots.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -3141,7 +3141,7 @@ class FoldersApi:
     ) -> ApiResponse[SearchItemsResponse]:
         """Search Items Handler
 
-        Search for folders, documents, connectors, workflows and skills.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
+        Search for folders, documents, connectors and workflows.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions and limited to /shared and the caller's personal folder for every role. An explicit parent scope only narrows those discovery roots.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str
@@ -3266,7 +3266,7 @@ class FoldersApi:
     ) -> RESTResponseType:
         """Search Items Handler
 
-        Search for folders, documents, connectors, workflows and skills.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
+        Search for folders, documents, connectors and workflows.  Every word of the query must appear in the item's name or in a folder on the way to it; items named after the query rank above items that merely sit in a folder named after it. Matching is case-insensitive and served by trigram indexes, with a typo-tolerant fallback on names when nothing matches strictly. Results are filtered by the current user's path permissions and limited to /shared and the caller's personal folder for every role. An explicit parent scope only narrows those discovery roots.  Owner, document type, timestamp and tag filters narrow both the page and ``counts_by_type``; ``part_type`` narrows the page only, so the chips keep every type's count.
 
         :param name_like: Case-insensitive partial name search (required)
         :type name_like: str

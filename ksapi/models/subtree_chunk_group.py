@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,13 +26,14 @@ from pydantic_core import to_jsonable_python
 
 class SubtreeChunkGroup(BaseModel):
     """
-    A group of chunks sharing identical path_part_ids and tag_ids.  Used by PathPartCRUDService.resolve_subtree_chunks to batch downstream Qdrant set_payload calls.
+    Hierarchy payload shared by chunk, table and skill points in a subtree.  The legacy name and chunk_ids field are retained for existing clients.
     """ # noqa: E501
     chunk_ids: List[UUID]
+    point_ids: Optional[List[UUID]] = Field(default=None, description="Qdrant point IDs: the PDO UUIDs of chunks, tables and skills. Use chunk_ids when absent in a legacy response.")
     path_part_ids: List[UUID]
     tag_ids: List[UUID]
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["chunk_ids", "path_part_ids", "tag_ids"]
+    __properties: ClassVar[List[str]] = ["chunk_ids", "point_ids", "path_part_ids", "tag_ids"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -93,6 +94,7 @@ class SubtreeChunkGroup(BaseModel):
 
         _obj = cls.model_validate({
             "chunk_ids": obj.get("chunk_ids"),
+            "point_ids": obj.get("point_ids"),
             "path_part_ids": obj.get("path_part_ids"),
             "tag_ids": obj.get("tag_ids")
         })

@@ -38,6 +38,9 @@ class TestSubtreeChunkGroup(unittest.TestCase):
                 chunk_ids = [
                     ''
                     ],
+                point_ids = [
+                    ''
+                    ],
                 path_part_ids = [
                     ''
                     ],

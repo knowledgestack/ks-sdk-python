@@ -2024,6 +2024,7 @@ class PathPartsApi:
     async def get_path_part_subtree_chunks(
         self,
         path_part_id: UUID,
+        include_chunks: Annotated[Optional[StrictBool], Field(description="Include document chunks; false resolves table/skill cards only")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2039,10 +2040,12 @@ class PathPartsApi:
     ) -> SubtreeChunksResponse:
         """Get Path Part Subtree Chunks Handler
 
-        Resolve all descendant chunks for a subtree root.  Returns chunks grouped by identical (path_part_ids, tag_ids) tuples.
+        Resolve hierarchy metadata for chunk, table and skill points in this subtree.  Groups include the root itself when it has a point. Use point_ids for Qdrant updates; chunk_ids remains the chunk-only subset for existing clients. Restore repair sets include_chunks=false to avoid rewriting document chunks.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
+        :param include_chunks: Include document chunks; false resolves table/skill cards only
+        :type include_chunks: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2067,6 +2070,7 @@ class PathPartsApi:
 
         _param = self._get_path_part_subtree_chunks_serialize(
             path_part_id=path_part_id,
+            include_chunks=include_chunks,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2093,6 +2097,7 @@ class PathPartsApi:
     async def get_path_part_subtree_chunks_with_http_info(
         self,
         path_part_id: UUID,
+        include_chunks: Annotated[Optional[StrictBool], Field(description="Include document chunks; false resolves table/skill cards only")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2108,10 +2113,12 @@ class PathPartsApi:
     ) -> ApiResponse[SubtreeChunksResponse]:
         """Get Path Part Subtree Chunks Handler
 
-        Resolve all descendant chunks for a subtree root.  Returns chunks grouped by identical (path_part_ids, tag_ids) tuples.
+        Resolve hierarchy metadata for chunk, table and skill points in this subtree.  Groups include the root itself when it has a point. Use point_ids for Qdrant updates; chunk_ids remains the chunk-only subset for existing clients. Restore repair sets include_chunks=false to avoid rewriting document chunks.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
+        :param include_chunks: Include document chunks; false resolves table/skill cards only
+        :type include_chunks: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2136,6 +2143,7 @@ class PathPartsApi:
 
         _param = self._get_path_part_subtree_chunks_serialize(
             path_part_id=path_part_id,
+            include_chunks=include_chunks,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2162,6 +2170,7 @@ class PathPartsApi:
     async def get_path_part_subtree_chunks_without_preload_content(
         self,
         path_part_id: UUID,
+        include_chunks: Annotated[Optional[StrictBool], Field(description="Include document chunks; false resolves table/skill cards only")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2177,10 +2186,12 @@ class PathPartsApi:
     ) -> RESTResponseType:
         """Get Path Part Subtree Chunks Handler
 
-        Resolve all descendant chunks for a subtree root.  Returns chunks grouped by identical (path_part_ids, tag_ids) tuples.
+        Resolve hierarchy metadata for chunk, table and skill points in this subtree.  Groups include the root itself when it has a point. Use point_ids for Qdrant updates; chunk_ids remains the chunk-only subset for existing clients. Restore repair sets include_chunks=false to avoid rewriting document chunks.
 
         :param path_part_id: (required)
         :type path_part_id: UUID
+        :param include_chunks: Include document chunks; false resolves table/skill cards only
+        :type include_chunks: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2205,6 +2216,7 @@ class PathPartsApi:
 
         _param = self._get_path_part_subtree_chunks_serialize(
             path_part_id=path_part_id,
+            include_chunks=include_chunks,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2227,6 +2239,7 @@ class PathPartsApi:
     def get_path_part_subtree_chunks_sync(
         self,
         path_part_id: UUID,
+        include_chunks: Annotated[Optional[StrictBool], Field(description="Include document chunks; false resolves table/skill cards only")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2248,6 +2261,7 @@ class PathPartsApi:
         return run_sync(
             self.get_path_part_subtree_chunks(
                 path_part_id=path_part_id,
+                include_chunks=include_chunks,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2261,6 +2275,7 @@ class PathPartsApi:
     def get_path_part_subtree_chunks_sync_with_http_info(
         self,
         path_part_id: UUID,
+        include_chunks: Annotated[Optional[StrictBool], Field(description="Include document chunks; false resolves table/skill cards only")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2282,6 +2297,7 @@ class PathPartsApi:
         return run_sync(
             self.get_path_part_subtree_chunks_with_http_info(
                 path_part_id=path_part_id,
+                include_chunks=include_chunks,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2295,6 +2311,7 @@ class PathPartsApi:
     def get_path_part_subtree_chunks_sync_without_preload_content(
         self,
         path_part_id: UUID,
+        include_chunks: Annotated[Optional[StrictBool], Field(description="Include document chunks; false resolves table/skill cards only")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2316,6 +2333,7 @@ class PathPartsApi:
         return run_sync(
             self.get_path_part_subtree_chunks_without_preload_content(
                 path_part_id=path_part_id,
+                include_chunks=include_chunks,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2328,6 +2346,7 @@ class PathPartsApi:
     def _get_path_part_subtree_chunks_serialize(
         self,
         path_part_id,
+        include_chunks,
         _request_auth,
         _content_type,
         _headers,
@@ -2352,6 +2371,10 @@ class PathPartsApi:
         if path_part_id is not None:
             _path_params['path_part_id'] = path_part_id
         # process the query parameters
+        if include_chunks is not None:
+            
+            _query_params.append(('include_chunks', include_chunks))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -3360,7 +3383,7 @@ class PathPartsApi:
     ) -> PaginatedResponsePathPartResponse:
         """List Path Parts Handler
 
-        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
+        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.  Timestamp filters restrict discovery to readable /shared and personal paths for every role. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_id: Parent PathPart ID (defaults to root)
         :type parent_path_id: UUID
@@ -3465,7 +3488,7 @@ class PathPartsApi:
     ) -> ApiResponse[PaginatedResponsePathPartResponse]:
         """List Path Parts Handler
 
-        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
+        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.  Timestamp filters restrict discovery to readable /shared and personal paths for every role. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_id: Parent PathPart ID (defaults to root)
         :type parent_path_id: UUID
@@ -3570,7 +3593,7 @@ class PathPartsApi:
     ) -> RESTResponseType:
         """List Path Parts Handler
 
-        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.
+        List path parts under a parent with traversal.  This is a generic endpoint for traversing the path hierarchy. It returns the navigable, container-like nodes of the tree: FOLDER, WORKFLOW_DEFINITION, and WORKFLOW_RUN path parts.  - If parent_path_id is not provided, lists contents of the root folder. - max_depth controls how deep to traverse (1 = direct children only). - sort_order controls the ordering: LOGICAL (linked-list), NAME, UPDATED_AT, CREATED_AT.  For listing folder contents that includes documents with enriched metadata, use GET /folders/{folder_id}/contents instead.  Timestamp filters restrict discovery to readable /shared and personal paths for every role. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_id: Parent PathPart ID (defaults to root)
         :type parent_path_id: UUID

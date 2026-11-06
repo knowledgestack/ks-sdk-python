@@ -38,7 +38,7 @@ class ChunkSearchRequest(BaseModel):
     hybrid_profile: Optional[HybridSearchProfile] = None
     dense_weight: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Optional explicit weight for the dense branch. Must be provided together with sparse_weight and overrides hybrid_profile.")
     sparse_weight: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Optional explicit weight for the sparse branch. Must be provided together with dense_weight and overrides hybrid_profile.")
-    parent_path_ids: Optional[List[UUID]] = Field(default=None, description="Path part IDs to search within (non-CHUNK types). Defaults to tenant's /shared.")
+    parent_path_ids: Optional[List[UUID]] = Field(default=None, description="Path part IDs to search within (non-CHUNK types). Defaults to /shared and the caller's personal folder. Explicit paths narrow this scope and remain subject to read permissions for every role.")
     tag_ids: Optional[List[UUID]] = Field(default=None, description="Filter by tag IDs (AND logic — chunks must have ALL specified tags)")
     chunk_types: Optional[Annotated[List[ChunkType], Field(min_length=1)]] = Field(default=None, description="Filter by chunk types (TEXT, TABLE, IMAGE, HTML, UNKNOWN). Only chunks matching one of the listed types are returned.")
     ingestion_time_after: Optional[datetime] = Field(default=None, description="Only chunks ingested after this timestamp")

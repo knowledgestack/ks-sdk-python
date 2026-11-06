@@ -1196,7 +1196,7 @@ class EmailThreadsApi:
     ) -> PaginatedResponseEmailThreadResponse:
         """List Email Threads Handler
 
-        List a folder's conversations, newest first by default.  Each row carries what a collapsed conversation shows — participants, the message count, a paperclip and the latest mail's opening line — computed for the whole page by one aggregate. A caller reading those per conversation instead is a request per row, which is what makes a fifty-row page slow.
+        List a folder's conversations, newest first by default.  Each row carries what a collapsed conversation shows — participants, the message count, a paperclip and the latest mail's opening line — computed for the whole page by one aggregate. A caller reading those per conversation instead is a request per row, which is what makes a fifty-row page slow.  Nonempty subject or source-folder filters limit every role to readable /shared and personal paths. Empty string filters are inactive. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_part_id: Folder whose conversations are listed (required)
         :type parent_path_part_id: UUID
@@ -1289,7 +1289,7 @@ class EmailThreadsApi:
     ) -> ApiResponse[PaginatedResponseEmailThreadResponse]:
         """List Email Threads Handler
 
-        List a folder's conversations, newest first by default.  Each row carries what a collapsed conversation shows — participants, the message count, a paperclip and the latest mail's opening line — computed for the whole page by one aggregate. A caller reading those per conversation instead is a request per row, which is what makes a fifty-row page slow.
+        List a folder's conversations, newest first by default.  Each row carries what a collapsed conversation shows — participants, the message count, a paperclip and the latest mail's opening line — computed for the whole page by one aggregate. A caller reading those per conversation instead is a request per row, which is what makes a fifty-row page slow.  Nonempty subject or source-folder filters limit every role to readable /shared and personal paths. Empty string filters are inactive. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_part_id: Folder whose conversations are listed (required)
         :type parent_path_part_id: UUID
@@ -1382,7 +1382,7 @@ class EmailThreadsApi:
     ) -> RESTResponseType:
         """List Email Threads Handler
 
-        List a folder's conversations, newest first by default.  Each row carries what a collapsed conversation shows — participants, the message count, a paperclip and the latest mail's opening line — computed for the whole page by one aggregate. A caller reading those per conversation instead is a request per row, which is what makes a fifty-row page slow.
+        List a folder's conversations, newest first by default.  Each row carries what a collapsed conversation shows — participants, the message count, a paperclip and the latest mail's opening line — computed for the whole page by one aggregate. A caller reading those per conversation instead is a request per row, which is what makes a fifty-row page slow.  Nonempty subject or source-folder filters limit every role to readable /shared and personal paths. Empty string filters are inactive. Unfiltered browsing retains ordinary read access.
 
         :param parent_path_part_id: Folder whose conversations are listed (required)
         :type parent_path_part_id: UUID
