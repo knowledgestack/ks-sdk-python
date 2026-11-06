@@ -4677,7 +4677,6 @@ class DocumentsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
         duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
@@ -4689,6 +4688,7 @@ class DocumentsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4710,8 +4710,6 @@ class DocumentsApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to documents owned by this user
         :type owner_id: UUID
         :param document_type: Filter to documents of this type
@@ -4734,6 +4732,8 @@ class DocumentsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4759,7 +4759,6 @@ class DocumentsApi:
         _param = self._list_documents_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             document_type=document_type,
             duration_min_ms=duration_min_ms,
@@ -4771,6 +4770,7 @@ class DocumentsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4798,7 +4798,6 @@ class DocumentsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
         duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
@@ -4810,6 +4809,7 @@ class DocumentsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4831,8 +4831,6 @@ class DocumentsApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to documents owned by this user
         :type owner_id: UUID
         :param document_type: Filter to documents of this type
@@ -4855,6 +4853,8 @@ class DocumentsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4880,7 +4880,6 @@ class DocumentsApi:
         _param = self._list_documents_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             document_type=document_type,
             duration_min_ms=duration_min_ms,
@@ -4892,6 +4891,7 @@ class DocumentsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4919,7 +4919,6 @@ class DocumentsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
         duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
@@ -4931,6 +4930,7 @@ class DocumentsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4952,8 +4952,6 @@ class DocumentsApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to documents owned by this user
         :type owner_id: UUID
         :param document_type: Filter to documents of this type
@@ -4976,6 +4974,8 @@ class DocumentsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5001,7 +5001,6 @@ class DocumentsApi:
         _param = self._list_documents_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             document_type=document_type,
             duration_min_ms=duration_min_ms,
@@ -5013,6 +5012,7 @@ class DocumentsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5036,7 +5036,6 @@ class DocumentsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
         duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
@@ -5048,6 +5047,7 @@ class DocumentsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5070,7 +5070,6 @@ class DocumentsApi:
             self.list_documents(
                 parent_path_part_id=parent_path_part_id,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 document_type=document_type,
                 duration_min_ms=duration_min_ms,
@@ -5082,6 +5081,7 @@ class DocumentsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -5096,7 +5096,6 @@ class DocumentsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
         duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
@@ -5108,6 +5107,7 @@ class DocumentsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5130,7 +5130,6 @@ class DocumentsApi:
             self.list_documents_with_http_info(
                 parent_path_part_id=parent_path_part_id,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 document_type=document_type,
                 duration_min_ms=duration_min_ms,
@@ -5142,6 +5141,7 @@ class DocumentsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -5156,7 +5156,6 @@ class DocumentsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to documents owned by this user")] = None,
         document_type: Annotated[Optional[DocumentType], Field(description="Filter to documents of this type")] = None,
         duration_min_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Only media whose active version is at least this long (milliseconds). Non-media documents have no duration and are excluded.")] = None,
@@ -5168,6 +5167,7 @@ class DocumentsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5190,7 +5190,6 @@ class DocumentsApi:
             self.list_documents_without_preload_content(
                 parent_path_part_id=parent_path_part_id,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 document_type=document_type,
                 duration_min_ms=duration_min_ms,
@@ -5202,6 +5201,7 @@ class DocumentsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -5215,7 +5215,6 @@ class DocumentsApi:
         self,
         parent_path_part_id,
         sort_order,
-        sort_dir,
         owner_id,
         document_type,
         duration_min_ms,
@@ -5227,6 +5226,7 @@ class DocumentsApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -5256,10 +5256,6 @@ class DocumentsApi:
         if sort_order is not None:
             
             _query_params.append(('sort_order', sort_order.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if owner_id is not None:
             
@@ -5340,6 +5336,10 @@ class DocumentsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

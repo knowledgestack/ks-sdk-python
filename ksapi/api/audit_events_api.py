@@ -46,11 +46,11 @@ class AuditEventsApi:
     async def export_audit_events(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72,14 +72,14 @@ class AuditEventsApi:
         :type actor_user_id: UUID
         :param kind: Filter to one event kind
         :type kind: str
-        :param since: Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.
-        :type since: datetime
-        :param until: Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.
-        :type until: datetime
         :param subject_path_part_id: Scope to one document/folder/run subject
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -105,10 +105,10 @@ class AuditEventsApi:
         _param = self._export_audit_events_serialize(
             actor_user_id=actor_user_id,
             kind=kind,
-            since=since,
-            until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -135,11 +135,11 @@ class AuditEventsApi:
     async def export_audit_events_with_http_info(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -161,14 +161,14 @@ class AuditEventsApi:
         :type actor_user_id: UUID
         :param kind: Filter to one event kind
         :type kind: str
-        :param since: Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.
-        :type since: datetime
-        :param until: Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.
-        :type until: datetime
         :param subject_path_part_id: Scope to one document/folder/run subject
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -194,10 +194,10 @@ class AuditEventsApi:
         _param = self._export_audit_events_serialize(
             actor_user_id=actor_user_id,
             kind=kind,
-            since=since,
-            until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -224,11 +224,11 @@ class AuditEventsApi:
     async def export_audit_events_without_preload_content(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -250,14 +250,14 @@ class AuditEventsApi:
         :type actor_user_id: UUID
         :param kind: Filter to one event kind
         :type kind: str
-        :param since: Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.
-        :type since: datetime
-        :param until: Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.
-        :type until: datetime
         :param subject_path_part_id: Scope to one document/folder/run subject
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -283,10 +283,10 @@ class AuditEventsApi:
         _param = self._export_audit_events_serialize(
             actor_user_id=actor_user_id,
             kind=kind,
-            since=since,
-            until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -309,11 +309,11 @@ class AuditEventsApi:
     def export_audit_events_sync(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -336,10 +336,10 @@ class AuditEventsApi:
             self.export_audit_events(
                 actor_user_id=actor_user_id,
                 kind=kind,
-                since=since,
-                until=until,
                 subject_path_part_id=subject_path_part_id,
                 recursive=recursive,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -353,11 +353,11 @@ class AuditEventsApi:
     def export_audit_events_sync_with_http_info(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -380,10 +380,10 @@ class AuditEventsApi:
             self.export_audit_events_with_http_info(
                 actor_user_id=actor_user_id,
                 kind=kind,
-                since=since,
-                until=until,
                 subject_path_part_id=subject_path_part_id,
                 recursive=recursive,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -397,11 +397,11 @@ class AuditEventsApi:
     def export_audit_events_sync_without_preload_content(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit to export the entire audit log. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -424,10 +424,10 @@ class AuditEventsApi:
             self.export_audit_events_without_preload_content(
                 actor_user_id=actor_user_id,
                 kind=kind,
-                since=since,
-                until=until,
                 subject_path_part_id=subject_path_part_id,
                 recursive=recursive,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -441,10 +441,10 @@ class AuditEventsApi:
         self,
         actor_user_id,
         kind,
-        since,
-        until,
         subject_path_part_id,
         recursive,
+        since,
+        until,
         _request_auth,
         _content_type,
         _headers,
@@ -475,6 +475,14 @@ class AuditEventsApi:
             
             _query_params.append(('kind', kind))
             
+        if subject_path_part_id is not None:
+            
+            _query_params.append(('subject_path_part_id', subject_path_part_id))
+            
+        if recursive is not None:
+            
+            _query_params.append(('recursive', recursive))
+            
         if since is not None:
             if isinstance(since, datetime):
                 _query_params.append(
@@ -500,14 +508,6 @@ class AuditEventsApi:
                 )
             else:
                 _query_params.append(('until', until))
-            
-        if subject_path_part_id is not None:
-            
-            _query_params.append(('subject_path_part_id', subject_path_part_id))
-            
-        if recursive is not None:
-            
-            _query_params.append(('recursive', recursive))
             
         # process the header parameters
         # process the form parameters
@@ -552,14 +552,14 @@ class AuditEventsApi:
     async def list_audit_events(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -581,20 +581,20 @@ class AuditEventsApi:
         :type actor_user_id: UUID
         :param kind: Filter to one event kind
         :type kind: str
-        :param since: Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.
-        :type since: datetime
-        :param until: Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.
-        :type until: datetime
         :param subject_path_part_id: Scope to one document/folder/run subject
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
-        :param sort_dir: Sort by timestamp (default: DESC, newest first)
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -620,13 +620,13 @@ class AuditEventsApi:
         _param = self._list_audit_events_serialize(
             actor_user_id=actor_user_id,
             kind=kind,
-            since=since,
-            until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -653,14 +653,14 @@ class AuditEventsApi:
     async def list_audit_events_with_http_info(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -682,20 +682,20 @@ class AuditEventsApi:
         :type actor_user_id: UUID
         :param kind: Filter to one event kind
         :type kind: str
-        :param since: Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.
-        :type since: datetime
-        :param until: Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.
-        :type until: datetime
         :param subject_path_part_id: Scope to one document/folder/run subject
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
-        :param sort_dir: Sort by timestamp (default: DESC, newest first)
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -721,13 +721,13 @@ class AuditEventsApi:
         _param = self._list_audit_events_serialize(
             actor_user_id=actor_user_id,
             kind=kind,
-            since=since,
-            until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -754,14 +754,14 @@ class AuditEventsApi:
     async def list_audit_events_without_preload_content(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -783,20 +783,20 @@ class AuditEventsApi:
         :type actor_user_id: UUID
         :param kind: Filter to one event kind
         :type kind: str
-        :param since: Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.
-        :type since: datetime
-        :param until: Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.
-        :type until: datetime
         :param subject_path_part_id: Scope to one document/folder/run subject
         :type subject_path_part_id: UUID
         :param recursive: Include the subject's descendants (needs subject)
         :type recursive: bool
-        :param sort_dir: Sort by timestamp (default: DESC, newest first)
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -822,13 +822,13 @@ class AuditEventsApi:
         _param = self._list_audit_events_serialize(
             actor_user_id=actor_user_id,
             kind=kind,
-            since=since,
-            until=until,
             subject_path_part_id=subject_path_part_id,
             recursive=recursive,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -851,14 +851,14 @@ class AuditEventsApi:
     def list_audit_events_sync(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -881,13 +881,13 @@ class AuditEventsApi:
             self.list_audit_events(
                 actor_user_id=actor_user_id,
                 kind=kind,
-                since=since,
-                until=until,
                 subject_path_part_id=subject_path_part_id,
                 recursive=recursive,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -901,14 +901,14 @@ class AuditEventsApi:
     def list_audit_events_sync_with_http_info(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -931,13 +931,13 @@ class AuditEventsApi:
             self.list_audit_events_with_http_info(
                 actor_user_id=actor_user_id,
                 kind=kind,
-                since=since,
-                until=until,
                 subject_path_part_id=subject_path_part_id,
                 recursive=recursive,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -951,14 +951,14 @@ class AuditEventsApi:
     def list_audit_events_sync_without_preload_content(
         self,
         actor_user_id: Annotated[Optional[UUID], Field(description="Filter to one actor")] = None,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to one event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp (from). Omit for no lower bound. Must not be in the future or after `until`.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp (to). Omit for no upper bound. Must not be in the future.")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to one event kind")] = None,
         subject_path_part_id: Annotated[Optional[UUID], Field(description="Scope to one document/folder/run subject")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include the subject's descendants (needs subject)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort by timestamp (default: DESC, newest first)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -981,13 +981,13 @@ class AuditEventsApi:
             self.list_audit_events_without_preload_content(
                 actor_user_id=actor_user_id,
                 kind=kind,
-                since=since,
-                until=until,
                 subject_path_part_id=subject_path_part_id,
                 recursive=recursive,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1001,13 +1001,13 @@ class AuditEventsApi:
         self,
         actor_user_id,
         kind,
-        since,
-        until,
         subject_path_part_id,
         recursive,
-        sort_dir,
         limit,
         offset,
+        sort_dir,
+        since,
+        until,
         _request_auth,
         _content_type,
         _headers,
@@ -1038,6 +1038,26 @@ class AuditEventsApi:
             
             _query_params.append(('kind', kind))
             
+        if subject_path_part_id is not None:
+            
+            _query_params.append(('subject_path_part_id', subject_path_part_id))
+            
+        if recursive is not None:
+            
+            _query_params.append(('recursive', recursive))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
         if since is not None:
             if isinstance(since, datetime):
                 _query_params.append(
@@ -1063,26 +1083,6 @@ class AuditEventsApi:
                 )
             else:
                 _query_params.append(('until', until))
-            
-        if subject_path_part_id is not None:
-            
-            _query_params.append(('subject_path_part_id', subject_path_part_id))
-            
-        if recursive is not None:
-            
-            _query_params.append(('recursive', recursive))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
-            
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
-        if offset is not None:
-            
-            _query_params.append(('offset', offset))
             
         # process the header parameters
         # process the form parameters

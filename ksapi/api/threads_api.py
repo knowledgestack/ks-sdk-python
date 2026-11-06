@@ -1176,7 +1176,6 @@ class ThreadsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -1184,6 +1183,7 @@ class ThreadsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1205,8 +1205,6 @@ class ThreadsApi:
         :type parent_path_part_id: UUID
         :param sort_by: Field to sort threads by (default: CREATED_AT)
         :type sort_by: ThreadOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param title_like: Case-insensitive substring filter on title
         :type title_like: str
         :param limit: Number of items per page
@@ -1221,6 +1219,8 @@ class ThreadsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1246,7 +1246,6 @@ class ThreadsApi:
         _param = self._list_threads_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             title_like=title_like,
             limit=limit,
             offset=offset,
@@ -1254,6 +1253,7 @@ class ThreadsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1281,7 +1281,6 @@ class ThreadsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -1289,6 +1288,7 @@ class ThreadsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1310,8 +1310,6 @@ class ThreadsApi:
         :type parent_path_part_id: UUID
         :param sort_by: Field to sort threads by (default: CREATED_AT)
         :type sort_by: ThreadOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param title_like: Case-insensitive substring filter on title
         :type title_like: str
         :param limit: Number of items per page
@@ -1326,6 +1324,8 @@ class ThreadsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1351,7 +1351,6 @@ class ThreadsApi:
         _param = self._list_threads_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             title_like=title_like,
             limit=limit,
             offset=offset,
@@ -1359,6 +1358,7 @@ class ThreadsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1386,7 +1386,6 @@ class ThreadsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -1394,6 +1393,7 @@ class ThreadsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1415,8 +1415,6 @@ class ThreadsApi:
         :type parent_path_part_id: UUID
         :param sort_by: Field to sort threads by (default: CREATED_AT)
         :type sort_by: ThreadOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param title_like: Case-insensitive substring filter on title
         :type title_like: str
         :param limit: Number of items per page
@@ -1431,6 +1429,8 @@ class ThreadsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1456,7 +1456,6 @@ class ThreadsApi:
         _param = self._list_threads_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             title_like=title_like,
             limit=limit,
             offset=offset,
@@ -1464,6 +1463,7 @@ class ThreadsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1487,7 +1487,6 @@ class ThreadsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -1495,6 +1494,7 @@ class ThreadsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1517,7 +1517,6 @@ class ThreadsApi:
             self.list_threads(
                 parent_path_part_id=parent_path_part_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 title_like=title_like,
                 limit=limit,
                 offset=offset,
@@ -1525,6 +1524,7 @@ class ThreadsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1539,7 +1539,6 @@ class ThreadsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -1547,6 +1546,7 @@ class ThreadsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1569,7 +1569,6 @@ class ThreadsApi:
             self.list_threads_with_http_info(
                 parent_path_part_id=parent_path_part_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 title_like=title_like,
                 limit=limit,
                 offset=offset,
@@ -1577,6 +1576,7 @@ class ThreadsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1591,7 +1591,6 @@ class ThreadsApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID. Omit to list user's conversation threads.")] = None,
         sort_by: Annotated[Optional[ThreadOrder], Field(description="Field to sort threads by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         title_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on title")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -1599,6 +1598,7 @@ class ThreadsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1621,7 +1621,6 @@ class ThreadsApi:
             self.list_threads_without_preload_content(
                 parent_path_part_id=parent_path_part_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 title_like=title_like,
                 limit=limit,
                 offset=offset,
@@ -1629,6 +1628,7 @@ class ThreadsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1642,7 +1642,6 @@ class ThreadsApi:
         self,
         parent_path_part_id,
         sort_by,
-        sort_dir,
         title_like,
         limit,
         offset,
@@ -1650,6 +1649,7 @@ class ThreadsApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -1679,10 +1679,6 @@ class ThreadsApi:
         if sort_by is not None:
             
             _query_params.append(('sort_by', sort_by.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if title_like is not None:
             
@@ -1747,6 +1743,10 @@ class ThreadsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

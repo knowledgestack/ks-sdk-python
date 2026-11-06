@@ -1597,7 +1597,6 @@ class FoldersApi:
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
         name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
@@ -1610,6 +1609,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1633,8 +1633,6 @@ class FoldersApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: ContentsSortOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to items owned by this user
         :type owner_id: UUID
         :param name_like: Case-insensitive substring filter on the item name
@@ -1659,6 +1657,8 @@ class FoldersApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1685,7 +1685,6 @@ class FoldersApi:
             folder_id=folder_id,
             max_depth=max_depth,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             name_like=name_like,
             with_tags=with_tags,
@@ -1698,6 +1697,7 @@ class FoldersApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1726,7 +1726,6 @@ class FoldersApi:
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
         name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
@@ -1739,6 +1738,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1762,8 +1762,6 @@ class FoldersApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: ContentsSortOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to items owned by this user
         :type owner_id: UUID
         :param name_like: Case-insensitive substring filter on the item name
@@ -1788,6 +1786,8 @@ class FoldersApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1814,7 +1814,6 @@ class FoldersApi:
             folder_id=folder_id,
             max_depth=max_depth,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             name_like=name_like,
             with_tags=with_tags,
@@ -1827,6 +1826,7 @@ class FoldersApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1855,7 +1855,6 @@ class FoldersApi:
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
         name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
@@ -1868,6 +1867,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1891,8 +1891,6 @@ class FoldersApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: ContentsSortOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to items owned by this user
         :type owner_id: UUID
         :param name_like: Case-insensitive substring filter on the item name
@@ -1917,6 +1915,8 @@ class FoldersApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1943,7 +1943,6 @@ class FoldersApi:
             folder_id=folder_id,
             max_depth=max_depth,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             name_like=name_like,
             with_tags=with_tags,
@@ -1956,6 +1955,7 @@ class FoldersApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1980,7 +1980,6 @@ class FoldersApi:
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
         name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
@@ -1993,6 +1992,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2016,7 +2016,6 @@ class FoldersApi:
                 folder_id=folder_id,
                 max_depth=max_depth,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 name_like=name_like,
                 with_tags=with_tags,
@@ -2029,6 +2028,7 @@ class FoldersApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2044,7 +2044,6 @@ class FoldersApi:
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
         name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
@@ -2057,6 +2056,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2080,7 +2080,6 @@ class FoldersApi:
                 folder_id=folder_id,
                 max_depth=max_depth,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 name_like=name_like,
                 with_tags=with_tags,
@@ -2093,6 +2092,7 @@ class FoldersApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2108,7 +2108,6 @@ class FoldersApi:
         folder_id: UUID,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1=direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[ContentsSortOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned by this user")] = None,
         name_like: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Case-insensitive substring filter on the item name")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tag IDs for each item (default: false)")] = None,
@@ -2121,6 +2120,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2144,7 +2144,6 @@ class FoldersApi:
                 folder_id=folder_id,
                 max_depth=max_depth,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 name_like=name_like,
                 with_tags=with_tags,
@@ -2157,6 +2156,7 @@ class FoldersApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2171,7 +2171,6 @@ class FoldersApi:
         folder_id,
         max_depth,
         sort_order,
-        sort_dir,
         owner_id,
         name_like,
         with_tags,
@@ -2184,6 +2183,7 @@ class FoldersApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -2218,10 +2218,6 @@ class FoldersApi:
         if sort_order is not None:
             
             _query_params.append(('sort_order', sort_order.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if owner_id is not None:
             
@@ -2307,6 +2303,10 @@ class FoldersApi:
             else:
                 _query_params.append(('updated_before', updated_before))
             
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2350,7 +2350,6 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2359,6 +2358,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2380,8 +2380,6 @@ class FoldersApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to folders owned by this user
         :type owner_id: UUID
         :param with_tags: Include tags in the response (default: false)
@@ -2398,6 +2396,8 @@ class FoldersApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2423,7 +2423,6 @@ class FoldersApi:
         _param = self._list_folders_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             with_tags=with_tags,
             limit=limit,
@@ -2432,6 +2431,7 @@ class FoldersApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2459,7 +2459,6 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2468,6 +2467,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2489,8 +2489,6 @@ class FoldersApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to folders owned by this user
         :type owner_id: UUID
         :param with_tags: Include tags in the response (default: false)
@@ -2507,6 +2505,8 @@ class FoldersApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2532,7 +2532,6 @@ class FoldersApi:
         _param = self._list_folders_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             with_tags=with_tags,
             limit=limit,
@@ -2541,6 +2540,7 @@ class FoldersApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2568,7 +2568,6 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2577,6 +2576,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2598,8 +2598,6 @@ class FoldersApi:
         :type parent_path_part_id: UUID
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param owner_id: Filter to folders owned by this user
         :type owner_id: UUID
         :param with_tags: Include tags in the response (default: false)
@@ -2616,6 +2614,8 @@ class FoldersApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2641,7 +2641,6 @@ class FoldersApi:
         _param = self._list_folders_serialize(
             parent_path_part_id=parent_path_part_id,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             owner_id=owner_id,
             with_tags=with_tags,
             limit=limit,
@@ -2650,6 +2649,7 @@ class FoldersApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2673,7 +2673,6 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2682,6 +2681,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2704,7 +2704,6 @@ class FoldersApi:
             self.list_folders(
                 parent_path_part_id=parent_path_part_id,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 with_tags=with_tags,
                 limit=limit,
@@ -2713,6 +2712,7 @@ class FoldersApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2727,7 +2727,6 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2736,6 +2735,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2758,7 +2758,6 @@ class FoldersApi:
             self.list_folders_with_http_info(
                 parent_path_part_id=parent_path_part_id,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 with_tags=with_tags,
                 limit=limit,
@@ -2767,6 +2766,7 @@ class FoldersApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2781,7 +2781,6 @@ class FoldersApi:
         self,
         parent_path_part_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to folders owned by this user")] = None,
         with_tags: Annotated[Optional[StrictBool], Field(description="Include tags in the response (default: false)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2790,6 +2789,7 @@ class FoldersApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2812,7 +2812,6 @@ class FoldersApi:
             self.list_folders_without_preload_content(
                 parent_path_part_id=parent_path_part_id,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 owner_id=owner_id,
                 with_tags=with_tags,
                 limit=limit,
@@ -2821,6 +2820,7 @@ class FoldersApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2834,7 +2834,6 @@ class FoldersApi:
         self,
         parent_path_part_id,
         sort_order,
-        sort_dir,
         owner_id,
         with_tags,
         limit,
@@ -2843,6 +2842,7 @@ class FoldersApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -2872,10 +2872,6 @@ class FoldersApi:
         if sort_order is not None:
             
             _query_params.append(('sort_order', sort_order.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if owner_id is not None:
             
@@ -2944,6 +2940,10 @@ class FoldersApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

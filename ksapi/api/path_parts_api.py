@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from datetime import datetime
-from pydantic import Field, StrictBool, StrictStr
+from pydantic import Field, StrictBool
 from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -2787,13 +2787,13 @@ class PathPartsApi:
     async def list_path_part_events(
         self,
         path_part_id: UUID,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to a single event kind")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2815,10 +2815,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param kind: Filter to a single event kind
         :type kind: str
-        :param since: Only events at or after this timestamp
-        :type since: datetime
-        :param until: Only events strictly before this timestamp
-        :type until: datetime
         :param recursive: Include events from descendant path_parts as well as the subject itself
         :type recursive: bool
         :param include_churn: Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.
@@ -2827,6 +2823,10 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2852,12 +2852,12 @@ class PathPartsApi:
         _param = self._list_path_part_events_serialize(
             path_part_id=path_part_id,
             kind=kind,
-            since=since,
-            until=until,
             recursive=recursive,
             include_churn=include_churn,
             limit=limit,
             offset=offset,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2884,13 +2884,13 @@ class PathPartsApi:
     async def list_path_part_events_with_http_info(
         self,
         path_part_id: UUID,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to a single event kind")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2912,10 +2912,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param kind: Filter to a single event kind
         :type kind: str
-        :param since: Only events at or after this timestamp
-        :type since: datetime
-        :param until: Only events strictly before this timestamp
-        :type until: datetime
         :param recursive: Include events from descendant path_parts as well as the subject itself
         :type recursive: bool
         :param include_churn: Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.
@@ -2924,6 +2920,10 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2949,12 +2949,12 @@ class PathPartsApi:
         _param = self._list_path_part_events_serialize(
             path_part_id=path_part_id,
             kind=kind,
-            since=since,
-            until=until,
             recursive=recursive,
             include_churn=include_churn,
             limit=limit,
             offset=offset,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2981,13 +2981,13 @@ class PathPartsApi:
     async def list_path_part_events_without_preload_content(
         self,
         path_part_id: UUID,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to a single event kind")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3009,10 +3009,6 @@ class PathPartsApi:
         :type path_part_id: UUID
         :param kind: Filter to a single event kind
         :type kind: str
-        :param since: Only events at or after this timestamp
-        :type since: datetime
-        :param until: Only events strictly before this timestamp
-        :type until: datetime
         :param recursive: Include events from descendant path_parts as well as the subject itself
         :type recursive: bool
         :param include_churn: Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.
@@ -3021,6 +3017,10 @@ class PathPartsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3046,12 +3046,12 @@ class PathPartsApi:
         _param = self._list_path_part_events_serialize(
             path_part_id=path_part_id,
             kind=kind,
-            since=since,
-            until=until,
             recursive=recursive,
             include_churn=include_churn,
             limit=limit,
             offset=offset,
+            since=since,
+            until=until,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3074,13 +3074,13 @@ class PathPartsApi:
     def list_path_part_events_sync(
         self,
         path_part_id: UUID,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to a single event kind")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3103,12 +3103,12 @@ class PathPartsApi:
             self.list_path_part_events(
                 path_part_id=path_part_id,
                 kind=kind,
-                since=since,
-                until=until,
                 recursive=recursive,
                 include_churn=include_churn,
                 limit=limit,
                 offset=offset,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3122,13 +3122,13 @@ class PathPartsApi:
     def list_path_part_events_sync_with_http_info(
         self,
         path_part_id: UUID,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to a single event kind")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3151,12 +3151,12 @@ class PathPartsApi:
             self.list_path_part_events_with_http_info(
                 path_part_id=path_part_id,
                 kind=kind,
-                since=since,
-                until=until,
                 recursive=recursive,
                 include_churn=include_churn,
                 limit=limit,
                 offset=offset,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3170,13 +3170,13 @@ class PathPartsApi:
     def list_path_part_events_sync_without_preload_content(
         self,
         path_part_id: UUID,
-        kind: Annotated[Optional[StrictStr], Field(description="Filter to a single event kind")] = None,
-        since: Annotated[Optional[datetime], Field(description="Only events at or after this timestamp")] = None,
-        until: Annotated[Optional[datetime], Field(description="Only events strictly before this timestamp")] = None,
+        kind: Annotated[Optional[Annotated[str, Field(min_length=1, strict=True, max_length=255)]], Field(description="Filter to a single event kind")] = None,
         recursive: Annotated[Optional[StrictBool], Field(description="Include events from descendant path_parts as well as the subject itself")] = None,
         include_churn: Annotated[Optional[StrictBool], Field(description="Include intra-document churn hidden by default (raw chunk/section edits, version-metadata updates, and the v0 version-created row). Off by default so one upload / one logical edit shows as one event; ignored when an explicit kind is set.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3199,12 +3199,12 @@ class PathPartsApi:
             self.list_path_part_events_without_preload_content(
                 path_part_id=path_part_id,
                 kind=kind,
-                since=since,
-                until=until,
                 recursive=recursive,
                 include_churn=include_churn,
                 limit=limit,
                 offset=offset,
+                since=since,
+                until=until,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3218,12 +3218,12 @@ class PathPartsApi:
         self,
         path_part_id,
         kind,
-        since,
-        until,
         recursive,
         include_churn,
         limit,
         offset,
+        since,
+        until,
         _request_auth,
         _content_type,
         _headers,
@@ -3252,6 +3252,22 @@ class PathPartsApi:
             
             _query_params.append(('kind', kind))
             
+        if recursive is not None:
+            
+            _query_params.append(('recursive', recursive))
+            
+        if include_churn is not None:
+            
+            _query_params.append(('include_churn', include_churn))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
         if since is not None:
             if isinstance(since, datetime):
                 _query_params.append(
@@ -3277,22 +3293,6 @@ class PathPartsApi:
                 )
             else:
                 _query_params.append(('until', until))
-            
-        if recursive is not None:
-            
-            _query_params.append(('recursive', recursive))
-            
-        if include_churn is not None:
-            
-            _query_params.append(('include_churn', include_churn))
-            
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
-        if offset is not None:
-            
-            _query_params.append(('offset', offset))
             
         # process the header parameters
         # process the form parameters
@@ -3338,13 +3338,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3368,8 +3368,6 @@ class PathPartsApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -3382,6 +3380,8 @@ class PathPartsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3408,13 +3408,13 @@ class PathPartsApi:
             parent_path_id=parent_path_id,
             max_depth=max_depth,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3443,13 +3443,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3473,8 +3473,6 @@ class PathPartsApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -3487,6 +3485,8 @@ class PathPartsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3513,13 +3513,13 @@ class PathPartsApi:
             parent_path_id=parent_path_id,
             max_depth=max_depth,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3548,13 +3548,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3578,8 +3578,6 @@ class PathPartsApi:
         :type max_depth: int
         :param sort_order: Sort order for results (default: LOGICAL)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -3592,6 +3590,8 @@ class PathPartsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3618,13 +3618,13 @@ class PathPartsApi:
             parent_path_id=parent_path_id,
             max_depth=max_depth,
             sort_order=sort_order,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3649,13 +3649,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3679,13 +3679,13 @@ class PathPartsApi:
                 parent_path_id=parent_path_id,
                 max_depth=max_depth,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3701,13 +3701,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3731,13 +3731,13 @@ class PathPartsApi:
                 parent_path_id=parent_path_id,
                 max_depth=max_depth,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3753,13 +3753,13 @@ class PathPartsApi:
         parent_path_id: Annotated[Optional[UUID], Field(description="Parent PathPart ID (defaults to root)")] = None,
         max_depth: Annotated[Optional[Annotated[int, Field(strict=True, ge=1)]], Field(description="Maximum depth to traverse (1 = direct children, default: 1)")] = None,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order for results (default: LOGICAL)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3783,13 +3783,13 @@ class PathPartsApi:
                 parent_path_id=parent_path_id,
                 max_depth=max_depth,
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3804,13 +3804,13 @@ class PathPartsApi:
         parent_path_id,
         max_depth,
         sort_order,
-        sort_dir,
         limit,
         offset,
         created_after,
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -3844,10 +3844,6 @@ class PathPartsApi:
         if sort_order is not None:
             
             _query_params.append(('sort_order', sort_order.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if limit is not None:
             
@@ -3908,6 +3904,10 @@ class PathPartsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

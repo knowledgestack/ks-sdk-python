@@ -3603,7 +3603,6 @@ class DocumentVersionsApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3611,6 +3610,7 @@ class DocumentVersionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3632,8 +3632,6 @@ class DocumentVersionsApi:
         :type document_id: UUID
         :param sort_by: Field to sort versions by (default: VERSION)
         :type sort_by: DocumentVersionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param uploader_user_id: Filter to versions created by this user
         :type uploader_user_id: UUID
         :param limit: Number of items per page
@@ -3648,6 +3646,8 @@ class DocumentVersionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3673,7 +3673,6 @@ class DocumentVersionsApi:
         _param = self._list_document_versions_serialize(
             document_id=document_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             uploader_user_id=uploader_user_id,
             limit=limit,
             offset=offset,
@@ -3681,6 +3680,7 @@ class DocumentVersionsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3708,7 +3708,6 @@ class DocumentVersionsApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3716,6 +3715,7 @@ class DocumentVersionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3737,8 +3737,6 @@ class DocumentVersionsApi:
         :type document_id: UUID
         :param sort_by: Field to sort versions by (default: VERSION)
         :type sort_by: DocumentVersionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param uploader_user_id: Filter to versions created by this user
         :type uploader_user_id: UUID
         :param limit: Number of items per page
@@ -3753,6 +3751,8 @@ class DocumentVersionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3778,7 +3778,6 @@ class DocumentVersionsApi:
         _param = self._list_document_versions_serialize(
             document_id=document_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             uploader_user_id=uploader_user_id,
             limit=limit,
             offset=offset,
@@ -3786,6 +3785,7 @@ class DocumentVersionsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3813,7 +3813,6 @@ class DocumentVersionsApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3821,6 +3820,7 @@ class DocumentVersionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3842,8 +3842,6 @@ class DocumentVersionsApi:
         :type document_id: UUID
         :param sort_by: Field to sort versions by (default: VERSION)
         :type sort_by: DocumentVersionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param uploader_user_id: Filter to versions created by this user
         :type uploader_user_id: UUID
         :param limit: Number of items per page
@@ -3858,6 +3856,8 @@ class DocumentVersionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3883,7 +3883,6 @@ class DocumentVersionsApi:
         _param = self._list_document_versions_serialize(
             document_id=document_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             uploader_user_id=uploader_user_id,
             limit=limit,
             offset=offset,
@@ -3891,6 +3890,7 @@ class DocumentVersionsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3914,7 +3914,6 @@ class DocumentVersionsApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3922,6 +3921,7 @@ class DocumentVersionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3944,7 +3944,6 @@ class DocumentVersionsApi:
             self.list_document_versions(
                 document_id=document_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 uploader_user_id=uploader_user_id,
                 limit=limit,
                 offset=offset,
@@ -3952,6 +3951,7 @@ class DocumentVersionsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3966,7 +3966,6 @@ class DocumentVersionsApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -3974,6 +3973,7 @@ class DocumentVersionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3996,7 +3996,6 @@ class DocumentVersionsApi:
             self.list_document_versions_with_http_info(
                 document_id=document_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 uploader_user_id=uploader_user_id,
                 limit=limit,
                 offset=offset,
@@ -4004,6 +4003,7 @@ class DocumentVersionsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -4018,7 +4018,6 @@ class DocumentVersionsApi:
         self,
         document_id: Annotated[UUID, Field(description="Document ID to list versions for")],
         sort_by: Annotated[Optional[DocumentVersionOrder], Field(description="Field to sort versions by (default: VERSION)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         uploader_user_id: Annotated[Optional[UUID], Field(description="Filter to versions created by this user")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
@@ -4026,6 +4025,7 @@ class DocumentVersionsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4048,7 +4048,6 @@ class DocumentVersionsApi:
             self.list_document_versions_without_preload_content(
                 document_id=document_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 uploader_user_id=uploader_user_id,
                 limit=limit,
                 offset=offset,
@@ -4056,6 +4055,7 @@ class DocumentVersionsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -4069,7 +4069,6 @@ class DocumentVersionsApi:
         self,
         document_id,
         sort_by,
-        sort_dir,
         uploader_user_id,
         limit,
         offset,
@@ -4077,6 +4076,7 @@ class DocumentVersionsApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -4106,10 +4106,6 @@ class DocumentVersionsApi:
         if sort_by is not None:
             
             _query_params.append(('sort_by', sort_by.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if uploader_user_id is not None:
             
@@ -4174,6 +4170,10 @@ class DocumentVersionsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

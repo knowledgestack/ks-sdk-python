@@ -51,8 +51,8 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74,9 +74,9 @@ class AdminWorkflowsApi:
         :type timezone: str
         :param definition_id: Scope to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -132,8 +132,8 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -155,9 +155,9 @@ class AdminWorkflowsApi:
         :type timezone: str
         :param definition_id: Scope to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -213,8 +213,8 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -236,9 +236,9 @@ class AdminWorkflowsApi:
         :type timezone: str
         :param definition_id: Scope to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -290,8 +290,8 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -330,8 +330,8 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -370,8 +370,8 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -509,8 +509,8 @@ class AdminWorkflowsApi:
     async def get_admin_workflow_leaderboard(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -530,9 +530,9 @@ class AdminWorkflowsApi:
 
         :param limit: Top-N per leaderboard.
         :type limit: int
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -586,8 +586,8 @@ class AdminWorkflowsApi:
     async def get_admin_workflow_leaderboard_with_http_info(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -607,9 +607,9 @@ class AdminWorkflowsApi:
 
         :param limit: Top-N per leaderboard.
         :type limit: int
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -663,8 +663,8 @@ class AdminWorkflowsApi:
     async def get_admin_workflow_leaderboard_without_preload_content(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -684,9 +684,9 @@ class AdminWorkflowsApi:
 
         :param limit: Top-N per leaderboard.
         :type limit: int
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -736,8 +736,8 @@ class AdminWorkflowsApi:
     def get_admin_workflow_leaderboard_sync(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -774,8 +774,8 @@ class AdminWorkflowsApi:
     def get_admin_workflow_leaderboard_sync_with_http_info(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -812,8 +812,8 @@ class AdminWorkflowsApi:
     def get_admin_workflow_leaderboard_sync_without_preload_content(
         self,
         limit: Annotated[Optional[Annotated[int, Field(le=50, strict=True, ge=1)]], Field(description="Top-N per leaderboard.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -944,8 +944,8 @@ class AdminWorkflowsApi:
     @validate_call
     async def get_admin_workflow_output_stats(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -963,9 +963,9 @@ class AdminWorkflowsApi:
 
         Average output DOCUMENTs generated per workflow definition (completed runs).
 
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1017,8 +1017,8 @@ class AdminWorkflowsApi:
     @validate_call
     async def get_admin_workflow_output_stats_with_http_info(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1036,9 +1036,9 @@ class AdminWorkflowsApi:
 
         Average output DOCUMENTs generated per workflow definition (completed runs).
 
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1090,8 +1090,8 @@ class AdminWorkflowsApi:
     @validate_call
     async def get_admin_workflow_output_stats_without_preload_content(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1109,9 +1109,9 @@ class AdminWorkflowsApi:
 
         Average output DOCUMENTs generated per workflow definition (completed runs).
 
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1159,8 +1159,8 @@ class AdminWorkflowsApi:
     @validate_call
     def get_admin_workflow_output_stats_sync(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1195,8 +1195,8 @@ class AdminWorkflowsApi:
     @validate_call
     def get_admin_workflow_output_stats_sync_with_http_info(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1231,8 +1231,8 @@ class AdminWorkflowsApi:
     @validate_call
     def get_admin_workflow_output_stats_sync_without_preload_content(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1358,8 +1358,8 @@ class AdminWorkflowsApi:
     async def get_admin_workflow_summary(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1379,9 +1379,9 @@ class AdminWorkflowsApi:
 
         :param definition_id: Scope all numbers to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1435,8 +1435,8 @@ class AdminWorkflowsApi:
     async def get_admin_workflow_summary_with_http_info(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1456,9 +1456,9 @@ class AdminWorkflowsApi:
 
         :param definition_id: Scope all numbers to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1512,8 +1512,8 @@ class AdminWorkflowsApi:
     async def get_admin_workflow_summary_without_preload_content(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1533,9 +1533,9 @@ class AdminWorkflowsApi:
 
         :param definition_id: Scope all numbers to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
         :type since: datetime
-        :param until: Window end (inclusive).
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
         :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1585,8 +1585,8 @@ class AdminWorkflowsApi:
     def get_admin_workflow_summary_sync(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1623,8 +1623,8 @@ class AdminWorkflowsApi:
     def get_admin_workflow_summary_sync_with_http_info(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1661,8 +1661,8 @@ class AdminWorkflowsApi:
     def get_admin_workflow_summary_sync_without_preload_content(
         self,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1795,9 +1795,9 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1819,12 +1819,12 @@ class AdminWorkflowsApi:
         :type timezone: str
         :param definition_id: Scope to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive).
-        :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1850,9 +1850,9 @@ class AdminWorkflowsApi:
         _param = self._get_admin_workflow_timeseries_serialize(
             timezone=timezone,
             definition_id=definition_id,
+            bucket=bucket,
             since=since,
             until=until,
-            bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1880,9 +1880,9 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1904,12 +1904,12 @@ class AdminWorkflowsApi:
         :type timezone: str
         :param definition_id: Scope to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive).
-        :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1935,9 +1935,9 @@ class AdminWorkflowsApi:
         _param = self._get_admin_workflow_timeseries_serialize(
             timezone=timezone,
             definition_id=definition_id,
+            bucket=bucket,
             since=since,
             until=until,
-            bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1965,9 +1965,9 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1989,12 +1989,12 @@ class AdminWorkflowsApi:
         :type timezone: str
         :param definition_id: Scope to one workflow.
         :type definition_id: UUID
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive).
-        :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2020,9 +2020,9 @@ class AdminWorkflowsApi:
         _param = self._get_admin_workflow_timeseries_serialize(
             timezone=timezone,
             definition_id=definition_id,
+            bucket=bucket,
             since=since,
             until=until,
-            bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2046,9 +2046,9 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2071,9 +2071,9 @@ class AdminWorkflowsApi:
             self.get_admin_workflow_timeseries(
                 timezone=timezone,
                 definition_id=definition_id,
+                bucket=bucket,
                 since=since,
                 until=until,
-                bucket=bucket,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2088,9 +2088,9 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2113,9 +2113,9 @@ class AdminWorkflowsApi:
             self.get_admin_workflow_timeseries_with_http_info(
                 timezone=timezone,
                 definition_id=definition_id,
+                bucket=bucket,
                 since=since,
                 until=until,
-                bucket=bucket,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2130,9 +2130,9 @@ class AdminWorkflowsApi:
         self,
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope to one workflow.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2155,9 +2155,9 @@ class AdminWorkflowsApi:
             self.get_admin_workflow_timeseries_without_preload_content(
                 timezone=timezone,
                 definition_id=definition_id,
+                bucket=bucket,
                 since=since,
                 until=until,
-                bucket=bucket,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2171,9 +2171,9 @@ class AdminWorkflowsApi:
         self,
         timezone,
         definition_id,
+        bucket,
         since,
         until,
-        bucket,
         _request_auth,
         _content_type,
         _headers,
@@ -2204,6 +2204,10 @@ class AdminWorkflowsApi:
             
             _query_params.append(('definition_id', definition_id))
             
+        if bucket is not None:
+            
+            _query_params.append(('bucket', bucket.value))
+            
         if since is not None:
             if isinstance(since, datetime):
                 _query_params.append(
@@ -2229,10 +2233,6 @@ class AdminWorkflowsApi:
                 )
             else:
                 _query_params.append(('until', until))
-            
-        if bucket is not None:
-            
-            _query_params.append(('bucket', bucket.value))
             
         # process the header parameters
         # process the form parameters

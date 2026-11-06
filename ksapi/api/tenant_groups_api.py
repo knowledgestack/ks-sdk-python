@@ -2382,10 +2382,10 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2407,14 +2407,14 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param sort_by: Field to sort members by (default: ADDED_AT)
         :type sort_by: GroupMemberOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param username_like: Case-insensitive substring filter on member name
         :type username_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2440,10 +2440,10 @@ class TenantGroupsApi:
         _param = self._list_group_members_serialize(
             group_id=group_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             username_like=username_like,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2471,10 +2471,10 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2496,14 +2496,14 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param sort_by: Field to sort members by (default: ADDED_AT)
         :type sort_by: GroupMemberOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param username_like: Case-insensitive substring filter on member name
         :type username_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2529,10 +2529,10 @@ class TenantGroupsApi:
         _param = self._list_group_members_serialize(
             group_id=group_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             username_like=username_like,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2560,10 +2560,10 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2585,14 +2585,14 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param sort_by: Field to sort members by (default: ADDED_AT)
         :type sort_by: GroupMemberOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param username_like: Case-insensitive substring filter on member name
         :type username_like: str
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2618,10 +2618,10 @@ class TenantGroupsApi:
         _param = self._list_group_members_serialize(
             group_id=group_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             username_like=username_like,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2645,10 +2645,10 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2671,10 +2671,10 @@ class TenantGroupsApi:
             self.list_group_members(
                 group_id=group_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 username_like=username_like,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2689,10 +2689,10 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2715,10 +2715,10 @@ class TenantGroupsApi:
             self.list_group_members_with_http_info(
                 group_id=group_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 username_like=username_like,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2733,10 +2733,10 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupMemberOrder], Field(description="Field to sort members by (default: ADDED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on member name")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2759,10 +2759,10 @@ class TenantGroupsApi:
             self.list_group_members_without_preload_content(
                 group_id=group_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 username_like=username_like,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2776,10 +2776,10 @@ class TenantGroupsApi:
         self,
         group_id,
         sort_by,
-        sort_dir,
         username_like,
         limit,
         offset,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -2808,10 +2808,6 @@ class TenantGroupsApi:
             
             _query_params.append(('sort_by', sort_by.value))
             
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
-            
         if username_like is not None:
             
             _query_params.append(('username_like', username_like))
@@ -2823,6 +2819,10 @@ class TenantGroupsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters
@@ -2867,7 +2867,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -2875,6 +2874,7 @@ class TenantGroupsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2896,8 +2896,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param sort_by: Field to sort permissions by (default: CREATED_AT)
         :type sort_by: GroupPermissionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param can_read: Filter grants by can_read
         :type can_read: bool
         :param can_write: Filter grants by can_write
@@ -2912,6 +2910,8 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2937,7 +2937,6 @@ class TenantGroupsApi:
         _param = self._list_group_permissions_serialize(
             group_id=group_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             can_read=can_read,
             can_write=can_write,
             can_delete=can_delete,
@@ -2945,6 +2944,7 @@ class TenantGroupsApi:
             can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2972,7 +2972,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -2980,6 +2979,7 @@ class TenantGroupsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3001,8 +3001,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param sort_by: Field to sort permissions by (default: CREATED_AT)
         :type sort_by: GroupPermissionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param can_read: Filter grants by can_read
         :type can_read: bool
         :param can_write: Filter grants by can_write
@@ -3017,6 +3015,8 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3042,7 +3042,6 @@ class TenantGroupsApi:
         _param = self._list_group_permissions_serialize(
             group_id=group_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             can_read=can_read,
             can_write=can_write,
             can_delete=can_delete,
@@ -3050,6 +3049,7 @@ class TenantGroupsApi:
             can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3077,7 +3077,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -3085,6 +3084,7 @@ class TenantGroupsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3106,8 +3106,6 @@ class TenantGroupsApi:
         :type group_id: UUID
         :param sort_by: Field to sort permissions by (default: CREATED_AT)
         :type sort_by: GroupPermissionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param can_read: Filter grants by can_read
         :type can_read: bool
         :param can_write: Filter grants by can_write
@@ -3122,6 +3120,8 @@ class TenantGroupsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3147,7 +3147,6 @@ class TenantGroupsApi:
         _param = self._list_group_permissions_serialize(
             group_id=group_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             can_read=can_read,
             can_write=can_write,
             can_delete=can_delete,
@@ -3155,6 +3154,7 @@ class TenantGroupsApi:
             can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3178,7 +3178,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -3186,6 +3185,7 @@ class TenantGroupsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3208,7 +3208,6 @@ class TenantGroupsApi:
             self.list_group_permissions(
                 group_id=group_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 can_read=can_read,
                 can_write=can_write,
                 can_delete=can_delete,
@@ -3216,6 +3215,7 @@ class TenantGroupsApi:
                 can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3230,7 +3230,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -3238,6 +3237,7 @@ class TenantGroupsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3260,7 +3260,6 @@ class TenantGroupsApi:
             self.list_group_permissions_with_http_info(
                 group_id=group_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 can_read=can_read,
                 can_write=can_write,
                 can_delete=can_delete,
@@ -3268,6 +3267,7 @@ class TenantGroupsApi:
                 can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3282,7 +3282,6 @@ class TenantGroupsApi:
         self,
         group_id: UUID,
         sort_by: Annotated[Optional[GroupPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -3290,6 +3289,7 @@ class TenantGroupsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3312,7 +3312,6 @@ class TenantGroupsApi:
             self.list_group_permissions_without_preload_content(
                 group_id=group_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 can_read=can_read,
                 can_write=can_write,
                 can_delete=can_delete,
@@ -3320,6 +3319,7 @@ class TenantGroupsApi:
                 can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3333,7 +3333,6 @@ class TenantGroupsApi:
         self,
         group_id,
         sort_by,
-        sort_dir,
         can_read,
         can_write,
         can_delete,
@@ -3341,6 +3340,7 @@ class TenantGroupsApi:
         can_grant_permissions,
         limit,
         offset,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -3369,10 +3369,6 @@ class TenantGroupsApi:
             
             _query_params.append(('sort_by', sort_by.value))
             
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
-            
         if can_read is not None:
             
             _query_params.append(('can_read', can_read))
@@ -3400,6 +3396,10 @@ class TenantGroupsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters
@@ -3789,7 +3789,6 @@ class TenantGroupsApi:
     async def list_tenant_groups(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -3798,6 +3797,7 @@ class TenantGroupsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3817,8 +3817,6 @@ class TenantGroupsApi:
 
         :param sort_by: Field to sort groups by (default: NAME)
         :type sort_by: TenantGroupOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param name_like: Case-insensitive substring filter on name
         :type name_like: str
         :param has_user_ids: Only groups containing ALL of these user ids
@@ -3835,6 +3833,8 @@ class TenantGroupsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3859,7 +3859,6 @@ class TenantGroupsApi:
 
         _param = self._list_tenant_groups_serialize(
             sort_by=sort_by,
-            sort_dir=sort_dir,
             name_like=name_like,
             has_user_ids=has_user_ids,
             limit=limit,
@@ -3868,6 +3867,7 @@ class TenantGroupsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3894,7 +3894,6 @@ class TenantGroupsApi:
     async def list_tenant_groups_with_http_info(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -3903,6 +3902,7 @@ class TenantGroupsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3922,8 +3922,6 @@ class TenantGroupsApi:
 
         :param sort_by: Field to sort groups by (default: NAME)
         :type sort_by: TenantGroupOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param name_like: Case-insensitive substring filter on name
         :type name_like: str
         :param has_user_ids: Only groups containing ALL of these user ids
@@ -3940,6 +3938,8 @@ class TenantGroupsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3964,7 +3964,6 @@ class TenantGroupsApi:
 
         _param = self._list_tenant_groups_serialize(
             sort_by=sort_by,
-            sort_dir=sort_dir,
             name_like=name_like,
             has_user_ids=has_user_ids,
             limit=limit,
@@ -3973,6 +3972,7 @@ class TenantGroupsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3999,7 +3999,6 @@ class TenantGroupsApi:
     async def list_tenant_groups_without_preload_content(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -4008,6 +4007,7 @@ class TenantGroupsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4027,8 +4027,6 @@ class TenantGroupsApi:
 
         :param sort_by: Field to sort groups by (default: NAME)
         :type sort_by: TenantGroupOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param name_like: Case-insensitive substring filter on name
         :type name_like: str
         :param has_user_ids: Only groups containing ALL of these user ids
@@ -4045,6 +4043,8 @@ class TenantGroupsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4069,7 +4069,6 @@ class TenantGroupsApi:
 
         _param = self._list_tenant_groups_serialize(
             sort_by=sort_by,
-            sort_dir=sort_dir,
             name_like=name_like,
             has_user_ids=has_user_ids,
             limit=limit,
@@ -4078,6 +4077,7 @@ class TenantGroupsApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4100,7 +4100,6 @@ class TenantGroupsApi:
     def list_tenant_groups_sync(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -4109,6 +4108,7 @@ class TenantGroupsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4130,7 +4130,6 @@ class TenantGroupsApi:
         return run_sync(
             self.list_tenant_groups(
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 name_like=name_like,
                 has_user_ids=has_user_ids,
                 limit=limit,
@@ -4139,6 +4138,7 @@ class TenantGroupsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -4152,7 +4152,6 @@ class TenantGroupsApi:
     def list_tenant_groups_sync_with_http_info(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -4161,6 +4160,7 @@ class TenantGroupsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4182,7 +4182,6 @@ class TenantGroupsApi:
         return run_sync(
             self.list_tenant_groups_with_http_info(
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 name_like=name_like,
                 has_user_ids=has_user_ids,
                 limit=limit,
@@ -4191,6 +4190,7 @@ class TenantGroupsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -4204,7 +4204,6 @@ class TenantGroupsApi:
     def list_tenant_groups_sync_without_preload_content(
         self,
         sort_by: Annotated[Optional[TenantGroupOrder], Field(description="Field to sort groups by (default: NAME)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         name_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on name")] = None,
         has_user_ids: Annotated[Optional[List[UUID]], Field(description="Only groups containing ALL of these user ids")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -4213,6 +4212,7 @@ class TenantGroupsApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4234,7 +4234,6 @@ class TenantGroupsApi:
         return run_sync(
             self.list_tenant_groups_without_preload_content(
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 name_like=name_like,
                 has_user_ids=has_user_ids,
                 limit=limit,
@@ -4243,6 +4242,7 @@ class TenantGroupsApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -4255,7 +4255,6 @@ class TenantGroupsApi:
     def _list_tenant_groups_serialize(
         self,
         sort_by,
-        sort_dir,
         name_like,
         has_user_ids,
         limit,
@@ -4264,6 +4263,7 @@ class TenantGroupsApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -4290,10 +4290,6 @@ class TenantGroupsApi:
         if sort_by is not None:
             
             _query_params.append(('sort_by', sort_by.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if name_like is not None:
             
@@ -4362,6 +4358,10 @@ class TenantGroupsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

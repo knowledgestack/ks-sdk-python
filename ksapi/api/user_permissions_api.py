@@ -1597,7 +1597,6 @@ class UserPermissionsApi:
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -1605,6 +1604,7 @@ class UserPermissionsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1628,8 +1628,6 @@ class UserPermissionsApi:
         :type user_id: UUID
         :param sort_by: Field to sort permissions by (default: CREATED_AT)
         :type sort_by: UserPermissionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param can_read: Filter grants by can_read
         :type can_read: bool
         :param can_write: Filter grants by can_write
@@ -1644,6 +1642,8 @@ class UserPermissionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1670,7 +1670,6 @@ class UserPermissionsApi:
             tenant_id=tenant_id,
             user_id=user_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             can_read=can_read,
             can_write=can_write,
             can_delete=can_delete,
@@ -1678,6 +1677,7 @@ class UserPermissionsApi:
             can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1706,7 +1706,6 @@ class UserPermissionsApi:
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -1714,6 +1713,7 @@ class UserPermissionsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1737,8 +1737,6 @@ class UserPermissionsApi:
         :type user_id: UUID
         :param sort_by: Field to sort permissions by (default: CREATED_AT)
         :type sort_by: UserPermissionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param can_read: Filter grants by can_read
         :type can_read: bool
         :param can_write: Filter grants by can_write
@@ -1753,6 +1751,8 @@ class UserPermissionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1779,7 +1779,6 @@ class UserPermissionsApi:
             tenant_id=tenant_id,
             user_id=user_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             can_read=can_read,
             can_write=can_write,
             can_delete=can_delete,
@@ -1787,6 +1786,7 @@ class UserPermissionsApi:
             can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1815,7 +1815,6 @@ class UserPermissionsApi:
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -1823,6 +1822,7 @@ class UserPermissionsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1846,8 +1846,6 @@ class UserPermissionsApi:
         :type user_id: UUID
         :param sort_by: Field to sort permissions by (default: CREATED_AT)
         :type sort_by: UserPermissionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param can_read: Filter grants by can_read
         :type can_read: bool
         :param can_write: Filter grants by can_write
@@ -1862,6 +1860,8 @@ class UserPermissionsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1888,7 +1888,6 @@ class UserPermissionsApi:
             tenant_id=tenant_id,
             user_id=user_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             can_read=can_read,
             can_write=can_write,
             can_delete=can_delete,
@@ -1896,6 +1895,7 @@ class UserPermissionsApi:
             can_grant_permissions=can_grant_permissions,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1920,7 +1920,6 @@ class UserPermissionsApi:
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -1928,6 +1927,7 @@ class UserPermissionsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1951,7 +1951,6 @@ class UserPermissionsApi:
                 tenant_id=tenant_id,
                 user_id=user_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 can_read=can_read,
                 can_write=can_write,
                 can_delete=can_delete,
@@ -1959,6 +1958,7 @@ class UserPermissionsApi:
                 can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1974,7 +1974,6 @@ class UserPermissionsApi:
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -1982,6 +1981,7 @@ class UserPermissionsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2005,7 +2005,6 @@ class UserPermissionsApi:
                 tenant_id=tenant_id,
                 user_id=user_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 can_read=can_read,
                 can_write=can_write,
                 can_delete=can_delete,
@@ -2013,6 +2012,7 @@ class UserPermissionsApi:
                 can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2028,7 +2028,6 @@ class UserPermissionsApi:
         tenant_id: Annotated[UUID, Field(description="Tenant ID to list permissions for")],
         user_id: Annotated[UUID, Field(description="User ID to list permissions for")],
         sort_by: Annotated[Optional[UserPermissionOrder], Field(description="Field to sort permissions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         can_read: Annotated[Optional[StrictBool], Field(description="Filter grants by can_read")] = None,
         can_write: Annotated[Optional[StrictBool], Field(description="Filter grants by can_write")] = None,
         can_delete: Annotated[Optional[StrictBool], Field(description="Filter grants by can_delete")] = None,
@@ -2036,6 +2035,7 @@ class UserPermissionsApi:
         can_grant_permissions: Annotated[Optional[StrictBool], Field(description="Filter grants by can_grant_permissions")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2059,7 +2059,6 @@ class UserPermissionsApi:
                 tenant_id=tenant_id,
                 user_id=user_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 can_read=can_read,
                 can_write=can_write,
                 can_delete=can_delete,
@@ -2067,6 +2066,7 @@ class UserPermissionsApi:
                 can_grant_permissions=can_grant_permissions,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2081,7 +2081,6 @@ class UserPermissionsApi:
         tenant_id,
         user_id,
         sort_by,
-        sort_dir,
         can_read,
         can_write,
         can_delete,
@@ -2089,6 +2088,7 @@ class UserPermissionsApi:
         can_grant_permissions,
         limit,
         offset,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -2123,10 +2123,6 @@ class UserPermissionsApi:
             
             _query_params.append(('sort_by', sort_by.value))
             
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
-            
         if can_read is not None:
             
             _query_params.append(('can_read', can_read))
@@ -2154,6 +2150,10 @@ class UserPermissionsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

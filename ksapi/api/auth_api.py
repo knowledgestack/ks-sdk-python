@@ -1206,8 +1206,6 @@ class AuthApi:
     async def fanwei_directory_sync(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1223,14 +1221,10 @@ class AuthApi:
     ) -> DirectorySyncResponse:
         """Directory Sync Handler
 
-        Trigger directory synchronization for a FanWei E9 tenant.  Accepts either: - A logged-in OWNER/ADMIN user (via UAT cookie) - An admin API key (via Authorization: Bearer header)
+        Trigger directory sync as an authenticated OWNER/ADMIN of this tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1255,8 +1249,6 @@ class AuthApi:
 
         _param = self._fanwei_directory_sync_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1283,8 +1275,6 @@ class AuthApi:
     async def fanwei_directory_sync_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1300,14 +1290,10 @@ class AuthApi:
     ) -> ApiResponse[DirectorySyncResponse]:
         """Directory Sync Handler
 
-        Trigger directory synchronization for a FanWei E9 tenant.  Accepts either: - A logged-in OWNER/ADMIN user (via UAT cookie) - An admin API key (via Authorization: Bearer header)
+        Trigger directory sync as an authenticated OWNER/ADMIN of this tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1332,8 +1318,6 @@ class AuthApi:
 
         _param = self._fanwei_directory_sync_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1360,8 +1344,6 @@ class AuthApi:
     async def fanwei_directory_sync_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1377,14 +1359,10 @@ class AuthApi:
     ) -> RESTResponseType:
         """Directory Sync Handler
 
-        Trigger directory synchronization for a FanWei E9 tenant.  Accepts either: - A logged-in OWNER/ADMIN user (via UAT cookie) - An admin API key (via Authorization: Bearer header)
+        Trigger directory sync as an authenticated OWNER/ADMIN of this tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1409,8 +1387,6 @@ class AuthApi:
 
         _param = self._fanwei_directory_sync_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1433,8 +1409,6 @@ class AuthApi:
     def fanwei_directory_sync_sync(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1456,8 +1430,6 @@ class AuthApi:
         return run_sync(
             self.fanwei_directory_sync(
                 tenant_id=tenant_id,
-                authorization=authorization,
-                ks_uat=ks_uat,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1471,8 +1443,6 @@ class AuthApi:
     def fanwei_directory_sync_sync_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1494,8 +1464,6 @@ class AuthApi:
         return run_sync(
             self.fanwei_directory_sync_with_http_info(
                 tenant_id=tenant_id,
-                authorization=authorization,
-                ks_uat=ks_uat,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1509,8 +1477,6 @@ class AuthApi:
     def fanwei_directory_sync_sync_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1532,8 +1498,6 @@ class AuthApi:
         return run_sync(
             self.fanwei_directory_sync_without_preload_content(
                 tenant_id=tenant_id,
-                authorization=authorization,
-                ks_uat=ks_uat,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1546,8 +1510,6 @@ class AuthApi:
     def _fanwei_directory_sync_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1573,8 +1535,6 @@ class AuthApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1590,6 +1550,8 @@ class AuthApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -1614,8 +1576,6 @@ class AuthApi:
     async def fanwei_directory_sync_0(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1631,14 +1591,10 @@ class AuthApi:
     ) -> DirectorySyncResponse:
         """Directory Sync Handler
 
-        Trigger directory synchronization for a FanWei E9 tenant.  Accepts either: - A logged-in OWNER/ADMIN user (via UAT cookie) - An admin API key (via Authorization: Bearer header)
+        Trigger directory sync as an authenticated OWNER/ADMIN of this tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1663,8 +1619,6 @@ class AuthApi:
 
         _param = self._fanwei_directory_sync_0_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1691,8 +1645,6 @@ class AuthApi:
     async def fanwei_directory_sync_0_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1708,14 +1660,10 @@ class AuthApi:
     ) -> ApiResponse[DirectorySyncResponse]:
         """Directory Sync Handler
 
-        Trigger directory synchronization for a FanWei E9 tenant.  Accepts either: - A logged-in OWNER/ADMIN user (via UAT cookie) - An admin API key (via Authorization: Bearer header)
+        Trigger directory sync as an authenticated OWNER/ADMIN of this tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1740,8 +1688,6 @@ class AuthApi:
 
         _param = self._fanwei_directory_sync_0_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1768,8 +1714,6 @@ class AuthApi:
     async def fanwei_directory_sync_0_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1785,14 +1729,10 @@ class AuthApi:
     ) -> RESTResponseType:
         """Directory Sync Handler
 
-        Trigger directory synchronization for a FanWei E9 tenant.  Accepts either: - A logged-in OWNER/ADMIN user (via UAT cookie) - An admin API key (via Authorization: Bearer header)
+        Trigger directory sync as an authenticated OWNER/ADMIN of this tenant.
 
         :param tenant_id: (required)
         :type tenant_id: UUID
-        :param authorization:
-        :type authorization: str
-        :param ks_uat:
-        :type ks_uat: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1817,8 +1757,6 @@ class AuthApi:
 
         _param = self._fanwei_directory_sync_0_serialize(
             tenant_id=tenant_id,
-            authorization=authorization,
-            ks_uat=ks_uat,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1841,8 +1779,6 @@ class AuthApi:
     def fanwei_directory_sync_0_sync(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1864,8 +1800,6 @@ class AuthApi:
         return run_sync(
             self.fanwei_directory_sync_0(
                 tenant_id=tenant_id,
-                authorization=authorization,
-                ks_uat=ks_uat,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1879,8 +1813,6 @@ class AuthApi:
     def fanwei_directory_sync_0_sync_with_http_info(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1902,8 +1834,6 @@ class AuthApi:
         return run_sync(
             self.fanwei_directory_sync_0_with_http_info(
                 tenant_id=tenant_id,
-                authorization=authorization,
-                ks_uat=ks_uat,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1917,8 +1847,6 @@ class AuthApi:
     def fanwei_directory_sync_0_sync_without_preload_content(
         self,
         tenant_id: UUID,
-        authorization: Optional[StrictStr] = None,
-        ks_uat: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1940,8 +1868,6 @@ class AuthApi:
         return run_sync(
             self.fanwei_directory_sync_0_without_preload_content(
                 tenant_id=tenant_id,
-                authorization=authorization,
-                ks_uat=ks_uat,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1954,8 +1880,6 @@ class AuthApi:
     def _fanwei_directory_sync_0_serialize(
         self,
         tenant_id,
-        authorization,
-        ks_uat,
         _request_auth,
         _content_type,
         _headers,
@@ -1981,8 +1905,6 @@ class AuthApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
         # process the form parameters
         # process the body parameter
 
@@ -1998,6 +1920,8 @@ class AuthApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'cookieAuth', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

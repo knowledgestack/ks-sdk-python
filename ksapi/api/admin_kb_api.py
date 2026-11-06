@@ -394,9 +394,9 @@ class AdminKbApi:
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -418,12 +418,12 @@ class AdminKbApi:
         :type metric: KbMetric
         :param timezone: IANA tz override; defaults to tenant setting.
         :type timezone: str
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive).
-        :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -449,9 +449,9 @@ class AdminKbApi:
         _param = self._get_admin_kb_timeseries_serialize(
             metric=metric,
             timezone=timezone,
+            bucket=bucket,
             since=since,
             until=until,
-            bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -479,9 +479,9 @@ class AdminKbApi:
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -503,12 +503,12 @@ class AdminKbApi:
         :type metric: KbMetric
         :param timezone: IANA tz override; defaults to tenant setting.
         :type timezone: str
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive).
-        :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -534,9 +534,9 @@ class AdminKbApi:
         _param = self._get_admin_kb_timeseries_serialize(
             metric=metric,
             timezone=timezone,
+            bucket=bucket,
             since=since,
             until=until,
-            bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -564,9 +564,9 @@ class AdminKbApi:
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -588,12 +588,12 @@ class AdminKbApi:
         :type metric: KbMetric
         :param timezone: IANA tz override; defaults to tenant setting.
         :type timezone: str
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive).
-        :type until: datetime
         :param bucket: Bucket size.
         :type bucket: TimeBucket
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -619,9 +619,9 @@ class AdminKbApi:
         _param = self._get_admin_kb_timeseries_serialize(
             metric=metric,
             timezone=timezone,
+            bucket=bucket,
             since=since,
             until=until,
-            bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -645,9 +645,9 @@ class AdminKbApi:
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -670,9 +670,9 @@ class AdminKbApi:
             self.get_admin_kb_timeseries(
                 metric=metric,
                 timezone=timezone,
+                bucket=bucket,
                 since=since,
                 until=until,
-                bucket=bucket,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -687,9 +687,9 @@ class AdminKbApi:
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -712,9 +712,9 @@ class AdminKbApi:
             self.get_admin_kb_timeseries_with_http_info(
                 metric=metric,
                 timezone=timezone,
+                bucket=bucket,
                 since=since,
                 until=until,
-                bucket=bucket,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -729,9 +729,9 @@ class AdminKbApi:
         self,
         metric: Annotated[KbMetric, Field(description="Which KB metric to bucket.")],
         timezone: Annotated[Optional[StrictStr], Field(description="IANA tz override; defaults to tenant setting.")] = None,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive).")] = None,
         bucket: Annotated[Optional[TimeBucket], Field(description="Bucket size.")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -754,9 +754,9 @@ class AdminKbApi:
             self.get_admin_kb_timeseries_without_preload_content(
                 metric=metric,
                 timezone=timezone,
+                bucket=bucket,
                 since=since,
                 until=until,
-                bucket=bucket,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -770,9 +770,9 @@ class AdminKbApi:
         self,
         metric,
         timezone,
+        bucket,
         since,
         until,
-        bucket,
         _request_auth,
         _content_type,
         _headers,
@@ -803,6 +803,10 @@ class AdminKbApi:
             
             _query_params.append(('timezone', timezone))
             
+        if bucket is not None:
+            
+            _query_params.append(('bucket', bucket.value))
+            
         if since is not None:
             if isinstance(since, datetime):
                 _query_params.append(
@@ -828,10 +832,6 @@ class AdminKbApi:
                 )
             else:
                 _query_params.append(('until', until))
-            
-        if bucket is not None:
-            
-            _query_params.append(('bucket', bucket.value))
             
         # process the header parameters
         # process the form parameters

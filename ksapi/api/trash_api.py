@@ -1187,7 +1187,6 @@ class TrashApi:
     async def list_trash(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
         part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
@@ -1197,6 +1196,7 @@ class TrashApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1216,8 +1216,6 @@ class TrashApi:
 
         :param sort_order: Sort order (default: LOGICAL = deletion recency)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param deleted_by: Filter to items deleted by this user
         :type deleted_by: UUID
         :param part_type: Filter to these path-part types (folders, documents, ...)
@@ -1236,6 +1234,8 @@ class TrashApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1260,7 +1260,6 @@ class TrashApi:
 
         _param = self._list_trash_serialize(
             sort_order=sort_order,
-            sort_dir=sort_dir,
             deleted_by=deleted_by,
             part_type=part_type,
             owner_id=owner_id,
@@ -1270,6 +1269,7 @@ class TrashApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1296,7 +1296,6 @@ class TrashApi:
     async def list_trash_with_http_info(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
         part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
@@ -1306,6 +1305,7 @@ class TrashApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1325,8 +1325,6 @@ class TrashApi:
 
         :param sort_order: Sort order (default: LOGICAL = deletion recency)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param deleted_by: Filter to items deleted by this user
         :type deleted_by: UUID
         :param part_type: Filter to these path-part types (folders, documents, ...)
@@ -1345,6 +1343,8 @@ class TrashApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1369,7 +1369,6 @@ class TrashApi:
 
         _param = self._list_trash_serialize(
             sort_order=sort_order,
-            sort_dir=sort_dir,
             deleted_by=deleted_by,
             part_type=part_type,
             owner_id=owner_id,
@@ -1379,6 +1378,7 @@ class TrashApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1405,7 +1405,6 @@ class TrashApi:
     async def list_trash_without_preload_content(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
         part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
@@ -1415,6 +1414,7 @@ class TrashApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1434,8 +1434,6 @@ class TrashApi:
 
         :param sort_order: Sort order (default: LOGICAL = deletion recency)
         :type sort_order: PathOrder
-        :param sort_dir: Sort direction; overrides the column's natural default
-        :type sort_dir: SortDirection
         :param deleted_by: Filter to items deleted by this user
         :type deleted_by: UUID
         :param part_type: Filter to these path-part types (folders, documents, ...)
@@ -1454,6 +1452,8 @@ class TrashApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1478,7 +1478,6 @@ class TrashApi:
 
         _param = self._list_trash_serialize(
             sort_order=sort_order,
-            sort_dir=sort_dir,
             deleted_by=deleted_by,
             part_type=part_type,
             owner_id=owner_id,
@@ -1488,6 +1487,7 @@ class TrashApi:
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1510,7 +1510,6 @@ class TrashApi:
     def list_trash_sync(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
         part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
@@ -1520,6 +1519,7 @@ class TrashApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1541,7 +1541,6 @@ class TrashApi:
         return run_sync(
             self.list_trash(
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 deleted_by=deleted_by,
                 part_type=part_type,
                 owner_id=owner_id,
@@ -1551,6 +1550,7 @@ class TrashApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1564,7 +1564,6 @@ class TrashApi:
     def list_trash_sync_with_http_info(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
         part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
@@ -1574,6 +1573,7 @@ class TrashApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1595,7 +1595,6 @@ class TrashApi:
         return run_sync(
             self.list_trash_with_http_info(
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 deleted_by=deleted_by,
                 part_type=part_type,
                 owner_id=owner_id,
@@ -1605,6 +1604,7 @@ class TrashApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1618,7 +1618,6 @@ class TrashApi:
     def list_trash_sync_without_preload_content(
         self,
         sort_order: Annotated[Optional[PathOrder], Field(description="Sort order (default: LOGICAL = deletion recency)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the column's natural default")] = None,
         deleted_by: Annotated[Optional[UUID], Field(description="Filter to items deleted by this user")] = None,
         part_type: Annotated[Optional[List[PartType]], Field(description="Filter to these path-part types (folders, documents, ...)")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Filter to items owned (created) by this user")] = None,
@@ -1628,6 +1627,7 @@ class TrashApi:
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1649,7 +1649,6 @@ class TrashApi:
         return run_sync(
             self.list_trash_without_preload_content(
                 sort_order=sort_order,
-                sort_dir=sort_dir,
                 deleted_by=deleted_by,
                 part_type=part_type,
                 owner_id=owner_id,
@@ -1659,6 +1658,7 @@ class TrashApi:
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1671,7 +1671,6 @@ class TrashApi:
     def _list_trash_serialize(
         self,
         sort_order,
-        sort_dir,
         deleted_by,
         part_type,
         owner_id,
@@ -1681,6 +1680,7 @@ class TrashApi:
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -1707,10 +1707,6 @@ class TrashApi:
         if sort_order is not None:
             
             _query_params.append(('sort_order', sort_order.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if deleted_by is not None:
             
@@ -1783,6 +1779,10 @@ class TrashApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

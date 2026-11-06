@@ -869,10 +869,10 @@ class ThreadMessagesApi:
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
         role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -896,14 +896,14 @@ class ThreadMessagesApi:
         :type before: datetime
         :param role: Filter messages by role (USER, ASSISTANT, SYSTEM)
         :type role: MessageRole
-        :param sort_dir: ASC for oldest-first; default/DESC keeps newest-first
-        :type sort_dir: SortDirection
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -930,10 +930,10 @@ class ThreadMessagesApi:
             thread_id=thread_id,
             before=before,
             role=role,
-            sort_dir=sort_dir,
             with_details=with_details,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -962,10 +962,10 @@ class ThreadMessagesApi:
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
         role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -989,14 +989,14 @@ class ThreadMessagesApi:
         :type before: datetime
         :param role: Filter messages by role (USER, ASSISTANT, SYSTEM)
         :type role: MessageRole
-        :param sort_dir: ASC for oldest-first; default/DESC keeps newest-first
-        :type sort_dir: SortDirection
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1023,10 +1023,10 @@ class ThreadMessagesApi:
             thread_id=thread_id,
             before=before,
             role=role,
-            sort_dir=sort_dir,
             with_details=with_details,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1055,10 +1055,10 @@ class ThreadMessagesApi:
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
         role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1082,14 +1082,14 @@ class ThreadMessagesApi:
         :type before: datetime
         :param role: Filter messages by role (USER, ASSISTANT, SYSTEM)
         :type role: MessageRole
-        :param sort_dir: ASC for oldest-first; default/DESC keeps newest-first
-        :type sort_dir: SortDirection
         :param with_details: Include execution steps in response (default true)
         :type with_details: bool
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1116,10 +1116,10 @@ class ThreadMessagesApi:
             thread_id=thread_id,
             before=before,
             role=role,
-            sort_dir=sort_dir,
             with_details=with_details,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1144,10 +1144,10 @@ class ThreadMessagesApi:
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
         role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1171,10 +1171,10 @@ class ThreadMessagesApi:
                 thread_id=thread_id,
                 before=before,
                 role=role,
-                sort_dir=sort_dir,
                 with_details=with_details,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1190,10 +1190,10 @@ class ThreadMessagesApi:
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
         role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1217,10 +1217,10 @@ class ThreadMessagesApi:
                 thread_id=thread_id,
                 before=before,
                 role=role,
-                sort_dir=sort_dir,
                 with_details=with_details,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1236,10 +1236,10 @@ class ThreadMessagesApi:
         thread_id: UUID,
         before: Annotated[Optional[datetime], Field(description="Cursor for keyset pagination: only return messages with created_at < this value")] = None,
         role: Annotated[Optional[MessageRole], Field(description="Filter messages by role (USER, ASSISTANT, SYSTEM)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="ASC for oldest-first; default/DESC keeps newest-first")] = None,
         with_details: Annotated[Optional[StrictBool], Field(description="Include execution steps in response (default true)")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1263,10 +1263,10 @@ class ThreadMessagesApi:
                 thread_id=thread_id,
                 before=before,
                 role=role,
-                sort_dir=sort_dir,
                 with_details=with_details,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1281,10 +1281,10 @@ class ThreadMessagesApi:
         thread_id,
         before,
         role,
-        sort_dir,
         with_details,
         limit,
         offset,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -1326,10 +1326,6 @@ class ThreadMessagesApi:
             
             _query_params.append(('role', role.value))
             
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
-            
         if with_details is not None:
             
             _query_params.append(('with_details', with_details))
@@ -1341,6 +1337,10 @@ class ThreadMessagesApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

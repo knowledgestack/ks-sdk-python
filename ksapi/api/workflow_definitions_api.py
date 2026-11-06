@@ -2102,7 +2102,6 @@ class WorkflowDefinitionsApi:
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
         needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2113,6 +2112,7 @@ class WorkflowDefinitionsApi:
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2135,8 +2135,6 @@ class WorkflowDefinitionsApi:
         :type search: str
         :param sort_by: Field to sort definitions by (default: CREATED_AT)
         :type sort_by: WorkflowDefinitionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param is_template:
         :type is_template: bool
         :param needs_approval: Only definitions with a run awaiting approval.
@@ -2157,6 +2155,8 @@ class WorkflowDefinitionsApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2183,7 +2183,6 @@ class WorkflowDefinitionsApi:
             mine=mine,
             search=search,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             is_template=is_template,
             needs_approval=needs_approval,
             limit=limit,
@@ -2194,6 +2193,7 @@ class WorkflowDefinitionsApi:
             updated_before=updated_before,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2222,7 +2222,6 @@ class WorkflowDefinitionsApi:
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
         needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2233,6 +2232,7 @@ class WorkflowDefinitionsApi:
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2255,8 +2255,6 @@ class WorkflowDefinitionsApi:
         :type search: str
         :param sort_by: Field to sort definitions by (default: CREATED_AT)
         :type sort_by: WorkflowDefinitionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param is_template:
         :type is_template: bool
         :param needs_approval: Only definitions with a run awaiting approval.
@@ -2277,6 +2275,8 @@ class WorkflowDefinitionsApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2303,7 +2303,6 @@ class WorkflowDefinitionsApi:
             mine=mine,
             search=search,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             is_template=is_template,
             needs_approval=needs_approval,
             limit=limit,
@@ -2314,6 +2313,7 @@ class WorkflowDefinitionsApi:
             updated_before=updated_before,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2342,7 +2342,6 @@ class WorkflowDefinitionsApi:
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
         needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2353,6 +2352,7 @@ class WorkflowDefinitionsApi:
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2375,8 +2375,6 @@ class WorkflowDefinitionsApi:
         :type search: str
         :param sort_by: Field to sort definitions by (default: CREATED_AT)
         :type sort_by: WorkflowDefinitionOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param is_template:
         :type is_template: bool
         :param needs_approval: Only definitions with a run awaiting approval.
@@ -2397,6 +2395,8 @@ class WorkflowDefinitionsApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2423,7 +2423,6 @@ class WorkflowDefinitionsApi:
             mine=mine,
             search=search,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             is_template=is_template,
             needs_approval=needs_approval,
             limit=limit,
@@ -2434,6 +2433,7 @@ class WorkflowDefinitionsApi:
             updated_before=updated_before,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2458,7 +2458,6 @@ class WorkflowDefinitionsApi:
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
         needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2469,6 +2468,7 @@ class WorkflowDefinitionsApi:
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2492,7 +2492,6 @@ class WorkflowDefinitionsApi:
                 mine=mine,
                 search=search,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 is_template=is_template,
                 needs_approval=needs_approval,
                 limit=limit,
@@ -2503,6 +2502,7 @@ class WorkflowDefinitionsApi:
                 updated_before=updated_before,
                 include_tag_ids=include_tag_ids,
                 exclude_tag_ids=exclude_tag_ids,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2518,7 +2518,6 @@ class WorkflowDefinitionsApi:
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
         needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2529,6 +2528,7 @@ class WorkflowDefinitionsApi:
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2552,7 +2552,6 @@ class WorkflowDefinitionsApi:
                 mine=mine,
                 search=search,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 is_template=is_template,
                 needs_approval=needs_approval,
                 limit=limit,
@@ -2563,6 +2562,7 @@ class WorkflowDefinitionsApi:
                 updated_before=updated_before,
                 include_tag_ids=include_tag_ids,
                 exclude_tag_ids=exclude_tag_ids,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2578,7 +2578,6 @@ class WorkflowDefinitionsApi:
         mine: Annotated[Optional[StrictBool], Field(description="Only definitions the caller created (owner).")] = None,
         search: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring over name and description.")] = None,
         sort_by: Annotated[Optional[WorkflowDefinitionOrder], Field(description="Field to sort definitions by (default: CREATED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         is_template: Optional[StrictBool] = None,
         needs_approval: Annotated[Optional[StrictBool], Field(description="Only definitions with a run awaiting approval.")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
@@ -2589,6 +2588,7 @@ class WorkflowDefinitionsApi:
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2612,7 +2612,6 @@ class WorkflowDefinitionsApi:
                 mine=mine,
                 search=search,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 is_template=is_template,
                 needs_approval=needs_approval,
                 limit=limit,
@@ -2623,6 +2622,7 @@ class WorkflowDefinitionsApi:
                 updated_before=updated_before,
                 include_tag_ids=include_tag_ids,
                 exclude_tag_ids=exclude_tag_ids,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2637,7 +2637,6 @@ class WorkflowDefinitionsApi:
         mine,
         search,
         sort_by,
-        sort_dir,
         is_template,
         needs_approval,
         limit,
@@ -2648,6 +2647,7 @@ class WorkflowDefinitionsApi:
         updated_before,
         include_tag_ids,
         exclude_tag_ids,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -2683,10 +2683,6 @@ class WorkflowDefinitionsApi:
         if sort_by is not None:
             
             _query_params.append(('sort_by', sort_by.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if is_template is not None:
             
@@ -2764,6 +2760,10 @@ class WorkflowDefinitionsApi:
             
             _query_params.append(('exclude_tag_ids', exclude_tag_ids))
             
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2807,13 +2807,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2834,8 +2834,6 @@ class WorkflowDefinitionsApi:
         :type definition_id: UUID
         :param sort_by: Field to sort runs by (default: STARTED_AT)
         :type sort_by: WorkflowRunOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2848,6 +2846,8 @@ class WorkflowDefinitionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2873,13 +2873,13 @@ class WorkflowDefinitionsApi:
         _param = self._list_workflow_runs_serialize(
             definition_id=definition_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2907,13 +2907,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2934,8 +2934,6 @@ class WorkflowDefinitionsApi:
         :type definition_id: UUID
         :param sort_by: Field to sort runs by (default: STARTED_AT)
         :type sort_by: WorkflowRunOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -2948,6 +2946,8 @@ class WorkflowDefinitionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2973,13 +2973,13 @@ class WorkflowDefinitionsApi:
         _param = self._list_workflow_runs_serialize(
             definition_id=definition_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3007,13 +3007,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3034,8 +3034,6 @@ class WorkflowDefinitionsApi:
         :type definition_id: UUID
         :param sort_by: Field to sort runs by (default: STARTED_AT)
         :type sort_by: WorkflowRunOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -3048,6 +3046,8 @@ class WorkflowDefinitionsApi:
         :type updated_after: datetime
         :param updated_before: Only items updated strictly before this timestamp
         :type updated_before: datetime
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3073,13 +3073,13 @@ class WorkflowDefinitionsApi:
         _param = self._list_workflow_runs_serialize(
             definition_id=definition_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
             created_before=created_before,
             updated_after=updated_after,
             updated_before=updated_before,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3103,13 +3103,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3132,13 +3132,13 @@ class WorkflowDefinitionsApi:
             self.list_workflow_runs(
                 definition_id=definition_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3153,13 +3153,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3182,13 +3182,13 @@ class WorkflowDefinitionsApi:
             self.list_workflow_runs_with_http_info(
                 definition_id=definition_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3203,13 +3203,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id: UUID,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
         created_before: Annotated[Optional[datetime], Field(description="Only items created strictly before this timestamp")] = None,
         updated_after: Annotated[Optional[datetime], Field(description="Only items updated at or after this timestamp (inclusive)")] = None,
         updated_before: Annotated[Optional[datetime], Field(description="Only items updated strictly before this timestamp")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3232,13 +3232,13 @@ class WorkflowDefinitionsApi:
             self.list_workflow_runs_without_preload_content(
                 definition_id=definition_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
                 created_before=created_before,
                 updated_after=updated_after,
                 updated_before=updated_before,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3252,13 +3252,13 @@ class WorkflowDefinitionsApi:
         self,
         definition_id,
         sort_by,
-        sort_dir,
         limit,
         offset,
         created_after,
         created_before,
         updated_after,
         updated_before,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -3286,10 +3286,6 @@ class WorkflowDefinitionsApi:
         if sort_by is not None:
             
             _query_params.append(('sort_by', sort_by.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if limit is not None:
             
@@ -3350,6 +3346,10 @@ class WorkflowDefinitionsApi:
                 )
             else:
                 _query_params.append(('updated_before', updated_before))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

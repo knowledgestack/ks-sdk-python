@@ -2731,12 +2731,12 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
         active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2758,8 +2758,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param sort_by: Field to sort members by (default: active-first)
         :type sort_by: TenantUserOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param role: Filter to members with this role
         :type role: TenantUserRole
         :param username_like: Case-insensitive substring filter on first/last name
@@ -2770,6 +2768,8 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2795,12 +2795,12 @@ class TenantsApi:
         _param = self._list_tenant_users_serialize(
             tenant_id=tenant_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             role=role,
             username_like=username_like,
             active_only=active_only,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2828,12 +2828,12 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
         active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2855,8 +2855,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param sort_by: Field to sort members by (default: active-first)
         :type sort_by: TenantUserOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param role: Filter to members with this role
         :type role: TenantUserRole
         :param username_like: Case-insensitive substring filter on first/last name
@@ -2867,6 +2865,8 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2892,12 +2892,12 @@ class TenantsApi:
         _param = self._list_tenant_users_serialize(
             tenant_id=tenant_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             role=role,
             username_like=username_like,
             active_only=active_only,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2925,12 +2925,12 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
         active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2952,8 +2952,6 @@ class TenantsApi:
         :type tenant_id: UUID
         :param sort_by: Field to sort members by (default: active-first)
         :type sort_by: TenantUserOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param role: Filter to members with this role
         :type role: TenantUserRole
         :param username_like: Case-insensitive substring filter on first/last name
@@ -2964,6 +2962,8 @@ class TenantsApi:
         :type limit: int
         :param offset: Number of items to skip
         :type offset: int
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2989,12 +2989,12 @@ class TenantsApi:
         _param = self._list_tenant_users_serialize(
             tenant_id=tenant_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             role=role,
             username_like=username_like,
             active_only=active_only,
             limit=limit,
             offset=offset,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3018,12 +3018,12 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
         active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3046,12 +3046,12 @@ class TenantsApi:
             self.list_tenant_users(
                 tenant_id=tenant_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 role=role,
                 username_like=username_like,
                 active_only=active_only,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3066,12 +3066,12 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
         active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3094,12 +3094,12 @@ class TenantsApi:
             self.list_tenant_users_with_http_info(
                 tenant_id=tenant_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 role=role,
                 username_like=username_like,
                 active_only=active_only,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3114,12 +3114,12 @@ class TenantsApi:
         self,
         tenant_id: UUID,
         sort_by: Annotated[Optional[TenantUserOrder], Field(description="Field to sort members by (default: active-first)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         role: Annotated[Optional[TenantUserRole], Field(description="Filter to members with this role")] = None,
         username_like: Annotated[Optional[StrictStr], Field(description="Case-insensitive substring filter on first/last name")] = None,
         active_only: Annotated[Optional[StrictBool], Field(description="Exclude deactivated members")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3142,12 +3142,12 @@ class TenantsApi:
             self.list_tenant_users_without_preload_content(
                 tenant_id=tenant_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 role=role,
                 username_like=username_like,
                 active_only=active_only,
                 limit=limit,
                 offset=offset,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -3161,12 +3161,12 @@ class TenantsApi:
         self,
         tenant_id,
         sort_by,
-        sort_dir,
         role,
         username_like,
         active_only,
         limit,
         offset,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -3195,10 +3195,6 @@ class TenantsApi:
             
             _query_params.append(('sort_by', sort_by.value))
             
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
-            
         if role is not None:
             
             _query_params.append(('role', role.value))
@@ -3218,6 +3214,10 @@ class TenantsApi:
         if offset is not None:
             
             _query_params.append(('offset', offset))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters

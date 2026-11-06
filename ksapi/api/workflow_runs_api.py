@@ -1194,9 +1194,9 @@ class WorkflowRunsApi:
     @validate_call
     async def get_workflow_runs_summary(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1214,12 +1214,12 @@ class WorkflowRunsApi:
 
         Aggregate workflow-runs health, read-gated and permission-scoped.  Numbers cover only runs under workflows the caller can read (OWNER/ADMIN ⇒ tenant-wide). Windowed metrics default to the last 7 days; the approval backlog and active-definition count are point-in-time.
 
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive). Defaults to open-ended.
-        :type until: datetime
         :param definition_id: Scope all numbers to one workflow (requires read).
         :type definition_id: UUID
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1243,9 +1243,9 @@ class WorkflowRunsApi:
         """ # noqa: E501
 
         _param = self._get_workflow_runs_summary_serialize(
+            definition_id=definition_id,
             since=since,
             until=until,
-            definition_id=definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1271,9 +1271,9 @@ class WorkflowRunsApi:
     @validate_call
     async def get_workflow_runs_summary_with_http_info(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1291,12 +1291,12 @@ class WorkflowRunsApi:
 
         Aggregate workflow-runs health, read-gated and permission-scoped.  Numbers cover only runs under workflows the caller can read (OWNER/ADMIN ⇒ tenant-wide). Windowed metrics default to the last 7 days; the approval backlog and active-definition count are point-in-time.
 
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive). Defaults to open-ended.
-        :type until: datetime
         :param definition_id: Scope all numbers to one workflow (requires read).
         :type definition_id: UUID
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1320,9 +1320,9 @@ class WorkflowRunsApi:
         """ # noqa: E501
 
         _param = self._get_workflow_runs_summary_serialize(
+            definition_id=definition_id,
             since=since,
             until=until,
-            definition_id=definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1348,9 +1348,9 @@ class WorkflowRunsApi:
     @validate_call
     async def get_workflow_runs_summary_without_preload_content(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1368,12 +1368,12 @@ class WorkflowRunsApi:
 
         Aggregate workflow-runs health, read-gated and permission-scoped.  Numbers cover only runs under workflows the caller can read (OWNER/ADMIN ⇒ tenant-wide). Windowed metrics default to the last 7 days; the approval backlog and active-definition count are point-in-time.
 
-        :param since: Window start (inclusive). Defaults to 7 days ago.
-        :type since: datetime
-        :param until: Window end (inclusive). Defaults to open-ended.
-        :type until: datetime
         :param definition_id: Scope all numbers to one workflow (requires read).
         :type definition_id: UUID
+        :param since: Window start (inclusive). Omit for the endpoint's default range.
+        :type since: datetime
+        :param until: Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.
+        :type until: datetime
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1397,9 +1397,9 @@ class WorkflowRunsApi:
         """ # noqa: E501
 
         _param = self._get_workflow_runs_summary_serialize(
+            definition_id=definition_id,
             since=since,
             until=until,
-            definition_id=definition_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1421,9 +1421,9 @@ class WorkflowRunsApi:
     @validate_call
     def get_workflow_runs_summary_sync(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1444,9 +1444,9 @@ class WorkflowRunsApi:
         """ # noqa: E501
         return run_sync(
             self.get_workflow_runs_summary(
+                definition_id=definition_id,
                 since=since,
                 until=until,
-                definition_id=definition_id,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1459,9 +1459,9 @@ class WorkflowRunsApi:
     @validate_call
     def get_workflow_runs_summary_sync_with_http_info(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1482,9 +1482,9 @@ class WorkflowRunsApi:
         """ # noqa: E501
         return run_sync(
             self.get_workflow_runs_summary_with_http_info(
+                definition_id=definition_id,
                 since=since,
                 until=until,
-                definition_id=definition_id,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1497,9 +1497,9 @@ class WorkflowRunsApi:
     @validate_call
     def get_workflow_runs_summary_sync_without_preload_content(
         self,
-        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Defaults to 7 days ago.")] = None,
-        until: Annotated[Optional[datetime], Field(description="Window end (inclusive). Defaults to open-ended.")] = None,
         definition_id: Annotated[Optional[UUID], Field(description="Scope all numbers to one workflow (requires read).")] = None,
+        since: Annotated[Optional[datetime], Field(description="Window start (inclusive). Omit for the endpoint's default range.")] = None,
+        until: Annotated[Optional[datetime], Field(description="Window end. Omit for no explicit upper bound; see the endpoint's boundary semantics.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1520,9 +1520,9 @@ class WorkflowRunsApi:
         """ # noqa: E501
         return run_sync(
             self.get_workflow_runs_summary_without_preload_content(
+                definition_id=definition_id,
                 since=since,
                 until=until,
-                definition_id=definition_id,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -1534,9 +1534,9 @@ class WorkflowRunsApi:
 
     def _get_workflow_runs_summary_serialize(
         self,
+        definition_id,
         since,
         until,
-        definition_id,
         _request_auth,
         _content_type,
         _headers,
@@ -1559,6 +1559,10 @@ class WorkflowRunsApi:
 
         # process the path parameters
         # process the query parameters
+        if definition_id is not None:
+            
+            _query_params.append(('definition_id', definition_id))
+            
         if since is not None:
             if isinstance(since, datetime):
                 _query_params.append(
@@ -1584,10 +1588,6 @@ class WorkflowRunsApi:
                 )
             else:
                 _query_params.append(('until', until))
-            
-        if definition_id is not None:
-            
-            _query_params.append(('definition_id', definition_id))
             
         # process the header parameters
         # process the form parameters
@@ -1636,7 +1636,6 @@ class WorkflowRunsApi:
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -1646,6 +1645,7 @@ class WorkflowRunsApi:
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1675,8 +1675,6 @@ class WorkflowRunsApi:
         :type owner_id: UUID
         :param sort_by: Field to sort runs by (default: STARTED_AT)
         :type sort_by: WorkflowRunOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1695,6 +1693,8 @@ class WorkflowRunsApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1724,7 +1724,6 @@ class WorkflowRunsApi:
             definition_id=definition_id,
             owner_id=owner_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -1734,6 +1733,7 @@ class WorkflowRunsApi:
             approval_state=approval_state,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1765,7 +1765,6 @@ class WorkflowRunsApi:
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -1775,6 +1774,7 @@ class WorkflowRunsApi:
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1804,8 +1804,6 @@ class WorkflowRunsApi:
         :type owner_id: UUID
         :param sort_by: Field to sort runs by (default: STARTED_AT)
         :type sort_by: WorkflowRunOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1824,6 +1822,8 @@ class WorkflowRunsApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1853,7 +1853,6 @@ class WorkflowRunsApi:
             definition_id=definition_id,
             owner_id=owner_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -1863,6 +1862,7 @@ class WorkflowRunsApi:
             approval_state=approval_state,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1894,7 +1894,6 @@ class WorkflowRunsApi:
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -1904,6 +1903,7 @@ class WorkflowRunsApi:
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1933,8 +1933,6 @@ class WorkflowRunsApi:
         :type owner_id: UUID
         :param sort_by: Field to sort runs by (default: STARTED_AT)
         :type sort_by: WorkflowRunOrder
-        :param sort_dir: Sort direction; overrides the field's natural default
-        :type sort_dir: SortDirection
         :param limit: Number of items per page
         :type limit: int
         :param offset: Number of items to skip
@@ -1953,6 +1951,8 @@ class WorkflowRunsApi:
         :type include_tag_ids: List[UUID]
         :param exclude_tag_ids: Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.
         :type exclude_tag_ids: List[UUID]
+        :param sort_dir: Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.
+        :type sort_dir: SortDirection
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1982,7 +1982,6 @@ class WorkflowRunsApi:
             definition_id=definition_id,
             owner_id=owner_id,
             sort_by=sort_by,
-            sort_dir=sort_dir,
             limit=limit,
             offset=offset,
             created_after=created_after,
@@ -1992,6 +1991,7 @@ class WorkflowRunsApi:
             approval_state=approval_state,
             include_tag_ids=include_tag_ids,
             exclude_tag_ids=exclude_tag_ids,
+            sort_dir=sort_dir,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2019,7 +2019,6 @@ class WorkflowRunsApi:
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -2029,6 +2028,7 @@ class WorkflowRunsApi:
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2055,7 +2055,6 @@ class WorkflowRunsApi:
                 definition_id=definition_id,
                 owner_id=owner_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
@@ -2065,6 +2064,7 @@ class WorkflowRunsApi:
                 approval_state=approval_state,
                 include_tag_ids=include_tag_ids,
                 exclude_tag_ids=exclude_tag_ids,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2083,7 +2083,6 @@ class WorkflowRunsApi:
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -2093,6 +2092,7 @@ class WorkflowRunsApi:
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2119,7 +2119,6 @@ class WorkflowRunsApi:
                 definition_id=definition_id,
                 owner_id=owner_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
@@ -2129,6 +2128,7 @@ class WorkflowRunsApi:
                 approval_state=approval_state,
                 include_tag_ids=include_tag_ids,
                 exclude_tag_ids=exclude_tag_ids,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2147,7 +2147,6 @@ class WorkflowRunsApi:
         definition_id: Annotated[Optional[UUID], Field(description="Only runs under this workflow definition.")] = None,
         owner_id: Annotated[Optional[UUID], Field(description="Only runs created by this user.")] = None,
         sort_by: Annotated[Optional[WorkflowRunOrder], Field(description="Field to sort runs by (default: STARTED_AT)")] = None,
-        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction; overrides the field's natural default")] = None,
         limit: Annotated[Optional[Annotated[int, Field(le=100, strict=True, ge=1)]], Field(description="Number of items per page")] = None,
         offset: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Number of items to skip")] = None,
         created_after: Annotated[Optional[datetime], Field(description="Only items created at or after this timestamp (inclusive)")] = None,
@@ -2157,6 +2156,7 @@ class WorkflowRunsApi:
         approval_state: Annotated[Optional[List[PathPartApprovalState]], Field(description="Keep only items in these approval states (repeatable): not_required, pending, approved.")] = None,
         include_tag_ids: Annotated[Optional[List[UUID]], Field(description="Keep only items that carry at least one of these tags on the item itself or any ancestor folder (repeatable, OR / tag inheritance).")] = None,
         exclude_tag_ids: Annotated[Optional[List[UUID]], Field(description="Drop items that carry any of these tags on the item itself or any ancestor folder (repeatable). Takes precedence over include_tag_ids.")] = None,
+        sort_dir: Annotated[Optional[SortDirection], Field(description="Sort direction (ASC or DESC); overrides the field's natural default. Every sort field supports both directions.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2183,7 +2183,6 @@ class WorkflowRunsApi:
                 definition_id=definition_id,
                 owner_id=owner_id,
                 sort_by=sort_by,
-                sort_dir=sort_dir,
                 limit=limit,
                 offset=offset,
                 created_after=created_after,
@@ -2193,6 +2192,7 @@ class WorkflowRunsApi:
                 approval_state=approval_state,
                 include_tag_ids=include_tag_ids,
                 exclude_tag_ids=exclude_tag_ids,
+                sort_dir=sort_dir,
                 _request_timeout=_request_timeout,
                 _request_auth=_request_auth,
                 _content_type=_content_type,
@@ -2210,7 +2210,6 @@ class WorkflowRunsApi:
         definition_id,
         owner_id,
         sort_by,
-        sort_dir,
         limit,
         offset,
         created_after,
@@ -2220,6 +2219,7 @@ class WorkflowRunsApi:
         approval_state,
         include_tag_ids,
         exclude_tag_ids,
+        sort_dir,
         _request_auth,
         _content_type,
         _headers,
@@ -2269,10 +2269,6 @@ class WorkflowRunsApi:
         if sort_by is not None:
             
             _query_params.append(('sort_by', sort_by.value))
-            
-        if sort_dir is not None:
-            
-            _query_params.append(('sort_dir', sort_dir.value))
             
         if limit is not None:
             
@@ -2345,6 +2341,10 @@ class WorkflowRunsApi:
         if exclude_tag_ids is not None:
             
             _query_params.append(('exclude_tag_ids', exclude_tag_ids))
+            
+        if sort_dir is not None:
+            
+            _query_params.append(('sort_dir', sort_dir.value))
             
         # process the header parameters
         # process the form parameters
