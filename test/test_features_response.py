@@ -39,6 +39,7 @@ class TestFeaturesResponse(unittest.TestCase):
                 microsoft_login_enabled = True,
                 github_login_enabled = True,
                 sms_login_enabled = True,
+                streaming_dictation_max_seconds = 1.337,
                 default_frontend_language = 'en',
                 upload = ksapi.models.upload_constraints.UploadConstraints(
                     formats = [
@@ -62,6 +63,7 @@ class TestFeaturesResponse(unittest.TestCase):
                 microsoft_login_enabled = True,
                 github_login_enabled = True,
                 sms_login_enabled = True,
+                streaming_dictation_max_seconds = 1.337,
                 default_frontend_language = 'en',
                 upload = ksapi.models.upload_constraints.UploadConstraints(
                     formats = [

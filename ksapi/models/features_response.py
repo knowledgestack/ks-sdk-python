@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt
+from typing import Any, ClassVar, Dict, List, Union
 from ksapi.models.data_source_engine import DataSourceEngine
 from ksapi.models.supported_language import SupportedLanguage
 from ksapi.models.upload_constraints import UploadConstraints
@@ -34,10 +34,11 @@ class FeaturesResponse(BaseModel):
     microsoft_login_enabled: StrictBool
     github_login_enabled: StrictBool
     sms_login_enabled: StrictBool
+    streaming_dictation_max_seconds: Union[StrictFloat, StrictInt] = Field(description="Streaming dictation duration limit in seconds from first audio; -1 when streaming dictation is not configured.")
     default_frontend_language: SupportedLanguage
     upload: UploadConstraints
     data_source_engines: List[DataSourceEngine]
-    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "default_frontend_language", "upload", "data_source_engines"]
+    __properties: ClassVar[List[str]] = ["google_login_enabled", "microsoft_login_enabled", "github_login_enabled", "sms_login_enabled", "streaming_dictation_max_seconds", "default_frontend_language", "upload", "data_source_engines"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -97,6 +98,7 @@ class FeaturesResponse(BaseModel):
             "microsoft_login_enabled": obj.get("microsoft_login_enabled"),
             "github_login_enabled": obj.get("github_login_enabled"),
             "sms_login_enabled": obj.get("sms_login_enabled"),
+            "streaming_dictation_max_seconds": obj.get("streaming_dictation_max_seconds"),
             "default_frontend_language": obj.get("default_frontend_language"),
             "upload": UploadConstraints.from_dict(obj["upload"]) if obj.get("upload") is not None else None,
             "data_source_engines": obj.get("data_source_engines")
