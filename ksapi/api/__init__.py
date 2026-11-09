@@ -39,9 +39,7 @@ from ksapi.api.invites_api import InvitesApi
 from ksapi.api.mail_credentials_api import MailCredentialsApi
 from ksapi.api.path_part_approvals_api import PathPartApprovalsApi
 from ksapi.api.path_parts_api import PathPartsApi
-from ksapi.api.public_api import PublicApi
 from ksapi.api.sections_api import SectionsApi
-from ksapi.api.subscriptions_api import SubscriptionsApi
 from ksapi.api.system_jobs_api import SystemJobsApi
 from ksapi.api.tags_api import TagsApi
 from ksapi.api.tenant_groups_api import TenantGroupsApi

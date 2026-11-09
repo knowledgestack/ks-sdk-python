@@ -31,8 +31,7 @@ docs/AuditEventsApi.md
 docs/AuthApi.md
 docs/BillingApi.md
 docs/BillingInterval.md
-docs/BillingPaymentResponse.md
-docs/BillingSystem.md
+docs/BillingRedirectResponse.md
 docs/BlockChangeType.md
 docs/BlockKind.md
 docs/BrandingLogoType.md
@@ -63,9 +62,6 @@ docs/CellChangeType.md
 docs/CellDiff.md
 docs/ChangeClass.md
 docs/ChangePhoneNumberRequest.md
-docs/ChangeSubscriptionRequest.md
-docs/CheckoutAction.md
-docs/CheckoutResponse.md
 docs/CheckpointDetails.md
 docs/ChunkBulkResponse.md
 docs/ChunkContentItem.md
@@ -193,6 +189,11 @@ docs/EmailUnfinishedRequest.md
 docs/EmailVerificationRequest.md
 docs/EnrichedCitation.md
 docs/EnrichedThreadMessageContent.md
+docs/EntitlementError.md
+docs/EntitlementKey.md
+docs/EntitlementKind.md
+docs/EntitlementQuotaStatus.md
+docs/EntitlementUsage.md
 docs/ErrorResponse.md
 docs/EventResponse.md
 docs/ExcludedCommonFile.md
@@ -268,7 +269,6 @@ docs/MemoryKind.md
 docs/MemoryScope.md
 docs/MessageRole.md
 docs/MessageUsage.md
-docs/MeteredQuotaStatus.md
 docs/ModelTableRequest.md
 docs/ModelTableResult.md
 docs/NetworkClass.md
@@ -278,7 +278,6 @@ docs/OnboardingStateUpdate.md
 docs/OnboardingStep.md
 docs/PaginatedResponseAnnotatedUnionFolderResponseDocumentResponseWorkflowDefinitionResponseWorkflowRunResponseDat.md
 docs/PaginatedResponseAnnotatedUnionSectionContentItemChunkContentItemDiscriminator.md
-docs/PaginatedResponseBillingPaymentResponse.md
 docs/PaginatedResponseDocumentResponse.md
 docs/PaginatedResponseDocumentVersionResponse.md
 docs/PaginatedResponseEmailMessageResponse.md
@@ -294,6 +293,7 @@ docs/PaginatedResponseMemoryEntryResponse.md
 docs/PaginatedResponsePathPartResponse.md
 docs/PaginatedResponsePendingMemoryChunkResponse.md
 docs/PaginatedResponsePermissionResponse.md
+docs/PaginatedResponsePlanResponse.md
 docs/PaginatedResponseRepoVersionResponse.md
 docs/PaginatedResponseSkillResponse.md
 docs/PaginatedResponseTagResponse.md
@@ -327,10 +327,13 @@ docs/PhoneVerificationRequest.md
 docs/PipelineState.md
 docs/PipelineStatus.md
 docs/PixelRegion.md
+docs/PlanCheckoutRequest.md
+docs/PlanEntitlementResponse.md
+docs/PlanRef.md
+docs/PlanResponse.md
 docs/Polygon.md
 docs/PolygonReference.md
 docs/ProposeMemoryChunkRequest.md
-docs/PublicApi.md
 docs/ReasoningPart.md
 docs/RecordRepoSaveSkipRequest.md
 docs/ReferenceType.md
@@ -343,6 +346,7 @@ docs/RepoTreeEntry.md
 docs/RepoTreeResponse.md
 docs/RepoVersionResponse.md
 docs/RequestPhoneChangeRequest.md
+docs/ResetPeriod.md
 docs/ResolvedRef.md
 docs/ResolvedReferenceInput.md
 docs/ResolvedReferenceOutput.md
@@ -397,8 +401,6 @@ docs/StructuredChange.md
 docs/StructuredChangeType.md
 docs/StructuredDiff.md
 docs/SubmitFeedbackRequest.md
-docs/SubscriptionPlanResponse.md
-docs/SubscriptionsApi.md
 docs/SubtreeChunkGroup.md
 docs/SubtreeChunksResponse.md
 docs/SupportedIdP.md
@@ -413,11 +415,11 @@ docs/TemporalWorkflowStatusResponse.md
 docs/TenantBrandingResponse.md
 docs/TenantGroupOrder.md
 docs/TenantGroupsApi.md
-docs/TenantQuotaStateResponse.md
+docs/TenantPlanResponse.md
+docs/TenantQuotaResponse.md
 docs/TenantResponse.md
 docs/TenantSettingsResponse.md
 docs/TenantSettingsUpdate.md
-docs/TenantSubscriptionResponse.md
 docs/TenantUserEditRequest.md
 docs/TenantUserJoinMethod.md
 docs/TenantUserOrder.md
@@ -441,6 +443,7 @@ docs/TimeseriesPoint.md
 docs/ToolDisplayType.md
 docs/ToolPart.md
 docs/ToolStatus.md
+docs/TopupCheckoutRequest.md
 docs/TraceKind.md
 docs/TranscriptionResponse.md
 docs/TranscriptionsApi.md
@@ -476,7 +479,6 @@ docs/UploadConstraints.md
 docs/UploadFormat.md
 docs/UploadPartResponse.md
 docs/UploadStatusResponse.md
-docs/UsageMetric.md
 docs/UserInfo.md
 docs/UserMessageRequest.md
 docs/UserMessageResponse.md
@@ -553,10 +555,8 @@ ksapi/api/mail_credentials_api.py
 ksapi/api/memory_api.py
 ksapi/api/path_part_approvals_api.py
 ksapi/api/path_parts_api.py
-ksapi/api/public_api.py
 ksapi/api/sections_api.py
 ksapi/api/skills_api.py
-ksapi/api/subscriptions_api.py
 ksapi/api/system_jobs_api.py
 ksapi/api/tags_api.py
 ksapi/api/tenant_groups_api.py
@@ -595,8 +595,7 @@ ksapi/models/args.py
 ksapi/models/ask_request.py
 ksapi/models/ask_response.py
 ksapi/models/billing_interval.py
-ksapi/models/billing_payment_response.py
-ksapi/models/billing_system.py
+ksapi/models/billing_redirect_response.py
 ksapi/models/block_change_type.py
 ksapi/models/block_kind.py
 ksapi/models/branding_logo_type.py
@@ -624,9 +623,6 @@ ksapi/models/cell_change_type.py
 ksapi/models/cell_diff.py
 ksapi/models/change_class.py
 ksapi/models/change_phone_number_request.py
-ksapi/models/change_subscription_request.py
-ksapi/models/checkout_action.py
-ksapi/models/checkout_response.py
 ksapi/models/checkpoint_details.py
 ksapi/models/chunk_bulk_response.py
 ksapi/models/chunk_content_item.py
@@ -743,6 +739,11 @@ ksapi/models/email_unfinished_request.py
 ksapi/models/email_verification_request.py
 ksapi/models/enriched_citation.py
 ksapi/models/enriched_thread_message_content.py
+ksapi/models/entitlement_error.py
+ksapi/models/entitlement_key.py
+ksapi/models/entitlement_kind.py
+ksapi/models/entitlement_quota_status.py
+ksapi/models/entitlement_usage.py
 ksapi/models/error_response.py
 ksapi/models/event_response.py
 ksapi/models/excluded_common_file.py
@@ -812,7 +813,6 @@ ksapi/models/memory_kind.py
 ksapi/models/memory_scope.py
 ksapi/models/message_role.py
 ksapi/models/message_usage.py
-ksapi/models/metered_quota_status.py
 ksapi/models/model_table_request.py
 ksapi/models/model_table_result.py
 ksapi/models/network_class.py
@@ -822,7 +822,6 @@ ksapi/models/onboarding_state_update.py
 ksapi/models/onboarding_step.py
 ksapi/models/paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 ksapi/models/paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
-ksapi/models/paginated_response_billing_payment_response.py
 ksapi/models/paginated_response_document_response.py
 ksapi/models/paginated_response_document_version_response.py
 ksapi/models/paginated_response_email_message_response.py
@@ -838,6 +837,7 @@ ksapi/models/paginated_response_memory_entry_response.py
 ksapi/models/paginated_response_path_part_response.py
 ksapi/models/paginated_response_pending_memory_chunk_response.py
 ksapi/models/paginated_response_permission_response.py
+ksapi/models/paginated_response_plan_response.py
 ksapi/models/paginated_response_repo_version_response.py
 ksapi/models/paginated_response_skill_response.py
 ksapi/models/paginated_response_tag_response.py
@@ -869,6 +869,10 @@ ksapi/models/phone_verification_request.py
 ksapi/models/pipeline_state.py
 ksapi/models/pipeline_status.py
 ksapi/models/pixel_region.py
+ksapi/models/plan_checkout_request.py
+ksapi/models/plan_entitlement_response.py
+ksapi/models/plan_ref.py
+ksapi/models/plan_response.py
 ksapi/models/polygon.py
 ksapi/models/polygon_reference.py
 ksapi/models/propose_memory_chunk_request.py
@@ -884,6 +888,7 @@ ksapi/models/repo_tree_entry.py
 ksapi/models/repo_tree_response.py
 ksapi/models/repo_version_response.py
 ksapi/models/request_phone_change_request.py
+ksapi/models/reset_period.py
 ksapi/models/resolved_ref.py
 ksapi/models/resolved_reference_input.py
 ksapi/models/resolved_reference_output.py
@@ -936,7 +941,6 @@ ksapi/models/structured_change.py
 ksapi/models/structured_change_type.py
 ksapi/models/structured_diff.py
 ksapi/models/submit_feedback_request.py
-ksapi/models/subscription_plan_response.py
 ksapi/models/subtree_chunk_group.py
 ksapi/models/subtree_chunks_response.py
 ksapi/models/supported_id_p.py
@@ -948,11 +952,11 @@ ksapi/models/tag_response.py
 ksapi/models/temporal_workflow_status_response.py
 ksapi/models/tenant_branding_response.py
 ksapi/models/tenant_group_order.py
-ksapi/models/tenant_quota_state_response.py
+ksapi/models/tenant_plan_response.py
+ksapi/models/tenant_quota_response.py
 ksapi/models/tenant_response.py
 ksapi/models/tenant_settings_response.py
 ksapi/models/tenant_settings_update.py
-ksapi/models/tenant_subscription_response.py
 ksapi/models/tenant_user_edit_request.py
 ksapi/models/tenant_user_join_method.py
 ksapi/models/tenant_user_order.py
@@ -973,6 +977,7 @@ ksapi/models/timeseries_point.py
 ksapi/models/tool_display_type.py
 ksapi/models/tool_part.py
 ksapi/models/tool_status.py
+ksapi/models/topup_checkout_request.py
 ksapi/models/trace_kind.py
 ksapi/models/transcription_response.py
 ksapi/models/transfer_owner_request.py
@@ -1006,7 +1011,6 @@ ksapi/models/upload_constraints.py
 ksapi/models/upload_format.py
 ksapi/models/upload_part_response.py
 ksapi/models/upload_status_response.py
-ksapi/models/usage_metric.py
 ksapi/models/user_info.py
 ksapi/models/user_message_request.py
 ksapi/models/user_message_response.py
@@ -1080,8 +1084,7 @@ test/test_audit_events_api.py
 test/test_auth_api.py
 test/test_billing_api.py
 test/test_billing_interval.py
-test/test_billing_payment_response.py
-test/test_billing_system.py
+test/test_billing_redirect_response.py
 test/test_block_change_type.py
 test/test_block_kind.py
 test/test_branding_logo_type.py
@@ -1112,9 +1115,6 @@ test/test_cell_change_type.py
 test/test_cell_diff.py
 test/test_change_class.py
 test/test_change_phone_number_request.py
-test/test_change_subscription_request.py
-test/test_checkout_action.py
-test/test_checkout_response.py
 test/test_checkpoint_details.py
 test/test_chunk_bulk_response.py
 test/test_chunk_content_item.py
@@ -1242,6 +1242,11 @@ test/test_email_unfinished_request.py
 test/test_email_verification_request.py
 test/test_enriched_citation.py
 test/test_enriched_thread_message_content.py
+test/test_entitlement_error.py
+test/test_entitlement_key.py
+test/test_entitlement_kind.py
+test/test_entitlement_quota_status.py
+test/test_entitlement_usage.py
 test/test_error_response.py
 test/test_event_response.py
 test/test_excluded_common_file.py
@@ -1317,7 +1322,6 @@ test/test_memory_kind.py
 test/test_memory_scope.py
 test/test_message_role.py
 test/test_message_usage.py
-test/test_metered_quota_status.py
 test/test_model_table_request.py
 test/test_model_table_result.py
 test/test_network_class.py
@@ -1327,7 +1331,6 @@ test/test_onboarding_state_update.py
 test/test_onboarding_step.py
 test/test_paginated_response_annotated_union_folder_response_document_response_workflow_definition_response_workflow_run_response_dat.py
 test/test_paginated_response_annotated_union_section_content_item_chunk_content_item_discriminator.py
-test/test_paginated_response_billing_payment_response.py
 test/test_paginated_response_document_response.py
 test/test_paginated_response_document_version_response.py
 test/test_paginated_response_email_message_response.py
@@ -1343,6 +1346,7 @@ test/test_paginated_response_memory_entry_response.py
 test/test_paginated_response_path_part_response.py
 test/test_paginated_response_pending_memory_chunk_response.py
 test/test_paginated_response_permission_response.py
+test/test_paginated_response_plan_response.py
 test/test_paginated_response_repo_version_response.py
 test/test_paginated_response_skill_response.py
 test/test_paginated_response_tag_response.py
@@ -1376,10 +1380,13 @@ test/test_phone_verification_request.py
 test/test_pipeline_state.py
 test/test_pipeline_status.py
 test/test_pixel_region.py
+test/test_plan_checkout_request.py
+test/test_plan_entitlement_response.py
+test/test_plan_ref.py
+test/test_plan_response.py
 test/test_polygon.py
 test/test_polygon_reference.py
 test/test_propose_memory_chunk_request.py
-test/test_public_api.py
 test/test_reasoning_part.py
 test/test_record_repo_save_skip_request.py
 test/test_reference_type.py
@@ -1392,6 +1399,7 @@ test/test_repo_tree_entry.py
 test/test_repo_tree_response.py
 test/test_repo_version_response.py
 test/test_request_phone_change_request.py
+test/test_reset_period.py
 test/test_resolved_ref.py
 test/test_resolved_reference_input.py
 test/test_resolved_reference_output.py
@@ -1446,8 +1454,6 @@ test/test_structured_change.py
 test/test_structured_change_type.py
 test/test_structured_diff.py
 test/test_submit_feedback_request.py
-test/test_subscription_plan_response.py
-test/test_subscriptions_api.py
 test/test_subtree_chunk_group.py
 test/test_subtree_chunks_response.py
 test/test_supported_id_p.py
@@ -1462,11 +1468,11 @@ test/test_temporal_workflow_status_response.py
 test/test_tenant_branding_response.py
 test/test_tenant_group_order.py
 test/test_tenant_groups_api.py
-test/test_tenant_quota_state_response.py
+test/test_tenant_plan_response.py
+test/test_tenant_quota_response.py
 test/test_tenant_response.py
 test/test_tenant_settings_response.py
 test/test_tenant_settings_update.py
-test/test_tenant_subscription_response.py
 test/test_tenant_user_edit_request.py
 test/test_tenant_user_join_method.py
 test/test_tenant_user_order.py
@@ -1490,6 +1496,7 @@ test/test_timeseries_point.py
 test/test_tool_display_type.py
 test/test_tool_part.py
 test/test_tool_status.py
+test/test_topup_checkout_request.py
 test/test_trace_kind.py
 test/test_transcription_response.py
 test/test_transcriptions_api.py
@@ -1525,7 +1532,6 @@ test/test_upload_constraints.py
 test/test_upload_format.py
 test/test_upload_part_response.py
 test/test_upload_status_response.py
-test/test_usage_metric.py
 test/test_user_info.py
 test/test_user_message_request.py
 test/test_user_message_response.py
