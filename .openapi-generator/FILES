@@ -189,6 +189,7 @@ docs/EmailUnfinishedRequest.md
 docs/EmailVerificationRequest.md
 docs/EnrichedCitation.md
 docs/EnrichedThreadMessageContent.md
+docs/EntitlementDefinitionResponse.md
 docs/EntitlementError.md
 docs/EntitlementKey.md
 docs/EntitlementKind.md
@@ -327,6 +328,7 @@ docs/PhoneVerificationRequest.md
 docs/PipelineState.md
 docs/PipelineStatus.md
 docs/PixelRegion.md
+docs/PlanChangeRequest.md
 docs/PlanCheckoutRequest.md
 docs/PlanEntitlementResponse.md
 docs/PlanRef.md
@@ -334,6 +336,8 @@ docs/PlanResponse.md
 docs/Polygon.md
 docs/PolygonReference.md
 docs/ProposeMemoryChunkRequest.md
+docs/RateLimit.md
+docs/RateLimitUsage.md
 docs/ReasoningPart.md
 docs/RecordRepoSaveSkipRequest.md
 docs/ReferenceType.md
@@ -346,7 +350,6 @@ docs/RepoTreeEntry.md
 docs/RepoTreeResponse.md
 docs/RepoVersionResponse.md
 docs/RequestPhoneChangeRequest.md
-docs/ResetPeriod.md
 docs/ResolvedRef.md
 docs/ResolvedReferenceInput.md
 docs/ResolvedReferenceOutput.md
@@ -359,8 +362,10 @@ docs/RotateMailCredentialResponse.md
 docs/RunFolder.md
 docs/RunFolderRef.md
 docs/RunTimeseriesResponse.md
+docs/RunsInProgressStatus.md
 docs/SSOInitiateResponse.md
 docs/ScheduleCadence.md
+docs/ScheduledChange.md
 docs/ScoredChunkResponse.md
 docs/SearchItemsResponse.md
 docs/SearchSkillsRequest.md
@@ -371,6 +376,7 @@ docs/SearchTablesResponse.md
 docs/SearchType.md
 docs/SearchablePartType.md
 docs/SeatQuotaStatus.md
+docs/SeatsError.md
 docs/SectionContentItem.md
 docs/SectionContentItemOrChunkContentItem.md
 docs/SectionResponse.md
@@ -739,6 +745,7 @@ ksapi/models/email_unfinished_request.py
 ksapi/models/email_verification_request.py
 ksapi/models/enriched_citation.py
 ksapi/models/enriched_thread_message_content.py
+ksapi/models/entitlement_definition_response.py
 ksapi/models/entitlement_error.py
 ksapi/models/entitlement_key.py
 ksapi/models/entitlement_kind.py
@@ -869,6 +876,7 @@ ksapi/models/phone_verification_request.py
 ksapi/models/pipeline_state.py
 ksapi/models/pipeline_status.py
 ksapi/models/pixel_region.py
+ksapi/models/plan_change_request.py
 ksapi/models/plan_checkout_request.py
 ksapi/models/plan_entitlement_response.py
 ksapi/models/plan_ref.py
@@ -876,6 +884,8 @@ ksapi/models/plan_response.py
 ksapi/models/polygon.py
 ksapi/models/polygon_reference.py
 ksapi/models/propose_memory_chunk_request.py
+ksapi/models/rate_limit.py
+ksapi/models/rate_limit_usage.py
 ksapi/models/reasoning_part.py
 ksapi/models/record_repo_save_skip_request.py
 ksapi/models/reference_type.py
@@ -888,7 +898,6 @@ ksapi/models/repo_tree_entry.py
 ksapi/models/repo_tree_response.py
 ksapi/models/repo_version_response.py
 ksapi/models/request_phone_change_request.py
-ksapi/models/reset_period.py
 ksapi/models/resolved_ref.py
 ksapi/models/resolved_reference_input.py
 ksapi/models/resolved_reference_output.py
@@ -901,7 +910,9 @@ ksapi/models/rotate_mail_credential_response.py
 ksapi/models/run_folder.py
 ksapi/models/run_folder_ref.py
 ksapi/models/run_timeseries_response.py
+ksapi/models/runs_in_progress_status.py
 ksapi/models/schedule_cadence.py
+ksapi/models/scheduled_change.py
 ksapi/models/scored_chunk_response.py
 ksapi/models/search_items_response.py
 ksapi/models/search_skills_request.py
@@ -912,6 +923,7 @@ ksapi/models/search_tables_response.py
 ksapi/models/search_type.py
 ksapi/models/searchable_part_type.py
 ksapi/models/seat_quota_status.py
+ksapi/models/seats_error.py
 ksapi/models/section_content_item.py
 ksapi/models/section_content_item_or_chunk_content_item.py
 ksapi/models/section_response.py
@@ -1242,6 +1254,7 @@ test/test_email_unfinished_request.py
 test/test_email_verification_request.py
 test/test_enriched_citation.py
 test/test_enriched_thread_message_content.py
+test/test_entitlement_definition_response.py
 test/test_entitlement_error.py
 test/test_entitlement_key.py
 test/test_entitlement_kind.py
@@ -1380,6 +1393,7 @@ test/test_phone_verification_request.py
 test/test_pipeline_state.py
 test/test_pipeline_status.py
 test/test_pixel_region.py
+test/test_plan_change_request.py
 test/test_plan_checkout_request.py
 test/test_plan_entitlement_response.py
 test/test_plan_ref.py
@@ -1387,6 +1401,8 @@ test/test_plan_response.py
 test/test_polygon.py
 test/test_polygon_reference.py
 test/test_propose_memory_chunk_request.py
+test/test_rate_limit.py
+test/test_rate_limit_usage.py
 test/test_reasoning_part.py
 test/test_record_repo_save_skip_request.py
 test/test_reference_type.py
@@ -1399,7 +1415,6 @@ test/test_repo_tree_entry.py
 test/test_repo_tree_response.py
 test/test_repo_version_response.py
 test/test_request_phone_change_request.py
-test/test_reset_period.py
 test/test_resolved_ref.py
 test/test_resolved_reference_input.py
 test/test_resolved_reference_output.py
@@ -1412,7 +1427,9 @@ test/test_rotate_mail_credential_response.py
 test/test_run_folder.py
 test/test_run_folder_ref.py
 test/test_run_timeseries_response.py
+test/test_runs_in_progress_status.py
 test/test_schedule_cadence.py
+test/test_scheduled_change.py
 test/test_scored_chunk_response.py
 test/test_search_items_response.py
 test/test_search_skills_request.py
@@ -1423,6 +1440,7 @@ test/test_search_tables_response.py
 test/test_search_type.py
 test/test_searchable_part_type.py
 test/test_seat_quota_status.py
+test/test_seats_error.py
 test/test_section_content_item.py
 test/test_section_content_item_or_chunk_content_item.py
 test/test_section_response.py
