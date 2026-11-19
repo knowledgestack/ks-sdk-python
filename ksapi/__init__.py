@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.34.1"
+__version__ = "3.35.0"
 
 # Define package exports
 __all__ = [
@@ -398,6 +398,7 @@ __all__ = [
     "RootResponse",
     "RotateMailCredentialRequest",
     "RotateMailCredentialResponse",
+    "RunFailureCode",
     "RunFolder",
     "RunFolderRef",
     "RunTimeseriesResponse",
@@ -938,6 +939,7 @@ from ksapi.models.revision_edit import RevisionEdit as RevisionEdit
 from ksapi.models.root_response import RootResponse as RootResponse
 from ksapi.models.rotate_mail_credential_request import RotateMailCredentialRequest as RotateMailCredentialRequest
 from ksapi.models.rotate_mail_credential_response import RotateMailCredentialResponse as RotateMailCredentialResponse
+from ksapi.models.run_failure_code import RunFailureCode as RunFailureCode
 from ksapi.models.run_folder import RunFolder as RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef as RunFolderRef
 from ksapi.models.run_timeseries_response import RunTimeseriesResponse as RunTimeseriesResponse

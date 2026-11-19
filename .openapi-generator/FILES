@@ -359,6 +359,7 @@ docs/RevisionEdit.md
 docs/RootResponse.md
 docs/RotateMailCredentialRequest.md
 docs/RotateMailCredentialResponse.md
+docs/RunFailureCode.md
 docs/RunFolder.md
 docs/RunFolderRef.md
 docs/RunTimeseriesResponse.md
@@ -907,6 +908,7 @@ ksapi/models/revision_edit.py
 ksapi/models/root_response.py
 ksapi/models/rotate_mail_credential_request.py
 ksapi/models/rotate_mail_credential_response.py
+ksapi/models/run_failure_code.py
 ksapi/models/run_folder.py
 ksapi/models/run_folder_ref.py
 ksapi/models/run_timeseries_response.py
@@ -1424,6 +1426,7 @@ test/test_revision_edit.py
 test/test_root_response.py
 test/test_rotate_mail_credential_request.py
 test/test_rotate_mail_credential_response.py
+test/test_run_failure_code.py
 test/test_run_folder.py
 test/test_run_folder_ref.py
 test/test_run_timeseries_response.py

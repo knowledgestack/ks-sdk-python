@@ -36,7 +36,8 @@ class TestWorkflowRunCallbackRequest(unittest.TestCase):
         if include_optional:
             return WorkflowRunCallbackRequest(
                 status = 'COMPLETED',
-                error = ''
+                error = '',
+                failure_code = 'TIMED_OUT'
             )
         else:
             return WorkflowRunCallbackRequest(

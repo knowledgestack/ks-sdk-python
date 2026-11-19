@@ -24,6 +24,7 @@ from uuid import UUID
 from ksapi.models.excluded_common_file import ExcludedCommonFile
 from ksapi.models.item_permissions import ItemPermissions
 from ksapi.models.path_part_approval_state import PathPartApprovalState
+from ksapi.models.run_failure_code import RunFailureCode
 from ksapi.models.run_folder import RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef
 from ksapi.models.user_info import UserInfo
@@ -52,6 +53,7 @@ class WorkflowRunResponse(BaseModel):
     completed_at: Optional[datetime]
     run_snapshot: Optional[WorkflowRunSnapshot] = Field(description="Frozen workflow configuration captured at Start time. NULL while the run is NOT_STARTED.")
     error: Optional[StrictStr]
+    failure_code: Optional[RunFailureCode] = None
     auto_start: StrictBool = Field(description="Whether the run dispatches itself once its ``inputs/`` uploads finish ingesting, with no separate Start call.")
     auto_start_user_message: Optional[StrictStr] = Field(default=None, description="The note applied when this run auto-starts (set via create / PATCH ``user_message``); null when none was supplied.")
     inputs: RunFolder
@@ -63,7 +65,7 @@ class WorkflowRunResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     permissions: Optional[ItemPermissions] = Field(default=None, description="Caller's effective rights; null on mutation responses.")
-    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "auto_start", "auto_start_user_message", "inputs", "outputs", "discussions", "excluded_common_files", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
+    __properties: ClassVar[List[str]] = ["part_type", "id", "path_part_id", "parent_path_part_id", "materialized_path", "tenant_id", "name", "workflow_definition_id", "triggered_by", "execution_state", "approval_state", "started_at", "completed_at", "run_snapshot", "error", "failure_code", "auto_start", "auto_start_user_message", "inputs", "outputs", "discussions", "excluded_common_files", "run_thread_id", "owner", "created_at", "updated_at", "permissions"]
 
     @field_validator('part_type')
     def part_type_validate_enum(cls, value):
@@ -213,6 +215,7 @@ class WorkflowRunResponse(BaseModel):
             "completed_at": obj.get("completed_at"),
             "run_snapshot": WorkflowRunSnapshot.from_dict(obj["run_snapshot"]) if obj.get("run_snapshot") is not None else None,
             "error": obj.get("error"),
+            "failure_code": obj.get("failure_code"),
             "auto_start": obj.get("auto_start"),
             "auto_start_user_message": obj.get("auto_start_user_message"),
             "inputs": RunFolder.from_dict(obj["inputs"]) if obj.get("inputs") is not None else None,

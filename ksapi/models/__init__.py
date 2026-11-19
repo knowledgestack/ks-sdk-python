@@ -338,6 +338,7 @@ from ksapi.models.revision_edit import RevisionEdit
 from ksapi.models.root_response import RootResponse
 from ksapi.models.rotate_mail_credential_request import RotateMailCredentialRequest
 from ksapi.models.rotate_mail_credential_response import RotateMailCredentialResponse
+from ksapi.models.run_failure_code import RunFailureCode
 from ksapi.models.run_folder import RunFolder
 from ksapi.models.run_folder_ref import RunFolderRef
 from ksapi.models.run_timeseries_response import RunTimeseriesResponse

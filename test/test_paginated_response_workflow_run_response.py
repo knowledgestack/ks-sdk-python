@@ -55,6 +55,7 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                         completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         run_snapshot = null, 
                         error = '', 
+                        failure_code = 'TIMED_OUT', 
                         auto_start = True, 
                         auto_start_user_message = '', 
                         inputs = ksapi.models.run_folder.RunFolder(
@@ -126,6 +127,7 @@ class TestPaginatedResponseWorkflowRunResponse(unittest.TestCase):
                         completed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         run_snapshot = null, 
                         error = '', 
+                        failure_code = 'TIMED_OUT', 
                         auto_start = True, 
                         auto_start_user_message = '', 
                         inputs = ksapi.models.run_folder.RunFolder(

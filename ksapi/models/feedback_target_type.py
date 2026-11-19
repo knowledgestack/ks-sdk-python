@@ -31,6 +31,7 @@ class FeedbackTargetType(str, Enum):
     DOCUMENT = 'DOCUMENT'
     DOCUMENT_VERSION = 'DOCUMENT_VERSION'
     CHUNK = 'CHUNK'
+    WORKFLOW_RUN = 'WORKFLOW_RUN'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

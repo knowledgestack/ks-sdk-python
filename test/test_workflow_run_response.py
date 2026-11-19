@@ -77,6 +77,7 @@ class TestWorkflowRunResponse(unittest.TestCase):
                         ], 
                     repo = null, ),
                 error = '',
+                failure_code = 'TIMED_OUT',
                 auto_start = True,
                 auto_start_user_message = '',
                 inputs = ksapi.models.run_folder.RunFolder(

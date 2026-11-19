@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, Optional
 from typing_extensions import Annotated
+from ksapi.models.run_failure_code import RunFailureCode
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -30,7 +31,8 @@ class WorkflowRunCallbackRequest(BaseModel):
     """ # noqa: E501
     status: StrictStr
     error: Optional[Annotated[str, Field(strict=True, max_length=8192)]] = None
-    __properties: ClassVar[List[str]] = ["status", "error"]
+    failure_code: Optional[RunFailureCode] = None
+    __properties: ClassVar[List[str]] = ["status", "error", "failure_code"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -96,7 +98,8 @@ class WorkflowRunCallbackRequest(BaseModel):
 
         _obj = cls.model_validate({
             "status": obj.get("status"),
-            "error": obj.get("error")
+            "error": obj.get("error"),
+            "failure_code": obj.get("failure_code")
         })
         return _obj
 
