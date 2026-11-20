@@ -339,6 +339,7 @@ docs/ProposeMemoryChunkRequest.md
 docs/RateLimit.md
 docs/RateLimitUsage.md
 docs/ReasoningPart.md
+docs/RecentDocumentResponse.md
 docs/RecordRepoSaveSkipRequest.md
 docs/ReferenceType.md
 docs/ReorderPathPartRequest.md
@@ -888,6 +889,7 @@ ksapi/models/propose_memory_chunk_request.py
 ksapi/models/rate_limit.py
 ksapi/models/rate_limit_usage.py
 ksapi/models/reasoning_part.py
+ksapi/models/recent_document_response.py
 ksapi/models/record_repo_save_skip_request.py
 ksapi/models/reference_type.py
 ksapi/models/reorder_path_part_request.py
@@ -1406,6 +1408,7 @@ test/test_propose_memory_chunk_request.py
 test/test_rate_limit.py
 test/test_rate_limit_usage.py
 test/test_reasoning_part.py
+test/test_recent_document_response.py
 test/test_record_repo_save_skip_request.py
 test/test_reference_type.py
 test/test_reorder_path_part_request.py

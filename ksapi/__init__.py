@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "3.35.1"
+__version__ = "3.36.0"
 
 # Define package exports
 __all__ = [
@@ -378,6 +378,7 @@ __all__ = [
     "RateLimit",
     "RateLimitUsage",
     "ReasoningPart",
+    "RecentDocumentResponse",
     "RecordRepoSaveSkipRequest",
     "ReferenceType",
     "ReorderPathPartRequest",
@@ -919,6 +920,7 @@ from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest 
 from ksapi.models.rate_limit import RateLimit as RateLimit
 from ksapi.models.rate_limit_usage import RateLimitUsage as RateLimitUsage
 from ksapi.models.reasoning_part import ReasoningPart as ReasoningPart
+from ksapi.models.recent_document_response import RecentDocumentResponse as RecentDocumentResponse
 from ksapi.models.record_repo_save_skip_request import RecordRepoSaveSkipRequest as RecordRepoSaveSkipRequest
 from ksapi.models.reference_type import ReferenceType as ReferenceType
 from ksapi.models.reorder_path_part_request import ReorderPathPartRequest as ReorderPathPartRequest

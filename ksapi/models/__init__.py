@@ -318,6 +318,7 @@ from ksapi.models.propose_memory_chunk_request import ProposeMemoryChunkRequest
 from ksapi.models.rate_limit import RateLimit
 from ksapi.models.rate_limit_usage import RateLimitUsage
 from ksapi.models.reasoning_part import ReasoningPart
+from ksapi.models.recent_document_response import RecentDocumentResponse
 from ksapi.models.record_repo_save_skip_request import RecordRepoSaveSkipRequest
 from ksapi.models.reference_type import ReferenceType
 from ksapi.models.reorder_path_part_request import ReorderPathPartRequest

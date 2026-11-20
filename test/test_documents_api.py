@@ -194,6 +194,20 @@ class TestDocumentsApi(unittest.IsolatedAsyncioTestCase):
         """
         pass
 
+    async def test_list_recent_documents(self) -> None:
+        """Test case for list_recent_documents
+
+        List Recent Documents Handler
+        """
+        pass
+
+    def test_list_recent_documents_sync(self) -> None:
+        """Test case for list_recent_documents (synchronous)
+
+        List Recent Documents Handler
+        """
+        pass
+
     async def test_update_document(self) -> None:
         """Test case for update_document
 
