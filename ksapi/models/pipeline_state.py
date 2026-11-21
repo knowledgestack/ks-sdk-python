@@ -33,6 +33,7 @@ class PipelineState(BaseModel):
     """
     Pipeline execution state tracking.
     """ # noqa: E501
+    content_ready_at: Optional[datetime] = Field(default=None, description="When ingestion published fully enriched content for workflow use; indexing may still be running. Managed by ingestion.")
     last_stage_retry_attempt: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="Zero-based retry count for the current stage; maximum across fan-out activities. Managed by ingestion.")
     status: PipelineStatus
     last_run_timestamp: Optional[datetime] = Field(default=None, description="Timestamp of the last pipeline execution attempt (set once when a run starts)")
@@ -46,7 +47,7 @@ class PipelineState(BaseModel):
     chunk_type: Optional[ChunkType] = None
     secondary_taxonomy: Optional[ImageTaxonomy] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["last_stage_retry_attempt", "status", "last_run_timestamp", "last_state_update_timestamp", "last_activity", "error", "temporal_workflow_id", "chunks_processed", "page_dpi", "ingestion_mode", "chunk_type", "secondary_taxonomy"]
+    __properties: ClassVar[List[str]] = ["content_ready_at", "last_stage_retry_attempt", "status", "last_run_timestamp", "last_state_update_timestamp", "last_activity", "error", "temporal_workflow_id", "chunks_processed", "page_dpi", "ingestion_mode", "chunk_type", "secondary_taxonomy"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,9 +80,11 @@ class PipelineState(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         * OpenAPI `readOnly` fields are excluded.
+        * OpenAPI `readOnly` fields are excluded.
         * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
+            "content_ready_at",
             "last_stage_retry_attempt",
             "additional_properties",
         ])
@@ -95,6 +98,11 @@ class PipelineState(BaseModel):
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
+
+        # set to None if content_ready_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.content_ready_at is None and "content_ready_at" in self.model_fields_set:
+            _dict['content_ready_at'] = None
 
         # set to None if last_run_timestamp (nullable) is None
         # and model_fields_set contains the field
@@ -143,6 +151,7 @@ class PipelineState(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "content_ready_at": obj.get("content_ready_at"),
             "last_stage_retry_attempt": obj.get("last_stage_retry_attempt") if obj.get("last_stage_retry_attempt") is not None else 0,
             "status": obj.get("status"),
             "last_run_timestamp": obj.get("last_run_timestamp"),
