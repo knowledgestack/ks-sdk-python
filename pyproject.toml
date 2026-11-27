@@ -1,6 +1,6 @@
 [project]
 name = "ksapi"
-version = "3.37.4"
+version = "3.38.0"
 description = "Knowledge Stack API"
 authors = [
   {name = "OpenAPI Generator Community",email = "team@openapitools.org"},

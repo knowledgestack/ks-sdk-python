@@ -29,6 +29,7 @@ class WorkflowDefinitionOrder(str, Enum):
     CREATED_AT = 'CREATED_AT'
     UPDATED_AT = 'UPDATED_AT'
     NAME = 'NAME'
+    LAST_RUN = 'LAST_RUN'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
