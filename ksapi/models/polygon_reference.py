@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from ksapi.models.polygon import Polygon
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,8 +31,10 @@ class PolygonReference(BaseModel):
     """ # noqa: E501
     page: StrictInt = Field(description="The page number of the source document where the polygon is located.")
     polygon: Polygon
+    start_char: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Zero-based Unicode code-point start of this region's text in canonical chunk content")
+    length: Optional[StrictInt] = Field(default=None, description="Length of this region's text in Unicode code points. Absent with start_char for unmapped geometry")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["page", "polygon"]
+    __properties: ClassVar[List[str]] = ["page", "polygon", "start_char", "length"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -82,6 +85,16 @@ class PolygonReference(BaseModel):
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
+        # set to None if start_char (nullable) is None
+        # and model_fields_set contains the field
+        if self.start_char is None and "start_char" in self.model_fields_set:
+            _dict['start_char'] = None
+
+        # set to None if length (nullable) is None
+        # and model_fields_set contains the field
+        if self.length is None and "length" in self.model_fields_set:
+            _dict['length'] = None
+
         return _dict
 
     @classmethod
@@ -95,7 +108,9 @@ class PolygonReference(BaseModel):
 
         _obj = cls.model_validate({
             "page": obj.get("page"),
-            "polygon": Polygon.from_dict(obj["polygon"]) if obj.get("polygon") is not None else None
+            "polygon": Polygon.from_dict(obj["polygon"]) if obj.get("polygon") is not None else None,
+            "start_char": obj.get("start_char"),
+            "length": obj.get("length")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

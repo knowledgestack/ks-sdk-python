@@ -39,6 +39,7 @@ class TestDocumentVersionMetadataUpdate(unittest.TestCase):
                 cleaned_source_s3 = '',
                 preconversion_source_s3 = '',
                 cited_source_s3 = '',
+                searchable_preview_s3 = '',
                 standard_pipeline_json_s3 = '',
                 fast_plaintext_s3 = '',
                 transcript_s3 = '',

@@ -48,7 +48,9 @@ class TestChunkResponse(unittest.TestCase):
                                 x = 56, 
                                 y = 56, 
                                 width = 56, 
-                                height = 56, ), )
+                                height = 56, ), 
+                            start_char = 0.0, 
+                            length = 56, )
                         ], 
                     s3_urls = [
                         ''
@@ -127,7 +129,9 @@ class TestChunkResponse(unittest.TestCase):
                                 x = 56, 
                                 y = 56, 
                                 width = 56, 
-                                height = 56, ), )
+                                height = 56, ), 
+                            start_char = 0.0, 
+                            length = 56, )
                         ], 
                     s3_urls = [
                         ''

@@ -28,12 +28,13 @@ from pydantic_core import to_jsonable_python
 
 class DocumentVersionMetadataUpdate(BaseModel):
     """
-    Partial update schema for document version metadata.  All fields are optional.  Only non-``None`` fields are merged into the existing metadata dict.
+    Partial update schema for document version metadata.  All fields are optional. Only non-``None`` fields are merged into the existing metadata dict. An explicit null for searchable_preview_s3 clears the preview.
     """ # noqa: E501
     source_s3: Optional[StrictStr] = None
     cleaned_source_s3: Optional[StrictStr] = None
     preconversion_source_s3: Optional[StrictStr] = None
     cited_source_s3: Optional[StrictStr] = None
+    searchable_preview_s3: Optional[StrictStr] = None
     standard_pipeline_json_s3: Optional[StrictStr] = None
     fast_plaintext_s3: Optional[StrictStr] = None
     transcript_s3: Optional[StrictStr] = None
@@ -58,7 +59,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
     quota_media_seconds: Optional[StrictInt] = None
     quota_idempotency_key: Optional[StrictStr] = None
     file_md5: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_seconds", "quota_idempotency_key", "file_md5"]
+    __properties: ClassVar[List[str]] = ["source_s3", "cleaned_source_s3", "preconversion_source_s3", "cited_source_s3", "searchable_preview_s3", "standard_pipeline_json_s3", "fast_plaintext_s3", "transcript_s3", "high_accuracy_content_list_s3", "high_accuracy_middle_s3", "hash", "pipeline_state", "total_pages", "total_sections", "total_chunks", "duration_ms", "language", "segment_count", "total_formulas", "xlsx_parse_result_s3", "xlsx_named_ranges", "xlsx_kpi_catalog", "citation_anchors", "information_statistics", "quota_charged", "quota_page_count", "quota_media_seconds", "quota_idempotency_key", "file_md5"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -130,6 +131,11 @@ class DocumentVersionMetadataUpdate(BaseModel):
         # and model_fields_set contains the field
         if self.cited_source_s3 is None and "cited_source_s3" in self.model_fields_set:
             _dict['cited_source_s3'] = None
+
+        # set to None if searchable_preview_s3 (nullable) is None
+        # and model_fields_set contains the field
+        if self.searchable_preview_s3 is None and "searchable_preview_s3" in self.model_fields_set:
+            _dict['searchable_preview_s3'] = None
 
         # set to None if standard_pipeline_json_s3 (nullable) is None
         # and model_fields_set contains the field
@@ -267,6 +273,7 @@ class DocumentVersionMetadataUpdate(BaseModel):
             "cleaned_source_s3": obj.get("cleaned_source_s3"),
             "preconversion_source_s3": obj.get("preconversion_source_s3"),
             "cited_source_s3": obj.get("cited_source_s3"),
+            "searchable_preview_s3": obj.get("searchable_preview_s3"),
             "standard_pipeline_json_s3": obj.get("standard_pipeline_json_s3"),
             "fast_plaintext_s3": obj.get("fast_plaintext_s3"),
             "transcript_s3": obj.get("transcript_s3"),

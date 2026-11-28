@@ -50,6 +50,7 @@ class TestDocumentVersionResponse(unittest.TestCase):
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 asset_s3_url = '',
+                searchable_preview_url = '',
                 cited_asset_s3_url = '',
                 fast_plaintext_url = '',
                 transcript_url = '',

@@ -52,6 +52,11 @@ class TestTextPart(unittest.TestCase):
                         quote = '', 
                         start_char = 0.0, 
                         length = 0.0, 
+                        source_marker = '', 
+                        resolution = 'span', 
+                        end_chunk_id = '', 
+                        end_char = 56, 
+                        selection_hash = 'bf325375e030fccba00917317c574773100bf03b5fc61486286e564b23e9566b', 
                         start_ms = 56, 
                         end_ms = 56, )
                     ]

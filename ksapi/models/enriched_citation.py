@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -33,9 +33,14 @@ class EnrichedCitation(BaseModel):
     document_version_id: Optional[UUID] = None
     sheet_name: Optional[StrictStr] = Field(default=None, description="Exact Excel worksheet name")
     cell_ranges: Optional[List[StrictStr]] = Field(default=None, description="Ordered A1 cells/rectangles on one worksheet")
-    quote: Optional[StrictStr] = Field(default='', description="The quote from the chunk; empty for Excel")
-    start_char: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="The 0-based start character of the quote in the chunk")
-    length: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="Quote length; positive for chunks, zero for Excel")
+    quote: Optional[StrictStr] = Field(default='', description="Legacy chunk preview; omitted for passage citations")
+    start_char: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="The zero-based Unicode code-point offset of the quote in canonical chunk content")
+    length: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=0, description="Legacy chunk preview length in Unicode code points")
+    source_marker: Optional[StrictStr] = Field(default=None, description="Original complete quote/anchor marker identifying this text citation")
+    resolution: Optional[StrictStr] = Field(default=None, description="Text selector resolved to a source span or a chunk fallback")
+    end_chunk_id: Optional[UUID] = Field(default=None, description="Ending chunk when different from the starting chunk")
+    end_char: Optional[StrictInt] = Field(default=None, description="Exclusive Unicode code-point offset in the ending chunk")
+    selection_hash: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="SHA-256 of the UTF-8 compact JSON array of ordered [chunk ID, selected text] pairs")
     start_ms: Optional[StrictInt] = Field(default=None, description="Start time (ms) of the cited chunk in the source media, for AUDIO/VIDEO — lets the client deep-link playback to the moment. None for non-media chunks.")
     end_ms: Optional[StrictInt] = Field(default=None, description="End time (ms) of the cited chunk in the source media (AUDIO/VIDEO); None for non-media chunks.")
     document_id: Optional[UUID] = None
@@ -43,7 +48,27 @@ class EnrichedCitation(BaseModel):
     version_number: Optional[StrictInt] = None
     path_part_id: Optional[UUID] = None
     materialized_path: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["chunk_id", "document_version_id", "sheet_name", "cell_ranges", "quote", "start_char", "length", "start_ms", "end_ms", "document_id", "document_name", "version_number", "path_part_id", "materialized_path"]
+    __properties: ClassVar[List[str]] = ["chunk_id", "document_version_id", "sheet_name", "cell_ranges", "quote", "start_char", "length", "source_marker", "resolution", "end_chunk_id", "end_char", "selection_hash", "start_ms", "end_ms", "document_id", "document_name", "version_number", "path_part_id", "materialized_path"]
+
+    @field_validator('resolution')
+    def resolution_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['span', 'chunk']):
+            raise ValueError("must be one of enum values ('span', 'chunk')")
+        return value
+
+    @field_validator('selection_hash', mode="before")
+    def selection_hash_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if isinstance(value, str) and not re.match(r"^[0-9a-f]{64}$", value):
+            raise ValueError(r"must validate the regular expression /^[0-9a-f]{64}$/")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -104,6 +129,41 @@ class EnrichedCitation(BaseModel):
         if self.cell_ranges is None and "cell_ranges" in self.model_fields_set:
             _dict['cell_ranges'] = None
 
+        # set to None if quote (nullable) is None
+        # and model_fields_set contains the field
+        if self.quote is None and "quote" in self.model_fields_set:
+            _dict['quote'] = None
+
+        # set to None if length (nullable) is None
+        # and model_fields_set contains the field
+        if self.length is None and "length" in self.model_fields_set:
+            _dict['length'] = None
+
+        # set to None if source_marker (nullable) is None
+        # and model_fields_set contains the field
+        if self.source_marker is None and "source_marker" in self.model_fields_set:
+            _dict['source_marker'] = None
+
+        # set to None if resolution (nullable) is None
+        # and model_fields_set contains the field
+        if self.resolution is None and "resolution" in self.model_fields_set:
+            _dict['resolution'] = None
+
+        # set to None if end_chunk_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.end_chunk_id is None and "end_chunk_id" in self.model_fields_set:
+            _dict['end_chunk_id'] = None
+
+        # set to None if end_char (nullable) is None
+        # and model_fields_set contains the field
+        if self.end_char is None and "end_char" in self.model_fields_set:
+            _dict['end_char'] = None
+
+        # set to None if selection_hash (nullable) is None
+        # and model_fields_set contains the field
+        if self.selection_hash is None and "selection_hash" in self.model_fields_set:
+            _dict['selection_hash'] = None
+
         # set to None if start_ms (nullable) is None
         # and model_fields_set contains the field
         if self.start_ms is None and "start_ms" in self.model_fields_set:
@@ -155,9 +215,14 @@ class EnrichedCitation(BaseModel):
             "document_version_id": obj.get("document_version_id"),
             "sheet_name": obj.get("sheet_name"),
             "cell_ranges": obj.get("cell_ranges"),
-            "quote": obj.get("quote") if obj.get("quote") is not None else '',
+            "quote": obj.get("quote") if "quote" in obj else '',
             "start_char": obj.get("start_char") if obj.get("start_char") is not None else 0,
-            "length": obj.get("length") if obj.get("length") is not None else 0,
+            "length": obj.get("length") if "length" in obj else 0,
+            "source_marker": obj.get("source_marker"),
+            "resolution": obj.get("resolution"),
+            "end_chunk_id": obj.get("end_chunk_id"),
+            "end_char": obj.get("end_char"),
+            "selection_hash": obj.get("selection_hash"),
             "start_ms": obj.get("start_ms"),
             "end_ms": obj.get("end_ms"),
             "document_id": obj.get("document_id"),

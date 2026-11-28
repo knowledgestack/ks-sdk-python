@@ -43,12 +43,13 @@ class DocumentVersionResponse(BaseModel):
     created_at: datetime = Field(description="Creation timestamp")
     updated_at: datetime = Field(description="Last update timestamp")
     asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL to download the source document (6-hour validity)")
-    cited_asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL (6-hour validity) to the agent's cited copy of the source, with KS Citation comments intact; null unless one was stored. For the agent edit round-trip only — human downloads and the FE viewer use asset_s3_url (clean) and render citations from citation_anchors.")
+    searchable_preview_url: Optional[StrictStr] = Field(default=None, description="Presigned PDF preview URL (6-hour validity) with an invisible OCR text layer on scanned pages when available. Use asset_s3_url if null.")
+    cited_asset_s3_url: Optional[StrictStr] = Field(default=None, description="Presigned URL (6-hour validity) to the agent's cited copy of the source, with KS Citation comments intact; null unless one was stored. For the agent edit round-trip only. Use asset_s3_url to download the clean source.")
     fast_plaintext_url: Optional[StrictStr] = Field(default=None, description="Presigned URL to download the fast plaintext export (6-hour validity)")
     transcript_url: Optional[StrictStr] = Field(default=None, description="Presigned URL (6-hour validity) to the ASR transcript JSON with per-segment start_ms/end_ms/text; null for non-media. Chunks pack many segments into one, so this is what a client reads to follow a recording line by line.")
     page_screenshot_urls: Optional[List[StrictStr]] = Field(default=None, description="Presigned URLs (6-hour validity) to per-page WEBP screenshots in page order: index 0 is page 1, index N-1 is page N. Populated only when the request includes include_page_screenshots=true; null otherwise.")
     system_metadata: Optional[DocumentVersionMetadata] = None
-    __properties: ClassVar[List[str]] = ["id", "path_part_id", "version", "name", "parent_path_id", "materialized_path", "system_managed", "tenant_id", "uploader", "created_at", "updated_at", "asset_s3_url", "cited_asset_s3_url", "fast_plaintext_url", "transcript_url", "page_screenshot_urls", "system_metadata"]
+    __properties: ClassVar[List[str]] = ["id", "path_part_id", "version", "name", "parent_path_id", "materialized_path", "system_managed", "tenant_id", "uploader", "created_at", "updated_at", "asset_s3_url", "searchable_preview_url", "cited_asset_s3_url", "fast_plaintext_url", "transcript_url", "page_screenshot_urls", "system_metadata"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -105,6 +106,11 @@ class DocumentVersionResponse(BaseModel):
         if self.asset_s3_url is None and "asset_s3_url" in self.model_fields_set:
             _dict['asset_s3_url'] = None
 
+        # set to None if searchable_preview_url (nullable) is None
+        # and model_fields_set contains the field
+        if self.searchable_preview_url is None and "searchable_preview_url" in self.model_fields_set:
+            _dict['searchable_preview_url'] = None
+
         # set to None if cited_asset_s3_url (nullable) is None
         # and model_fields_set contains the field
         if self.cited_asset_s3_url is None and "cited_asset_s3_url" in self.model_fields_set:
@@ -149,6 +155,7 @@ class DocumentVersionResponse(BaseModel):
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "asset_s3_url": obj.get("asset_s3_url"),
+            "searchable_preview_url": obj.get("searchable_preview_url"),
             "cited_asset_s3_url": obj.get("cited_asset_s3_url"),
             "fast_plaintext_url": obj.get("fast_plaintext_url"),
             "transcript_url": obj.get("transcript_url"),
